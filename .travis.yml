@@ -1,0 +1,31 @@
+language: go
+
+go:
+- 1.6.2
+- 1.7.3
+
+os:
+- linux
+- osx
+
+install:
+- go get -t ./...
+
+script:
+- go test -v ./...
+- go build -o bin/htmltest-$TRAVIS_OS_NAME -x cmd/main.go
+- bin/htmltest-$TRAVIS_OS_NAME --conf htmldoc/fixtures/conf.yaml
+
+before_deploy:
+- chmod +x bin/htmltest-$TRAVIS_OS_NAME
+
+deploy:
+  provider: releases
+  api_key:
+    secure: oqOuE3l68ii66ZLVKyt2DImy0n234ZZAgYiy2Srn4V2beYXa5L8vjsFbD4GN8JbTN/+1yI9TYMYosB+UpH0S++cXypuOrV6m93bE5t/lfVLbnV0vNwWmm7sbi7WKYmvizDiLBuxB5L/Lx53mztIy1vywwTICqwnAEIwoOqBCnJcz485HYhlVrCAksM1kZLIABKj4R00ItzJ1lqmpWympF/fSmIZBdfGdIRay1WDcgqhvLZkb8qqbv4wdcyMftzyaTBneUkVXPbbj21MFGUN81v0U3bhapLiX8U6rBJcURYYG2TLqsovTpyBtBlOpRvE+1KBAMafGKitswWw7g+N+fLsu1UrvbvQGbxDLDxw+yjMyIKw/uF5I+U0ot4dbu/zKxvyjw07fwzTPpiuL9UylEEOlsN9q/Co1yU7/9D87+b3SJTUgX3nprndY6ivr545gkt+y22iveOaISEYIHO6rVsSX1NckQYV161tAWUAuNqfzSKvj1W71qhnYkq2F3MFkCQNH/GRRhZHjZJ7LkBOmQfKtZ+GbjQNY1Exon3MN5skyViNGe5CRLRsQqCyOtFfEageqbDtbUE3uF7L3aaOuSXP5UXTiseCfEB846nM5pP2QbA0V/zNGyKUfhaDgg3ZS2Ts8s1ginhQNxtW2NgMnU8Ziq3YdUuFQm4XTFtniy4o=
+  file: bin/htmltest-$TRAVIS_OS_NAME
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: wjdp/htmltest
+    go: 1.6.2
