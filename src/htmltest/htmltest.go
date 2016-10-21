@@ -3,11 +3,11 @@ package htmltest
 import (
   "log"
   "os"
-  "io"
   "path"
-  // "sync"
+  "sync"
   "golang.org/x/net/html"
   "issues"
+  "htmldoc"
 )
 
 var Opts Options
@@ -21,19 +21,25 @@ func SetBasePath(bPath string) {
   basePath = bPath
 }
 
+func makePath(p string) string {
+  return path.Join(basePath, p)
+}
+
 func Go() {
+  issues.LogLevel = Opts.LogLevel
+
   log.Printf("htmltest started on %s", basePath)
 
-  filenames := RecurseFile("")
-  TestFiles(filenames)
-  issues.OutputIssues()
+  files := RecurseDirectory("")
+  TestFiles(files)
+  // issues.OutputIssues()
 
-  log.Printf("%d files checked", len(filenames))
+  log.Printf("%d files checked", len(files))
 }
 
 // Walk through the directory tree and pick .html files
-func RecurseFile(dPath string) []string {
-  filenames := make([]string, 0)
+func RecurseDirectory(dPath string) []htmldoc.Document {
+  documents := make([]htmldoc.Document, 0)
 
   // Open dPath
   f, err := os.Open( path.Join(basePath, dPath) )
@@ -53,18 +59,21 @@ func RecurseFile(dPath string) []string {
     for _, fileinfo := range fis {
       fPath := path.Join(dPath, fileinfo.Name())
       if fileinfo.IsDir() {
-        // If item is a dir, we need to iterate further, save returned filenames
-        filenames = append(filenames, RecurseFile(fPath)...)
+        // If item is a dir, we need to iterate further, save returned documents
+        documents = append(documents, RecurseDirectory(fPath)...)
       } else if path.Ext(fileinfo.Name()) == ".html" {
         // If a file, save to filename list
-        filenames = append(filenames, fPath)
+        documents = append(documents, htmldoc.Document{
+          Directory: dPath,
+          Path: fPath,
+        })
       }
     }
   } else {
     log.Fatalf("%s isn't a directory", dPath)
   }
 
-  return filenames
+  return documents
 }
 
 func checkErr(err error) {
@@ -73,46 +82,58 @@ func checkErr(err error) {
   }
 }
 
-func TestFiles(filenames []string) {
-  // var wg sync.WaitGroup
-  for _, filename := range filenames {
-    // wg.Add(1)
-    // go func(filename string) {
-    //   defer wg.Done()
-    //   testFile(filename)
-    // }(filename)
-    testFile(filename)
+func TestFiles(documents []htmldoc.Document) {
+
+  if Opts.TestFilesConcurrently {
+    var wg sync.WaitGroup
+    for _, document := range documents {
+      wg.Add(1)
+      go func(document htmldoc.Document) {
+        defer wg.Done()
+        testFile(&document)
+      }(document)
+    }
+    wg.Wait()
+  } else {
+    for _, document := range documents {
+      testFile(&document)
+    }
   }
 }
 
-func testFile(fPath string) {
-  f, err := os.Open( path.Join(basePath, fPath) )
+func testFile(document *htmldoc.Document) {
+  // log.Println("testFile", document.Path)
+  f, err := os.Open( path.Join(basePath, document.Path) )
   checkErr(err)
   defer f.Close()
 
-  parseHtml(fPath, f)
+  document.File = f
+
+  parseHtml(document)
 }
 
-func parseHtml(fPath string, r io.Reader) {
-  doc, err := html.Parse(r)
+func parseHtml(document *htmldoc.Document) {
+  doc, err := html.Parse(document.File)
   checkErr(err)
-  parseNode(fPath, doc)
+  document.HTMLNode = doc
+  parseNode(document, document.HTMLNode)
 }
 
-func parseNode(fPath string, n *html.Node) {
+func parseNode(document *htmldoc.Document, n *html.Node) {
   if n.Type == html.ElementNode {
     switch n.Data {
     case "a":
-      CheckLink(fPath, n)
+      CheckLink(document, n)
     case "img":
       CheckImg(n)
     case "link":
-      CheckLink(fPath, n)
+      CheckLink(document, n)
     case "script":
       CheckScript(n)
     }
   }
+  // Iterate over children
   for c := n.FirstChild; c != nil; c = c.NextSibling {
-    parseNode(fPath, c)
+    parseNode(document, c)
   }
 }

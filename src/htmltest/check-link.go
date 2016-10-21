@@ -1,79 +1,108 @@
 package htmltest
 
 import (
-  // "log"
+  "log"
   "os"
   "path"
-  "strings"
+  // "strings"
   "golang.org/x/net/html"
-  "net/url"
+  // "net/url"
+  "net/http"
   "issues"
+  "htmldoc"
 )
 
-func CheckLink(fPath string, n *html.Node) {
-  attrs := extractAttrs(n.Attr, []string{"href"})
+func CheckLink(document *htmldoc.Document, node *html.Node) {
+  attrs := extractAttrs(node.Attr, []string{"href"})
   if _, ok := attrs["href"]; ok {
-    nHref := attrs["href"]
-    nUrl, err := url.Parse(nHref)
-    checkErr(err)
-
-    switch nUrl.Scheme {
+    ref := htmldoc.NewReference(document, node, attrs["href"])
+    switch ref.Scheme {
     case "http":
       if Opts.EnforceHTTPS {
         issues.AddIssue(issues.Issue{
+          Level: issues.ERROR,
           Message: "is not an HTTPS link",
-          Path: fPath,
-          NUrl: nUrl,
-        })
+          Reference: ref,
+          })
       }
-      CheckExternal(fPath, nUrl)
+      CheckExternal(ref)
     case "https":
-      CheckExternal(fPath, nUrl)
-    case "":
-      CheckInternal(fPath, nHref, nUrl)
+      CheckExternal(ref)
+    case "file":
+      CheckInternal(ref)
     case "mailto":
-      CheckMailto(fPath, nUrl)
     case "tel":
-      CheckMailto(fPath, nUrl)
+
     }
-
   } else {
-    // Anchor without href, do... nothing?
-  }
-}
-
-func CheckExternal(fPath string, nUrl *url.URL) {
-
-}
-
-func CheckInternal(fPath string, nHref string, nUrl *url.URL) {
-  // TODO extract hashes
-  // log.Print(nUrl)
-  // log.Print(nUrl.Path)
-
-  isAbsolute := strings.HasPrefix(nHref, "/")
-
-  var filePath string
-
-  if isAbsolute {
-    filePath = path.Join(basePath, nUrl.Path)
-  } else {
-    filePath = path.Join(basePath, fPath)
-  }
-
-  if _, err := os.Stat( filePath ); os.IsNotExist(err) {
     issues.AddIssue(issues.Issue{
-      Message: "does not exist",
-      Path: fPath,
-      NUrl: nUrl,
+      Level: issues.DEBUG,
+      Message: "anchor without href",
+      Document: document,
     })
   }
 }
 
-func CheckMailto(fPath string, nUrl *url.URL) {
+func CheckExternal(ref *htmldoc.Reference) {
+  if !Opts.CheckExternal {
+    issues.AddIssue(issues.Issue{
+      Level: issues.DEBUG,
+      Message: "skipping",
+      Reference: ref,
+    })
+    return
+  }
+  log.Println("Ext", htmldoc.URLString(ref))
 
+  resp, err := http.Get(htmldoc.URLString(ref))
+
+  if err != nil {
+    issues.AddIssue(issues.Issue{
+      Level: issues.ERROR,
+      Message: err.Error(),
+      Reference: ref,
+    })
+  }
+
+  _ = resp
+
+  // TODO check a hash id exists in external page if present in reference (URL.Fragment)
 }
 
-func CheckTel(fPath string, nUrl *url.URL) {
+func CheckInternal(ref *htmldoc.Reference) {
+  if !Opts.CheckInternal {
+    issues.AddIssue(issues.Issue{
+      Level: issues.DEBUG,
+      Message: "skipping",
+      Reference: ref,
+    })
+    return
+  }
+  // log.Println("CheckInternal", ref.Document.Path, htmldoc.AbsolutePath(ref))
 
+  fPath := makePath(htmldoc.AbsolutePath(ref))
+  CheckFile(ref, fPath)
+}
+
+func CheckFile(ref *htmldoc.Reference, fPath string) {
+  f, err := os.Stat(fPath)
+  if os.IsNotExist(err) {
+    issues.AddIssue(issues.Issue{
+      Level: issues.ERROR,
+      Message: "target does not exist",
+      Reference: ref,
+    })
+    return
+  }
+  checkErr(err) // Crash on other errors
+
+  if f.IsDir() {
+    issues.AddIssue(issues.Issue{
+      Level: issues.DEBUG,
+      Message: "target is a directory",
+      Reference: ref,
+    })
+    CheckFile(ref, path.Join(fPath, Opts.DirectoryIndex))
+    return
+  }
 }
