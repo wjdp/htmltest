@@ -153,8 +153,7 @@ func CheckInternal(ref *doc.Reference) {
   }
   // log.Println("CheckInternal", ref.Document.Path, doc.AbsolutePath(ref))
 
-  fPath := makePath(doc.AbsolutePath(ref))
-  CheckFile(ref, fPath)
+  CheckFile(ref, doc.AbsolutePath(ref))
 }
 
 func CheckFile(ref *doc.Reference, fPath string) {

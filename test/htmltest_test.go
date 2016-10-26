@@ -26,7 +26,7 @@ func t_expectIssueCount(t *testing.T, expected int) {
 func t_testFile(filename string) {
   opts := Options{
     DirectoryPath: path.Dir(filename),
-    FilePath: filename,
+    FilePath: path.Base(filename),
     // LogLevel: issues.NONE,
   }
   Test(opts)

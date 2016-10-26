@@ -13,7 +13,6 @@ import (
 )
 
 var Opts Options
-var basePath string
 
 var httpClient *http.Client
 
@@ -28,13 +27,9 @@ func init() {
   }
 }
 
-func SetBasePath(bPath string) {
-  // TODO integrate with Setup
-  basePath = bPath
-}
-
 func makePath(p string) string {
-  return path.Join(basePath, p)
+  log.Println(path.Join(Opts.DirectoryPath, p))
+  return path.Join(Opts.DirectoryPath, p)
 }
 
 func Test(opts Options) {
@@ -59,7 +54,7 @@ func Test(opts Options) {
 func TestDirectory(opts Options) {
   issues.LogLevel = Opts.LogLevel
 
-  log.Printf("github.com/wjdp/htmltest started on %s", basePath)
+  log.Printf("github.com/wjdp/htmltest started on %s", Opts.DirectoryPath)
 
   files := RecurseDirectory("")
   TestFiles(files)
@@ -73,7 +68,7 @@ func RecurseDirectory(dPath string) []doc.Document {
   documents := make([]doc.Document, 0)
 
   // Open dPath
-  f, err := os.Open( path.Join(basePath, dPath) )
+  f, err := os.Open( makePath(Opts.DirectoryPath) )
   checkErr(err)
   defer f.Close()
 
@@ -134,7 +129,7 @@ func TestFiles(documents []doc.Document) {
 
 func TestFile(document *doc.Document) {
   // log.Println("testFile", document.Path)
-  f, err := os.Open( path.Join(basePath, document.Path) )
+  f, err := os.Open( makePath(document.Path) )
   checkErr(err)
   defer f.Close()
 
