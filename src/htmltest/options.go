@@ -1,6 +1,9 @@
 package htmltest
 
-import "issues"
+import (
+  "issues"
+  "strings"
+  )
 
 type Options struct {
   CheckExternal bool
@@ -13,13 +16,17 @@ type Options struct {
   LogLevel int
 
   DirectoryIndex string
+
+  ExternalTimeout int
+  StripQueryString bool
+  StripQueryExcludes []string
 }
 
 func NewOptions() Options {
   // Specify defaults here
   options := Options{
-    CheckExternal: false,
-    CheckInternal: true,
+    CheckExternal: true,
+    CheckInternal: false,
     CheckMailto: true,
     CheckTel: true,
     EnforceHTTPS: false,
@@ -28,6 +35,17 @@ func NewOptions() Options {
     LogLevel: issues.INFO,
 
     DirectoryIndex: "index.html",
+
+    ExternalTimeout: 1,
+    StripQueryString: true,
+    StripQueryExcludes: []string{"fonts.googleapis.com"},
   }
   return options
+}
+
+func InList(list []string, key string) bool {
+  for _, item := range list {
+    if strings.Contains(key, item) { return true }
+  }
+  return false
 }

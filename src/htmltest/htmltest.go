@@ -3,9 +3,11 @@ package htmltest
 import (
   "log"
   "os"
+  "time"
   "path"
   "sync"
   "golang.org/x/net/html"
+  "net/http"
   "issues"
   "htmldoc"
 )
@@ -13,12 +15,26 @@ import (
 var Opts Options
 var basePath string
 
+var httpClient *http.Client
+
 func init() {
   Opts = NewOptions()
 }
 
 func SetBasePath(bPath string) {
+  // TODO integrate with Setup
   basePath = bPath
+}
+
+func Setup() {
+  transport := &http.Transport{
+    TLSNextProto: nil, // Disable HTTP/2, "write on closed buffer" errors
+  }
+  httpClient = &http.Client{
+    // Durations are in nanoseconds
+    Transport: transport,
+    Timeout: time.Duration(Opts.ExternalTimeout * 1000000000),
+  }
 }
 
 func makePath(p string) string {

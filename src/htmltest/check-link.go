@@ -4,16 +4,23 @@ import (
   "log"
   "os"
   "path"
-  // "strings"
+  "strings"
   "golang.org/x/net/html"
-  // "net/url"
+  "net/url"
   "net/http"
   "issues"
   "htmldoc"
+  "refcache"
 )
 
 func CheckLink(document *htmldoc.Document, node *html.Node) {
-  attrs := extractAttrs(node.Attr, []string{"href"})
+  attrs := extractAttrs(node.Attr, []string{"href", "rel", "data-proofer-ignore"})
+
+  // Do not check canonical links
+  if attrs["rel"] == "canonical" { return }
+  // Ignore if data-proofer-ignore set
+  if attrPresent(node.Attr, "data-proofer-ignore") { return }
+
   if _, ok := attrs["href"]; ok {
     ref := htmldoc.NewReference(document, node, attrs["href"])
     switch ref.Scheme {
@@ -52,21 +59,79 @@ func CheckExternal(ref *htmldoc.Reference) {
     })
     return
   }
-  log.Println("Ext", htmldoc.URLString(ref))
 
-  resp, err := http.Get(htmldoc.URLString(ref))
+  urlStr := htmldoc.URLString(ref)
+  if Opts.StripQueryString && !InList(Opts.StripQueryExcludes, urlStr) {
+    urlStr = htmldoc.URLStripQueryString(urlStr)
+  }
+  var statusCode int
 
-  if err != nil {
+  if refcache.CachedURLStatus(urlStr) != 0 {
+    // If we have the result in cache, return that
+    statusCode = refcache.CachedURLStatus(urlStr)
+  } else {
+    // log.Println("Ext", ref.Document.Path, htmldoc.URLString(ref))
+    urlUrl, err := url.Parse(urlStr)
+    req := &http.Request{
+      Method: "GET",
+      URL: urlUrl,
+      Header: map[string][]string{
+        "Range": {"bytes=0-63"}, // If server supports prevents body being sent
+      },
+    }
+    _ = req
+    // resp, err := httpClient.Do(req)
+    resp, err := httpClient.Get(urlStr)
+
+    if err != nil {
+      if strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") {
+        issues.AddIssue(issues.Issue{
+          Level: issues.ERROR,
+          Message: "Request timed out",
+          Reference: ref,
+        })
+        return
+      }
+      if strings.Contains(err.Error(), "write on closed buffer") {
+        issues.AddIssue(issues.Issue{
+          Level: issues.ERROR,
+          Message: err.Error(),
+          Reference: ref,
+        })
+        return
+      }
+      log.Fatal("Unhandled httpClient error: " + err.Error())
+    }
+    // Save cached result
+    refcache.SetCachedURLStatus(urlStr, resp.StatusCode)
+    statusCode = resp.StatusCode
+    if statusCode == 200 { log.Println(urlStr) }
+  }
+
+  switch statusCode {
+  case http.StatusOK://, http.StatusPartialContent:
+    issues.AddIssue(issues.Issue{
+      Level: issues.DEBUG,
+      Message: http.StatusText(statusCode),
+      Reference: ref,
+    })
+  case http.StatusPartialContent:
+    issues.AddIssue(issues.Issue{
+      Level: issues.INFO,
+      Message: http.StatusText(statusCode),
+      Reference: ref,
+    })
+  default:
+    log.Println(urlStr)
     issues.AddIssue(issues.Issue{
       Level: issues.ERROR,
-      Message: err.Error(),
+      Message: http.StatusText(statusCode),
       Reference: ref,
     })
   }
 
-  _ = resp
-
   // TODO check a hash id exists in external page if present in reference (URL.Fragment)
+
 }
 
 func CheckInternal(ref *htmldoc.Reference) {

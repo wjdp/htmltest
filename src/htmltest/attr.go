@@ -17,3 +17,10 @@ func extractAttrs(attrs []html.Attribute, keys []string) map[string]string {
   }
   return attrMap
 }
+
+func attrPresent(attrs []html.Attribute, key string) bool {
+  for _, attr := range attrs {
+    if attr.Key == key { return true }
+  }
+  return false
+}

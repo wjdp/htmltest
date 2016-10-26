@@ -66,11 +66,16 @@ func IsAbsolute(ref *Reference) bool {
 }
 
 func URLString(ref *Reference) string {
+  urlStr := ref.URL.String()
   if strings.HasPrefix(ref.Path, "//") {
     return "https:" + ref.URL.String()
-  } else {
-    return ref.URL.String()
   }
+
+  return urlStr
+}
+
+func URLStripQueryString(urlStr string) string {
+  return strings.Split(urlStr, "?")[0]
 }
 
 // If internal, return a path to the referenced file relative to the 'site root'
