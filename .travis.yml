@@ -4,6 +4,10 @@ go:
 - 1.6.2
 - 1.7.3
 
+os:
+- linux
+- osx
+
 install:
 - go get
 
