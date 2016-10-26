@@ -29,3 +29,6 @@ _testmain.go
 # external packages folder
 vendor/
 pkg/
+
+# personal fiddling
+var/
