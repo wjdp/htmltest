@@ -32,3 +32,7 @@ pkg/
 
 # personal fiddling
 var/
+main
+
+# builds
+bin/
