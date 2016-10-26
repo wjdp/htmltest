@@ -1,11 +1,15 @@
 package test
 
 import (
-  "github.com/wjdp/htmltest/issues"
   "strings"
-  )
+  "github.com/imdario/mergo"
+  "github.com/wjdp/htmltest/issues"
+)
 
 type Options struct {
+  DirectoryPath string
+  FilePath string
+
   CheckExternal bool
   CheckInternal bool
   CheckMailto bool
@@ -22,11 +26,11 @@ type Options struct {
   StripQueryExcludes []string
 }
 
-func NewOptions() Options {
+func DefaultOptions() Options {
   // Specify defaults here
   options := Options{
     CheckExternal: true,
-    CheckInternal: false,
+    CheckInternal: true,
     CheckMailto: true,
     CheckTel: true,
     EnforceHTTPS: false,
@@ -41,6 +45,10 @@ func NewOptions() Options {
     StripQueryExcludes: []string{"fonts.googleapis.com"},
   }
   return options
+}
+
+func OptionsSetDefaults(opts *Options) {
+  mergo.Merge(opts, DefaultOptions())
 }
 
 func InList(list []string, key string) bool {

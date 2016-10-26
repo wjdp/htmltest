@@ -7,6 +7,7 @@ import (
   "github.com/wjdp/htmltest/doc"
 )
 
+const NONE int = 99
 const ERROR int = 3
 const WARNING int = 2
 const INFO int = 1
@@ -22,6 +23,10 @@ type Issue struct {
 }
 
 var issueStore []Issue
+
+func InitIssueStore() {
+  issueStore = make([]Issue, 0)
+}
 
 func AddIssue(issue Issue) {
   issueStore = append(issueStore, issue)
@@ -67,4 +72,25 @@ func OutputIssues() {
   for _, issue := range issueStore {
     log.Print(issue)
   }
+}
+
+func IssueCount(level int) int {
+  c := 0
+  for _, issue := range issueStore {
+    if issue.Level >= level { c += 1 }
+  }
+  return c
+}
+
+func IssueMatchCount(message string) int {
+  // Return number of issues with matching message
+  c := 0
+  for _, issue := range issueStore {
+    if issue.Message == message { c += 1 }
+  }
+  return c
+}
+
+func Issues() []Issue {
+  return issueStore
 }

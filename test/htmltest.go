@@ -18,15 +18,6 @@ var basePath string
 var httpClient *http.Client
 
 func init() {
-  Opts = NewOptions()
-}
-
-func SetBasePath(bPath string) {
-  // TODO integrate with Setup
-  basePath = bPath
-}
-
-func Setup() {
   transport := &http.Transport{
     TLSNextProto: nil, // Disable HTTP/2, "write on closed buffer" errors
   }
@@ -37,11 +28,35 @@ func Setup() {
   }
 }
 
+func SetBasePath(bPath string) {
+  // TODO integrate with Setup
+  basePath = bPath
+}
+
 func makePath(p string) string {
   return path.Join(basePath, p)
 }
 
-func Go() {
+func Test(opts Options) {
+  OptionsSetDefaults(&opts)
+  issues.InitIssueStore()
+  Opts = opts
+
+  if opts.FilePath != "" {
+    doc := doc.Document{
+      Directory: opts.DirectoryPath,
+      Path: opts.FilePath,
+    }
+    TestFile(&doc)
+  } else if opts.DirectoryPath != "" {
+    TestDirectory(opts)
+  } else {
+    log.Fatal("Neither file or directory path provided")
+  }
+}
+
+
+func TestDirectory(opts Options) {
   issues.LogLevel = Opts.LogLevel
 
   log.Printf("github.com/wjdp/htmltest started on %s", basePath)
@@ -106,18 +121,18 @@ func TestFiles(documents []doc.Document) {
       wg.Add(1)
       go func(document doc.Document) {
         defer wg.Done()
-        testFile(&document)
+        TestFile(&document)
       }(document)
     }
     wg.Wait()
   } else {
     for _, document := range documents {
-      testFile(&document)
+      TestFile(&document)
     }
   }
 }
 
-func testFile(document *doc.Document) {
+func TestFile(document *doc.Document) {
   // log.Println("testFile", document.Path)
   f, err := os.Open( path.Join(basePath, document.Path) )
   checkErr(err)

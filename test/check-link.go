@@ -80,8 +80,8 @@ func CheckExternal(ref *doc.Reference) {
       },
     }
     _ = req
-    // resp, err := httpClient.Do(req)
-    resp, err := httpClient.Get(urlStr)
+    resp, err := httpClient.Do(req)
+    // resp, err := httpClient.Get(urlStr)
 
     if err != nil {
       if strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") {
