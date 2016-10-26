@@ -8,9 +8,9 @@ import (
   "golang.org/x/net/html"
   "net/url"
   "net/http"
-  "htmltest/issues"
-  "htmltest/doc"
-  "htmltest/refcache"
+  "github.com/wjdp/htmltest/issues"
+  "github.com/wjdp/htmltest/doc"
+  "github.com/wjdp/htmltest/refcache"
 )
 
 func CheckLink(document *doc.Document, node *html.Node) {

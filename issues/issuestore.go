@@ -4,7 +4,7 @@ import (
   "log"
   "fmt"
   "github.com/fatih/color"
-  "htmltest/doc"
+  "github.com/wjdp/htmltest/doc"
 )
 
 const ERROR int = 3

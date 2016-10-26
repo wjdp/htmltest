@@ -8,8 +8,8 @@ import (
   "sync"
   "golang.org/x/net/html"
   "net/http"
-  "htmltest/issues"
-  "htmltest/doc"
+  "github.com/wjdp/htmltest/issues"
+  "github.com/wjdp/htmltest/doc"
 )
 
 var Opts Options
@@ -44,7 +44,7 @@ func makePath(p string) string {
 func Go() {
   issues.LogLevel = Opts.LogLevel
 
-  log.Printf("htmltest started on %s", basePath)
+  log.Printf("github.com/wjdp/htmltest started on %s", basePath)
 
   files := RecurseDirectory("")
   TestFiles(files)

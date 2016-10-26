@@ -3,7 +3,7 @@ package main
 import(
   "os"
   // "log"
-  "htmltest/test"
+  "github.com/wjdp/htmltest/test"
   // "issues"
 )
 
