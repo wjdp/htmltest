@@ -101,6 +101,13 @@ func CheckExternal(ref *doc.Reference) {
         })
         return
       }
+      if strings.Contains(err.Error(), "getsockopt: network is unreachable") {
+        issues.AddIssue(issues.Issue{
+          Level: issues.ERROR,
+          Message: "getsockopt: network is unreachable",
+          Reference: ref,
+        })
+      }
       if strings.Contains(err.Error(), "write on closed buffer") {
         issues.AddIssue(issues.Issue{
           Level: issues.ERROR,
