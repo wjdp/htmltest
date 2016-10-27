@@ -2,6 +2,7 @@ package test
 
 import (
   "log"
+  // "fmt"
   "os"
   "path"
   "strings"
@@ -87,7 +88,7 @@ func CheckExternal(ref *doc.Reference) {
       if strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") {
         issues.AddIssue(issues.Issue{
           Level: issues.ERROR,
-          Message: "Request timed out",
+          Message: "request timed out",
           Reference: ref,
         })
         return
@@ -113,7 +114,7 @@ func CheckExternal(ref *doc.Reference) {
     // Save cached result
     refcache.SetCachedURLStatus(urlStr, resp.StatusCode)
     statusCode = resp.StatusCode
-    if statusCode == 200 { log.Println(urlStr) }
+    // if statusCode == 200 { log.Println(urlStr) }
   }
 
   switch statusCode {
@@ -130,7 +131,7 @@ func CheckExternal(ref *doc.Reference) {
       Reference: ref,
     })
   default:
-    log.Println(urlStr)
+    // log.Println(urlStr)
     issues.AddIssue(issues.Issue{
       Level: issues.ERROR,
       Message: http.StatusText(statusCode),
@@ -157,7 +158,9 @@ func CheckInternal(ref *doc.Reference) {
 }
 
 func CheckFile(ref *doc.Reference, fPath string) {
-  f, err := os.Stat(fPath)
+  // fPath should be relative to site root
+  checkPath := path.Join(Opts.DirectoryPath, fPath)
+  f, err := os.Stat(checkPath)
   if os.IsNotExist(err) {
     issues.AddIssue(issues.Issue{
       Level: issues.ERROR,

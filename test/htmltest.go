@@ -12,11 +12,10 @@ import (
   "github.com/wjdp/htmltest/doc"
 )
 
-var Opts Options
 
 var httpClient *http.Client
 
-func init() {
+func setup() {
   transport := &http.Transport{
     TLSNextProto: nil, // Disable HTTP/2, "write on closed buffer" errors
   }
@@ -27,34 +26,32 @@ func init() {
   }
 }
 
-func makePath(p string) string {
-  log.Println(path.Join(Opts.DirectoryPath, p))
-  return path.Join(Opts.DirectoryPath, p)
-}
-
-func Test(opts Options) {
-  OptionsSetDefaults(&opts)
+func Test(optsUser map[string]interface{}) {
+  SetOptions(optsUser)
+  setup() // Setup objects requiring options
   issues.InitIssueStore()
-  Opts = opts
 
-  if opts.FilePath != "" {
+  if Opts.FilePath != "" {
     doc := doc.Document{
-      Directory: opts.DirectoryPath,
-      Path: opts.FilePath,
+      // Directory: Opts.DirectoryPath,
+      Path: Opts.FilePath,
     }
     TestFile(&doc)
-  } else if opts.DirectoryPath != "" {
-    TestDirectory(opts)
+  } else if Opts.DirectoryPath != "" {
+    TestDirectory(Opts)
   } else {
     log.Fatal("Neither file or directory path provided")
   }
 }
 
+func makePath(p string) string {
+  return path.Join(Opts.DirectoryPath, p)
+}
 
 func TestDirectory(opts Options) {
   issues.LogLevel = Opts.LogLevel
 
-  log.Printf("github.com/wjdp/htmltest started on %s", Opts.DirectoryPath)
+  log.Printf("htmltest started on %s", Opts.DirectoryPath)
 
   files := RecurseDirectory("")
   TestFiles(files)

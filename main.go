@@ -12,8 +12,8 @@ func main() {
     log.Fatal("Invalid argument")
   }
 
-  options := test.Options{
-    DirectoryPath: os.Args[1],
+  options := map[string]interface{}{
+    "DirectoryPath": os.Args[1],
   }
 
   test.Test(options)

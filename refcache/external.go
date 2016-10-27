@@ -3,7 +3,6 @@ package refcache
 import (
   "time"
   "encoding/json"
-  "log"
 )
 
 type cachedPath struct {
@@ -27,5 +26,6 @@ func SetCachedURLStatus(urlStr string, status int) {
     StatusCode: status,
   }
   b, _ := json.Marshal(pathStore)
-  log.Println( string(b) )
+  _ = b
+  // log.Println( string(b) )
 }

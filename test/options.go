@@ -26,29 +26,34 @@ type Options struct {
   StripQueryExcludes []string
 }
 
-func DefaultOptions() Options {
+var Opts Options
+
+func DefaultOptions() map[string]interface{} {
   // Specify defaults here
-  options := Options{
-    CheckExternal: true,
-    CheckInternal: true,
-    CheckMailto: true,
-    CheckTel: true,
-    EnforceHTTPS: false,
+  return map[string]interface{}{
+    "CheckExternal": true,
+    "CheckInternal": true,
+    "CheckMailto": true,
+    "CheckTel": true,
+    "EnforceHTTPS": false,
 
-    TestFilesConcurrently: false,
-    LogLevel: issues.INFO,
+    "TestFilesConcurrently": false,
+    "LogLevel": issues.INFO,
 
-    DirectoryIndex: "index.html",
+    "DirectoryIndex": "index.html",
 
-    ExternalTimeout: 1,
-    StripQueryString: true,
-    StripQueryExcludes: []string{"fonts.googleapis.com"},
+    "ExternalTimeout": 3,
+    "StripQueryString": true,
+    "StripQueryExcludes": []string{"fonts.googleapis.com"},
   }
-  return options
 }
 
-func OptionsSetDefaults(opts *Options) {
-  mergo.Merge(opts, DefaultOptions())
+func SetOptions(optsUser map[string]interface{}) {
+  // Merge user and default options, set Opts var
+  opts := DefaultOptions()
+  mergo.MergeWithOverwrite(&opts, optsUser)
+  Opts = Options{}
+  mergo.MapWithOverwrite(&Opts, opts)
 }
 
 func InList(list []string, key string) bool {
