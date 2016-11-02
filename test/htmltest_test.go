@@ -51,10 +51,9 @@ func ExampleHelloWorld() {
 
 func TestAnchorMissingHref(t *testing.T) {
   // fails for link with no href
-  t.Skip("Not yet implemented")
   t_testFile("fixtures/links/missingLinkHref.html")
   t_expectIssueCount(t, 1)
-  t_expectIssue(t, "missing href", 1)
+  t_expectIssue(t, "href blank", 1)
 }
 
 func TestAnchorIgnorable(t *testing.T) {
@@ -291,8 +290,8 @@ func TestInternalCaseMismatch(t *testing.T) {
 
 func TestInternalHashDefault(t *testing.T) {
   // fails for # href when not asked
-  t.Skip("Not yet implemented")
   t_testFile("fixtures/links/hash_href.html")
+  t_expectIssue(t, "empty hash", 1)
   t_expectIssueCount(t, 1)
 }
 

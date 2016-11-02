@@ -22,32 +22,57 @@ func CheckLink(document *doc.Document, node *html.Node) {
   // Ignore if data-proofer-ignore set
   if attrPresent(node.Attr, "data-proofer-ignore") { return }
 
-  if _, ok := attrs["href"]; ok {
-    ref := doc.NewReference(document, node, attrs["href"])
-    switch ref.Scheme {
-    case "http":
-      if Opts.EnforceHTTPS {
-        issues.AddIssue(issues.Issue{
-          Level: issues.ERROR,
-          Message: "is not an HTTPS link",
-          Reference: ref,
-          })
-      }
-      CheckExternal(ref)
-    case "https":
-      CheckExternal(ref)
-    case "file":
-      CheckInternal(ref)
-    case "mailto":
-    case "tel":
-
-    }
-  } else {
+  // Check href present
+  if !attrPresent(node.Attr, "href") {
     issues.AddIssue(issues.Issue{
       Level: issues.DEBUG,
       Message: "anchor without href",
       Document: document,
     })
+    return
+  }
+
+  // Create reference
+  ref := doc.NewReference(document, node, attrs["href"])
+
+  // Blank href
+  if attrs["href"] == "" {
+    issues.AddIssue(issues.Issue{
+      Level: issues.ERROR,
+      Message: "href blank",
+      Reference: ref,
+    })
+    return
+  }
+
+  // href="#"
+  if attrs["href"] == "#" {
+    issues.AddIssue(issues.Issue{
+      Level: issues.ERROR,
+      Message: "empty hash",
+      Reference: ref,
+    })
+    return
+  }
+
+  // Route link check
+  switch ref.Scheme {
+  case "http":
+    if Opts.EnforceHTTPS {
+      issues.AddIssue(issues.Issue{
+        Level: issues.ERROR,
+        Message: "is not an HTTPS link",
+        Reference: ref,
+        })
+    }
+    CheckExternal(ref)
+  case "https":
+    CheckExternal(ref)
+  case "file":
+    CheckInternal(ref)
+  case "mailto":
+  case "tel":
+
   }
 }
 
@@ -116,7 +141,12 @@ func CheckExternal(ref *doc.Reference) {
         })
         return
       }
-      log.Fatal("Unhandled httpClient error: " + err.Error())
+      issues.AddIssue(issues.Issue{
+        Level: issues.ERROR,
+        Message: err.Error(),
+        Reference: ref,
+      })
+      log.Println("Unhandled httpClient error:", err.Error())
     }
     // Save cached result
     refcache.SetCachedURLStatus(urlStr, resp.StatusCode)
