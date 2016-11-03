@@ -3,7 +3,7 @@ package htmltest
 import (
 	"log"
 	// "fmt"
-	"github.com/wjdp/htmltest/doc"
+	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/refcache"
 	"golang.org/x/net/html"
@@ -14,7 +14,7 @@ import (
 	"strings"
 )
 
-func CheckLink(document *doc.Document, node *html.Node) {
+func CheckLink(document *htmldoc.Document, node *html.Node) {
 	attrs := extractAttrs(node.Attr, []string{"href", "rel", "data-proofer-ignore"})
 
 	// Do not check canonical links
@@ -47,7 +47,7 @@ func CheckLink(document *doc.Document, node *html.Node) {
 	}
 
 	// Create reference
-	ref := doc.NewReference(document, node, attrs["href"])
+	ref := htmldoc.NewReference(document, node, attrs["href"])
 
 	// Blank href
 	if attrs["href"] == "" {
@@ -91,7 +91,7 @@ func CheckLink(document *doc.Document, node *html.Node) {
 	}
 }
 
-func CheckExternal(ref *doc.Reference) {
+func CheckExternal(ref *htmldoc.Reference) {
 	if !Opts.CheckExternal {
 		issues.AddIssue(issues.Issue{
 			Level:     issues.DEBUG,
@@ -101,9 +101,9 @@ func CheckExternal(ref *doc.Reference) {
 		return
 	}
 
-	urlStr := doc.URLString(ref)
+	urlStr := htmldoc.URLString(ref)
 	if Opts.StripQueryString && !InList(Opts.StripQueryExcludes, urlStr) {
-		urlStr = doc.URLStripQueryString(urlStr)
+		urlStr = htmldoc.URLStripQueryString(urlStr)
 	}
 	var statusCode int
 
@@ -111,7 +111,7 @@ func CheckExternal(ref *doc.Reference) {
 		// If we have the result in cache, return that
 		statusCode = refcache.CachedURLStatus(urlStr)
 	} else {
-		// log.Println("Ext", ref.Document.Path, doc.URLString(ref))
+		// log.Println("Ext", ref.Document.Path, htmldoc.URLString(ref))
 		urlUrl, err := url.Parse(urlStr)
 		req := &http.Request{
 			Method: "GET",
@@ -187,7 +187,7 @@ func CheckExternal(ref *doc.Reference) {
 
 }
 
-func CheckInternal(ref *doc.Reference) {
+func CheckInternal(ref *htmldoc.Reference) {
 	if !Opts.CheckInternal {
 		issues.AddIssue(issues.Issue{
 			Level:     issues.DEBUG,
@@ -196,12 +196,12 @@ func CheckInternal(ref *doc.Reference) {
 		})
 		return
 	}
-	// log.Println("CheckInternal", ref.Document.Path, doc.AbsolutePath(ref))
+	// log.Println("CheckInternal", ref.Document.Path, htmldoc.AbsolutePath(ref))
 
-	CheckFile(ref, doc.AbsolutePath(ref))
+	CheckFile(ref, htmldoc.AbsolutePath(ref))
 }
 
-func CheckFile(ref *doc.Reference, fPath string) {
+func CheckFile(ref *htmldoc.Reference, fPath string) {
 	// fPath should be relative to site root
 	checkPath := path.Join(Opts.DirectoryPath, fPath)
 	f, err := os.Stat(checkPath)
@@ -235,7 +235,7 @@ func CheckFile(ref *doc.Reference, fPath string) {
 	}
 }
 
-func CheckMailto(ref *doc.Reference) {
+func CheckMailto(ref *htmldoc.Reference) {
 	if !Opts.CheckMailto {
 		return
 	}
@@ -257,7 +257,7 @@ func CheckMailto(ref *doc.Reference) {
 	}
 }
 
-func CheckTel(ref *doc.Reference) {
+func CheckTel(ref *htmldoc.Reference) {
 	if !Opts.CheckTel {
 		return
 	}

@@ -1,4 +1,4 @@
-package doc
+package htmldoc
 
 import (
 	"golang.org/x/net/html"

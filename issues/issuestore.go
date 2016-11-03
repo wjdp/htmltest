@@ -3,7 +3,7 @@ package issues
 import (
 	"fmt"
 	"github.com/fatih/color"
-	"github.com/wjdp/htmltest/doc"
+	"github.com/wjdp/htmltest/htmldoc"
 	"log"
 )
 
@@ -17,8 +17,8 @@ var LogLevel int
 
 type Issue struct {
 	Level     int
-	Document  *doc.Document
-	Reference *doc.Reference
+	Document  *htmldoc.Document
+	Reference *htmldoc.Reference
 	Message   string
 }
 

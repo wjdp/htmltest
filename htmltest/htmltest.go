@@ -1,7 +1,7 @@
 package htmltest
 
 import (
-	"github.com/wjdp/htmltest/doc"
+	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"golang.org/x/net/html"
 	"log"
@@ -31,7 +31,7 @@ func Test(optsUser map[string]interface{}) {
 	issues.InitIssueStore()
 
 	if Opts.FilePath != "" {
-		doc := doc.Document{
+		doc := htmldoc.Document{
 			// Directory: Opts.DirectoryPath,
 			Path: Opts.FilePath,
 		}
@@ -60,8 +60,8 @@ func TestDirectory(opts Options) {
 }
 
 // Walk through the directory tree and pick .html files
-func RecurseDirectory(dPath string) []doc.Document {
-	documents := make([]doc.Document, 0)
+func RecurseDirectory(dPath string) []htmldoc.Document {
+	documents := make([]htmldoc.Document, 0)
 
 	// Open dPath
 	f, err := os.Open(makePath(dPath))
@@ -85,7 +85,7 @@ func RecurseDirectory(dPath string) []doc.Document {
 				documents = append(documents, RecurseDirectory(fPath)...)
 			} else if path.Ext(fileinfo.Name()) == ".html" {
 				// If a file, save to filename list
-				documents = append(documents, doc.Document{
+				documents = append(documents, htmldoc.Document{
 					Directory: dPath,
 					Path:      fPath,
 				})
@@ -104,13 +104,13 @@ func checkErr(err error) {
 	}
 }
 
-func TestFiles(documents []doc.Document) {
+func TestFiles(documents []htmldoc.Document) {
 
 	if Opts.TestFilesConcurrently {
 		var wg sync.WaitGroup
 		for _, document := range documents {
 			wg.Add(1)
-			go func(document doc.Document) {
+			go func(document htmldoc.Document) {
 				defer wg.Done()
 				TestFile(&document)
 			}(document)
@@ -123,7 +123,7 @@ func TestFiles(documents []doc.Document) {
 	}
 }
 
-func TestFile(document *doc.Document) {
+func TestFile(document *htmldoc.Document) {
 	// log.Println("testFile", document.Path)
 	f, err := os.Open(makePath(document.Path))
 	checkErr(err)
@@ -134,14 +134,14 @@ func TestFile(document *doc.Document) {
 	parseHtml(document)
 }
 
-func parseHtml(document *doc.Document) {
+func parseHtml(document *htmldoc.Document) {
 	doc, err := html.Parse(document.File)
 	checkErr(err)
 	document.HTMLNode = doc
 	parseNode(document, document.HTMLNode)
 }
 
-func parseNode(document *doc.Document, n *html.Node) {
+func parseNode(document *htmldoc.Document, n *html.Node) {
 	if n.Type == html.ElementNode {
 		switch n.Data {
 		case "a":
