@@ -73,7 +73,7 @@ func CheckLink(document *doc.Document, node *html.Node) {
   case "mailto":
     CheckMailto(ref)
   case "tel":
-
+    CheckTel(ref)
   }
 }
 
@@ -236,6 +236,20 @@ func CheckMailto(ref *doc.Reference) {
     issues.AddIssue(issues.Issue{
       Level: issues.ERROR,
       Message: "contains an invalid email address",
+      Reference: ref,
+    })
+    return
+  }
+}
+
+func CheckTel(ref *doc.Reference) {
+  if !Opts.CheckTel {
+    return
+  }
+  if len(ref.URL.Opaque) == 0 {
+    issues.AddIssue(issues.Issue{
+      Level: issues.ERROR,
+      Message: "tel is empty",
       Reference: ref,
     })
     return

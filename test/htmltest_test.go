@@ -369,10 +369,9 @@ func TestTelValid(t *testing.T) {
 
 func TestTelBlank(t *testing.T) {
   // fails for blank tel links
-  t.Skip("Not yet implemented")
   t_testFile("fixtures/links/blank_tel_link.html")
-  t_expectIssueCount(t, 99)
-  t_expectIssue(t, "PLACEHOLDER", 99)
+  t_expectIssueCount(t, 1)
+  t_expectIssue(t, "tel is empty", 1)
 }
 
 func TestJavascriptLinkIgnore(t *testing.T) {
