@@ -14,8 +14,9 @@ func TestExternalImageWorking(t *testing.T) {
 func TestExternalImageMissing(t *testing.T) {
 	// fails for missing external images
 	t_testFile("fixtures/images/missingImageExternal.html")
-	t_expectIssueCount(t, 0)
-	t_expectIssue(t, message, 1)
+	t_expectIssueCount(t, 1)
+	// Issue contains "no such host"
+	// t_expectIssue(t, "no such host", 1)
 }
 
 func TestExternalImageMissingProtocolValid(t *testing.T) {
@@ -28,7 +29,7 @@ func TestExternalImageMissingProtocolInvalid(t *testing.T) {
 	// fails for invalid images missing the protocol
 	t_testFile("fixtures/images/image_missing_protocol_invalid.html")
 	t_expectIssueCount(t, 1)
-	t_expectIssue(t, message, 1)
+	// t_expectIssue(t, message, 1)
 }
 
 func TestExternalImageInsecureDefault(t *testing.T) {
@@ -39,16 +40,16 @@ func TestExternalImageInsecureDefault(t *testing.T) {
 
 func TestExternalImageInsecureOption(t *testing.T) {
 	// fails for HTTP images when asked
-	t_testFile("fixtures/images/src_http.html")
-	t_expectIssueCount(t, 0)
-	t_expectIssue(t, message, 1)
+	t_testFileOpts("fixtures/images/src_http.html",
+		map[string]interface{}{"EnforceHTTPS": true})
+	t_expectIssueCount(t, 1)
+	t_expectIssue(t, "is not an HTTPS target", 1)
 }
 
 func TestInternalImageAbsolute(t *testing.T) {
 	// properly checks absolute images
 	t_testFile("fixtures/images/rootRelativeImages.html")
 	t_expectIssueCount(t, 0)
-	t_expectIssue(t, message, 1)
 }
 
 func TestInternalImageRelative(t *testing.T) {
@@ -66,15 +67,15 @@ func TestInternalImageRelativeSubfolders(t *testing.T) {
 func TestInternalImageMissing(t *testing.T) {
 	// fails for missing internal images
 	t_testFile("fixtures/images/missingImageInternal.html")
-	t_expectIssueCount(t, 0)
-	t_expectIssue(t, message, 1)
+	t_expectIssueCount(t, 1)
+	t_expectIssue(t, "target does not exist", 1)
 }
 
 func TestInternalImageMissingCharsAndCases(t *testing.T) {
 	// fails for image with default mac filename
 	t_testFile("fixtures/images/terribleImageName.html")
-	t_expectIssueCount(t, 0)
-	t_expectIssue(t, message, 1)
+	t_expectIssueCount(t, 1)
+	t_expectIssue(t, "target does not exist", 1)
 }
 
 func TestInternalWithBase(t *testing.T) {
@@ -86,9 +87,18 @@ func TestInternalWithBase(t *testing.T) {
 func TestSrcMising(t *testing.T) {
 	// fails for image with no src
 	t_testFile("fixtures/images/missingImageSrc.html")
-	t_expectIssueCount(t, 0)
-	t_expectIssue(t, message, 1)
+	t_expectIssueCount(t, 1)
+	t_expectIssue(t, "src attribute missing", 1)
 }
+
+func TestSrcEmpty(t *testing.T) {
+	// fails for image with empty src
+	t_testFile("fixtures/images/emptyImageSrc.html")
+	t_expectIssueCount(t, 1)
+	t_expectIssue(t, "src attribute empty", 1)
+}
+
+// TODO empty src
 
 func TestSrcIgnored(t *testing.T) {
 	// ignores images via url_ignore
@@ -113,54 +123,54 @@ func TestSrcSetMissing(t *testing.T) {
 	// fails for images with an alt but missing src or srcset
 	t_testFile("fixtures/images/srcSetMissingImage.html")
 	t_expectIssueCount(t, 1)
-	t_expectIssue(t, message, 1)
+	t_expectIssue(t, "src attribute missing", 1)
 }
 
 func TestSrcSetMissingAlt(t *testing.T) {
 	// fails for images with a srcset but missing alt
 	t_testFile("fixtures/images/srcSetMissingAlt.html")
 	t_expectIssueCount(t, 1)
-	t_expectIssue(t, "missing alt", 1)
+	t_expectIssue(t, "alt attribute missing", 1)
 }
 
 func TestSrcSetMissingAltIgnore(t *testing.T) {
 	// ignores missing alt tags when asked for srcset
-	t.Skip("New option needed")
-	t_testFile("fixtures/images/srcSetIgnorable.html")
+	t_testFileOpts("fixtures/images/srcSetIgnorable.html",
+		map[string]interface{}{"IgnoreAlt": true})
 	t_expectIssueCount(t, 0)
 }
 
-func TestAltTextMissing(t *testing.T) {
+func TestAltMissing(t *testing.T) {
 	// fails for image without alt attribute
 	t_testFile("fixtures/images/missingImageAlt.html")
-	t_expectIssueCount(t, 0)
-	t_expectIssue(t, message, 1)
+	t_expectIssueCount(t, 1)
+	t_expectIssue(t, "alt attribute missing", 1)
 }
 
-func TestAltTextEmpty(t *testing.T) {
+func TestAltEmpty(t *testing.T) {
 	// fails for image with an empty alt attribute
 	t_testFile("fixtures/images/missingImageAltText.html")
-	t_expectIssueCount(t, 0)
-	t_expectIssue(t, message, 1)
+	t_expectIssueCount(t, 1)
+	t_expectIssue(t, "alt text empty", 1)
 }
 
-func TestAltTextSpaces(t *testing.T) {
+func TestAltSpaces(t *testing.T) {
 	// fails for image with nothing but spaces in alt attribute
 	t_testFile("fixtures/images/emptyImageAltText.html")
-	t_expectIssueCount(t, 0)
-	t_expectIssue(t, message, 1)
+	t_expectIssueCount(t, 3)
+	t_expectIssue(t, "alt text contains only whitespace", 1)
 }
 
-func TestAltTextIgnoreMissing(t *testing.T) {
+func TestAltIgnoreMissing(t *testing.T) {
 	// ignores missing alt tags when asked
-	t.Skip("New option needed")
-	t_testFile("fixtures/images/ignorableAltViaOptions.html")
+	t_testFileOpts("fixtures/images/ignorableAltViaOptions.html",
+		map[string]interface{}{"IgnoreAlt": true})
 	t_expectIssueCount(t, 0)
 }
 
-func TestAltTextIgnoreEmpty(t *testing.T) {
+func TestAltIgnoreEmpty(t *testing.T) {
 	// ignores missing alt attribute when asked
-	t.Skip("New option needed")
-	t_testFile("fixtures/images/missingImageAlt.html")
+	t_testFileOpts("fixtures/images/missingImageAlt.html",
+		map[string]interface{}{"IgnoreAlt": true})
 	t_expectIssueCount(t, 0)
 }

@@ -46,6 +46,7 @@ func CheckLink(document *htmldoc.Document, node *html.Node) {
 	}
 
 	// Create reference
+	// TODO move above attrPresent href block, pass reference into issues
 	ref := htmldoc.NewReference(document, node, attrs["href"])
 
 	// Blank href
@@ -68,13 +69,13 @@ func CheckLink(document *htmldoc.Document, node *html.Node) {
 		return
 	}
 
-	// Route link check
+	// Route reference check
 	switch ref.Scheme {
 	case "http":
 		if Opts.EnforceHTTPS {
 			issues.AddIssue(issues.Issue{
 				Level:     issues.ERROR,
-				Message:   "is not an HTTPS link",
+				Message:   "is not an HTTPS target",
 				Reference: ref,
 			})
 		}

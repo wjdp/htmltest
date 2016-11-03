@@ -14,7 +14,10 @@ type Options struct {
 	CheckInternal bool
 	CheckMailto   bool
 	CheckTel      bool
-	EnforceHTTPS  bool
+
+	EnforceHTTPS bool
+
+	IgnoreAlt bool
 
 	TestFilesConcurrently bool
 	LogLevel              int
@@ -35,7 +38,10 @@ func DefaultOptions() map[string]interface{} {
 		"CheckInternal": true,
 		"CheckMailto":   true,
 		"CheckTel":      true,
-		"EnforceHTTPS":  false,
+
+		"EnforceHTTPS": false,
+
+		"IgnoreAlt": false,
 
 		"TestFilesConcurrently": false,
 		"LogLevel":              issues.INFO,

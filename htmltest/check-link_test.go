@@ -82,7 +82,7 @@ func TestExternalInsecureOption(t *testing.T) {
 	}
 	Test(opts)
 	t_expectIssueCount(t, 1)
-	t_expectIssue(t, "is not an HTTPS link", 1)
+	t_expectIssue(t, "is not an HTTPS target", 1)
 }
 
 func TestExternalHrefIP(t *testing.T) {
@@ -422,3 +422,10 @@ func TestHTML5Page(t *testing.T) {
 	t_testFile("fixtures/html/html5_tags.html")
 	t_expectIssueCount(t, 0)
 }
+
+// TODO test canonical links
+// TODO test "Unhandled client error"
+// TODO test CheckInternal = false
+// TODO test CheckExternal = false
+// TODO test CheckMailto = false
+// TODO test CheckTel = false

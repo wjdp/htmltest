@@ -1,6 +1,7 @@
 package htmltest
 
 import (
+	"github.com/imdario/mergo"
 	"github.com/wjdp/htmltest/issues"
 	"path"
 	"testing"
@@ -30,6 +31,16 @@ func t_testFile(filename string) {
 		"FilePath":      path.Base(filename),
 		"LogLevel":      t_LogLevel,
 	}
+	Test(opts)
+}
+
+func t_testFileOpts(filename string, t_opts map[string]interface{}) {
+	opts := map[string]interface{}{
+		"DirectoryPath": path.Dir(filename),
+		"FilePath":      path.Base(filename),
+		"LogLevel":      t_LogLevel,
+	}
+	mergo.MapWithOverwrite(&opts, t_opts)
 	Test(opts)
 }
 
