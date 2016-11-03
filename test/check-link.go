@@ -26,14 +26,24 @@ func CheckLink(document *doc.Document, node *html.Node) {
 		return
 	}
 
-	// Check href present
+	// Check href present, fail for link nodes
 	if !attrPresent(node.Attr, "href") {
-		issues.AddIssue(issues.Issue{
-			Level:    issues.DEBUG,
-			Message:  "anchor without href",
-			Document: document,
-		})
-		return
+		switch node.Data {
+		case "a":
+			issues.AddIssue(issues.Issue{
+				Level:    issues.DEBUG,
+				Message:  "anchor without href",
+				Document: document,
+			})
+			return
+		case "link":
+			issues.AddIssue(issues.Issue{
+				Level:    issues.ERROR,
+				Message:  "link tag missing href",
+				Document: document,
+			})
+			return
+		}
 	}
 
 	// Create reference
@@ -160,7 +170,7 @@ func CheckExternal(ref *doc.Reference) {
 		})
 	case http.StatusPartialContent:
 		issues.AddIssue(issues.Issue{
-			Level:     issues.INFO,
+			Level:     issues.DEBUG,
 			Message:   http.StatusText(statusCode),
 			Reference: ref,
 		})
@@ -206,6 +216,15 @@ func CheckFile(ref *doc.Reference, fPath string) {
 	checkErr(err) // Crash on other errors
 
 	if f.IsDir() {
+		if !strings.HasSuffix(ref.Path, "/") {
+			issues.AddIssue(issues.Issue{
+				Level:     issues.ERROR,
+				Message:   "target is a directory, href lacks trailing slash",
+				Reference: ref,
+			})
+			return
+		}
+
 		issues.AddIssue(issues.Issue{
 			Level:     issues.DEBUG,
 			Message:   "target is a directory",

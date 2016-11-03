@@ -212,24 +212,21 @@ func TestDirectoryCustomRoot(t *testing.T) {
 
 func TestDirectoryCustomRootBroken(t *testing.T) {
 	// fails if custom directory index file doesn't exist
-	t.Skip("Not yet implemented")
 	t_testFile("fixtures/links/link_pointing_to_directory.html")
-	t_expectIssueCount(t, 99)
-	t_expectIssue(t, "PLACEHOLDER", 99)
+	t_expectIssueCount(t, 1)
+	t_expectIssue(t, "target does not exist", 1)
 }
 
 func TestDirectoryNoTrailingSlash(t *testing.T) {
 	// fails for internal linking to a directory without trailing slash
-	t.Skip("Not yet implemented")
 	t_testFile("fixtures/links/link_directory_without_slash.html")
 	t_expectIssueCount(t, 1)
-	t_expectIssue(t, "PLACEHOLDER", 99)
+	t_expectIssue(t, "target is a directory, href lacks trailing slash", 1)
 }
 
 func TestDirectoryHtmlExtension(t *testing.T) {
 	// works for custom directory index file
-	t.Skip("Not yet implemented")
-	t_testDirectory("fixtures/links/_site")
+	t_testDirectory("fixtures/links/_site/")
 	t_expectIssueCount(t, 0)
 }
 
@@ -379,18 +376,16 @@ func TestLinkHrefValid(t *testing.T) {
 
 func TestLinkHrefBlank(t *testing.T) {
 	// fails for empty href within link elements
-	t.Skip("Not yet implemented")
 	t_testFile("fixtures/links/head_link_href_empty.html")
 	t_expectIssueCount(t, 1)
-	t_expectIssue(t, "PLACEHOLDER", 99)
+	t_expectIssue(t, "href blank", 1)
 }
 
 func TestLinkHrefAbsent(t *testing.T) {
 	// fails for absent href within link elements
-	t.Skip("Not yet implemented")
 	t_testFile("fixtures/links/head_link_href_absent.html")
-	t_expectIssueCount(t, 99)
-	t_expectIssue(t, "PLACEHOLDER", 99)
+	t_expectIssueCount(t, 1)
+	t_expectIssue(t, "link tag missing href", 1)
 }
 
 // TODO invalid link href?
@@ -437,6 +432,7 @@ func TestAnchorIdIgnore(t *testing.T) {
 
 func TestAnchorIdEmpty(t *testing.T) {
 	// fails for placeholder with empty id
+	// TODO: Should we only fail here if missing href?
 	t.Skip("Not yet implemented")
 	t_testFile("fixtures/links/placeholder_with_empty_id.html")
 	t_expectIssueCount(t, 1)
