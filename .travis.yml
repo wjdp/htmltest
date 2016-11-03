@@ -15,6 +15,9 @@ script:
 - go test -v ./...
 - go build -o bin/htmltest-$TRAVIS_OS_NAME -x main.go
 
+before_deploy:
+- chmod +x bin/htmltest-$TRAVIS_OS_NAME
+
 deploy:
   provider: releases
   api_key:
