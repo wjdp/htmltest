@@ -1,12 +1,11 @@
 package htmltest
 
 import (
-	"log"
-	// "fmt"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/refcache"
 	"golang.org/x/net/html"
+	"log"
 	"net/http"
 	"net/url"
 	"os"

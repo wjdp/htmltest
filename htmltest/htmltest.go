@@ -147,7 +147,7 @@ func parseNode(document *htmldoc.Document, n *html.Node) {
 		case "a":
 			CheckLink(document, n)
 		case "img":
-			CheckImg(n)
+			CheckImg(document, n)
 		case "link":
 			CheckLink(document, n)
 		case "script":
