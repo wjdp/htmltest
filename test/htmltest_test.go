@@ -327,18 +327,38 @@ func TestMailtoValid(t *testing.T) {
 
 func TestMailtoBlank(t *testing.T) {
   // fails for blank mailto links
-  t.Skip("Not yet implemented")
   t_testFile("fixtures/links/blank_mailto_link.html")
-  t_expectIssueCount(t, 99)
-  t_expectIssue(t, "PLACEHOLDER", 99)
+  t_expectIssueCount(t, 1)
+  t_expectIssue(t, "mailto is empty", 1)
 }
 
 func TestMailtoInvalid(t *testing.T) {
   // fails for invalid mailto links
-  t.Skip("Not yet implemented")
   t_testFile("fixtures/links/invalid_mailto_link.html")
-  t_expectIssueCount(t, 99)
-  t_expectIssue(t, "PLACEHOLDER", 99)
+  t_expectIssueCount(t, 1)
+  t_expectIssue(t, "contains an invalid email address", 1)
+}
+
+func TestMailtoIgnore(t *testing.T) {
+  // ignores mailto links when told to
+  filename := "fixtures/links/blank_mailto_link.html"
+  opts := map[string]interface{}{
+    "DirectoryPath": path.Dir(filename),
+    "FilePath": path.Base(filename),
+    "LogLevel": t_LogLevel,
+    "CheckMailto": false,
+  }
+  Test(opts)
+  t_expectIssueCount(t, 0)
+  filename = "fixtures/links/invalid_mailto_link.html"
+  opts = map[string]interface{}{
+    "DirectoryPath": path.Dir(filename),
+    "FilePath": path.Base(filename),
+    "LogLevel": t_LogLevel,
+    "CheckMailto": false,
+  }
+  Test(opts)
+  t_expectIssueCount(t, 0)
 }
 
 func TestTelValid(t *testing.T) {

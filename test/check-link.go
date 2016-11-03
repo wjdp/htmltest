@@ -71,6 +71,7 @@ func CheckLink(document *doc.Document, node *html.Node) {
   case "file":
     CheckInternal(ref)
   case "mailto":
+    CheckMailto(ref)
   case "tel":
 
   }
@@ -215,6 +216,28 @@ func CheckFile(ref *doc.Reference, fPath string) {
       Reference: ref,
     })
     CheckFile(ref, path.Join(fPath, Opts.DirectoryIndex))
+    return
+  }
+}
+
+func CheckMailto(ref *doc.Reference) {
+  if !Opts.CheckMailto {
+    return
+  }
+  if len(ref.URL.Opaque) == 0 {
+    issues.AddIssue(issues.Issue{
+      Level: issues.ERROR,
+      Message: "mailto is empty",
+      Reference: ref,
+    })
+    return
+  }
+  if !strings.Contains(ref.URL.Opaque, "@") {
+    issues.AddIssue(issues.Issue{
+      Level: issues.ERROR,
+      Message: "contains an invalid email address",
+      Reference: ref,
+    })
     return
   }
 }
