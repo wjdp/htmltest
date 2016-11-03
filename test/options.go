@@ -42,7 +42,7 @@ func DefaultOptions() map[string]interface{} {
 
 		"DirectoryIndex": "index.html",
 
-		"ExternalTimeout":    3,
+		"ExternalTimeout":    6,
 		"StripQueryString":   true,
 		"StripQueryExcludes": []string{"fonts.googleapis.com"},
 	}

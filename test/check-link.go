@@ -115,45 +115,27 @@ func CheckExternal(ref *doc.Reference) {
 		// resp, err := httpClient.Get(urlStr)
 
 		if err != nil {
-			if strings.Contains(err.Error(), "Client.Timeout exceeded while awaiting headers") {
+			if strings.Contains(err.Error(), "dial tcp") {
+				// Remove long prefix
+				prefix := "Get " + urlStr + ": dial tcp: lookup "
+				cleanedMessage := strings.TrimPrefix(err.Error(), prefix)
+				// Add error
 				issues.AddIssue(issues.Issue{
 					Level:     issues.ERROR,
-					Message:   "request timed out",
+					Message:   cleanedMessage,
 					Reference: ref,
 				})
 				return
 			}
-			if strings.Contains(err.Error(), "no such host") {
+			if strings.Contains(err.Error(), "Client.Timeout") {
 				issues.AddIssue(issues.Issue{
 					Level:     issues.ERROR,
-					Message:   "no such host",
+					Message:   "request exceeded our ExternalTimeout",
 					Reference: ref,
 				})
 				return
 			}
-			if strings.Contains(err.Error(), "getsockopt: network is unreachable") {
-				issues.AddIssue(issues.Issue{
-					Level:     issues.ERROR,
-					Message:   "getsockopt: network is unreachable",
-					Reference: ref,
-				})
-			}
-			if strings.Contains(err.Error(), "write on closed buffer") {
-				issues.AddIssue(issues.Issue{
-					Level:     issues.ERROR,
-					Message:   err.Error(),
-					Reference: ref,
-				})
-				return
-			}
-			if strings.Contains(err.Error(), "unknown port") {
-				issues.AddIssue(issues.Issue{
-					Level:     issues.ERROR,
-					Message:   "unknown port",
-					Reference: ref,
-				})
-				return
-			}
+
 			// Unhandled client error, return generic error
 			issues.AddIssue(issues.Issue{
 				Level:     issues.ERROR,

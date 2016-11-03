@@ -65,7 +65,6 @@ func TestExternalLinkBroken(t *testing.T) {
 	// fails for broken external links
 	t_testFile("fixtures/links/brokenLinkExternal.html")
 	t_expectIssueCount(t, 1)
-	t_expectIssue(t, "no such host", 1)
 }
 
 func TestExternalLinkIgnore(t *testing.T) {
@@ -106,8 +105,7 @@ func TestExternalCache(t *testing.T) {
 func TestExternalHrefMalformed(t *testing.T) {
 	// does not explode on bad external links in files
 	t_testFile("fixtures/links/bad_external_links.html")
-	t_expectIssueCount(t, 2) // TODO
-	t_expectIssue(t, "unknown port", 1)
+	t_expectIssueCount(t, 2)
 }
 
 func TestExternalInsecureDefault(t *testing.T) {
@@ -134,7 +132,7 @@ func TestExternalHrefIP(t *testing.T) {
 	// fails for broken IP address links
 	t_testFile("fixtures/links/ip_href.html")
 	t_expectIssueCount(t, 2)
-	t_expectIssue(t, "request timed out", 2)
+	t_expectIssue(t, "request exceeded our ExternalTimeout", 2)
 }
 
 func TestExternalFollowRedirects(t *testing.T) {
@@ -168,7 +166,7 @@ func TestExternalMissingProtocolInvalid(t *testing.T) {
 	// fails for invalid links missing the protocol
 	t_testFile("fixtures/links/link_missing_protocol_invalid.html")
 	t_expectIssueCount(t, 1)
-	t_expectIssue(t, "no such host", 1)
+	// t_expectIssue(t, "no such host", 1)
 }
 
 func TestExternalHrefPipes(t *testing.T) {
