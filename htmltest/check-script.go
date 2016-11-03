@@ -1,10 +1,10 @@
-package test
+package htmltest
 
 import (
 	// "log"
 	"golang.org/x/net/html"
 )
 
-func CheckImg(n *html.Node) {
+func CheckScript(n *html.Node) {
 	// log.Print(n)
 }

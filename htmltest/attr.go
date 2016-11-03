@@ -1,4 +1,4 @@
-package test
+package htmltest
 
 import (
 	"golang.org/x/net/html"

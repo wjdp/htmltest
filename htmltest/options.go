@@ -1,4 +1,4 @@
-package test
+package htmltest
 
 import (
 	"github.com/imdario/mergo"

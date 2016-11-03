@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/wjdp/htmltest/test"
+	"github.com/wjdp/htmltest/htmltest"
 	"log"
 	"os"
 	// "issues"
@@ -16,5 +16,5 @@ func main() {
 		"DirectoryPath": os.Args[1],
 	}
 
-	test.Test(options)
+	htmltest.Test(options)
 }
