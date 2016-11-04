@@ -84,6 +84,12 @@ func TestInternalWithBase(t *testing.T) {
 	t_testFile("fixtures/images/relativeWithBase.html")
 }
 
+func TestImageIgnorable(t *testing.T) {
+	// ignores images marked as data-proofer-ignore
+	t_testFile("fixtures/images/ignorableImages.html")
+	t_expectIssueCount(t, 0)
+}
+
 func TestSrcMising(t *testing.T) {
 	// fails for image with no src
 	t_testFile("fixtures/images/missingImageSrc.html")
@@ -103,7 +109,7 @@ func TestSrcEmpty(t *testing.T) {
 func TestSrcIgnored(t *testing.T) {
 	// ignores images via url_ignore
 	t.Skip("url ignore patterns not yet implemented")
-	t_testFile("fixtures/images/ignorableImages.html")
+	t_testFile("fixtures/images/???.html")
 	t_expectIssueCount(t, 0)
 }
 
