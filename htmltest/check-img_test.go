@@ -174,3 +174,5 @@ func TestAltIgnoreEmpty(t *testing.T) {
 		map[string]interface{}{"IgnoreAlt": true})
 	t_expectIssueCount(t, 0)
 }
+
+// TODO passes for broken img in <pre>

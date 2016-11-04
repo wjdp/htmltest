@@ -89,6 +89,12 @@ func CheckLink(document *htmldoc.Document, node *html.Node) {
 	case "tel":
 		CheckTel(ref)
 	}
+
+	// TODO: Other schemes
+	// What to do about unknown schemes, could be perfectly valid or a typo.
+	// Perhaps show a warning, which can be suppressed per-scheme in options.
+	// Preload with a couple of common ones, ftp &c.
+
 }
 
 func CheckExternal(ref *htmldoc.Reference) {
