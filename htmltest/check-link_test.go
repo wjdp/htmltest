@@ -2,7 +2,6 @@ package htmltest
 
 import (
 	"github.com/wjdp/htmltest/issues"
-	"path"
 	"testing"
 )
 
@@ -29,14 +28,8 @@ func TestExternalLinkBroken(t *testing.T) {
 
 func TestExternalLinkIgnore(t *testing.T) {
 	// ignores external links when asked
-	filename := "fixtures/links/brokenLinkExternal.html"
-	opts := map[string]interface{}{
-		"DirectoryPath": path.Dir(filename),
-		"FilePath":      path.Base(filename),
-		"LogLevel":      t_LogLevel,
-		"CheckExternal": false,
-	}
-	Test(opts)
+	t_testFileOpts("fixtures/links/brokenLinkExternal.html",
+		map[string]interface{}{"CheckExternal": false})
 	t_expectIssueCount(t, 0)
 }
 
@@ -76,14 +69,8 @@ func TestExternalInsecureDefault(t *testing.T) {
 
 func TestExternalInsecureOption(t *testing.T) {
 	// fails for non-HTTPS links when asked
-	filename := "fixtures/links/non_https.html"
-	opts := map[string]interface{}{
-		"DirectoryPath": path.Dir(filename),
-		"FilePath":      path.Base(filename),
-		"LogLevel":      t_LogLevel,
-		"EnforceHTTPS":  true,
-	}
-	Test(opts)
+	t_testFileOpts("fixtures/links/non_https.html",
+		map[string]interface{}{"EnforceHTTPS": true})
 	t_expectIssueCount(t, 1)
 	t_expectIssue(t, "is not an HTTPS target", 1)
 }
@@ -295,23 +282,12 @@ func TestMailtoInvalid(t *testing.T) {
 
 func TestMailtoIgnore(t *testing.T) {
 	// ignores mailto links when told to
-	filename := "fixtures/links/blank_mailto_link.html"
-	opts := map[string]interface{}{
-		"DirectoryPath": path.Dir(filename),
-		"FilePath":      path.Base(filename),
-		"LogLevel":      t_LogLevel,
-		"CheckMailto":   false,
-	}
-	Test(opts)
+	t_testFileOpts("fixtures/links/blank_mailto_link.html",
+		map[string]interface{}{"CheckMailto": false})
 	t_expectIssueCount(t, 0)
-	filename = "fixtures/links/invalid_mailto_link.html"
-	opts = map[string]interface{}{
-		"DirectoryPath": path.Dir(filename),
-		"FilePath":      path.Base(filename),
-		"LogLevel":      t_LogLevel,
-		"CheckMailto":   false,
-	}
-	Test(opts)
+
+	t_testFileOpts("fixtures/scripts/scriptInsecure.html",
+		map[string]interface{}{"CheckMailto": false})
 	t_expectIssueCount(t, 0)
 }
 
