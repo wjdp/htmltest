@@ -65,7 +65,6 @@ func checkErr(err error) {
 }
 
 func TestFiles(documents []htmldoc.Document) {
-
 	if Opts.TestFilesConcurrently {
 		var wg sync.WaitGroup
 		for _, document := range documents {

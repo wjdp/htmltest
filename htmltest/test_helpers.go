@@ -7,6 +7,18 @@ import (
 	"testing"
 )
 
+func t_assertEqual(t *testing.T, a interface{}, b interface{}) {
+	if a != b {
+		t.Error(a, "!=", b)
+	}
+}
+
+func t_assertNotEqual(t *testing.T, a interface{}, b interface{}) {
+	if a == b {
+		t.Error(a, "==", b)
+	}
+}
+
 const t_LogLevel int = issues.WARNING
 
 func t_expectIssue(t *testing.T, message string, expected int) {
