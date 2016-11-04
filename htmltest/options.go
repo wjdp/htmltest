@@ -34,7 +34,7 @@ var Opts Options
 func DefaultOptions() map[string]interface{} {
 	// Specify defaults here
 	return map[string]interface{}{
-		"CheckExternal": true,
+		"CheckExternal": false,
 		"CheckInternal": true,
 		"CheckMailto":   true,
 		"CheckTel":      true,

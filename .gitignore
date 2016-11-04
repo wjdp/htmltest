@@ -33,6 +33,7 @@ pkg/
 # personal fiddling
 var/
 main
+*.log
 
 # builds
 bin/

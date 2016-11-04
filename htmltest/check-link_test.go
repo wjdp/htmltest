@@ -1,9 +1,12 @@
 package htmltest
 
 import (
+	"github.com/wjdp/htmltest/issues"
 	"path"
 	"testing"
 )
+
+// Spec tests
 
 func TestAnchorMissingHref(t *testing.T) {
 	// fails for link with no href
@@ -429,3 +432,19 @@ func TestHTML5Page(t *testing.T) {
 // TODO test CheckExternal = false
 // TODO test CheckMailto = false
 // TODO test CheckTel = false
+
+// Benchmarks
+
+func BenchmarkManyExternalLinks(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		t_testFileOpts("fixtures/benchmarks/manyExternalLinks.html",
+			map[string]interface{}{"LogLevel": issues.NONE})
+	}
+}
+
+func BenchmarkManyExternalLinksDouble(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		t_testFileOpts("fixtures/benchmarks/manyExternalLinks.html",
+			map[string]interface{}{"LogLevel": issues.NONE})
+	}
+}

@@ -15,6 +15,7 @@ import (
 var httpClient *http.Client
 
 func setup() {
+	issues.LogLevel = Opts.LogLevel
 	transport := &http.Transport{
 		TLSNextProto: nil, // Disable HTTP/2, "write on closed buffer" errors
 	}
@@ -48,8 +49,6 @@ func makePath(p string) string {
 }
 
 func TestDirectory(opts Options) {
-	issues.LogLevel = Opts.LogLevel
-
 	log.Printf("htmltest started on %s", Opts.DirectoryPath)
 
 	files := RecurseDirectory("")
@@ -151,7 +150,7 @@ func parseNode(document *htmldoc.Document, n *html.Node) {
 		case "link":
 			CheckLink(document, n)
 		case "script":
-			CheckScript(n)
+			CheckScript(document, n)
 		}
 	}
 	// Iterate over children

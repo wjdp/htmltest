@@ -1,7 +1,6 @@
 package htmltest
 
 import (
-	// "log"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"golang.org/x/net/html"

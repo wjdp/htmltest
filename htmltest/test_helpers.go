@@ -40,14 +40,23 @@ func t_testFileOpts(filename string, t_opts map[string]interface{}) {
 		"FilePath":      path.Base(filename),
 		"LogLevel":      t_LogLevel,
 	}
-	mergo.MapWithOverwrite(&opts, t_opts)
+	mergo.MergeWithOverwrite(&opts, t_opts)
 	Test(opts)
 }
 
 func t_testDirectory(filename string) {
 	opts := map[string]interface{}{
-		"DirectoryPath": path.Dir(filename),
+		"DirectoryPath": filename,
 		"LogLevel":      t_LogLevel,
 	}
+	Test(opts)
+}
+
+func t_testDirectoryOpts(filename string, t_opts map[string]interface{}) {
+	opts := map[string]interface{}{
+		"DirectoryPath": filename,
+		"LogLevel":      t_LogLevel,
+	}
+	mergo.MergeWithOverwrite(&opts, t_opts)
 	Test(opts)
 }
