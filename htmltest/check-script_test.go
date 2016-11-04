@@ -67,7 +67,7 @@ func TestScriptContentAbsent(t *testing.T) {
 }
 
 func TestScriptInPre(t *testing.T) {
-	// works for broken script within pre
+	// works for broken script within pre & code
 	t.Skip("TODO: ignore stuff in <pre> and <code>")
 	t_testFile("fixtures/scripts/script_in_pre.html")
 	t_expectIssueCount(t, 0)

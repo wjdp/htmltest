@@ -175,4 +175,8 @@ func TestAltIgnoreEmpty(t *testing.T) {
 	t_expectIssueCount(t, 0)
 }
 
-// TODO passes for broken img in <pre>
+func TestImagePre(t *testing.T) {
+	// works for broken images within pre & code
+	t_testFile("fixtures/images/badImagesInPre.html")
+	t_expectIssueCount(t, 0)
+}

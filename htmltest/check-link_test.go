@@ -356,16 +356,14 @@ func TestLinkHrefAbsent(t *testing.T) {
 
 // TODO invalid link href?
 
-func TestPreAnchor(t *testing.T) {
-	// works for broken anchors within pre
-	t.Skip("TODO: ignore stuff in <pre> and <code>")
+func TestAnchorPre(t *testing.T) {
+	// works for broken anchors within pre & code
 	t_testFile("fixtures/links/anchors_in_pre.html")
 	t_expectIssueCount(t, 0)
 }
 
-func TestPreLink(t *testing.T) {
-	// works for broken link within pre
-	t.Skip("TODO: ignore stuff in <pre> and <code>")
+func TestLinkPre(t *testing.T) {
+	// works for broken link within pre & code
 	t_testFile("fixtures/links/links_in_pre.html")
 	t_expectIssueCount(t, 0)
 }

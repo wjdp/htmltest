@@ -58,45 +58,6 @@ func TestDirectory(opts Options) {
 	log.Printf("%d files checked", len(files))
 }
 
-// Walk through the directory tree and pick .html files
-func RecurseDirectory(dPath string) []htmldoc.Document {
-	documents := make([]htmldoc.Document, 0)
-
-	// Open dPath
-	f, err := os.Open(makePath(dPath))
-	checkErr(err)
-	defer f.Close()
-
-	// Get FileInfo of dPath
-	fi, err := f.Stat()
-	checkErr(err)
-
-	if fi.IsDir() {
-		// Read all FileInfo-s from dPath
-		fis, err := f.Readdir(-1)
-		checkErr(err)
-
-		// Iterate over contents of dPath
-		for _, fileinfo := range fis {
-			fPath := path.Join(dPath, fileinfo.Name())
-			if fileinfo.IsDir() {
-				// If item is a dir, we need to iterate further, save returned documents
-				documents = append(documents, RecurseDirectory(fPath)...)
-			} else if path.Ext(fileinfo.Name()) == ".html" {
-				// If a file, save to filename list
-				documents = append(documents, htmldoc.Document{
-					Directory: dPath,
-					Path:      fPath,
-				})
-			}
-		}
-	} else {
-		log.Fatalf("%s isn't a directory", dPath)
-	}
-
-	return documents
-}
-
 func checkErr(err error) {
 	if err != nil {
 		log.Fatal(err)
@@ -151,6 +112,10 @@ func parseNode(document *htmldoc.Document, n *html.Node) {
 			CheckLink(document, n)
 		case "script":
 			CheckScript(document, n)
+		case "pre":
+			return // Everything within a pre is not to be interpreted
+		case "code":
+			return // Everything within a code is not to be interpreted
 		}
 	}
 	// Iterate over children
