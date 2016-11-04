@@ -92,7 +92,13 @@ func TestExternalHrefIP(t *testing.T) {
 	// fails for broken IP address links
 	t_testFile("fixtures/links/ip_href.html")
 	t_expectIssueCount(t, 2)
-	t_expectIssue(t, "request exceeded our ExternalTimeout", 2)
+}
+
+func TestExternalHrefIPTimeout(t *testing.T) {
+	// fails for broken IP address links
+	t_testFile("fixtures/links/ip_timeout.html")
+	t_expectIssueCount(t, 1)
+	t_expectIssue(t, "request exceeded our ExternalTimeout", 1)
 }
 
 func TestExternalFollowRedirects(t *testing.T) {
