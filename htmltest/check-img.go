@@ -18,6 +18,29 @@ func CheckImg(document *htmldoc.Document, node *html.Node) {
 	// Create reference
 	ref := htmldoc.NewReference(document, node, attrs["src"])
 
+	// Check alt present, fail if absent unless asked to ignore
+	if !attrPresent(node.Attr, "alt") && !Opts.IgnoreAlt {
+		issues.AddIssue(issues.Issue{
+			Level:     issues.ERROR,
+			Message:   "alt attribute missing",
+			Reference: ref,
+		})
+	} else if len(attrs["alt"]) == 0 && !Opts.IgnoreAlt {
+		// Check alt has length, fail if empty unless asked to ignore
+		issues.AddIssue(issues.Issue{
+			Level:     issues.ERROR,
+			Message:   "alt text empty",
+			Reference: ref,
+		})
+	} else if b, _ := regexp.MatchString("^\\s+$", attrs["alt"]); b {
+		// Check alt is not just whitespace
+		issues.AddIssue(issues.Issue{
+			Level:     issues.ERROR,
+			Message:   "alt text contains only whitespace",
+			Reference: ref,
+		})
+	}
+
 	// Check src present, fail if absent
 	if !attrPresent(node.Attr, "src") {
 		issues.AddIssue(issues.Issue{
@@ -34,31 +57,6 @@ func CheckImg(document *htmldoc.Document, node *html.Node) {
 			Reference: ref,
 		})
 		return
-	}
-
-	// Check alt present, fail if absent unless asked to ignore
-	if !attrPresent(node.Attr, "alt") && !Opts.IgnoreAlt {
-		issues.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
-			Message:   "alt attribute missing",
-			Reference: ref,
-		})
-		return
-	} else if len(attrs["alt"]) == 0 && !Opts.IgnoreAlt {
-		// Check alt has length, fail if empty unless asked to ignore
-		issues.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
-			Message:   "alt text empty",
-			Reference: ref,
-		})
-		return
-	} else if b, _ := regexp.MatchString("^\\s+$", attrs["alt"]); b {
-		// Check alt is not just whitespace
-		issues.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
-			Message:   "alt text contains only whitespace",
-			Reference: ref,
-		})
 	}
 
 	// Route reference check

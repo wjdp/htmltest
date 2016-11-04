@@ -25,29 +25,28 @@ func CheckLink(document *htmldoc.Document, node *html.Node) {
 		return
 	}
 
+	// Create reference
+	ref := htmldoc.NewReference(document, node, attrs["href"])
+
 	// Check href present, fail for link nodes
 	if !attrPresent(node.Attr, "href") {
 		switch node.Data {
 		case "a":
 			issues.AddIssue(issues.Issue{
-				Level:    issues.DEBUG,
-				Message:  "anchor without href",
-				Document: document,
+				Level:     issues.DEBUG,
+				Message:   "anchor without href",
+				Reference: ref,
 			})
 			return
 		case "link":
 			issues.AddIssue(issues.Issue{
-				Level:    issues.ERROR,
-				Message:  "link tag missing href",
-				Document: document,
+				Level:     issues.ERROR,
+				Message:   "link tag missing href",
+				Reference: ref,
 			})
 			return
 		}
 	}
-
-	// Create reference
-	// TODO move above attrPresent href block, pass reference into issues
-	ref := htmldoc.NewReference(document, node, attrs["href"])
 
 	// Blank href
 	if attrs["href"] == "" {

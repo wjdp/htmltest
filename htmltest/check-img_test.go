@@ -186,3 +186,12 @@ func TestImagePre(t *testing.T) {
 	t_testFile("fixtures/images/badImagesInPre.html")
 	t_expectIssueCount(t, 0)
 }
+
+func TestImageMultipleProblems(t *testing.T) {
+	t_testFile("fixtures/images/multipleProblems.html")
+	t_expectIssueCount(t, 6)
+	t_expectIssue(t, "alt text empty", 1)
+	t_expectIssue(t, "target does not exist", 2)
+	t_expectIssue(t, "alt attribute missing", 1)
+	t_expectIssue(t, "src attribute missing", 1)
+}
