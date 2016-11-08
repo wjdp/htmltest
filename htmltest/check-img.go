@@ -60,7 +60,7 @@ func CheckImg(document *htmldoc.Document, node *html.Node) {
 	}
 
 	// Route reference check
-	switch ref.Scheme {
+	switch ref.Scheme() {
 	case "http":
 		if Opts.EnforceHTTPS {
 			issues.AddIssue(issues.Issue{

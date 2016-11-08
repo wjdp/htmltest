@@ -69,7 +69,7 @@ func CheckLink(document *htmldoc.Document, node *html.Node) {
 	}
 
 	// Route reference check
-	switch ref.Scheme {
+	switch ref.Scheme() {
 	case "http":
 		if Opts.EnforceHTTPS {
 			issues.AddIssue(issues.Issue{
@@ -106,7 +106,7 @@ func CheckExternal(ref *htmldoc.Reference) {
 		return
 	}
 
-	urlStr := htmldoc.URLString(ref)
+	urlStr := ref.URLString()
 	if Opts.StripQueryString && !InList(Opts.StripQueryExcludes, urlStr) {
 		urlStr = htmldoc.URLStripQueryString(urlStr)
 	}
@@ -116,7 +116,6 @@ func CheckExternal(ref *htmldoc.Reference) {
 		// If we have the result in cache, return that
 		statusCode = refcache.CachedURLStatus(urlStr)
 	} else {
-		// log.Println("Ext", ref.Document.Path, htmldoc.URLString(ref))
 		urlUrl, err := url.Parse(urlStr)
 		req := &http.Request{
 			Method: "GET",
@@ -203,7 +202,7 @@ func CheckInternal(ref *htmldoc.Reference) {
 	}
 	// log.Println("CheckInternal", ref.Document.Path, htmldoc.AbsolutePath(ref))
 
-	CheckFile(ref, htmldoc.AbsolutePath(ref))
+	CheckFile(ref, ref.AbsolutePath())
 }
 
 func CheckFile(ref *htmldoc.Reference, fPath string) {
