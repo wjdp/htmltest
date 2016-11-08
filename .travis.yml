@@ -9,7 +9,7 @@ os:
 - osx
 
 install:
-- go get
+- go get -t ./...
 
 script:
 - go test -v ./...
