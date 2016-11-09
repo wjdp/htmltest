@@ -15,6 +15,7 @@ const SEPERATOR string = "======================================================
 
 func main() {
 	usage := `htmltest - Test generated HTML for problems
+           https://github.com/wjdp/htmltest
 
 Usage:
   htmltest [--log-level=LEVEL] [<path>]
@@ -23,6 +24,8 @@ Usage:
   htmltest -h --help
 
 Options:
+  <path>              Path to directory or file to test, omit for current
+                      directory.
   -h --help           Show this text.
   --log-level=LEVEL   Logging level, 0-3: debug, info, warning, error.
   --conf=CFILE        Use a JSON configuration file for advanced options.`
@@ -37,28 +40,9 @@ Options:
 		options = parseCLIArgs(arguments)
 	}
 
-	timeStart := time.Now()
+	exitCode := run(options)
+	os.Exit(exitCode)
 
-	fmt.Println("htmltest started at", timeStart.Format("03:04:05"), "on", options["DirectoryPath"])
-	fmt.Println(SEPERATOR)
-
-	hT := htmltest.Test(options)
-
-	timeEnd := time.Now()
-	numErrors := hT.CountErrors()
-
-	if numErrors == 0 {
-		color.Set(color.FgHiGreen)
-		fmt.Println("passed in", timeEnd.Sub(timeStart))
-		color.Unset()
-	} else {
-		color.Set(color.FgHiRed)
-		fmt.Println(SEPERATOR)
-		fmt.Println("errored in", timeEnd.Sub(timeStart))
-		fmt.Println(numErrors, "errors")
-		color.Unset()
-		os.Exit(1)
-	}
 }
 
 type optsMap map[string]interface{}
@@ -97,5 +81,31 @@ func checkErr(err error) {
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
+	}
+}
+
+func run(options optsMap) int {
+	timeStart := time.Now()
+
+	fmt.Println("htmltest started at", timeStart.Format("03:04:05"), "on", options["DirectoryPath"])
+	fmt.Println(SEPERATOR)
+
+	hT := htmltest.Test(options)
+
+	timeEnd := time.Now()
+	numErrors := hT.CountErrors()
+
+	if numErrors == 0 {
+		color.Set(color.FgHiGreen)
+		fmt.Println("✔✔✔ passed in", timeEnd.Sub(timeStart))
+		color.Unset()
+		return 0
+	} else {
+		color.Set(color.FgHiRed)
+		fmt.Println(SEPERATOR)
+		fmt.Println("✘✘✘ failed in", timeEnd.Sub(timeStart))
+		fmt.Println(numErrors, "errors")
+		color.Unset()
+		return 1
 	}
 }

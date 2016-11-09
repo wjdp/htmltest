@@ -46,7 +46,7 @@ func DefaultOptions() map[string]interface{} {
 
 		"IgnoreAlt": false,
 
-		"TestFilesConcurrently":    false,
+		"TestFilesConcurrently":    true,
 		"DocumentConcurrencyLimit": 128,
 		"HTTPConcurrencyLimit":     4,
 

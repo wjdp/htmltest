@@ -1,7 +1,6 @@
 package htmltest
 
 import (
-	"fmt"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/refcache"
@@ -117,6 +116,11 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 	if refcache.CachedURLStatus(urlStr) != 0 {
 		// If we have the result in cache, return that
 		statusCode = refcache.CachedURLStatus(urlStr)
+		hT.issueStore.AddIssue(issues.Issue{
+			Level:     issues.INFO,
+			Message:   "from cache",
+			Reference: ref,
+		})
 	} else {
 		urlUrl, err := url.Parse(urlStr)
 		req := &http.Request{
@@ -129,8 +133,7 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 
 		hT.httpChannel <- true // Add to http concurrency limiter
 		resp, err := hT.httpClient.Do(req)
-		x := <-hT.httpChannel // Bump off http concurrency limiter
-		fmt.Println(x)
+		<-hT.httpChannel // Bump off http concurrency limiter
 
 		if err != nil {
 			if strings.Contains(err.Error(), "dial tcp") {
@@ -171,13 +174,13 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 	switch statusCode {
 	case http.StatusOK:
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.DEBUG,
+			Level:     issues.INFO,
 			Message:   http.StatusText(statusCode),
 			Reference: ref,
 		})
 	case http.StatusPartialContent:
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.DEBUG,
+			Level:     issues.INFO,
 			Message:   http.StatusText(statusCode),
 			Reference: ref,
 		})
@@ -228,11 +231,6 @@ func (hT *HtmlTest) checkFile(ref *htmldoc.Reference, absPath string) {
 			return
 		}
 
-		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.DEBUG,
-			Message:   "target is a directory",
-			Reference: ref,
-		})
 		hT.checkFile(ref, path.Join(absPath, hT.opts.DirectoryIndex))
 		return
 	}
