@@ -125,3 +125,7 @@ func (hT *HtmlTest) parseNode(document *htmldoc.Document, n *html.Node) {
 		hT.parseNode(document, c)
 	}
 }
+
+func (hT *HtmlTest) CountErrors() int {
+	return hT.issueStore.Count(issues.ERROR)
+}

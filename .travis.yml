@@ -13,7 +13,8 @@ install:
 
 script:
 - go test -v ./...
-- go build -o bin/htmltest-$TRAVIS_OS_NAME -x main.go
+- go build -o bin/htmltest-$TRAVIS_OS_NAME -x cmd/main.go
+- bin/htmltest-$TRAVIS_OS_NAME --conf htmldoc/fixtures/conf.json
 
 before_deploy:
 - chmod +x bin/htmltest-$TRAVIS_OS_NAME
