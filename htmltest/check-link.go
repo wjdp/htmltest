@@ -3,7 +3,6 @@ package htmltest
 import (
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
-	"github.com/wjdp/htmltest/refcache"
 	"golang.org/x/net/html"
 	"log"
 	"net/http"
@@ -113,9 +112,11 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 	}
 	var statusCode int
 
-	if refcache.CachedURLStatus(urlStr) != 0 {
+	cR, isCached := hT.refCache.Get(urlStr)
+
+	if isCached {
 		// If we have the result in cache, return that
-		statusCode = refcache.CachedURLStatus(urlStr)
+		statusCode = cR.StatusCode
 		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.INFO,
 			Message:   "from cache",
@@ -166,8 +167,8 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 			log.Println("Unhandled httpClient error:", err.Error())
 			return
 		}
-		// Save cached result
-		refcache.SetCachedURLStatus(urlStr, resp.StatusCode)
+		// Save cached result, refcache filters only +ve results
+		hT.refCache.Save(urlStr, resp.StatusCode)
 		statusCode = resp.StatusCode
 	}
 

@@ -37,3 +37,6 @@ main
 
 # builds
 bin/
+
+# Cache dirs of program
+.htmltest

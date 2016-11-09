@@ -3,6 +3,7 @@ package htmltest
 import (
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
+	"github.com/wjdp/htmltest/refcache"
 	"golang.org/x/net/html"
 	"log"
 	"net/http"
@@ -17,6 +18,7 @@ type HtmlTest struct {
 	httpChannel chan bool
 	documents   []htmldoc.Document
 	issueStore  issues.IssueStore
+	refCache    *refcache.RefCache
 }
 
 func Test(optsUser map[string]interface{}) *HtmlTest {
@@ -40,6 +42,10 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 	// Make buffered channel to act as concurrency limiter
 	hT.httpChannel = make(chan bool, 1)
 
+	// Setup refcache
+	hT.refCache = refcache.NewRefCache(
+		path.Join(hT.opts.CacheDir, hT.opts.CacheFile), hT.opts.CacheExpires)
+
 	if hT.opts.NoRun {
 		return &hT
 	}
@@ -59,6 +65,8 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 	}
 
 	hT.testDocuments()
+
+	hT.refCache.WriteStore(path.Join(hT.opts.CacheDir, hT.opts.CacheFile))
 
 	return &hT
 }

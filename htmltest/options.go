@@ -31,6 +31,10 @@ type Options struct {
 	StripQueryString   bool
 	StripQueryExcludes []string
 
+	CacheDir     string
+	CacheFile    string
+	CacheExpires string // Accepts golang time period strings, hours (16h) is really only useful option
+
 	NoRun bool // When true does not run tests, used to inspect state in unit tests
 }
 
@@ -57,6 +61,10 @@ func DefaultOptions() map[string]interface{} {
 		"ExternalTimeout":    3,
 		"StripQueryString":   true,
 		"StripQueryExcludes": []string{"fonts.googleapis.com"},
+
+		"CacheDir":     ".htmltest",
+		"CacheFile":    "refcache.json",
+		"CacheExpires": "336h",
 
 		"NoRun": false,
 	}
