@@ -1,7 +1,7 @@
 package htmltest
 
 import (
-	// "fmt"
+	"github.com/daviddengcn/go-assert"
 	"golang.org/x/net/html"
 	"strings"
 	"testing"
@@ -13,9 +13,9 @@ func TestExtractAttrs(t *testing.T) {
 	nodeImg := nodeDoc.FirstChild.FirstChild.NextSibling.FirstChild
 	attrs := extractAttrs(nodeImg.Attr, []string{"src", "alt"})
 
-	t_assertEqual(t, attrs["src"], "x")
-	t_assertEqual(t, attrs["alt"], "y")
-	t_assertNotEqual(t, attrs["foo"], "bar")
+	assert.Equals(t, "src", attrs["src"], "x")
+	assert.Equals(t, "alt", attrs["alt"], "y")
+	assert.NotEquals(t, "foo", attrs["foo"], "bar")
 }
 
 func TestAttrPresent(t *testing.T) {
@@ -23,7 +23,7 @@ func TestAttrPresent(t *testing.T) {
 	nodeDoc, _ := html.Parse(strings.NewReader(snip))
 	nodeImg := nodeDoc.FirstChild.FirstChild.NextSibling.FirstChild
 
-	t_assertEqual(t, attrPresent(nodeImg.Attr, "src"), true)
-	t_assertEqual(t, attrPresent(nodeImg.Attr, "alt"), true)
-	t_assertNotEqual(t, attrPresent(nodeImg.Attr, "foo"), true)
+	assert.Equals(t, "src in attr", attrPresent(nodeImg.Attr, "src"), true)
+	assert.Equals(t, "alt in attr", attrPresent(nodeImg.Attr, "src"), true)
+	assert.NotEquals(t, "foo in attr", attrPresent(nodeImg.Attr, "src"), false)
 }

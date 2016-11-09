@@ -1,100 +1,43 @@
 package issues
 
 import (
-	"fmt"
-	"github.com/fatih/color"
-	"github.com/wjdp/htmltest/htmldoc"
-	"log"
+	"strings"
 )
 
-const NONE int = 99
-const ERROR int = 3
-const WARNING int = 2
-const INFO int = 1
-const DEBUG int = 0
-
-var LogLevel int
-
-type Issue struct {
-	Level     int
-	Document  *htmldoc.Document
-	Reference *htmldoc.Reference
-	Message   string
+type IssueStore struct {
+	LogLevel int
+	issues   []Issue
 }
 
-var issueStore []Issue
-
-func InitIssueStore() {
-	issueStore = make([]Issue, 0)
+func NewIssueStore(logLevel int) IssueStore {
+	iS := IssueStore{LogLevel: logLevel}
+	iS.issues = make([]Issue, 0)
+	return iS
 }
 
-func AddIssue(issue Issue) {
-	issueStore = append(issueStore, issue)
-	PrintIssue(issue)
+func (iS *IssueStore) AddIssue(issue Issue) {
+	issue.store = iS // Set ref to issue store in issue
+	iS.issues = append(iS.issues, issue)
+	issue.print()
 }
 
-func PrintIssue(issue Issue) {
-	if issue.Level < LogLevel {
-		return
-	}
-
-	var primary string
-	if issue.Document != nil {
-		primary = issue.Document.Path
-	} else if issue.Reference != nil {
-		primary = issue.Reference.Document.Path
-	} else {
-		primary = "<nil>"
-	}
-
-	var secondary string
-	if issue.Reference != nil {
-		secondary = issue.Reference.Path
-	} else {
-		secondary = "<nil>"
-	}
-
-	issueText := fmt.Sprintf("%v --- %v --> %v", issue.Message, primary, secondary)
-
-	switch issue.Level {
-	case ERROR:
-		color.Red(issueText)
-	case WARNING:
-		color.Yellow(issueText)
-	case INFO:
-		color.Blue(issueText)
-	case DEBUG:
-		color.Magenta(issueText)
-	}
-}
-
-func OutputIssues() {
-	for _, issue := range issueStore {
-		log.Print(issue)
-	}
-}
-
-func IssueCount(level int) int {
-	c := 0
-	for _, issue := range issueStore {
+func (iS *IssueStore) Count(level int) int {
+	count := 0
+	for _, issue := range iS.issues {
 		if issue.Level >= level {
-			c += 1
+			count += 1
 		}
 	}
-	return c
+	return count
 }
 
-func IssueMatchCount(message string) int {
+func (iS *IssueStore) MessageMatchCount(message string) int {
 	// Return number of issues with matching message
-	c := 0
-	for _, issue := range issueStore {
-		if issue.Message == message {
-			c += 1
+	count := 0
+	for _, issue := range iS.issues {
+		if strings.Contains(issue.Message, message) {
+			count += 1
 		}
 	}
-	return c
-}
-
-func Issues() []Issue {
-	return issueStore
+	return count
 }

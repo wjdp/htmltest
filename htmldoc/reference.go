@@ -8,13 +8,6 @@ import (
 	"strings"
 )
 
-type RefInterface interface {
-	Scheme() string
-	URLString() string
-	IsAbsolute() bool
-	AbsolutePath() string
-}
-
 type Reference struct {
 	Document *Document
 	Node     *html.Node
@@ -36,7 +29,7 @@ func NewReference(document *Document, node *html.Node, path string) *Reference {
 	return &ref
 }
 
-func (ref Reference) Scheme() string {
+func (ref *Reference) Scheme() string {
 	if strings.HasPrefix(ref.Path, "//") {
 		// Could be http or https, we can handle https so prefer that
 		// TODO Should we test both?
@@ -62,7 +55,7 @@ func (ref Reference) Scheme() string {
 	return "" // Unknown
 }
 
-func (ref Reference) URLString() string {
+func (ref *Reference) URLString() string {
 	// Format url for use in http.Get
 	urlStr := ref.URL.String()
 	if strings.HasPrefix(ref.Path, "//") {
@@ -71,12 +64,12 @@ func (ref Reference) URLString() string {
 	return urlStr
 }
 
-func (ref Reference) IsInternalAbsolute() bool {
+func (ref *Reference) IsInternalAbsolute() bool {
 	// Is an internal absolute link
 	return !strings.HasPrefix(ref.Path, "//") && strings.HasPrefix(ref.Path, "/")
 }
 
-func (ref Reference) AbsolutePath() string {
+func (ref *Reference) AbsolutePath() string {
 	// If external return unchanged
 	if ref.Scheme() != "file" {
 		return ref.URL.Path

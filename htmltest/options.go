@@ -27,9 +27,9 @@ type Options struct {
 	ExternalTimeout    int
 	StripQueryString   bool
 	StripQueryExcludes []string
-}
 
-var Opts Options
+	NoRun bool // When true does not run tests, used to inspect state in unit tests
+}
 
 func DefaultOptions() map[string]interface{} {
 	// Specify defaults here
@@ -51,15 +51,18 @@ func DefaultOptions() map[string]interface{} {
 		"ExternalTimeout":    3,
 		"StripQueryString":   true,
 		"StripQueryExcludes": []string{"fonts.googleapis.com"},
+
+		"NoRun": false,
 	}
 }
 
-func SetOptions(optsUser map[string]interface{}) {
+func (hT *HtmlTest) setOptions(optsUser map[string]interface{}) {
 	// Merge user and default options, set Opts var
-	opts := DefaultOptions()
-	mergo.MergeWithOverwrite(&opts, optsUser)
-	Opts = Options{}
-	mergo.MapWithOverwrite(&Opts, opts)
+	optsMap := DefaultOptions()
+	mergo.MergeWithOverwrite(&optsMap, optsUser)
+	hT.opts = Options{}
+	mergo.MapWithOverwrite(&hT.opts, optsMap)
+
 }
 
 func InList(list []string, key string) bool {

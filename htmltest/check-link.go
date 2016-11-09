@@ -13,7 +13,7 @@ import (
 	"strings"
 )
 
-func CheckLink(document *htmldoc.Document, node *html.Node) {
+func (hT *HtmlTest) checkLink(document *htmldoc.Document, node *html.Node) {
 	attrs := extractAttrs(node.Attr, []string{"href", "rel", "data-proofer-ignore"})
 
 	// Do not check canonical links
@@ -28,18 +28,18 @@ func CheckLink(document *htmldoc.Document, node *html.Node) {
 	// Create reference
 	ref := htmldoc.NewReference(document, node, attrs["href"])
 
-	// Check href present, fail for link nodes
+	// Check for missing href, fail for link nodes
 	if !attrPresent(node.Attr, "href") {
 		switch node.Data {
 		case "a":
-			issues.AddIssue(issues.Issue{
+			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.DEBUG,
 				Message:   "anchor without href",
 				Reference: ref,
 			})
 			return
 		case "link":
-			issues.AddIssue(issues.Issue{
+			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.ERROR,
 				Message:   "link tag missing href",
 				Reference: ref,
@@ -50,7 +50,7 @@ func CheckLink(document *htmldoc.Document, node *html.Node) {
 
 	// Blank href
 	if attrs["href"] == "" {
-		issues.AddIssue(issues.Issue{
+		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.ERROR,
 			Message:   "href blank",
 			Reference: ref,
@@ -60,7 +60,7 @@ func CheckLink(document *htmldoc.Document, node *html.Node) {
 
 	// href="#"
 	if attrs["href"] == "#" {
-		issues.AddIssue(issues.Issue{
+		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.ERROR,
 			Message:   "empty hash",
 			Reference: ref,
@@ -71,22 +71,22 @@ func CheckLink(document *htmldoc.Document, node *html.Node) {
 	// Route reference check
 	switch ref.Scheme() {
 	case "http":
-		if Opts.EnforceHTTPS {
-			issues.AddIssue(issues.Issue{
+		if hT.opts.EnforceHTTPS {
+			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.ERROR,
 				Message:   "is not an HTTPS target",
 				Reference: ref,
 			})
 		}
-		CheckExternal(ref)
+		hT.checkExternal(ref)
 	case "https":
-		CheckExternal(ref)
+		hT.checkExternal(ref)
 	case "file":
-		CheckInternal(ref)
+		hT.checkInternal(ref)
 	case "mailto":
-		CheckMailto(ref)
+		hT.checkMailto(ref)
 	case "tel":
-		CheckTel(ref)
+		hT.checkTel(ref)
 	}
 
 	// TODO: Other schemes
@@ -96,9 +96,9 @@ func CheckLink(document *htmldoc.Document, node *html.Node) {
 
 }
 
-func CheckExternal(ref *htmldoc.Reference) {
-	if !Opts.CheckExternal {
-		issues.AddIssue(issues.Issue{
+func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
+	if !hT.opts.CheckExternal {
+		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.DEBUG,
 			Message:   "skipping",
 			Reference: ref,
@@ -107,7 +107,8 @@ func CheckExternal(ref *htmldoc.Reference) {
 	}
 
 	urlStr := ref.URLString()
-	if Opts.StripQueryString && !InList(Opts.StripQueryExcludes, urlStr) {
+
+	if hT.opts.StripQueryString && !InList(hT.opts.StripQueryExcludes, urlStr) {
 		urlStr = htmldoc.URLStripQueryString(urlStr)
 	}
 	var statusCode int
@@ -121,11 +122,11 @@ func CheckExternal(ref *htmldoc.Reference) {
 			Method: "GET",
 			URL:    urlUrl,
 			Header: map[string][]string{
-				"Range": {"bytes=0-63"}, // If server supports prevents body being sent
+				"Range": {"bytes=0-0"}, // If server supports prevents body being sent
 			},
 		}
 		_ = req
-		resp, err := httpClient.Do(req)
+		resp, err := hT.httpClient.Do(req)
 		// resp, err := httpClient.Get(urlStr)
 
 		if err != nil {
@@ -134,7 +135,7 @@ func CheckExternal(ref *htmldoc.Reference) {
 				prefix := "Get " + urlStr + ": dial tcp: lookup "
 				cleanedMessage := strings.TrimPrefix(err.Error(), prefix)
 				// Add error
-				issues.AddIssue(issues.Issue{
+				hT.issueStore.AddIssue(issues.Issue{
 					Level:     issues.ERROR,
 					Message:   cleanedMessage,
 					Reference: ref,
@@ -142,7 +143,7 @@ func CheckExternal(ref *htmldoc.Reference) {
 				return
 			}
 			if strings.Contains(err.Error(), "Client.Timeout") {
-				issues.AddIssue(issues.Issue{
+				hT.issueStore.AddIssue(issues.Issue{
 					Level:     issues.ERROR,
 					Message:   "request exceeded our ExternalTimeout",
 					Reference: ref,
@@ -151,7 +152,7 @@ func CheckExternal(ref *htmldoc.Reference) {
 			}
 
 			// Unhandled client error, return generic error
-			issues.AddIssue(issues.Issue{
+			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.ERROR,
 				Message:   err.Error(),
 				Reference: ref,
@@ -162,25 +163,23 @@ func CheckExternal(ref *htmldoc.Reference) {
 		// Save cached result
 		refcache.SetCachedURLStatus(urlStr, resp.StatusCode)
 		statusCode = resp.StatusCode
-		// if statusCode == 200 { log.Println(urlStr) }
 	}
 
 	switch statusCode {
-	case http.StatusOK: //, http.StatusPartialContent:
-		issues.AddIssue(issues.Issue{
+	case http.StatusOK:
+		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.DEBUG,
 			Message:   http.StatusText(statusCode),
 			Reference: ref,
 		})
 	case http.StatusPartialContent:
-		issues.AddIssue(issues.Issue{
+		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.DEBUG,
 			Message:   http.StatusText(statusCode),
 			Reference: ref,
 		})
 	default:
-		// log.Println(urlStr)
-		issues.AddIssue(issues.Issue{
+		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.ERROR,
 			Message:   http.StatusText(statusCode),
 			Reference: ref,
@@ -188,29 +187,26 @@ func CheckExternal(ref *htmldoc.Reference) {
 	}
 
 	// TODO check a hash id exists in external page if present in reference (URL.Fragment)
-
 }
 
-func CheckInternal(ref *htmldoc.Reference) {
-	if !Opts.CheckInternal {
-		issues.AddIssue(issues.Issue{
+func (hT *HtmlTest) checkInternal(ref *htmldoc.Reference) {
+	if !hT.opts.CheckInternal {
+		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.DEBUG,
 			Message:   "skipping",
 			Reference: ref,
 		})
 		return
 	}
-	// log.Println("CheckInternal", ref.Document.Path, htmldoc.AbsolutePath(ref))
-
-	CheckFile(ref, ref.AbsolutePath())
+	// Resolve a filesystem path for reference
+	refOsPath := path.Join(hT.opts.DirectoryPath, ref.AbsolutePath())
+	hT.checkFile(ref, refOsPath)
 }
 
-func CheckFile(ref *htmldoc.Reference, fPath string) {
-	// fPath should be relative to site root
-	checkPath := path.Join(Opts.DirectoryPath, fPath)
-	f, err := os.Stat(checkPath)
+func (hT *HtmlTest) checkFile(ref *htmldoc.Reference, absPath string) {
+	f, err := os.Stat(absPath)
 	if os.IsNotExist(err) {
-		issues.AddIssue(issues.Issue{
+		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.ERROR,
 			Message:   "target does not exist",
 			Reference: ref,
@@ -221,7 +217,7 @@ func CheckFile(ref *htmldoc.Reference, fPath string) {
 
 	if f.IsDir() {
 		if !strings.HasSuffix(ref.Path, "/") {
-			issues.AddIssue(issues.Issue{
+			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.ERROR,
 				Message:   "target is a directory, href lacks trailing slash",
 				Reference: ref,
@@ -229,22 +225,22 @@ func CheckFile(ref *htmldoc.Reference, fPath string) {
 			return
 		}
 
-		issues.AddIssue(issues.Issue{
+		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.DEBUG,
 			Message:   "target is a directory",
 			Reference: ref,
 		})
-		CheckFile(ref, path.Join(fPath, Opts.DirectoryIndex))
+		hT.checkFile(ref, path.Join(absPath, hT.opts.DirectoryIndex))
 		return
 	}
 }
 
-func CheckMailto(ref *htmldoc.Reference) {
-	if !Opts.CheckMailto {
+func (hT *HtmlTest) checkMailto(ref *htmldoc.Reference) {
+	if !hT.opts.CheckMailto {
 		return
 	}
 	if len(ref.URL.Opaque) == 0 {
-		issues.AddIssue(issues.Issue{
+		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.ERROR,
 			Message:   "mailto is empty",
 			Reference: ref,
@@ -252,7 +248,7 @@ func CheckMailto(ref *htmldoc.Reference) {
 		return
 	}
 	if !strings.Contains(ref.URL.Opaque, "@") {
-		issues.AddIssue(issues.Issue{
+		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.ERROR,
 			Message:   "contains an invalid email address",
 			Reference: ref,
@@ -261,12 +257,12 @@ func CheckMailto(ref *htmldoc.Reference) {
 	}
 }
 
-func CheckTel(ref *htmldoc.Reference) {
-	if !Opts.CheckTel {
+func (hT *HtmlTest) checkTel(ref *htmldoc.Reference) {
+	if !hT.opts.CheckTel {
 		return
 	}
 	if len(ref.URL.Opaque) == 0 {
-		issues.AddIssue(issues.Issue{
+		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.ERROR,
 			Message:   "tel is empty",
 			Reference: ref,

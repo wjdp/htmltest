@@ -1,6 +1,9 @@
 package htmltest
 
-import "testing"
+import (
+	"github.com/daviddengcn/go-assert"
+	"testing"
+)
 
 func TestDefaultOptions(t *testing.T) {
 	// Check DefaultOptions is returning something useful
@@ -16,17 +19,19 @@ func TestSetOptions(t *testing.T) {
 	userOpts := map[string]interface{}{
 		"CheckExternal": false,
 		"LogLevel":      1337,
+		"NoRun":         true,
 	}
-	SetOptions(userOpts)
-	t_assertEqual(t, Opts.CheckExternal, false)
-	t_assertEqual(t, Opts.LogLevel, 1337)
-	t_assertEqual(t, Opts.ExternalTimeout, defaults["ExternalTimeout"])
+	hT := Test(userOpts)
+	assert.Equals(t, "hT.opts.CheckExternal", hT.opts.CheckExternal, false)
+	assert.Equals(t, "hT.opts.LogLevel", hT.opts.LogLevel, 1337)
+	assert.Equals(t, "hT.opts.ExternalTimeout", hT.opts.ExternalTimeout,
+		defaults["ExternalTimeout"])
 }
 
 func TestInList(t *testing.T) {
 	lst := []string{"alpha", "bravo", "charlie"}
-	t_assertEqual(t, InList(lst, "alpha"), true)
-	t_assertEqual(t, InList(lst, "bravo"), true)
-	t_assertEqual(t, InList(lst, "charlie"), true)
-	t_assertEqual(t, InList(lst, "delta"), false)
+	assert.Equals(t, "alpha in lst", InList(lst, "alpha"), true)
+	assert.Equals(t, "bravo in lst", InList(lst, "bravo"), true)
+	assert.Equals(t, "charlie in lst", InList(lst, "charlie"), true)
+	assert.Equals(t, "delta in lst", InList(lst, "delta"), false)
 }

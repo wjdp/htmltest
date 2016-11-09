@@ -6,56 +6,75 @@ import (
 	"golang.org/x/net/html"
 	"log"
 	"net/http"
-	"os"
 	"path"
 	"sync"
 	"time"
 )
 
-var httpClient *http.Client
+type HtmlTest struct {
+	opts       Options
+	httpClient *http.Client
+	documents  []htmldoc.Document
+	issueStore issues.IssueStore
+}
 
-func setup() {
-	issues.LogLevel = Opts.LogLevel
+type HtmlTester interface {
+	Test()
+
+	setOptions(map[string]interface{})
+	testDocuments()
+	parseNode()
+
+	checkLink(document *htmldoc.Document, node *html.Node)
+	checkImg(document *htmldoc.Document, node *html.Node)
+	checkScript(document *htmldoc.Document, node *html.Node)
+
+	checkExternal(node *html.Node)
+	checkInternal(node *html.Node)
+	checkFile(node *html.Node, fPath string)
+	checkMailto(node *html.Node)
+	checkTel(node *html.Node)
+}
+
+func Test(optsUser map[string]interface{}) *HtmlTest {
+	hT := HtmlTest{}
+
+	// Merge user options with defaults and set hT.opts
+	hT.setOptions(optsUser)
+
+	// Create issue store and set LogLevel
+	hT.issueStore = issues.NewIssueStore(hT.opts.LogLevel)
+
 	transport := &http.Transport{
 		TLSNextProto: nil, // Disable HTTP/2, "write on closed buffer" errors
 	}
-	httpClient = &http.Client{
+	hT.httpClient = &http.Client{
 		// Durations are in nanoseconds
 		Transport: transport,
-		Timeout:   time.Duration(Opts.ExternalTimeout * 1000000000),
+		Timeout:   time.Duration(hT.opts.ExternalTimeout * 1000000000),
 	}
-}
 
-func Test(optsUser map[string]interface{}) {
-	SetOptions(optsUser)
-	setup() // Setup objects requiring options
-	issues.InitIssueStore()
+	if hT.opts.NoRun {
+		return &hT
+	}
 
-	if Opts.FilePath != "" {
+	if hT.opts.FilePath != "" {
+		// Single document mode
 		doc := htmldoc.Document{
-			// Directory: Opts.DirectoryPath,
-			Path: Opts.FilePath,
+			FilePath: path.Join(hT.opts.DirectoryPath, hT.opts.FilePath),
+			SitePath: hT.opts.FilePath,
 		}
-		TestFile(&doc)
-	} else if Opts.DirectoryPath != "" {
-		TestDirectory(Opts)
+		hT.documents = []htmldoc.Document{doc}
+	} else if hT.opts.DirectoryPath != "" {
+		// Directory mode
+		hT.documents = htmldoc.DocumentsFromDir(hT.opts.DirectoryPath)
 	} else {
 		log.Fatal("Neither file or directory path provided")
 	}
-}
 
-func makePath(p string) string {
-	return path.Join(Opts.DirectoryPath, p)
-}
+	hT.testDocuments()
 
-func TestDirectory(opts Options) {
-	log.Printf("htmltest started on %s", Opts.DirectoryPath)
-
-	files := RecurseDirectory("")
-	TestFiles(files)
-	// issues.OutputIssues()
-
-	log.Printf("%d files checked", len(files))
+	return &hT
 }
 
 func checkErr(err error) {
@@ -64,53 +83,37 @@ func checkErr(err error) {
 	}
 }
 
-func TestFiles(documents []htmldoc.Document) {
-	if Opts.TestFilesConcurrently {
+func (hT *HtmlTest) testDocuments() {
+	if hT.opts.TestFilesConcurrently {
 		var wg sync.WaitGroup
-		for _, document := range documents {
+		for _, document := range hT.documents {
 			wg.Add(1)
 			go func(document htmldoc.Document) {
 				defer wg.Done()
-				TestFile(&document)
+				document.Parse()
+				hT.parseNode(&document, document.HTMLNode)
 			}(document)
 		}
 		wg.Wait()
 	} else {
-		for _, document := range documents {
-			TestFile(&document)
+		for _, document := range hT.documents {
+			document.Parse()
+			hT.parseNode(&document, document.HTMLNode)
 		}
 	}
 }
 
-func TestFile(document *htmldoc.Document) {
-	// log.Println("testFile", document.Path)
-	f, err := os.Open(makePath(document.Path))
-	checkErr(err)
-	defer f.Close()
-
-	document.File = f
-
-	parseHtml(document)
-}
-
-func parseHtml(document *htmldoc.Document) {
-	doc, err := html.Parse(document.File)
-	checkErr(err)
-	document.HTMLNode = doc
-	parseNode(document, document.HTMLNode)
-}
-
-func parseNode(document *htmldoc.Document, n *html.Node) {
+func (hT *HtmlTest) parseNode(document *htmldoc.Document, n *html.Node) {
 	if n.Type == html.ElementNode {
 		switch n.Data {
 		case "a":
-			CheckLink(document, n)
+			hT.checkLink(document, n)
 		case "img":
-			CheckImg(document, n)
+			hT.checkImg(document, n)
 		case "link":
-			CheckLink(document, n)
+			hT.checkLink(document, n)
 		case "script":
-			CheckScript(document, n)
+			hT.checkScript(document, n)
 		case "pre":
 			return // Everything within a pre is not to be interpreted
 		case "code":
@@ -119,6 +122,6 @@ func parseNode(document *htmldoc.Document, n *html.Node) {
 	}
 	// Iterate over children
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		parseNode(document, c)
+		hT.parseNode(document, c)
 	}
 }
