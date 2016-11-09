@@ -2,7 +2,6 @@ package htmldoc
 
 import (
 	"golang.org/x/net/html"
-	"log"
 	"os"
 	"path"
 )
@@ -68,8 +67,13 @@ func recurseDir(basePath string, dPath string) []Document {
 				})
 			}
 		}
-	} else { // It's a file, fall over
-		log.Fatalf("%s isn't a directory", dPath)
+	} else { // It's a file, return single file
+		filePath := path.Join(basePath, dPath)
+		documents = append(documents, Document{
+			FilePath:  filePath,
+			SitePath:  path.Base(filePath),
+			Directory: dPath,
+		})
 	}
 
 	return documents

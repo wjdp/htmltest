@@ -16,11 +16,16 @@ type Reference struct {
 }
 
 func NewReference(document *Document, node *html.Node, path string) *Reference {
+	// Clean path
+	path = strings.TrimLeftFunc(path, invalidPrePostRune)
+	path = strings.TrimRightFunc(path, invalidPrePostRune)
+	// Create ref
 	ref := Reference{
 		Document: document,
 		Node:     node,
 		Path:     path,
 	}
+	// Parse and store parsed URL
 	u, err := url.Parse(path)
 	if err != nil {
 		log.Fatal(err)

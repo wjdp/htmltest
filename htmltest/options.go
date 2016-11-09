@@ -19,8 +19,11 @@ type Options struct {
 
 	IgnoreAlt bool
 
-	TestFilesConcurrently bool
-	LogLevel              int
+	TestFilesConcurrently    bool
+	DocumentConcurrencyLimit int
+	HTTPConcurrencyLimit     int
+
+	LogLevel int
 
 	DirectoryIndex string
 
@@ -43,8 +46,11 @@ func DefaultOptions() map[string]interface{} {
 
 		"IgnoreAlt": false,
 
-		"TestFilesConcurrently": false,
-		"LogLevel":              issues.INFO,
+		"TestFilesConcurrently":    false,
+		"DocumentConcurrencyLimit": 128,
+		"HTTPConcurrencyLimit":     4,
+
+		"LogLevel": issues.INFO,
 
 		"DirectoryIndex": "index.html",
 

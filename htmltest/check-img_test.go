@@ -105,6 +105,12 @@ func TestSrcEmpty(t *testing.T) {
 	t_expectIssue(t, hT, "src attribute empty", 1)
 }
 
+func TestSrcLineBreaks(t *testing.T) {
+	// deals with linebreaks in src
+	hT := t_testFile("fixtures/images/lineBreaks.html")
+	t_expectIssueCount(t, hT, 0)
+}
+
 // TODO empty src
 
 func TestSrcIgnored(t *testing.T) {

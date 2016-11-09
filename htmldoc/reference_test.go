@@ -28,7 +28,9 @@ func TestReferenceScheme(t *testing.T) {
 	assert.Equals(t, "http reference", ref.Scheme(), "http")
 	ref = NewReference(&doc, nodeElem, "https://test.com")
 	assert.Equals(t, "https reference", ref.Scheme(), "https")
-
+	ref = NewReference(&doc, nodeElem,
+		"https://photos.smugmug.com/photos/i-CNHsHLM/0/440x622/i-CNHsHLM-440x622.jpg")
+	assert.Equals(t, "http reference", ref.Scheme(), "https")
 	ref = NewReference(&doc, nodeElem, "x?a=1#3")
 	assert.Equals(t, "file reference", ref.Scheme(), "file")
 	ref = NewReference(&doc, nodeElem, "#123")
@@ -39,6 +41,10 @@ func TestReferenceScheme(t *testing.T) {
 	assert.Equals(t, "tel reference", ref.Scheme(), "tel")
 	ref = NewReference(&doc, nodeElem, "abc:123")
 	assert.Equals(t, "unknown reference", ref.Scheme(), "")
+
+	// Grubby url
+	ref = NewReference(&doc, nodeElem, "\n http://foo")
+	assert.Equals(t, "unknown reference", ref.Scheme(), "http")
 }
 
 func TestReferenceURLString(t *testing.T) {

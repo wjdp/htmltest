@@ -12,28 +12,11 @@ import (
 )
 
 type HtmlTest struct {
-	opts       Options
-	httpClient *http.Client
-	documents  []htmldoc.Document
-	issueStore issues.IssueStore
-}
-
-type HtmlTester interface {
-	Test()
-
-	setOptions(map[string]interface{})
-	testDocuments()
-	parseNode()
-
-	checkLink(document *htmldoc.Document, node *html.Node)
-	checkImg(document *htmldoc.Document, node *html.Node)
-	checkScript(document *htmldoc.Document, node *html.Node)
-
-	checkExternal(node *html.Node)
-	checkInternal(node *html.Node)
-	checkFile(node *html.Node, fPath string)
-	checkMailto(node *html.Node)
-	checkTel(node *html.Node)
+	opts        Options
+	httpClient  *http.Client
+	httpChannel chan bool
+	documents   []htmldoc.Document
+	issueStore  issues.IssueStore
 }
 
 func Test(optsUser map[string]interface{}) *HtmlTest {
@@ -53,6 +36,9 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 		Transport: transport,
 		Timeout:   time.Duration(hT.opts.ExternalTimeout * 1000000000),
 	}
+
+	// Make buffered channel to act as concurrency limiter
+	hT.httpChannel = make(chan bool, 1)
 
 	if hT.opts.NoRun {
 		return &hT
@@ -77,21 +63,19 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 	return &hT
 }
 
-func checkErr(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
 func (hT *HtmlTest) testDocuments() {
 	if hT.opts.TestFilesConcurrently {
 		var wg sync.WaitGroup
+		// Make buffered channel to act as concurrency limiter
+		var concChannel = make(chan bool, hT.opts.DocumentConcurrencyLimit)
 		for _, document := range hT.documents {
 			wg.Add(1)
+			concChannel <- true // Add to concurrency limiter
 			go func(document htmldoc.Document) {
 				defer wg.Done()
 				document.Parse()
 				hT.parseNode(&document, document.HTMLNode)
+				<-concChannel // Bump off concurrency limiter
 			}(document)
 		}
 		wg.Wait()

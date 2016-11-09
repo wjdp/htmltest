@@ -1,6 +1,7 @@
 package htmltest
 
 import (
+	"fmt"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/refcache"
@@ -125,9 +126,11 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 				"Range": {"bytes=0-0"}, // If server supports prevents body being sent
 			},
 		}
-		_ = req
+
+		hT.httpChannel <- true // Add to http concurrency limiter
 		resp, err := hT.httpClient.Do(req)
-		// resp, err := httpClient.Get(urlStr)
+		x := <-hT.httpChannel // Bump off http concurrency limiter
+		fmt.Println(x)
 
 		if err != nil {
 			if strings.Contains(err.Error(), "dial tcp") {
