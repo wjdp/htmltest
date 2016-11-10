@@ -17,7 +17,9 @@ type Options struct {
 
 	EnforceHTTPS bool
 
-	IgnoreAlt  bool
+	IgnoreAlt                           bool
+	IgnoreDirectoryMissingTrailingSlash bool
+
 	IgnoreURLs []string
 	IgnoreDirs []string
 
@@ -51,7 +53,9 @@ func DefaultOptions() map[string]interface{} {
 
 		"EnforceHTTPS": false,
 
-		"IgnoreAlt":  false,
+		"IgnoreAlt":                           false,
+		"IgnoreDirectoryMissingTrailingSlash": false,
+
 		"IgnoreURLs": []string{"photos.smugmug.com", "photos.newtheatre.org.uk"},
 		"IgnoreDirs": []string{"lib"},
 
