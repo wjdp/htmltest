@@ -13,14 +13,15 @@ import (
 )
 
 func (hT *HtmlTest) checkLink(document *htmldoc.Document, node *html.Node) {
-	attrs := extractAttrs(node.Attr, []string{"href", "rel", "data-proofer-ignore"})
+	attrs := extractAttrs(node.Attr,
+		[]string{"href", "rel", hT.opts.IgnoreTagAttribute})
 
 	// Do not check canonical links
 	if attrs["rel"] == "canonical" {
 		return
 	}
 	// Ignore if data-proofer-ignore set
-	if attrPresent(node.Attr, "data-proofer-ignore") {
+	if attrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
 		return
 	}
 

@@ -149,7 +149,7 @@ func TestSrcSetMissingAlt(t *testing.T) {
 func TestSrcSetMissingAltIgnore(t *testing.T) {
 	// ignores missing alt tags when asked for srcset
 	hT := t_testFileOpts("fixtures/images/srcSetIgnorable.html",
-		map[string]interface{}{"IgnoreAlt": true})
+		map[string]interface{}{"IgnoreAltMissing": true})
 	t_expectIssueCount(t, hT, 0)
 }
 
@@ -177,14 +177,7 @@ func TestAltSpaces(t *testing.T) {
 func TestAltIgnoreMissing(t *testing.T) {
 	// ignores missing alt tags when asked
 	hT := t_testFileOpts("fixtures/images/ignorableAltViaOptions.html",
-		map[string]interface{}{"IgnoreAlt": true})
-	t_expectIssueCount(t, hT, 0)
-}
-
-func TestAltIgnoreEmpty(t *testing.T) {
-	// ignores missing alt attribute when asked
-	hT := t_testFileOpts("fixtures/images/missingImageAlt.html",
-		map[string]interface{}{"IgnoreAlt": true})
+		map[string]interface{}{"IgnoreAltMissing": true})
 	t_expectIssueCount(t, hT, 0)
 }
 

@@ -8,10 +8,11 @@ import (
 )
 
 func (hT *HtmlTest) checkImg(document *htmldoc.Document, node *html.Node) {
-	attrs := extractAttrs(node.Attr, []string{"src", "alt", "data-proofer-ignore"})
+	attrs := extractAttrs(node.Attr,
+		[]string{"src", "alt", hT.opts.IgnoreTagAttribute})
 
 	// Ignore if data-proofer-ignore set
-	if attrPresent(node.Attr, "data-proofer-ignore") {
+	if attrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
 		return
 	}
 
@@ -19,26 +20,30 @@ func (hT *HtmlTest) checkImg(document *htmldoc.Document, node *html.Node) {
 	ref := htmldoc.NewReference(document, node, attrs["src"])
 
 	// Check alt present, fail if absent unless asked to ignore
-	if !attrPresent(node.Attr, "alt") && !hT.opts.IgnoreAlt {
+	if !attrPresent(node.Attr, "alt") && !hT.opts.IgnoreAltMissing {
 		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.ERROR,
 			Message:   "alt attribute missing",
 			Reference: ref,
 		})
-	} else if len(attrs["alt"]) == 0 && !hT.opts.IgnoreAlt {
-		// Check alt has length, fail if empty unless asked to ignore
-		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
-			Message:   "alt text empty",
-			Reference: ref,
-		})
-	} else if b, _ := regexp.MatchString("^\\s+$", attrs["alt"]); b {
-		// Check alt is not just whitespace
-		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
-			Message:   "alt text contains only whitespace",
-			Reference: ref,
-		})
+	} else if attrPresent(node.Attr, "alt") {
+		// Following checks require alt attr is present
+		if len(attrs["alt"]) == 0 {
+			// Check alt has length, fail if empty
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.ERROR,
+				Message:   "alt text empty",
+				Reference: ref,
+			})
+		}
+		if b, _ := regexp.MatchString("^\\s+$", attrs["alt"]); b {
+			// Check alt is not just whitespace
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.ERROR,
+				Message:   "alt text contains only whitespace",
+				Reference: ref,
+			})
+		}
 	}
 
 	// Check src present, fail if absent

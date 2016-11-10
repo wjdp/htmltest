@@ -34,6 +34,8 @@ func t_testFile(filename string) *HtmlTest {
 		"FilePath":        path.Base(filename),
 		"LogLevel":        t_LogLevel,
 		"ExternalTimeout": t_ExternalTimeout,
+		"EnableCache":     false,
+		"EnableLog":       false,
 	}
 	return Test(opts)
 }
@@ -44,6 +46,8 @@ func t_testFileOpts(filename string, t_opts map[string]interface{}) *HtmlTest {
 		"FilePath":        path.Base(filename),
 		"LogLevel":        t_LogLevel,
 		"ExternalTimeout": t_ExternalTimeout,
+		"EnableCache":     false,
+		"EnableLog":       false,
 	}
 	mergo.MergeWithOverwrite(&opts, t_opts)
 	return Test(opts)
@@ -54,6 +58,8 @@ func t_testDirectory(filename string) *HtmlTest {
 		"DirectoryPath":   filename,
 		"LogLevel":        t_LogLevel,
 		"ExternalTimeout": t_ExternalTimeout,
+		"EnableCache":     false,
+		"EnableLog":       false,
 	}
 	return Test(opts)
 }
@@ -63,6 +69,8 @@ func t_testDirectoryOpts(filename string, t_opts map[string]interface{}) *HtmlTe
 		"DirectoryPath":   filename,
 		"LogLevel":        t_LogLevel,
 		"ExternalTimeout": t_ExternalTimeout,
+		"EnableCache":     false,
+		"EnableLog":       false,
 	}
 	mergo.MergeWithOverwrite(&opts, t_opts)
 	return Test(opts)

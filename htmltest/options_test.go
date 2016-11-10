@@ -35,3 +35,18 @@ func TestInList(t *testing.T) {
 	assert.Equals(t, "charlie in lst", InList(lst, "charlie"), true)
 	assert.Equals(t, "delta in lst", InList(lst, "delta"), false)
 }
+
+func TestIsURLIgnored(t *testing.T) {
+	userOpts := map[string]interface{}{
+		"IgnoreURLs": []interface{}{"google.com", "test.example.com",
+			"library.com", "//\\w+.assetstore.info/lib/"},
+		"NoRun": true,
+	}
+	hT := Test(userOpts)
+	assert.IsTrue(t, "url ignored", hT.opts.IsURLIgnored("https://google.com/?q=1234"))
+	assert.IsTrue(t, "url ignored", hT.opts.IsURLIgnored("https://test.example.com/"))
+	assert.IsTrue(t, "url ignored", hT.opts.IsURLIgnored("https://www.library.com/page"))
+	assert.IsTrue(t, "url ignored", hT.opts.IsURLIgnored("https://cdn.assetstore.info/lib/test.js"))
+	assert.IsFalse(t, "url left alone", hT.opts.IsURLIgnored("https://froogle.com/?q=1234"))
+	assert.IsFalse(t, "url left alone", hT.opts.IsURLIgnored("http://assetstore.info/lib/test.js"))
+}

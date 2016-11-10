@@ -4,7 +4,7 @@ import (
 	"golang.org/x/net/html"
 	"os"
 	"path"
-	"strings"
+	"regexp"
 )
 
 type Document struct {
@@ -87,7 +87,7 @@ func recurseDir(basePath string, ignorePatterns []interface{}, dPath string) []D
 
 func isDirIgnored(ignorePatterns []interface{}, dir string) bool {
 	for _, item := range ignorePatterns {
-		if strings.Contains(dir, item.(string)) {
+		if ok, _ := regexp.MatchString(item.(string), dir+"/"); ok {
 			return true
 		}
 	}

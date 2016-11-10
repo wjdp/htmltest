@@ -3,6 +3,8 @@ package htmltest
 import (
 	"github.com/imdario/mergo"
 	"github.com/wjdp/htmltest/issues"
+	"path"
+	"regexp"
 	"strings"
 )
 
@@ -10,18 +12,23 @@ type Options struct {
 	DirectoryPath string
 	FilePath      string
 
+	CheckAnchors bool
+	CheckLinks   bool
+	CheckImages  bool
+	CheckScripts bool
+
 	CheckExternal bool
 	CheckInternal bool
 	CheckMailto   bool
 	CheckTel      bool
-
-	EnforceHTTPS bool
-
-	IgnoreAlt                           bool
-	IgnoreDirectoryMissingTrailingSlash bool
+	EnforceHTTPS  bool
 
 	IgnoreURLs []interface{}
 	IgnoreDirs []interface{}
+
+	IgnoreAltMissing                    bool
+	IgnoreDirectoryMissingTrailingSlash bool
+	IgnoreTagAttribute                  string
 
 	TestFilesConcurrently    bool
 	DocumentConcurrencyLimit int
@@ -35,43 +42,53 @@ type Options struct {
 	StripQueryString   bool
 	StripQueryExcludes []string
 
+	EnableCache  bool
+	EnableLog    bool
 	ProgDir      string
 	CacheFile    string
 	LogFile      string
 	CacheExpires string // Accepts golang time period strings, hours (16h) is really only useful option
 
+	// --- Internals below here ---
 	NoRun bool // When true does not run tests, used to inspect state in unit tests
 }
 
 func DefaultOptions() map[string]interface{} {
 	// Specify defaults here
 	return map[string]interface{}{
+		"CheckAnchors": true,
+		"CheckLinks":   true,
+		"CheckImages":  true,
+		"CheckScripts": true,
+
 		"CheckExternal": true,
 		"CheckInternal": true,
 		"CheckMailto":   true,
 		"CheckTel":      true,
-
-		"EnforceHTTPS": false,
-
-		"IgnoreAlt":                           false,
-		"IgnoreDirectoryMissingTrailingSlash": false,
+		"EnforceHTTPS":  false,
 
 		"IgnoreURLs": []interface{}{},
 		"IgnoreDirs": []interface{}{},
+
+		"IgnoreAltMissing":                    false,
+		"IgnoreDirectoryMissingTrailingSlash": false,
+		"IgnoreTagAttribute":                  "data-proofer-ignore",
 
 		"TestFilesConcurrently":    false,
 		"DocumentConcurrencyLimit": 128,
 		"HTTPConcurrencyLimit":     4,
 
-		"LogLevel": issues.INFO,
+		"LogLevel": issues.WARNING,
 
 		"DirectoryIndex": "index.html",
 
-		"ExternalTimeout":    3,
+		"ExternalTimeout":    15,
 		"StripQueryString":   true,
 		"StripQueryExcludes": []string{"fonts.googleapis.com"},
 
-		"ProgDir":      ".htmltest",
+		"EnableCache":  true,
+		"EnableLog":    true,
+		"ProgDir":      path.Join("tmp", ".htmltest"),
 		"CacheFile":    "refcache.json",
 		"LogFile":      "htmltest.log",
 		"CacheExpires": "336h",
@@ -100,7 +117,7 @@ func InList(list []string, key string) bool {
 
 func (opts *Options) IsURLIgnored(url string) bool {
 	for _, item := range opts.IgnoreURLs {
-		if strings.Contains(url, item.(string)) {
+		if ok, _ := regexp.MatchString(item.(string), url); ok {
 			return true
 		}
 	}

@@ -51,7 +51,7 @@ func (rS *RefCache) ReadStore(storePath string) bool {
 
 func (rS *RefCache) WriteStore(storePath string) {
 	// Write out RefCache
-	os.Mkdir(path.Dir(storePath), 0777)
+	os.MkdirAll(path.Dir(storePath), 0777)
 	f, err := os.Create(storePath)
 	if err != nil {
 		panic(err)

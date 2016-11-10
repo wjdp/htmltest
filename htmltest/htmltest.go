@@ -42,8 +42,11 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 	hT.httpChannel = make(chan bool, 1)
 
 	// Setup refcache
-	hT.refCache = refcache.NewRefCache(
-		path.Join(hT.opts.ProgDir, hT.opts.CacheFile), hT.opts.CacheExpires)
+	cachePath := ""
+	if hT.opts.EnableCache {
+		cachePath = "path.Join(hT.opts.ProgDir, hT.opts.CacheFile)"
+	}
+	hT.refCache = refcache.NewRefCache(cachePath, hT.opts.CacheExpires)
 
 	if hT.opts.NoRun {
 		return &hT
@@ -66,8 +69,12 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 
 	hT.testDocuments()
 
-	hT.refCache.WriteStore(path.Join(hT.opts.ProgDir, hT.opts.CacheFile))
-	hT.issueStore.WriteLog(path.Join(hT.opts.ProgDir, hT.opts.LogFile))
+	if hT.opts.EnableCache {
+		hT.refCache.WriteStore(path.Join(hT.opts.ProgDir, hT.opts.CacheFile))
+	}
+	if hT.opts.EnableLog {
+		hT.issueStore.WriteLog(path.Join(hT.opts.ProgDir, hT.opts.LogFile))
+	}
 
 	return &hT
 }
@@ -100,13 +107,21 @@ func (hT *HtmlTest) parseNode(document *htmldoc.Document, n *html.Node) {
 	if n.Type == html.ElementNode {
 		switch n.Data {
 		case "a":
-			hT.checkLink(document, n)
-		case "img":
-			hT.checkImg(document, n)
+			if hT.opts.CheckAnchors {
+				hT.checkLink(document, n)
+			}
 		case "link":
-			hT.checkLink(document, n)
+			if hT.opts.CheckLinks {
+				hT.checkLink(document, n)
+			}
+		case "img":
+			if hT.opts.CheckImages {
+				hT.checkImg(document, n)
+			}
 		case "script":
-			hT.checkScript(document, n)
+			if hT.opts.CheckScripts {
+				hT.checkScript(document, n)
+			}
 		case "pre":
 			return // Everything within a pre is not to be interpreted
 		case "code":

@@ -7,10 +7,11 @@ import (
 )
 
 func (hT *HtmlTest) checkScript(document *htmldoc.Document, node *html.Node) {
-	attrs := extractAttrs(node.Attr, []string{"src", "data-proofer-ignore"})
+	attrs := extractAttrs(node.Attr,
+		[]string{"src", hT.opts.IgnoreTagAttribute})
 
 	// Ignore if data-proofer-ignore set
-	if attrPresent(node.Attr, "data-proofer-ignore") {
+	if attrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
 		return
 	}
 

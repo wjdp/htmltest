@@ -84,7 +84,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `FilePath` | File to scan, omit if using `DirectoryPath`. | |
 | `CheckAnchors` | Enables checking `<a…` tags. | `true` |
 | `CheckLinks` | Enables checking `<link…` tags. | `true` |
-| `CheckImg` | Enables checking `<img…` tags | `true` |
+| `CheckImages` | Enables checking `<img…` tags | `true` |
 | `CheckScripts` | Enables checking `<script…` tags. | `true` |
 | `CheckExternal` | Enables external reference checking; all tag types. | `true` |
 | `CheckInternal` | Enables internal reference checking; all tag types. | `true` |
@@ -93,7 +93,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `EnforceHTTPS` | Fails when encountering an `http://` link. Useful to prevent mixed content errors when serving over HTTPS. | `false` |
 | `IgnoreURLs` | Array of strings or regexs of URLs to ignore. | empty |
 | `IgnoreDirs` | Array of strings or regexs of directories to ignore when scanning for HTML files. | empty |
-| `IgnoreMissingAlt` | Turns off image alt attribute checking. | `false` |
+| `IgnoreAltMissing` | Turns off image alt attribute checking. | `false` |
 | `IgnoreDirectoryMissingTrailingSlash` | Turns off errors for links to directories without a trailing slash. | `false` |
 | `IgnoreTagAttribute` | Specify the ignore attribute. All tags with this attribute will be excluded from every check. | `"data-proofer-ignore"` |
 | `TestFilesConcurrently` | :warning: :construction: *EXPERIMENTAL* Turns on concurrent checking of files. | `false` |
