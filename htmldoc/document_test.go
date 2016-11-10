@@ -17,7 +17,7 @@ func TestDocumentParse(t *testing.T) {
 
 func TestDocumentsFromDir(t *testing.T) {
 	// it creates Document struts from an os directory
-	docs := DocumentsFromDir("fixtures/documents")
+	docs := DocumentsFromDir("fixtures/documents", []string{})
 	// Fixtures dir has seven documents in various folders
 	assert.Equals(t, "document count", len(docs), 7)
 }

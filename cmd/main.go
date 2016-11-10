@@ -19,17 +19,18 @@ func main() {
            https://github.com/wjdp/htmltest
 
 Usage:
-  htmltest [--log-level=LEVEL] [<path>]
+  htmltest
+  htmltest [--log-level=LEVEL] <path>
   htmltest --conf=CFILE
   htmltest --version
   htmltest -h --help
 
 Options:
-  <path>              Path to directory or file to test, omit for current
-                      directory.
-  -h --help           Show this text.
+  <path>              Path to directory or file to test, if omitted:
+                      htmlproofer --conf=.htmltest.yml
   --log-level=LEVEL   Logging level, 0-3: debug, info, warning, error.
-  --conf=CFILE        Use a YAML configuration file for advanced options.`
+  --conf=CFILE        Custom path to config file.
+  -h --help           Show this text.`
 	versionText := "htmlproofer " + VERSION
 	arguments, _ := docopt.Parse(usage, nil, true, versionText, false)
 	// fmt.Println(arguments)
@@ -37,8 +38,10 @@ Options:
 	var options map[string]interface{}
 	if arguments["--conf"] != nil {
 		options = parseConfFile(arguments["--conf"].(string))
-	} else {
+	} else if arguments["<path>"] != nil {
 		options = parseCLIArgs(arguments)
+	} else {
+		options = parseConfFile(".htmltest.yml")
 	}
 
 	exitCode := run(options)
