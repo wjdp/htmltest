@@ -58,7 +58,8 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 		hT.documents = []htmldoc.Document{doc}
 	} else if hT.opts.DirectoryPath != "" {
 		// Directory mode
-		hT.documents = htmldoc.DocumentsFromDir(hT.opts.DirectoryPath, hT.opts.IgnoreDirs)
+		hT.documents = htmldoc.DocumentsFromDir(
+			hT.opts.DirectoryPath, hT.opts.IgnoreDirs)
 	} else {
 		panic("Neither file or directory path provided")
 	}

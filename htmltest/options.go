@@ -20,8 +20,8 @@ type Options struct {
 	IgnoreAlt                           bool
 	IgnoreDirectoryMissingTrailingSlash bool
 
-	IgnoreURLs []string
-	IgnoreDirs []string
+	IgnoreURLs []interface{}
+	IgnoreDirs []interface{}
 
 	TestFilesConcurrently    bool
 	DocumentConcurrencyLimit int
@@ -56,8 +56,8 @@ func DefaultOptions() map[string]interface{} {
 		"IgnoreAlt":                           false,
 		"IgnoreDirectoryMissingTrailingSlash": false,
 
-		"IgnoreURLs": []string{"photos.smugmug.com", "photos.newtheatre.org.uk"},
-		"IgnoreDirs": []string{"lib"},
+		"IgnoreURLs": []interface{}{},
+		"IgnoreDirs": []interface{}{},
 
 		"TestFilesConcurrently":    false,
 		"DocumentConcurrencyLimit": 128,
@@ -100,7 +100,7 @@ func InList(list []string, key string) bool {
 
 func (opts *Options) IsURLIgnored(url string) bool {
 	for _, item := range opts.IgnoreURLs {
-		if strings.Contains(url, item) {
+		if strings.Contains(url, item.(string)) {
 			return true
 		}
 	}

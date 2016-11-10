@@ -26,12 +26,12 @@ func (doc *Document) Parse() {
 	doc.HTMLNode = htmlNode
 }
 
-func DocumentsFromDir(path string, ignorePatterns []string) []Document {
+func DocumentsFromDir(path string, ignorePatterns []interface{}) []Document {
 	// Nice proxy for recurseDir
 	return recurseDir(path, ignorePatterns, "")
 }
 
-func recurseDir(basePath string, ignorePatterns []string, dPath string) []Document {
+func recurseDir(basePath string, ignorePatterns []interface{}, dPath string) []Document {
 	// Recursive function that returns all Document struts in a given
 	// os directory.
 	// basePath: the directory to scan
@@ -85,9 +85,9 @@ func recurseDir(basePath string, ignorePatterns []string, dPath string) []Docume
 	return documents
 }
 
-func isDirIgnored(ignorePatterns []string, dir string) bool {
+func isDirIgnored(ignorePatterns []interface{}, dir string) bool {
 	for _, item := range ignorePatterns {
-		if strings.Contains(dir, item) {
+		if strings.Contains(dir, item.(string)) {
 			return true
 		}
 	}
