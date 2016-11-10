@@ -107,6 +107,11 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 
 	urlStr := ref.URLString()
 
+	// Does this url match an url ignore rule?
+	if hT.opts.IsURLIgnored(urlStr) {
+		return
+	}
+
 	if hT.opts.StripQueryString && !InList(hT.opts.StripQueryExcludes, urlStr) {
 		urlStr = htmldoc.URLStripQueryString(urlStr)
 	}
@@ -133,6 +138,13 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 		}
 
 		hT.httpChannel <- true // Add to http concurrency limiter
+
+		hT.issueStore.AddIssue(issues.Issue{
+			Level:     issues.INFO,
+			Message:   "hitting",
+			Reference: ref,
+		})
+
 		resp, err := hT.httpClient.Do(req)
 		<-hT.httpChannel // Bump off http concurrency limiter
 
@@ -175,13 +187,13 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 	switch statusCode {
 	case http.StatusOK:
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.INFO,
+			Level:     issues.DEBUG,
 			Message:   http.StatusText(statusCode),
 			Reference: ref,
 		})
 	case http.StatusPartialContent:
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.INFO,
+			Level:     issues.DEBUG,
 			Message:   http.StatusText(statusCode),
 			Reference: ref,
 		})
@@ -223,7 +235,7 @@ func (hT *HtmlTest) checkFile(ref *htmldoc.Reference, absPath string) {
 	checkErr(err) // Crash on other errors
 
 	if f.IsDir() {
-		if !strings.HasSuffix(ref.Path, "/") {
+		if !strings.HasSuffix(ref.URL.Path, "/") {
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.ERROR,
 				Message:   "target is a directory, href lacks trailing slash",

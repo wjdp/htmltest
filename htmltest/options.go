@@ -17,7 +17,9 @@ type Options struct {
 
 	EnforceHTTPS bool
 
-	IgnoreAlt bool
+	IgnoreAlt  bool
+	IgnoreURLs []string
+	IgnoreDirs []string
 
 	TestFilesConcurrently    bool
 	DocumentConcurrencyLimit int
@@ -31,8 +33,9 @@ type Options struct {
 	StripQueryString   bool
 	StripQueryExcludes []string
 
-	CacheDir     string
+	ProgDir      string
 	CacheFile    string
+	LogFile      string
 	CacheExpires string // Accepts golang time period strings, hours (16h) is really only useful option
 
 	NoRun bool // When true does not run tests, used to inspect state in unit tests
@@ -48,13 +51,15 @@ func DefaultOptions() map[string]interface{} {
 
 		"EnforceHTTPS": false,
 
-		"IgnoreAlt": false,
+		"IgnoreAlt":  false,
+		"IgnoreURLs": []string{"photos.smugmug.com", "photos.newtheatre.org.uk"},
+		"IgnoreDirs": []string{"lib"},
 
-		"TestFilesConcurrently":    true,
+		"TestFilesConcurrently":    false,
 		"DocumentConcurrencyLimit": 128,
 		"HTTPConcurrencyLimit":     4,
 
-		"LogLevel": issues.WARNING,
+		"LogLevel": issues.INFO,
 
 		"DirectoryIndex": "index.html",
 
@@ -62,8 +67,9 @@ func DefaultOptions() map[string]interface{} {
 		"StripQueryString":   true,
 		"StripQueryExcludes": []string{"fonts.googleapis.com"},
 
-		"CacheDir":     ".htmltest",
+		"ProgDir":      ".htmltest",
 		"CacheFile":    "refcache.json",
+		"LogFile":      "htmltest.log",
 		"CacheExpires": "336h",
 
 		"NoRun": false,
@@ -82,6 +88,15 @@ func (hT *HtmlTest) setOptions(optsUser map[string]interface{}) {
 func InList(list []string, key string) bool {
 	for _, item := range list {
 		if strings.Contains(key, item) {
+			return true
+		}
+	}
+	return false
+}
+
+func (opts *Options) IsURLIgnored(url string) bool {
+	for _, item := range opts.IgnoreURLs {
+		if strings.Contains(url, item) {
 			return true
 		}
 	}

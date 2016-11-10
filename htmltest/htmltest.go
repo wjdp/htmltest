@@ -43,7 +43,7 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 
 	// Setup refcache
 	hT.refCache = refcache.NewRefCache(
-		path.Join(hT.opts.CacheDir, hT.opts.CacheFile), hT.opts.CacheExpires)
+		path.Join(hT.opts.ProgDir, hT.opts.CacheFile), hT.opts.CacheExpires)
 
 	if hT.opts.NoRun {
 		return &hT
@@ -58,14 +58,15 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 		hT.documents = []htmldoc.Document{doc}
 	} else if hT.opts.DirectoryPath != "" {
 		// Directory mode
-		hT.documents = htmldoc.DocumentsFromDir(hT.opts.DirectoryPath)
+		hT.documents = htmldoc.DocumentsFromDir(hT.opts.DirectoryPath, hT.opts.IgnoreDirs)
 	} else {
 		panic("Neither file or directory path provided")
 	}
 
 	hT.testDocuments()
 
-	hT.refCache.WriteStore(path.Join(hT.opts.CacheDir, hT.opts.CacheFile))
+	hT.refCache.WriteStore(path.Join(hT.opts.ProgDir, hT.opts.CacheFile))
+	hT.issueStore.WriteLog(path.Join(hT.opts.ProgDir, hT.opts.LogFile))
 
 	return &hT
 }

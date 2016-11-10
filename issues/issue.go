@@ -42,13 +42,15 @@ func (issue *Issue) secondary() string {
 	}
 }
 
+func (issue *Issue) text() string {
+	return fmt.Sprintf("%v --- %v --> %v", issue.Message, issue.primary(),
+		issue.secondary())
+}
+
 func (issue *Issue) print() {
 	if issue.Level < issue.store.LogLevel {
 		return
 	}
-
-	issueText := fmt.Sprintf("%v --- %v --> %v",
-		issue.Message, issue.primary(), issue.secondary())
 
 	switch issue.Level {
 	case ERROR:
@@ -61,7 +63,7 @@ func (issue *Issue) print() {
 		color.Set(color.FgMagenta)
 	}
 
-	fmt.Println(issueText)
+	fmt.Println(issue.text())
 
 	color.Unset()
 

@@ -4,6 +4,7 @@ import (
 	"golang.org/x/net/html"
 	"os"
 	"path"
+	"strings"
 )
 
 type Document struct {
@@ -25,18 +26,23 @@ func (doc *Document) Parse() {
 	doc.HTMLNode = htmlNode
 }
 
-func DocumentsFromDir(path string) []Document {
+func DocumentsFromDir(path string, ignorePatterns []string) []Document {
 	// Nice proxy for recurseDir
-	return recurseDir(path, "")
+	return recurseDir(path, ignorePatterns, "")
 }
 
-func recurseDir(basePath string, dPath string) []Document {
+func recurseDir(basePath string, ignorePatterns []string, dPath string) []Document {
 	// Recursive function that returns all Document struts in a given
 	// os directory.
 	// basePath: the directory to scan
 	// dPath: the subdirectory within basePath we're scanning
+	// ignorePatterns: string slice of dPaths to ignore
 
 	documents := make([]Document, 0)
+
+	if isDirIgnored(ignorePatterns, dPath) {
+		return documents
+	}
 
 	// Open directory to scan
 	f, err := os.Open(path.Join(basePath, dPath))
@@ -57,7 +63,7 @@ func recurseDir(basePath string, dPath string) []Document {
 			fPath := path.Join(dPath, fileinfo.Name())
 			if fileinfo.IsDir() {
 				// If item is a dir, we need to iterate further, save returned documents
-				documents = append(documents, recurseDir(basePath, fPath)...)
+				documents = append(documents, recurseDir(basePath, ignorePatterns, fPath)...)
 			} else if path.Ext(fileinfo.Name()) == ".html" || path.Ext(fileinfo.Name()) == ".htm" {
 				// If a file, save to filename list
 				documents = append(documents, Document{
@@ -77,4 +83,13 @@ func recurseDir(basePath string, dPath string) []Document {
 	}
 
 	return documents
+}
+
+func isDirIgnored(ignorePatterns []string, dir string) bool {
+	for _, item := range ignorePatterns {
+		if strings.Contains(dir, item) {
+			return true
+		}
+	}
+	return false
 }
