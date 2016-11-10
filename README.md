@@ -1,6 +1,6 @@
 # :white_check_mark: htmltest
 
-[![Build Status](https://travis-ci.org/wjdp/htmltest.svg?branch=master)](https://travis-ci.org/wjdp/htmltest)
+[![Build Status](https://travis-ci.org/wjdp/htmltest.svg?branch=master)](https://travis-ci.org/wjdp/htmltest) [![Go Report Card](https://goreportcard.com/badge/github.com/wjdp/htmltest)](https://goreportcard.com/report/github.com/wjdp/htmltest)
 
 If you generate HTML files, [html-proofer](https://github.com/gjtorikian/html-proofer) might be the tool for you. If you can't be bothered with a Ruby environment or fancy something a bit faster, htmltest may be a better option.
 
