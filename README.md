@@ -1,5 +1,7 @@
 # :white_check_mark: htmltest
 
+[![Build Status](https://travis-ci.org/wjdp/htmltest.svg?branch=master)](https://travis-ci.org/wjdp/htmltest)
+
 If you generate HTML files, [html-proofer](https://github.com/gjtorikian/html-proofer) might be the tool for you. If you can't be bothered with a Ruby environment or fancy something a bit faster, htmltest may be a better option.
 
 :mag: htmltest runs your HTML output through a series of checks to ensure all your links, images, scripts references work, your alt tags are filled in, *et cetera*.
