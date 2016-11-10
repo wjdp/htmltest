@@ -1,11 +1,12 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-go test ./htmldoc -coverprofile htmldoc.out
-go test ./htmltest -coverprofile htmltest.out
-go test ./issues -coverprofile issues.out
-go test ./refcache -coverprofile refcache.out
+set -e
+echo "" > coverage.txt
 
-go tool cover -html htmldoc.out
-go tool cover -html htmltest.out
-go tool cover -html issues.out
-go tool cover -html refcache.out
+for d in $(go list ./... | grep -v vendor); do
+    go test -v -race -coverprofile=profile.out -covermode=atomic $d
+    if [ -f profile.out ]; then
+        cat profile.out >> coverage.txt
+        rm profile.out
+    fi
+done

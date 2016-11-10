@@ -12,7 +12,7 @@ install:
 - go get -t ./...
 
 script:
-- go test -v ./...
+- ./coverage.sh
 - go build -o bin/htmltest-$TRAVIS_OS_NAME -x cmd/main.go
 - bin/htmltest-$TRAVIS_OS_NAME --conf htmldoc/fixtures/conf.yaml
 
