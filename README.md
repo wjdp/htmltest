@@ -4,7 +4,7 @@ If you generate HTML files, [html-proofer](https://github.com/gjtorikian/html-pr
 
 :mag: htmltest runs your HTML output through a series of checks to ensure all your links, images, scripts references work, your alt tags are filled in, *et cetera*.
 
-:horse_racing: *Faster?* Yep, quite a bit actually. On a site with ~2500 files htmlproofer took x minutes, htmltest took x seconds. Both tools had full valid caches.
+:horse_racing: *Faster?* Yep, quite a bit actually. On [a site](https://github.com/newtheatre/history-project) with over 2000 files htmlproofer took over [three minutes](https://travis-ci.org/newtheatre/history-project#L564), htmltest took [8.6 seconds](https://travis-ci.org/newtheatre/history-project#L538). Both tools had full valid caches.
 
 :confused: *Why make another tool*: A mix of frustration with using htmlproofer/Ruby on large sites and needing a good project to learn Go with. Yep, this is my first major Go program, it uses pretty much the same spec/tests as htmlproofer so should be accurate, but probably could do with some refactoring.
 
