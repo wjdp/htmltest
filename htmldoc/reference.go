@@ -2,7 +2,6 @@ package htmldoc
 
 import (
 	"golang.org/x/net/html"
-	"log"
 	"net/url"
 	"path"
 	"strings"
@@ -28,7 +27,7 @@ func NewReference(document *Document, node *html.Node, path string) *Reference {
 	// Parse and store parsed URL
 	u, err := url.Parse(path)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	ref.URL = u
 	return &ref

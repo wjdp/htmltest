@@ -1,11 +1,12 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/docopt/docopt-go"
 	"github.com/fatih/color"
 	"github.com/wjdp/htmltest/htmltest"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
 	"os"
 	"time"
 )
@@ -28,7 +29,7 @@ Options:
                       directory.
   -h --help           Show this text.
   --log-level=LEVEL   Logging level, 0-3: debug, info, warning, error.
-  --conf=CFILE        Use a JSON configuration file for advanced options.`
+  --conf=CFILE        Use a YAML configuration file for advanced options.`
 	versionText := "htmlproofer " + VERSION
 	arguments, _ := docopt.Parse(usage, nil, true, versionText, false)
 	// fmt.Println(arguments)
@@ -48,16 +49,14 @@ Options:
 type optsMap map[string]interface{}
 
 func parseConfFile(path string) optsMap {
-	// Read in json config file
-	f, err := os.Open(path)
-	checkErr(err)
-	defer f.Close()
-
-	var optsJson optsMap
-	err = json.NewDecoder(f).Decode(&optsJson)
+	yamlFile, err := ioutil.ReadFile(path)
 	checkErr(err)
 
-	return optsJson
+	var optsUser optsMap
+	err = yaml.Unmarshal(yamlFile, &optsUser)
+	checkErr(err)
+
+	return optsUser
 }
 
 func parseCLIArgs(arguments map[string]interface{}) optsMap {
@@ -79,8 +78,7 @@ func parseCLIArgs(arguments map[string]interface{}) optsMap {
 
 func checkErr(err error) {
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
+		panic(err)
 	}
 }
 

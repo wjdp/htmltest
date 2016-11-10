@@ -5,7 +5,6 @@ import (
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/refcache"
 	"golang.org/x/net/html"
-	"log"
 	"net/http"
 	"path"
 	"sync"
@@ -61,7 +60,7 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 		// Directory mode
 		hT.documents = htmldoc.DocumentsFromDir(hT.opts.DirectoryPath)
 	} else {
-		log.Fatal("Neither file or directory path provided")
+		panic("Neither file or directory path provided")
 	}
 
 	hT.testDocuments()

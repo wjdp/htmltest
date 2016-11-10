@@ -2,7 +2,6 @@ package refcache
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"os"
 	"path"
@@ -34,8 +33,7 @@ func (rS *RefCache) ReadStore(storePath string) bool {
 	f, err := os.Open(storePath)
 	if err != nil {
 		if !os.IsNotExist(err) {
-			fmt.Println(err.Error())
-			os.Exit(2)
+			panic(err)
 		}
 		return false
 	}
@@ -44,8 +42,7 @@ func (rS *RefCache) ReadStore(storePath string) bool {
 	var refStore map[string]CachedRef
 	err = json.NewDecoder(f).Decode(&refStore)
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(2)
+		panic(err)
 	}
 
 	rS.refStore = refStore
@@ -57,15 +54,13 @@ func (rS *RefCache) WriteStore(storePath string) {
 	os.Mkdir(path.Dir(storePath), 0777)
 	f, err := os.Create(storePath)
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(2)
+		panic(err)
 	}
 	defer f.Close()
 
 	err = json.NewEncoder(f).Encode(&rS.refStore)
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(2)
+		panic(err)
 	}
 }
 
