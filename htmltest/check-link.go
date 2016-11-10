@@ -196,7 +196,6 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 		})
 	default:
 		attrs := extractAttrs(ref.Node.Attr, []string{"rel"})
-		log.Println(attrs)
 		if attrs["rel"] == "canonical" && hT.opts.IgnoreCanonicalBrokenLinks {
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.WARNING,
