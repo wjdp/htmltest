@@ -109,3 +109,11 @@ func TestReferenceAbsolutePath(t *testing.T) {
 	ref = NewReference(&doc, nodeElem, "./zzy/uup.jjr")
 	assert.Equals(t, "internal relative reference", ref.AbsolutePath(), "directory/subdir/zzy/uup.jjr")
 }
+
+func TestURLStripQueryString(t *testing.T) {
+	original := "https://github.com/wjdp/gotdict/issues/new?title=Harwood Fell&body=[_definitions/harwood-fell.mdd](https://github.com/wjdp/gotdict/blob/master/_definitions/harwood-fell.mdd)"
+	actual := URLStripQueryString(original)
+	expected := "https://github.com/wjdp/gotdict/issues/new"
+
+	assert.Equals(t, "stripped url", actual, expected)
+}

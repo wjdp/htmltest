@@ -118,7 +118,7 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 		// If we have the result in cache, return that
 		statusCode = cR.StatusCode
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.INFO,
+			Level:     issues.DEBUG,
 			Message:   "from cache",
 			Reference: ref,
 		})

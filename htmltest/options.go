@@ -54,7 +54,7 @@ func DefaultOptions() map[string]interface{} {
 		"DocumentConcurrencyLimit": 128,
 		"HTTPConcurrencyLimit":     4,
 
-		"LogLevel": issues.INFO,
+		"LogLevel": issues.WARNING,
 
 		"DirectoryIndex": "index.html",
 

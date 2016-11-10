@@ -96,7 +96,6 @@ func (rS *RefCache) Get(urlStr string) (*CachedRef, bool) {
 func (rS *RefCache) Save(urlStr string, statusCode int) {
 	if !(statusCode == http.StatusPartialContent || statusCode == http.StatusOK) {
 		// Don't cache failed results
-		fmt.Println(statusCode)
 		return
 	}
 	cR := CachedRef{
