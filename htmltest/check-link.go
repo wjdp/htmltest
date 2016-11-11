@@ -123,8 +123,8 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 
 	cR, isCached := hT.refCache.Get(urlStr)
 
-	if isCached {
-		// If we have the result in cache, return that
+	if isCached && statusCodeValid(cR.StatusCode) {
+		// If we have a valid result in cache, use that
 		statusCode = cR.StatusCode
 		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.DEBUG,
@@ -132,6 +132,11 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 			Reference: ref,
 		})
 	} else {
+		hT.issueStore.AddIssue(issues.Issue{
+			Level:     issues.DEBUG,
+			Message:   "fresh",
+			Reference: ref,
+		})
 		urlUrl, err := url.Parse(urlStr)
 		req := &http.Request{
 			Method: "GET",
@@ -150,6 +155,7 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 		})
 
 		resp, err := hT.httpClient.Do(req)
+
 		<-hT.httpChannel // Bump off http concurrency limiter
 
 		if err != nil {
@@ -183,7 +189,7 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 			log.Println("Unhandled httpClient error:", err.Error())
 			return
 		}
-		// Save cached result, refcache filters only +ve results
+		// Save cached result
 		hT.refCache.Save(urlStr, resp.StatusCode)
 		statusCode = resp.StatusCode
 	}

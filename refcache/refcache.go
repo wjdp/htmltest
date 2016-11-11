@@ -2,7 +2,6 @@ package refcache
 
 import (
 	"encoding/json"
-	"net/http"
 	"os"
 	"path"
 	"sync"
@@ -89,10 +88,6 @@ func (rS *RefCache) Get(urlStr string) (*CachedRef, bool) {
 }
 
 func (rS *RefCache) Save(urlStr string, statusCode int) {
-	if !(statusCode == http.StatusPartialContent || statusCode == http.StatusOK) {
-		// Don't cache failed results
-		return
-	}
 	cR := CachedRef{
 		StatusCode: statusCode,
 		LastSeen:   time.Now(),

@@ -44,7 +44,7 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 	// Setup refcache
 	cachePath := ""
 	if hT.opts.EnableCache {
-		cachePath = "path.Join(hT.opts.ProgDir, hT.opts.CacheFile)"
+		cachePath = path.Join(hT.opts.ProgDir, hT.opts.CacheFile)
 	}
 	hT.refCache = refcache.NewRefCache(cachePath, hT.opts.CacheExpires)
 
@@ -70,7 +70,7 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 	hT.testDocuments()
 
 	if hT.opts.EnableCache {
-		hT.refCache.WriteStore(path.Join(hT.opts.ProgDir, hT.opts.CacheFile))
+		hT.refCache.WriteStore(cachePath)
 	}
 	if hT.opts.EnableLog {
 		hT.issueStore.WriteLog(path.Join(hT.opts.ProgDir, hT.opts.LogFile))

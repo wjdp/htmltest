@@ -1,6 +1,7 @@
 package htmltest
 
 import (
+	"github.com/daviddengcn/go-assert"
 	"testing"
 )
 
@@ -38,6 +39,17 @@ func TestNormalLookingPage(t *testing.T) {
 	// Page containing HTML5 tags
 	hT := t_testFile("fixtures/html/normal_looking_page.html")
 	t_expectIssueCount(t, hT, 0)
+}
+
+func TestCacheIntegration(t *testing.T) {
+	t_testFileOpts("fixtures/links/linkWithHttps.html",
+		map[string]interface{}{"EnableCache": true})
+	hT2 := t_testFileOpts("fixtures/links/linkWithHttps.html",
+		map[string]interface{}{"EnableCache": true, "NoRun": true})
+	_, okY := hT2.refCache.Get("https://github.com/octocat/Spoon-Knife/issues")
+	_, okN := hT2.refCache.Get("https://github.com/octocat/Spoon-Knife/milestones")
+	assert.IsTrue(t, "link in cache", okY)
+	assert.IsFalse(t, "link not in cache", okN)
 }
 
 func TestConcurrencyDirExternals(t *testing.T) {
