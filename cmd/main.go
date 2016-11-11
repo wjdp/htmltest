@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const VERSION string = "0.0.2"
+const VERSION string = "0.1.0"
 const SEPERATOR string = "========================================================================"
 
 func main() {
