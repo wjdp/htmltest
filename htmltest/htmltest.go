@@ -39,7 +39,7 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 	}
 
 	// Make buffered channel to act as concurrency limiter
-	hT.httpChannel = make(chan bool, 1)
+	hT.httpChannel = make(chan bool, hT.opts.HTTPConcurrencyLimit)
 
 	// Setup refcache
 	cachePath := ""
@@ -81,6 +81,10 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 
 func (hT *HtmlTest) testDocuments() {
 	if hT.opts.TestFilesConcurrently {
+		hT.issueStore.AddIssue(issues.Issue{
+			Level:   issues.WARNING,
+			Message: "running in concurrent mode, this is experimental",
+		})
 		var wg sync.WaitGroup
 		// Make buffered channel to act as concurrency limiter
 		var concChannel = make(chan bool, hT.opts.DocumentConcurrencyLimit)

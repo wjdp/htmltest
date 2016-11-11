@@ -80,7 +80,7 @@ func DefaultOptions() map[string]interface{} {
 
 		"TestFilesConcurrently":    false,
 		"DocumentConcurrencyLimit": 128,
-		"HTTPConcurrencyLimit":     4,
+		"HTTPConcurrencyLimit":     16,
 
 		"LogLevel": issues.WARNING,
 

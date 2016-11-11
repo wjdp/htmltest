@@ -102,7 +102,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `IgnoreTagAttribute` | Specify the ignore attribute. All tags with this attribute will be excluded from every check. | `"data-proofer-ignore"` |
 | `TestFilesConcurrently` | :warning: :construction: *EXPERIMENTAL* Turns on concurrent checking of files. | `false` |
 | `DocumentConcurrencyLimit` | Maximum number of documents to process at once. | `128` |
-| `HTTPConcurrencyLimit` | Maximum number of open HTTP connections. If you raise this number ensure the `ExternalTimeout` is suitably raised. | `4` |
+| `HTTPConcurrencyLimit` | Maximum number of open HTTP connections. If you raise this number ensure the `ExternalTimeout` is suitably raised. | `16` |
 | `LogLevel` | Logging level, 0-3: debug, info, warning, error. | `2` |
 | `DirectoryIndex` | The file to look for when linking to a directory. | `index.html` |
 | `ExternalTimeout` | Number of seconds to wait on an HTTP connection before failing. | `15` |

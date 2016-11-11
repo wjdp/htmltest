@@ -39,3 +39,9 @@ func TestNormalLookingPage(t *testing.T) {
 	hT := t_testFile("fixtures/html/normal_looking_page.html")
 	t_expectIssueCount(t, hT, 0)
 }
+
+func TestConcurrencyDirExternals(t *testing.T) {
+	hT := t_testDirectoryOpts("fixtures/concurrency/manyBrokenExt",
+		map[string]interface{}{"TestFilesConcurrently": true, "LogLevel": 1})
+	t_expectIssueCount(t, hT, 26)
+}
