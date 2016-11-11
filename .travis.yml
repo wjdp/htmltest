@@ -16,6 +16,9 @@ script:
 - go build -o bin/htmltest-$TRAVIS_OS_NAME -x cmd/main.go
 - bin/htmltest-$TRAVIS_OS_NAME --conf htmldoc/fixtures/conf.yaml
 
+after_success:
+- bash <(curl -s https://codecov.io/bash)
+
 before_deploy:
 - chmod +x bin/htmltest-$TRAVIS_OS_NAME
 
