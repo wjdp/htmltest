@@ -92,6 +92,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `CheckInternal` | Enables internal reference checking; all tag types. | `true` |
 | `CheckMailto` | Enables–albeit quite basic–`mailto:` link checking. | `true` |
 | `CheckTel` | Enables–albeit quite basic–`tel:` link checking. | `true` |
+| `CheckFavicon` | Enables favicon checking, ensures every page has a favicon set. | `false` |
 | `EnforceHTTPS` | Fails when encountering an `http://` link. Useful to prevent mixed content errors when serving over HTTPS. | `false` |
 | `IgnoreURLs` | Array of strings or regexs of URLs to ignore. | empty |
 | `IgnoreDirs` | Array of strings or regexs of directories to ignore when scanning for HTML files. | empty |

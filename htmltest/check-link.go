@@ -14,11 +14,19 @@ import (
 
 func (hT *HtmlTest) checkLink(document *htmldoc.Document, node *html.Node) {
 	attrs := extractAttrs(node.Attr,
-		[]string{"href", hT.opts.IgnoreTagAttribute})
+		[]string{"href", "rel", hT.opts.IgnoreTagAttribute})
 
 	// Ignore if data-proofer-ignore set
 	if attrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
 		return
+	}
+
+	// Check if favicon
+	if attrPresent(node.Attr, "rel") &&
+		(attrs["rel"] == "icon" || attrs["rel"] == "shortcut icon") &&
+		node.Parent.Data == "head" {
+		log.Println("found favicon")
+		document.State.FaviconPresent = true
 	}
 
 	// Create reference

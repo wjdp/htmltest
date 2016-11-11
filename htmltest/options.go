@@ -21,6 +21,7 @@ type Options struct {
 	CheckInternal bool
 	CheckMailto   bool
 	CheckTel      bool
+	CheckFavicon  bool
 	EnforceHTTPS  bool
 
 	IgnoreURLs []interface{}
@@ -66,6 +67,7 @@ func DefaultOptions() map[string]interface{} {
 		"CheckInternal": true,
 		"CheckMailto":   true,
 		"CheckTel":      true,
+		"CheckFavicon":  false,
 		"EnforceHTTPS":  false,
 
 		"IgnoreURLs": []interface{}{},

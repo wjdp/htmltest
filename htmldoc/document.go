@@ -12,6 +12,12 @@ type Document struct {
 	SitePath  string // Relative to the site root
 	Directory string
 	HTMLNode  *html.Node
+	State     DocumentState
+}
+
+// Used by checks that depend on the document being parsed
+type DocumentState struct {
+	FaviconPresent bool
 }
 
 func (doc *Document) Parse() {

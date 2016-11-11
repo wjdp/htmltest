@@ -427,6 +427,63 @@ func TestAnchorBlankHTML4(t *testing.T) {
 	t_expectIssueCount(t, hT2, 1)
 }
 
+// Favicon
+
+func TestFaviconDefaultMissing(t *testing.T) {
+	// passes, by default, for missing favicon
+	hT := t_testFile("fixtures/favicon/favicon_absent.html")
+	t_expectIssue(t, hT, "favicon missing", 0)
+}
+
+func TestFaviconOptionMissing(t *testing.T) {
+	// fails, when asked, for missing favicon
+	hT := t_testFileOpts("fixtures/favicon/favicon_absent.html",
+		map[string]interface{}{"CheckFavicon": true})
+	t_expectIssue(t, hT, "favicon missing", 1)
+}
+
+func TestFaviconOptionMissingApple(t *testing.T) {
+	// fails, when asked, for present apple icon but missing favicon
+	hT := t_testFileOpts("fixtures/favicon/favicon_absent_apple.html",
+		map[string]interface{}{"CheckFavicon": true})
+	t_expectIssue(t, hT, "favicon missing", 1)
+}
+
+func TestFaviconOptionBroken(t *testing.T) {
+	// fails for broken favicon
+	hT := t_testFileOpts("fixtures/favicon/favicon_broken.html",
+		map[string]interface{}{"CheckFavicon": true})
+	t_expectIssue(t, hT, "target does not exist", 1)
+}
+
+func TestFaviconOptionBrokenIgnored(t *testing.T) {
+	// fails with missing favicon for ignored icon link tag
+	hT := t_testFileOpts("fixtures/favicon/favicon_broken_but_ignored.html",
+		map[string]interface{}{"CheckFavicon": true})
+	t_expectIssue(t, hT, "favicon missing", 1)
+}
+
+func TestFaviconOptionPresent(t *testing.T) {
+	// passes, when asked, for present favicon
+	hT := t_testFileOpts("fixtures/favicon/favicon_present.html",
+		map[string]interface{}{"CheckFavicon": true})
+	t_expectIssue(t, hT, "favicon missing", 0)
+}
+
+func TestFaviconOptionPresentShortcut(t *testing.T) {
+	// passes, when asked, with present favicon with legacy rel="shortcut icon"
+	hT := t_testFileOpts("fixtures/favicon/favicon_present_shortcut.html",
+		map[string]interface{}{"CheckFavicon": true})
+	t_expectIssue(t, hT, "favicon missing", 0)
+}
+
+func TestFaviconOptionPresentButInBody(t *testing.T) {
+	// fails when favicon isn't a first level child of <head>
+	hT := t_testFileOpts("fixtures/favicon/favicon_present_but_in_body.html",
+		map[string]interface{}{"CheckFavicon": true})
+	t_expectIssue(t, hT, "favicon missing", 1)
+}
+
 // Benchmarks
 
 func BenchmarkManyExternalLinks(b *testing.B) {

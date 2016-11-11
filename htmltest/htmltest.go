@@ -89,18 +89,22 @@ func (hT *HtmlTest) testDocuments() {
 			concChannel <- true // Add to concurrency limiter
 			go func(document htmldoc.Document) {
 				defer wg.Done()
-				document.Parse()
-				hT.parseNode(&document, document.HTMLNode)
+				hT.testDocument(&document)
 				<-concChannel // Bump off concurrency limiter
 			}(document)
 		}
 		wg.Wait()
 	} else {
 		for _, document := range hT.documents {
-			document.Parse()
-			hT.parseNode(&document, document.HTMLNode)
+			hT.testDocument(&document)
 		}
 	}
+}
+
+func (hT *HtmlTest) testDocument(document *htmldoc.Document) {
+	document.Parse()
+	hT.parseNode(document, document.HTMLNode)
+	hT.postChecks(document)
 }
 
 func (hT *HtmlTest) parseNode(document *htmldoc.Document, n *html.Node) {
@@ -131,6 +135,16 @@ func (hT *HtmlTest) parseNode(document *htmldoc.Document, n *html.Node) {
 	// Iterate over children
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
 		hT.parseNode(document, c)
+	}
+}
+
+func (hT *HtmlTest) postChecks(document *htmldoc.Document) {
+	// Checks to run after document has been parsed
+	if hT.opts.CheckFavicon && !document.State.FaviconPresent {
+		hT.issueStore.AddIssue(issues.Issue{
+			Level:   issues.ERROR,
+			Message: "favicon missing",
+		})
 	}
 }
 
