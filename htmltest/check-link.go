@@ -236,7 +236,14 @@ func (hT *HtmlTest) checkInternal(ref *htmldoc.Reference) {
 		})
 		return
 	}
-	// Resolve a filesystem path for reference
+
+	// First lookup in document store
+	_, exists := hT.documentStore.ResolvePath(ref.AbsolutePath())
+	if exists {
+		return
+	}
+
+	// If that fails attempt to lookup with filesystem, resolve a path and check
 	refOsPath := path.Join(hT.opts.DirectoryPath, ref.AbsolutePath())
 	hT.checkFile(ref, refOsPath)
 }

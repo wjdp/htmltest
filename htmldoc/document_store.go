@@ -83,7 +83,29 @@ func (dS *DocumentStore) discoverRecurse(dPath string) {
 
 }
 
-func (dS *DocumentStore) DocumentExists(sitePath string) bool {
-	_, ok := dS.DocumentPathMap[sitePath]
-	return ok
+func (dS *DocumentStore) ResolvePath(sitePath string) (*Document, bool) {
+	// Match root document
+	if sitePath == "/" {
+		d0, b0 := dS.DocumentPathMap["index.html"]
+		return d0, b0
+	}
+	// Trim slash prefix if present
+	if sitePath[0] == '/' && len(sitePath) > 1 {
+		sitePath = sitePath[1:len(sitePath)]
+	}
+	// Try path as-is
+	d1, b1 := dS.DocumentPathMap[sitePath]
+	if b1 {
+		// as-is worked, return that
+		return d1, b1
+	}
+	if sitePath[len(sitePath)-1] == '/' {
+		// If ended in slash, try directory
+		d2, b2 := dS.DocumentPathMap[sitePath+"index.html"] // TODO option
+		return d2, b2
+	} else {
+		// No slash, try as directory
+		d3, b3 := dS.DocumentPathMap[sitePath+"/index.html"]
+		return d3, b3
+	}
 }
