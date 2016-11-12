@@ -12,12 +12,12 @@ import (
 )
 
 type HtmlTest struct {
-	opts        Options
-	httpClient  *http.Client
-	httpChannel chan bool
-	documents   []htmldoc.Document
-	issueStore  issues.IssueStore
-	refCache    *refcache.RefCache
+	opts          Options
+	httpClient    *http.Client
+	httpChannel   chan bool
+	documentStore htmldoc.DocumentStore
+	issueStore    issues.IssueStore
+	refCache      *refcache.RefCache
 }
 
 func Test(optsUser map[string]interface{}) *HtmlTest {
@@ -52,17 +52,23 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 		return &hT
 	}
 
+	// Init our document store
+	hT.documentStore = htmldoc.NewDocumentStore()
+
 	if hT.opts.FilePath != "" {
 		// Single document mode
 		doc := htmldoc.Document{
 			FilePath: path.Join(hT.opts.DirectoryPath, hT.opts.FilePath),
 			SitePath: hT.opts.FilePath,
 		}
-		hT.documents = []htmldoc.Document{doc}
+		hT.documentStore.AddDocument(&doc)
 	} else if hT.opts.DirectoryPath != "" {
-		// Directory mode
-		hT.documents = htmldoc.DocumentsFromDir(
-			hT.opts.DirectoryPath, hT.opts.IgnoreDirs)
+		// Setup document store
+		hT.documentStore.BasePath = hT.opts.DirectoryPath
+		hT.documentStore.DocumentExtension = "html" // TODO add option
+		hT.documentStore.IgnorePatterns = hT.opts.IgnoreDirs
+		// Discover documents
+		hT.documentStore.Discover()
 	} else {
 		panic("Neither file or directory path provided")
 	}
@@ -88,19 +94,19 @@ func (hT *HtmlTest) testDocuments() {
 		var wg sync.WaitGroup
 		// Make buffered channel to act as concurrency limiter
 		var concChannel = make(chan bool, hT.opts.DocumentConcurrencyLimit)
-		for _, document := range hT.documents {
+		for _, document := range hT.documentStore.Documents {
 			wg.Add(1)
 			concChannel <- true // Add to concurrency limiter
-			go func(document htmldoc.Document) {
+			go func(document *htmldoc.Document) {
 				defer wg.Done()
-				hT.testDocument(&document)
+				hT.testDocument(document)
 				<-concChannel // Bump off concurrency limiter
 			}(document)
 		}
 		wg.Wait()
 	} else {
-		for _, document := range hT.documents {
-			hT.testDocument(&document)
+		for _, document := range hT.documentStore.Documents {
+			hT.testDocument(document)
 		}
 	}
 }
