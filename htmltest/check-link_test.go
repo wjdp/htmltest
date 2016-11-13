@@ -231,7 +231,7 @@ func TestAnchorDirectoryCustomRootBroken(t *testing.T) {
 	// fails if custom directory index file doesn't exist
 	hT := t_testFile("fixtures/links/link_pointing_to_directory.html")
 	t_expectIssueCount(t, hT, 1)
-	t_expectIssue(t, hT, "target does not exist", 1)
+	t_expectIssue(t, hT, "target is a directory, no index", 1)
 }
 
 func TestAnchorDirectoryNoTrailingSlash(t *testing.T) {
@@ -239,11 +239,6 @@ func TestAnchorDirectoryNoTrailingSlash(t *testing.T) {
 	hT := t_testFile("fixtures/links/link_directory_without_slash.html")
 	t_expectIssueCount(t, hT, 1)
 	t_expectIssue(t, hT, "target is a directory, href lacks trailing slash", 1)
-}
-
-func TestAnchorDirectoryWithTrailingSlashBug13(t *testing.T) {
-	hT := t_testFile("fixtures/links/linkToFolderWithSpace.html")
-	t_expectIssueCount(t, hT, 0)
 }
 
 func TestAnchorDirectoryQueryHash(t *testing.T) {
@@ -255,6 +250,12 @@ func TestAnchorDirectoryQueryHash(t *testing.T) {
 func TestAnchorDirectoryHtmlExtension(t *testing.T) {
 	// works for custom directory index file
 	hT := t_testDirectory("fixtures/links/_site/")
+	t_expectIssueCount(t, hT, 0)
+}
+
+func TestAnchorDirectoryWithEncodedCharacters(t *testing.T) {
+	// passes for folder with encoded characters
+	hT := t_testFile("fixtures/links/linkToFolderWithSpace.html")
 	t_expectIssueCount(t, hT, 0)
 }
 
