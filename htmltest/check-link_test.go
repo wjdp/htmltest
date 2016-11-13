@@ -206,11 +206,10 @@ func TestAnchorHashSelfBroken(t *testing.T) {
 
 func TestAnchorHashBrokenIgnore(t *testing.T) {
 	// fails for broken internal hash
-	t.Skip("WIP")
 	hT1 := t_testFileOpts("fixtures/links/hashInternalBroken.html",
-		map[string]interface{}{"CheckInternalHashes": false})
+		map[string]interface{}{"CheckInternalHash": false})
 	hT2 := t_testFileOpts("fixtures/links/hashSelfBroken.html",
-		map[string]interface{}{"CheckInternalHashes": false})
+		map[string]interface{}{"CheckInternalHash": false})
 	t_expectIssueCount(t, hT1, 0)
 	t_expectIssueCount(t, hT2, 0)
 }

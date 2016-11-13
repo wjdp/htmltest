@@ -90,6 +90,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `CheckScripts` | Enables checking `<script…` tags. | `true` |
 | `CheckExternal` | Enables external reference checking; all tag types. | `true` |
 | `CheckInternal` | Enables internal reference checking; all tag types. | `true` |
+| `CheckInternalHash` | Enables internal hash/fragment checking. | `true` |
 | `CheckMailto` | Enables–albeit quite basic–`mailto:` link checking. | `true` |
 | `CheckTel` | Enables–albeit quite basic–`tel:` link checking. | `true` |
 | `CheckFavicon` | Enables favicon checking, ensures every page has a favicon set. | `false` |

@@ -87,7 +87,7 @@ func (hT *HtmlTest) checkLink(document *htmldoc.Document, node *html.Node) {
 	case "file":
 		hT.checkInternal(ref)
 	case "self":
-		hT.checkHash(ref)
+		hT.checkInternalHash(ref)
 	case "mailto":
 		hT.checkMailto(ref)
 	case "tel":
@@ -105,7 +105,7 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 	if !hT.opts.CheckExternal {
 		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.DEBUG,
-			Message:   "skipping",
+			Message:   "skipping external check",
 			Reference: ref,
 		})
 		return
@@ -233,7 +233,7 @@ func (hT *HtmlTest) checkInternal(ref *htmldoc.Reference) {
 	if !hT.opts.CheckInternal {
 		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.DEBUG,
-			Message:   "skipping",
+			Message:   "skipping internal check",
 			Reference: ref,
 		})
 		return
@@ -259,11 +259,20 @@ func (hT *HtmlTest) checkInternal(ref *htmldoc.Reference) {
 
 	if len(ref.URL.Fragment) > 0 {
 		// Is also a hash link
-		hT.checkHash(ref)
+		hT.checkInternalHash(ref)
 	}
 }
 
-func (hT *HtmlTest) checkHash(ref *htmldoc.Reference) {
+func (hT *HtmlTest) checkInternalHash(ref *htmldoc.Reference) {
+	if !hT.opts.CheckInternalHash {
+		hT.issueStore.AddIssue(issues.Issue{
+			Level:     issues.DEBUG,
+			Message:   "skipping hash check",
+			Reference: ref,
+		})
+		return
+	}
+
 	// var refDoc *htmldoc.Document
 	if len(ref.URL.Fragment) == 0 {
 		hT.issueStore.AddIssue(issues.Issue{
