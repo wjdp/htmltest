@@ -59,7 +59,7 @@ func ExampleIssuePrint() {
 		store:    &issueStore,
 		Message:  "test1",
 	}
-	issue1.print()
+	issue1.print(false)
 
 	issue2 := Issue{
 		Level:     WARNING,
@@ -67,7 +67,7 @@ func ExampleIssuePrint() {
 		store:     &issueStore,
 		Message:   "test2",
 	}
-	issue2.print()
+	issue2.print(false)
 
 	issue3 := Issue{
 		Level:    INFO,
@@ -75,7 +75,7 @@ func ExampleIssuePrint() {
 		store:    &issueStore,
 		Message:  "test3",
 	}
-	issue3.print()
+	issue3.print(false)
 
 	// Output:
 	// test1 --- dir/doc.html --> <nil>

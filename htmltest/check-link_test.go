@@ -241,6 +241,11 @@ func TestAnchorDirectoryNoTrailingSlash(t *testing.T) {
 	t_expectIssue(t, hT, "target is a directory, href lacks trailing slash", 1)
 }
 
+func TestAnchorDirectoryWithTrailingSlashBug13(t *testing.T) {
+	hT := t_testFile("fixtures/links/linkToFolderWithSpace.html")
+	t_expectIssueCount(t, hT, 0)
+}
+
 func TestAnchorDirectoryQueryHash(t *testing.T) {
 	// fails for internal linking to a directory without trailing slash
 	hT := t_testFile("fixtures/links/link_directory_with_slash_query_hash.html")

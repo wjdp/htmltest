@@ -1,6 +1,7 @@
 package issues
 
 import (
+	"fmt"
 	"io/ioutil"
 	"strings"
 	"sync"
@@ -25,7 +26,7 @@ func (iS *IssueStore) AddIssue(issue Issue) {
 	issue.store = iS // Set ref to issue store in issue
 	iS.writeMutex.Lock()
 	iS.issues = append(iS.issues, issue)
-	issue.print()
+	issue.print(false)
 	if issue.Level >= iS.LogLevel {
 		// Build byte slice to write out at the end
 		iS.byteLog = append(iS.byteLog, []byte(issue.text()+"\n")...)
@@ -59,4 +60,12 @@ func (iS *IssueStore) WriteLog(path string) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func (iS *IssueStore) DumpIssues(force bool) {
+	fmt.Println("<<<<<<<<<<<<<<<<<<<<<<<<")
+	for _, issue := range iS.issues {
+		issue.print(force)
+	}
+	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>")
 }
