@@ -75,3 +75,9 @@ func t_testDirectoryOpts(filename string, t_opts map[string]interface{}) *HtmlTe
 	mergo.MergeWithOverwrite(&opts, t_opts)
 	return Test(opts)
 }
+
+func t_SkipShortExternal(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping test requiring network calls in short mode")
+	}
+}
