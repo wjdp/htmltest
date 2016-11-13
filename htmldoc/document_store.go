@@ -111,3 +111,7 @@ func (dS *DocumentStore) ResolvePath(refPath string) (*Document, bool) {
 	d2, b2 := dS.DocumentPathMap[path.Join(refPath, dS.DirectoryIndex)]
 	return d2, b2
 }
+
+func (dS *DocumentStore) ResolveRef(ref *Reference) (*Document, bool) {
+	return dS.ResolvePath(ref.RefSitePath())
+}

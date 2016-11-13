@@ -240,7 +240,7 @@ func (hT *HtmlTest) checkInternal(ref *htmldoc.Reference) {
 	}
 
 	// First lookup in document store,
-	refDoc, refExists := hT.documentStore.ResolvePath(ref.AbsolutePath())
+	refDoc, refExists := hT.documentStore.ResolveRef(ref)
 
 	if refExists {
 		// If path doesn't end in slash and the resolved ref is an index.html, complain
@@ -253,7 +253,7 @@ func (hT *HtmlTest) checkInternal(ref *htmldoc.Reference) {
 		}
 	} else {
 		// If that fails attempt to lookup with filesystem, resolve a path and check
-		refOsPath := path.Join(hT.opts.DirectoryPath, ref.AbsolutePath())
+		refOsPath := path.Join(hT.opts.DirectoryPath, ref.RefSitePath())
 		hT.checkFile(ref, refOsPath)
 	}
 
@@ -284,7 +284,7 @@ func (hT *HtmlTest) checkInternalHash(ref *htmldoc.Reference) {
 
 	if len(ref.URL.Path) > 0 {
 		// internal
-		refDoc, _ := hT.documentStore.ResolvePath(ref.AbsolutePath())
+		refDoc, _ := hT.documentStore.ResolveRef(ref)
 		if !refDoc.IsHashValid(ref.URL.Fragment) {
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.ERROR,

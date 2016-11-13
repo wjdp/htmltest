@@ -73,11 +73,7 @@ func (ref *Reference) IsInternalAbsolute() bool {
 	return !strings.HasPrefix(ref.Path, "//") && strings.HasPrefix(ref.Path, "/")
 }
 
-func (ref *Reference) AbsolutePath() string {
-	// If external return unchanged
-	if ref.Scheme() != "file" {
-		return ref.URL.Path
-	}
+func (ref *Reference) RefSitePath() string {
 	// If internal, return a path to the referenced file relative to the 'site root'
 	// Strip shit off the end?
 	if ref.IsInternalAbsolute() {
