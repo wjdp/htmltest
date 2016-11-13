@@ -10,6 +10,7 @@ func TestDocumentStoreDiscover(t *testing.T) {
 	dS := NewDocumentStore()
 	dS.BasePath = "fixtures/documents"
 	dS.DocumentExtension = "html"
+	dS.DirectoryIndex = "index.html"
 	dS.Discover()
 	// Fixtures dir has eight documents in various folders
 	assert.Equals(t, "document count", len(dS.Documents), 8)
@@ -20,6 +21,7 @@ func TestDocumentStoreIgnorePatterns(t *testing.T) {
 	dS := NewDocumentStore()
 	dS.BasePath = "fixtures/documents"
 	dS.DocumentExtension = "html"
+	dS.DirectoryIndex = "index.html"
 	dS.IgnorePatterns = []interface{}{"^lib/"}
 	dS.Discover()
 	// Fixtures dir has seven documents in various folders, (one ignored in lib)
@@ -31,6 +33,7 @@ func TestDocumentStoreDocumentExists(t *testing.T) {
 	dS := NewDocumentStore()
 	dS.BasePath = "fixtures/documents"
 	dS.DocumentExtension = "html"
+	dS.DirectoryIndex = "index.html"
 	dS.Discover()
 	_, b1 := dS.DocumentPathMap["index.html"]
 	assert.IsTrue(t, "index.html exists", b1)
@@ -47,6 +50,7 @@ func TestDocumentStoreDocumentResolve(t *testing.T) {
 	dS := NewDocumentStore()
 	dS.BasePath = "fixtures/documents"
 	dS.DocumentExtension = "html"
+	dS.DirectoryIndex = "index.html"
 	dS.Discover()
 	d0, b0 := dS.ResolvePath("/")
 	assert.IsTrue(t, "root document exists", b0)

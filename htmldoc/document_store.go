@@ -12,6 +12,7 @@ type DocumentStore struct {
 	Documents         []*Document          // All of the documents, used to iterate over
 	DocumentPathMap   map[string]*Document // Maps slash separated paths to documents
 	DocumentExtension string               // File extension to look for
+	DirectoryIndex    string               // What file is the index of the directory
 }
 
 func NewDocumentStore() DocumentStore {
@@ -90,7 +91,7 @@ func (dS *DocumentStore) ResolvePath(refPath string) (*Document, bool) {
 
 	// Match root document
 	if refPath == "/" {
-		d0, b0 := dS.DocumentPathMap["index.html"]
+		d0, b0 := dS.DocumentPathMap[dS.DirectoryIndex]
 		return d0, b0
 	}
 
@@ -99,19 +100,14 @@ func (dS *DocumentStore) ResolvePath(refPath string) (*Document, bool) {
 		refPath = refPath[1:len(refPath)]
 	}
 
-	// Try path as-is
+	// Try path as-is, path.ext
 	d1, b1 := dS.DocumentPathMap[refPath]
 	if b1 {
 		// as-is worked, return that
 		return d1, b1
 	}
-	if refPath[len(refPath)-1] == '/' {
-		// If ended in slash, try directory
-		d2, b2 := dS.DocumentPathMap[refPath+"index.html"] // TODO option
-		return d2, b2
-	} else {
-		// No slash, try as directory
-		d3, b3 := dS.DocumentPathMap[refPath+"/index.html"]
-		return d3, b3
-	}
+
+	// Try as a directory, path.ext/index.html
+	d2, b2 := dS.DocumentPathMap[path.Join(refPath, dS.DirectoryIndex)]
+	return d2, b2
 }

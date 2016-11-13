@@ -58,6 +58,7 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 	// Setup document store
 	hT.documentStore.BasePath = hT.opts.DirectoryPath
 	hT.documentStore.DocumentExtension = "html" // TODO add option
+	hT.documentStore.DirectoryIndex = hT.opts.DirectoryIndex
 	hT.documentStore.IgnorePatterns = hT.opts.IgnoreDirs
 	// Discover documents
 	hT.documentStore.Discover()
