@@ -13,16 +13,16 @@ import (
 )
 
 func (hT *HtmlTest) checkLink(document *htmldoc.Document, node *html.Node) {
-	attrs := extractAttrs(node.Attr,
+	attrs := htmldoc.ExtractAttrs(node.Attr,
 		[]string{"href", "rel", hT.opts.IgnoreTagAttribute})
 
 	// Ignore if data-proofer-ignore set
-	if attrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
+	if htmldoc.AttrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
 		return
 	}
 
 	// Check if favicon
-	if attrPresent(node.Attr, "rel") &&
+	if htmldoc.AttrPresent(node.Attr, "rel") &&
 		(attrs["rel"] == "icon" || attrs["rel"] == "shortcut icon") &&
 		node.Parent.Data == "head" {
 		document.State.FaviconPresent = true
@@ -32,7 +32,7 @@ func (hT *HtmlTest) checkLink(document *htmldoc.Document, node *html.Node) {
 	ref := htmldoc.NewReference(document, node, attrs["href"])
 
 	// Check for missing href, fail for link nodes
-	if !attrPresent(node.Attr, "href") {
+	if !htmldoc.AttrPresent(node.Attr, "href") {
 		switch node.Data {
 		case "a":
 			hT.issueStore.AddIssue(issues.Issue{
@@ -86,6 +86,8 @@ func (hT *HtmlTest) checkLink(document *htmldoc.Document, node *html.Node) {
 		hT.checkExternal(ref)
 	case "file":
 		hT.checkInternal(ref)
+	case "self":
+		hT.checkHash(ref)
 	case "mailto":
 		hT.checkMailto(ref)
 	case "tel":
@@ -208,7 +210,7 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 			Reference: ref,
 		})
 	default:
-		attrs := extractAttrs(ref.Node.Attr, []string{"rel"})
+		attrs := htmldoc.ExtractAttrs(ref.Node.Attr, []string{"rel"})
 		if attrs["rel"] == "canonical" && hT.opts.IgnoreCanonicalBrokenLinks {
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.WARNING,
@@ -237,15 +239,60 @@ func (hT *HtmlTest) checkInternal(ref *htmldoc.Reference) {
 		return
 	}
 
-	// First lookup in document store
-	_, exists := hT.documentStore.ResolvePath(ref.AbsolutePath())
-	if exists {
-		return
+	// First lookup in document store,
+	refDoc, refExists := hT.documentStore.ResolvePath(ref.AbsolutePath())
+
+	if refExists {
+		// If path doesn't end in slash and the resolved ref is an index.html, complain
+		if ref.Path[len(ref.URL.Path)-1] != '/' && path.Base(refDoc.SitePath) == hT.opts.DirectoryIndex {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.ERROR,
+				Message:   "target is a directory, href lacks trailing slash",
+				Reference: ref,
+			})
+		}
+	} else {
+		// If that fails attempt to lookup with filesystem, resolve a path and check
+		refOsPath := path.Join(hT.opts.DirectoryPath, ref.AbsolutePath())
+		hT.checkFile(ref, refOsPath)
 	}
 
-	// If that fails attempt to lookup with filesystem, resolve a path and check
-	refOsPath := path.Join(hT.opts.DirectoryPath, ref.AbsolutePath())
-	hT.checkFile(ref, refOsPath)
+	if len(ref.URL.Fragment) > 0 {
+		// Is also a hash link
+		hT.checkHash(ref)
+	}
+}
+
+func (hT *HtmlTest) checkHash(ref *htmldoc.Reference) {
+	// var refDoc *htmldoc.Document
+	if len(ref.URL.Fragment) == 0 {
+		hT.issueStore.AddIssue(issues.Issue{
+			Level:     issues.ERROR,
+			Message:   "missing hash",
+			Reference: ref,
+		})
+	}
+
+	if len(ref.URL.Path) > 0 {
+		// internal
+		refDoc, _ := hT.documentStore.ResolvePath(ref.AbsolutePath())
+		if !refDoc.IsHashValid(ref.URL.Fragment) {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.ERROR,
+				Message:   "hash does not exist",
+				Reference: ref,
+			})
+		}
+	} else {
+		// self
+		if !ref.Document.IsHashValid(ref.URL.Fragment) {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.ERROR,
+				Message:   "hash does not exist",
+				Reference: ref,
+			})
+		}
+	}
 }
 
 func (hT *HtmlTest) checkFile(ref *htmldoc.Reference, absPath string) {

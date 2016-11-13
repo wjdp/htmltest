@@ -161,12 +161,30 @@ func TestAnchorInternalRelativeLinksBase(t *testing.T) {
 	t_expectIssueCount(t, hT, 0)
 }
 
-func TestAnchorInternalHashBroken(t *testing.T) {
+func TestAnchorHashInternalValid(t *testing.T) {
+	// passes for valid internal hash
+	hT := t_testFile("fixtures/links/hashInternalOk.html")
+	t_expectIssueCount(t, hT, 0)
+}
+
+func TestAnchorHashInternalBroken(t *testing.T) {
 	// fails for broken internal hash
-	t.Skip("Not yet implemented")
-	hT := t_testFile("fixtures/links/brokenHashInternal.html")
-	t_expectIssueCount(t, hT, 99)
-	t_expectIssue(t, hT, "PLACEHOLDER", 99)
+	hT := t_testFile("fixtures/links/hashInternalBroken.html")
+	t_expectIssueCount(t, hT, 1)
+	t_expectIssue(t, hT, "hash does not exist", 1)
+}
+
+func TestAnchorHashSelfValid(t *testing.T) {
+	// passes for valid self hash
+	hT := t_testFile("fixtures/links/hashSelfOk.html")
+	t_expectIssueCount(t, hT, 0)
+}
+
+func TestAnchorHashSelfBroken(t *testing.T) {
+	// fails for broken self hash
+	hT := t_testFile("fixtures/links/hashSelfBroken.html")
+	t_expectIssueCount(t, hT, 1)
+	t_expectIssue(t, hT, "hash does not exist", 1)
 }
 
 func TestAnchorDirectoryRootResolve(t *testing.T) {
@@ -196,7 +214,7 @@ func TestAnchorDirectoryNoTrailingSlash(t *testing.T) {
 	t_expectIssue(t, hT, "target is a directory, href lacks trailing slash", 1)
 }
 
-func TestAnchorDirectoryNoTrailingSlashQueryHash(t *testing.T) {
+func TestAnchorDirectoryQueryHash(t *testing.T) {
 	// fails for internal linking to a directory without trailing slash
 	hT := t_testFile("fixtures/links/link_directory_with_slash_query_hash.html")
 	t_expectIssueCount(t, hT, 0)
@@ -239,7 +257,8 @@ func TestAnchorInternalDashedAttrs(t *testing.T) {
 }
 
 func TestAnchorInternalCaseMismatch(t *testing.T) {
-	// does not complain for internal links with mismatched cases
+	// does not complain for internal hash links with mismatched cases
+	t.Skip("Unsure on whether we should ignore case, pretty sure we shouldn't")
 	hT := t_testFile("fixtures/links/ignores_cases.html")
 	t_expectIssueCount(t, hT, 0)
 }

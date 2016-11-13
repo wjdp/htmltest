@@ -54,6 +54,6 @@ func TestCacheIntegration(t *testing.T) {
 
 func TestConcurrencyDirExternals(t *testing.T) {
 	hT := t_testDirectoryOpts("fixtures/concurrency/manyBrokenExt",
-		map[string]interface{}{"TestFilesConcurrently": true, "LogLevel": 1})
+		map[string]interface{}{"TestFilesConcurrently": true}) // "LogLevel": 1
 	t_expectIssueCount(t, hT, 26)
 }

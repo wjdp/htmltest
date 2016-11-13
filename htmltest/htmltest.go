@@ -1,11 +1,12 @@
 package htmltest
 
 import (
+	"fmt"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/refcache"
-	"golang.org/x/net/html"
 	"net/http"
+	"os"
 	"path"
 	"sync"
 	"time"
@@ -54,26 +55,27 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 
 	// Init our document store
 	hT.documentStore = htmldoc.NewDocumentStore()
+	// Setup document store
+	hT.documentStore.BasePath = hT.opts.DirectoryPath
+	hT.documentStore.DocumentExtension = "html" // TODO add option
+	hT.documentStore.IgnorePatterns = hT.opts.IgnoreDirs
+	// Discover documents
+	hT.documentStore.Discover()
 
 	if hT.opts.FilePath != "" {
 		// Single document mode
-		doc := htmldoc.Document{
-			FilePath: path.Join(hT.opts.DirectoryPath, hT.opts.FilePath),
-			SitePath: hT.opts.FilePath,
+		doc, ok := hT.documentStore.ResolvePath(hT.opts.FilePath)
+		if !ok {
+			fmt.Println("Could not find document", hT.opts.FilePath, "in", hT.opts.DirectoryPath)
+			os.Exit(1)
 		}
-		hT.documentStore.AddDocument(&doc)
+		hT.testDocument(doc)
 	} else if hT.opts.DirectoryPath != "" {
-		// Setup document store
-		hT.documentStore.BasePath = hT.opts.DirectoryPath
-		hT.documentStore.DocumentExtension = "html" // TODO add option
-		hT.documentStore.IgnorePatterns = hT.opts.IgnoreDirs
-		// Discover documents
-		hT.documentStore.Discover()
+		// Test documents
+		hT.testDocuments()
 	} else {
 		panic("Neither file or directory path provided")
 	}
-
-	hT.testDocuments()
 
 	if hT.opts.EnableCache {
 		hT.refCache.WriteStore(cachePath)
@@ -113,12 +115,7 @@ func (hT *HtmlTest) testDocuments() {
 
 func (hT *HtmlTest) testDocument(document *htmldoc.Document) {
 	document.Parse()
-	hT.parseNode(document, document.HTMLNode)
-	hT.postChecks(document)
-}
-
-func (hT *HtmlTest) parseNode(document *htmldoc.Document, n *html.Node) {
-	if n.Type == html.ElementNode {
+	for _, n := range document.NodesOfInterest {
 		switch n.Data {
 		case "a":
 			if hT.opts.CheckAnchors {
@@ -136,16 +133,9 @@ func (hT *HtmlTest) parseNode(document *htmldoc.Document, n *html.Node) {
 			if hT.opts.CheckScripts {
 				hT.checkScript(document, n)
 			}
-		case "pre":
-			return // Everything within a pre is not to be interpreted
-		case "code":
-			return // Everything within a code is not to be interpreted
 		}
 	}
-	// Iterate over children
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		hT.parseNode(document, c)
-	}
+	hT.postChecks(document)
 }
 
 func (hT *HtmlTest) postChecks(document *htmldoc.Document) {

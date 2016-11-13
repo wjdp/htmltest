@@ -7,11 +7,11 @@ import (
 )
 
 func (hT *HtmlTest) checkScript(document *htmldoc.Document, node *html.Node) {
-	attrs := extractAttrs(node.Attr,
+	attrs := htmldoc.ExtractAttrs(node.Attr,
 		[]string{"src", hT.opts.IgnoreTagAttribute})
 
 	// Ignore if data-proofer-ignore set
-	if attrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
+	if htmldoc.AttrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
 		return
 	}
 
@@ -19,7 +19,7 @@ func (hT *HtmlTest) checkScript(document *htmldoc.Document, node *html.Node) {
 	ref := htmldoc.NewReference(document, node, attrs["src"])
 
 	// Check src problems
-	if attrPresent(node.Attr, "src") && len(attrs["src"]) == 0 {
+	if htmldoc.AttrPresent(node.Attr, "src") && len(attrs["src"]) == 0 {
 		// Check src has length, fail if empty
 		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.ERROR,
@@ -30,7 +30,7 @@ func (hT *HtmlTest) checkScript(document *htmldoc.Document, node *html.Node) {
 	}
 
 	// Check invalid content
-	if !attrPresent(node.Attr, "src") && node.FirstChild == nil {
+	if !htmldoc.AttrPresent(node.Attr, "src") && node.FirstChild == nil {
 		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.ERROR,
 			Message:   "script content missing / no src attribute",

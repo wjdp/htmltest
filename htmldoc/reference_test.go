@@ -19,7 +19,7 @@ func TestReferenceScheme(t *testing.T) {
 
 	doc := Document{
 		SitePath: "doc.html",
-		HTMLNode: nodeDoc,
+		htmlNode: nodeDoc,
 	}
 
 	var ref *Reference
@@ -53,7 +53,7 @@ func TestReferenceURLString(t *testing.T) {
 
 	doc := Document{
 		SitePath: "doc.html",
-		HTMLNode: nodeDoc,
+		htmlNode: nodeDoc,
 	}
 
 	var ref *Reference
@@ -69,7 +69,7 @@ func TestReferenceIsInternalAbsolute(t *testing.T) {
 
 	doc := Document{
 		SitePath: "doc.html",
-		HTMLNode: nodeDoc,
+		htmlNode: nodeDoc,
 	}
 
 	var ref *Reference
@@ -93,7 +93,7 @@ func TestReferenceAbsolutePath(t *testing.T) {
 	doc := Document{
 		SitePath:  "doc.html",
 		Directory: "directory/subdir",
-		HTMLNode:  nodeDoc,
+		htmlNode:  nodeDoc,
 	}
 
 	var ref *Reference

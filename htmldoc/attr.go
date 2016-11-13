@@ -1,10 +1,10 @@
-package htmltest
+package htmldoc
 
 import (
 	"golang.org/x/net/html"
 )
 
-func extractAttrs(attrs []html.Attribute, keys []string) map[string]string {
+func ExtractAttrs(attrs []html.Attribute, keys []string) map[string]string {
 	attrMap := make(map[string]string)
 	for _, attr := range attrs {
 		for i, key := range keys {
@@ -18,11 +18,22 @@ func extractAttrs(attrs []html.Attribute, keys []string) map[string]string {
 	return attrMap
 }
 
-func attrPresent(attrs []html.Attribute, key string) bool {
+func AttrPresent(attrs []html.Attribute, key string) bool {
 	for _, attr := range attrs {
 		if attr.Key == key {
 			return true
 		}
 	}
 	return false
+}
+
+func GetId(attrs []html.Attribute) string {
+	for _, attr := range attrs {
+		if attr.Key == "id" {
+			return attr.Val
+		} else if attr.Key == "name" {
+			return attr.Val
+		}
+	}
+	return ""
 }

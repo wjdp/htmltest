@@ -70,11 +70,13 @@ func (dS *DocumentStore) discoverRecurse(dPath string) {
 				dS.discoverRecurse(fPath)
 			} else if path.Ext(fileinfo.Name()) == ".html" || path.Ext(fileinfo.Name()) == ".htm" {
 				// If a file, create and save document
-				dS.AddDocument(&Document{
+				newDoc := &Document{
 					FilePath:  path.Join(dS.BasePath, fPath),
 					SitePath:  fPath,
 					Directory: dPath,
-				})
+				}
+				newDoc.Init()
+				dS.AddDocument(newDoc)
 			}
 		}
 	} else { // It's a file, return single file
@@ -83,29 +85,33 @@ func (dS *DocumentStore) discoverRecurse(dPath string) {
 
 }
 
-func (dS *DocumentStore) ResolvePath(sitePath string) (*Document, bool) {
+func (dS *DocumentStore) ResolvePath(refPath string) (*Document, bool) {
+	// Resolves internal absolute paths to documents
+
 	// Match root document
-	if sitePath == "/" {
+	if refPath == "/" {
 		d0, b0 := dS.DocumentPathMap["index.html"]
 		return d0, b0
 	}
-	// Trim slash prefix if present
-	if sitePath[0] == '/' && len(sitePath) > 1 {
-		sitePath = sitePath[1:len(sitePath)]
+
+	if refPath[0] == '/' && len(refPath) > 1 {
+		// Is an absolute link, remove the leading slash for map lookup
+		refPath = refPath[1:len(refPath)]
 	}
+
 	// Try path as-is
-	d1, b1 := dS.DocumentPathMap[sitePath]
+	d1, b1 := dS.DocumentPathMap[refPath]
 	if b1 {
 		// as-is worked, return that
 		return d1, b1
 	}
-	if sitePath[len(sitePath)-1] == '/' {
+	if refPath[len(refPath)-1] == '/' {
 		// If ended in slash, try directory
-		d2, b2 := dS.DocumentPathMap[sitePath+"index.html"] // TODO option
+		d2, b2 := dS.DocumentPathMap[refPath+"index.html"] // TODO option
 		return d2, b2
 	} else {
 		// No slash, try as directory
-		d3, b3 := dS.DocumentPathMap[sitePath+"/index.html"]
+		d3, b3 := dS.DocumentPathMap[refPath+"/index.html"]
 		return d3, b3
 	}
 }
