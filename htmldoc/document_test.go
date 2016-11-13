@@ -16,6 +16,15 @@ func TestDocumentParse(t *testing.T) {
 	assert.Equals(t, "document first body node", nodeElem.Data, "h1")
 }
 
+func TestDocumentNodesOfInterest(t *testing.T) {
+	doc := Document{
+		FilePath: "fixtures/documents/nodes.htm",
+	}
+	doc.Init()
+	doc.Parse()
+	assert.Equals(t, "nodes of interest", len(doc.NodesOfInterest), 4)
+}
+
 func TestDocumentIsHashValid(t *testing.T) {
 	// parse a document and check we have valid nodes
 	doc := Document{

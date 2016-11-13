@@ -69,7 +69,7 @@ func (dS *DocumentStore) discoverRecurse(dPath string) {
 			if fileinfo.IsDir() {
 				// If item is a dir, we delve deeper
 				dS.discoverRecurse(fPath)
-			} else if path.Ext(fileinfo.Name()) == ".html" || path.Ext(fileinfo.Name()) == ".htm" {
+			} else if path.Ext(fileinfo.Name()) == dS.DocumentExtension {
 				// If a file, create and save document
 				newDoc := &Document{
 					FilePath:  path.Join(dS.BasePath, fPath),

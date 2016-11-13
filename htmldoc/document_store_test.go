@@ -9,30 +9,30 @@ func TestDocumentStoreDiscover(t *testing.T) {
 	// documentstore can scan an os directory
 	dS := NewDocumentStore()
 	dS.BasePath = "fixtures/documents"
-	dS.DocumentExtension = "html"
+	dS.DocumentExtension = ".html" // Ignores .htm
 	dS.DirectoryIndex = "index.html"
 	dS.Discover()
 	// Fixtures dir has eight documents in various folders
-	assert.Equals(t, "document count", len(dS.Documents), 8)
+	assert.Equals(t, "document count", len(dS.Documents), 6)
 }
 
 func TestDocumentStoreIgnorePatterns(t *testing.T) {
 	// documentstore can scan an os directory
 	dS := NewDocumentStore()
 	dS.BasePath = "fixtures/documents"
-	dS.DocumentExtension = "html"
+	dS.DocumentExtension = ".html" // Ignores .htm
 	dS.DirectoryIndex = "index.html"
 	dS.IgnorePatterns = []interface{}{"^lib/"}
 	dS.Discover()
 	// Fixtures dir has seven documents in various folders, (one ignored in lib)
-	assert.Equals(t, "document count", len(dS.Documents), 7)
+	assert.Equals(t, "document count", len(dS.Documents), 5)
 }
 
 func TestDocumentStoreDocumentExists(t *testing.T) {
 	// documentstore knows if documents exist or not
 	dS := NewDocumentStore()
 	dS.BasePath = "fixtures/documents"
-	dS.DocumentExtension = "html"
+	dS.DocumentExtension = ".html"
 	dS.DirectoryIndex = "index.html"
 	dS.Discover()
 	_, b1 := dS.DocumentPathMap["index.html"]
@@ -49,7 +49,7 @@ func TestDocumentStoreDocumentResolve(t *testing.T) {
 	// documentstore correctly resolves documents
 	dS := NewDocumentStore()
 	dS.BasePath = "fixtures/documents"
-	dS.DocumentExtension = "html"
+	dS.DocumentExtension = ".html"
 	dS.DirectoryIndex = "index.html"
 	dS.Discover()
 	d0, b0 := dS.ResolvePath("/")
