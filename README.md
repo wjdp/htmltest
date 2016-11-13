@@ -44,13 +44,12 @@ Options:
 Many options of the following tests can customised. Items marked :soon: are not checked yet, but will be *soon*.
 
 - `a` `link` `img` `script`: Whether internal links work / are valid.
-- `a`: :soon: Whether internal hashes work.
+- `a`: Whether internal hashes work.
 - `a` `link` `img` `script`: Whether external links work.
 - `a`: :soon: Whether external hashes work.
 - `a` `link`: Whether external links use HTTPS.
-- `a` `link`: Whether external links use HTTPS.
 - `img`: Whether your images have valid alt attributes.
-- `meta`: :soon: Whether favicons are valid.
+- `link`: Whether pages have a valid favicon.
 - `meta`: :soon: Whether images and URLs in the OpenGraph metadata are valid.
 - `meta` `title`: :soon: Whether you've got the [recommended tags](https://support.google.com/webmasters/answer/79812?hl=en) in your head.
 
@@ -95,8 +94,8 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `CheckTel` | Enables–albeit quite basic–`tel:` link checking. | `true` |
 | `CheckFavicon` | Enables favicon checking, ensures every page has a favicon set. | `false` |
 | `EnforceHTTPS` | Fails when encountering an `http://` link. Useful to prevent mixed content errors when serving over HTTPS. | `false` |
-| `IgnoreURLs` | Array of strings or regexs of URLs to ignore. | empty |
-| `IgnoreDirs` | Array of strings or regexs of directories to ignore when scanning for HTML files. | empty |
+| `IgnoreURLs` | Array of regexs of URLs to ignore. | empty |
+| `IgnoreDirs` | Array of regexs of directories to ignore when scanning for HTML files. | empty |
 | `IgnoreCanonicalBrokenLinks` | When true produces a warning, rather than an error for broken canonical links. When testing a site which isn't live yet or before publishing a new page canonical links will fail. | `true` |
 | `IgnoreAltMissing` | Turns off image alt attribute checking. | `false` |
 | `IgnoreDirectoryMissingTrailingSlash` | Turns off errors for links to directories without a trailing slash. | `false` |
