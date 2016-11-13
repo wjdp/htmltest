@@ -1,23 +1,24 @@
 package htmltest
 
 import (
+	"fmt"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/refcache"
-	"golang.org/x/net/html"
 	"net/http"
+	"os"
 	"path"
 	"sync"
 	"time"
 )
 
 type HtmlTest struct {
-	opts        Options
-	httpClient  *http.Client
-	httpChannel chan bool
-	documents   []htmldoc.Document
-	issueStore  issues.IssueStore
-	refCache    *refcache.RefCache
+	opts          Options
+	httpClient    *http.Client
+	httpChannel   chan bool
+	documentStore htmldoc.DocumentStore
+	issueStore    issues.IssueStore
+	refCache      *refcache.RefCache
 }
 
 func Test(optsUser map[string]interface{}) *HtmlTest {
@@ -52,22 +53,30 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 		return &hT
 	}
 
+	// Init our document store
+	hT.documentStore = htmldoc.NewDocumentStore()
+	// Setup document store
+	hT.documentStore.BasePath = hT.opts.DirectoryPath
+	hT.documentStore.DocumentExtension = ".html" // TODO add option
+	hT.documentStore.DirectoryIndex = hT.opts.DirectoryIndex
+	hT.documentStore.IgnorePatterns = hT.opts.IgnoreDirs
+	// Discover documents
+	hT.documentStore.Discover()
+
 	if hT.opts.FilePath != "" {
 		// Single document mode
-		doc := htmldoc.Document{
-			FilePath: path.Join(hT.opts.DirectoryPath, hT.opts.FilePath),
-			SitePath: hT.opts.FilePath,
+		doc, ok := hT.documentStore.ResolvePath(hT.opts.FilePath)
+		if !ok {
+			fmt.Println("Could not find document", hT.opts.FilePath, "in", hT.opts.DirectoryPath)
+			os.Exit(1)
 		}
-		hT.documents = []htmldoc.Document{doc}
+		hT.testDocument(doc)
 	} else if hT.opts.DirectoryPath != "" {
-		// Directory mode
-		hT.documents = htmldoc.DocumentsFromDir(
-			hT.opts.DirectoryPath, hT.opts.IgnoreDirs)
+		// Test documents
+		hT.testDocuments()
 	} else {
 		panic("Neither file or directory path provided")
 	}
-
-	hT.testDocuments()
 
 	if hT.opts.EnableCache {
 		hT.refCache.WriteStore(cachePath)
@@ -88,31 +97,26 @@ func (hT *HtmlTest) testDocuments() {
 		var wg sync.WaitGroup
 		// Make buffered channel to act as concurrency limiter
 		var concChannel = make(chan bool, hT.opts.DocumentConcurrencyLimit)
-		for _, document := range hT.documents {
+		for _, document := range hT.documentStore.Documents {
 			wg.Add(1)
 			concChannel <- true // Add to concurrency limiter
-			go func(document htmldoc.Document) {
+			go func(document *htmldoc.Document) {
 				defer wg.Done()
-				hT.testDocument(&document)
+				hT.testDocument(document)
 				<-concChannel // Bump off concurrency limiter
 			}(document)
 		}
 		wg.Wait()
 	} else {
-		for _, document := range hT.documents {
-			hT.testDocument(&document)
+		for _, document := range hT.documentStore.Documents {
+			hT.testDocument(document)
 		}
 	}
 }
 
 func (hT *HtmlTest) testDocument(document *htmldoc.Document) {
 	document.Parse()
-	hT.parseNode(document, document.HTMLNode)
-	hT.postChecks(document)
-}
-
-func (hT *HtmlTest) parseNode(document *htmldoc.Document, n *html.Node) {
-	if n.Type == html.ElementNode {
+	for _, n := range document.NodesOfInterest {
 		switch n.Data {
 		case "a":
 			if hT.opts.CheckAnchors {
@@ -130,16 +134,9 @@ func (hT *HtmlTest) parseNode(document *htmldoc.Document, n *html.Node) {
 			if hT.opts.CheckScripts {
 				hT.checkScript(document, n)
 			}
-		case "pre":
-			return // Everything within a pre is not to be interpreted
-		case "code":
-			return // Everything within a code is not to be interpreted
 		}
 	}
-	// Iterate over children
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		hT.parseNode(document, c)
-	}
+	hT.postChecks(document)
 }
 
 func (hT *HtmlTest) postChecks(document *htmldoc.Document) {

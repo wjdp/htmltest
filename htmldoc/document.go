@@ -3,16 +3,18 @@ package htmldoc
 import (
 	"golang.org/x/net/html"
 	"os"
-	"path"
-	"regexp"
+	"sync"
 )
 
 type Document struct {
-	FilePath  string // Relative to the shell session
-	SitePath  string // Relative to the site root
-	Directory string
-	HTMLNode  *html.Node
-	State     DocumentState
+	FilePath        string // Relative to the shell session
+	SitePath        string // Relative to the site root
+	Directory       string
+	htmlMutex       *sync.Mutex
+	htmlNode        *html.Node
+	hashMap         map[string]*html.Node
+	NodesOfInterest []*html.Node
+	State           DocumentState
 }
 
 // Used by checks that depend on the document being parsed
@@ -20,7 +22,23 @@ type DocumentState struct {
 	FaviconPresent bool
 }
 
+func (doc *Document) Init() {
+	// Setup the document, doesn't mesh nice with the NewXYZ() convention but
+	// many optional parameters for Document and no parameter overloading in Go
+	doc.htmlMutex = &sync.Mutex{}
+	doc.NodesOfInterest = make([]*html.Node, 0)
+	doc.hashMap = make(map[string]*html.Node)
+}
+
 func (doc *Document) Parse() {
+	// Parse the document
+	// Either called when the document is tested or when another document needs
+	// data from this one.
+	doc.htmlMutex.Lock() // MUTEX
+	if doc.htmlNode != nil {
+		doc.htmlMutex.Unlock() // MUTEX
+		return
+	}
 	// Open, parse, and close document
 	f, err := os.Open(doc.FilePath)
 	checkErr(err)
@@ -29,73 +47,34 @@ func (doc *Document) Parse() {
 	htmlNode, err := html.Parse(f)
 	checkErr(err)
 
-	doc.HTMLNode = htmlNode
+	doc.htmlNode = htmlNode
+	doc.parseNode(htmlNode)
+	doc.htmlMutex.Unlock() // MUTEX
 }
 
-func DocumentsFromDir(path string, ignorePatterns []interface{}) []Document {
-	// Nice proxy for recurseDir
-	return recurseDir(path, ignorePatterns, "")
-}
-
-func recurseDir(basePath string, ignorePatterns []interface{}, dPath string) []Document {
-	// Recursive function that returns all Document struts in a given
-	// os directory.
-	// basePath: the directory to scan
-	// dPath: the subdirectory within basePath we're scanning
-	// ignorePatterns: string slice of dPaths to ignore
-
-	documents := make([]Document, 0)
-
-	if isDirIgnored(ignorePatterns, dPath) {
-		return documents
-	}
-
-	// Open directory to scan
-	f, err := os.Open(path.Join(basePath, dPath))
-	checkErr(err)
-	defer f.Close()
-
-	// Get FileInfo of directory (scan it)
-	fi, err := f.Stat()
-	checkErr(err)
-
-	if fi.IsDir() { // Double check we're dealing with a directory
-		// Read all FileInfo-s from directory, Readdir(count int)
-		fis, err := f.Readdir(-1)
-		checkErr(err)
-
-		// Iterate over contents of directory
-		for _, fileinfo := range fis {
-			fPath := path.Join(dPath, fileinfo.Name())
-			if fileinfo.IsDir() {
-				// If item is a dir, we need to iterate further, save returned documents
-				documents = append(documents, recurseDir(basePath, ignorePatterns, fPath)...)
-			} else if path.Ext(fileinfo.Name()) == ".html" || path.Ext(fileinfo.Name()) == ".htm" {
-				// If a file, save to filename list
-				documents = append(documents, Document{
-					FilePath:  path.Join(basePath, fPath),
-					SitePath:  fPath,
-					Directory: dPath,
-				})
-			}
+func (doc *Document) parseNode(n *html.Node) {
+	if n.Type == html.ElementNode {
+		// If present save fragment identifier to the hashMap
+		nodeId := GetId(n.Attr)
+		if nodeId != "" {
+			doc.hashMap[nodeId] = n
 		}
-	} else { // It's a file, return single file
-		filePath := path.Join(basePath, dPath)
-		documents = append(documents, Document{
-			FilePath:  filePath,
-			SitePath:  path.Base(filePath),
-			Directory: dPath,
-		})
-	}
-
-	return documents
-}
-
-func isDirIgnored(ignorePatterns []interface{}, dir string) bool {
-	for _, item := range ignorePatterns {
-		if ok, _ := regexp.MatchString(item.(string), dir+"/"); ok {
-			return true
+		// Identify and store tags of interest
+		switch n.Data {
+		case "a", "link", "img", "script":
+			doc.NodesOfInterest = append(doc.NodesOfInterest, n)
+		case "pre", "code":
+			return // Everything within these elements is not to be interpreted
 		}
 	}
-	return false
+	// Iterate over children
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		doc.parseNode(c)
+	}
+}
+
+func (doc *Document) IsHashValid(hash string) bool {
+	doc.Parse() // Ensure doc has been parsed
+	_, ok := doc.hashMap[hash]
+	return ok
 }

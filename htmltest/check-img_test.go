@@ -7,12 +7,14 @@ import (
 
 func TestImageExternalWorking(t *testing.T) {
 	// passes for existing external images
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/images/existingImageExternal.html")
 	t_expectIssueCount(t, hT, 0)
 }
 
 func TestImageExternalMissing(t *testing.T) {
 	// fails for missing external images
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/images/missingImageExternal.html")
 	t_expectIssueCount(t, hT, 1)
 	// Issue contains "no such host"
@@ -21,12 +23,14 @@ func TestImageExternalMissing(t *testing.T) {
 
 func TestImageExternalMissingProtocolValid(t *testing.T) {
 	// works for valid images missing the protocol
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/images/image_missing_protocol_valid.html")
 	t_expectIssueCount(t, hT, 0)
 }
 
 func TestImageExternalMissingProtocolInvalid(t *testing.T) {
 	// fails for invalid images missing the protocol
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/images/image_missing_protocol_invalid.html")
 	t_expectIssueCount(t, hT, 1)
 	// t_expectIssue(t, hT, message, 1)
@@ -34,12 +38,14 @@ func TestImageExternalMissingProtocolInvalid(t *testing.T) {
 
 func TestImageExternalInsecureDefault(t *testing.T) {
 	// passes for HTTP images by default
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/images/src_http.html")
 	t_expectIssueCount(t, hT, 0)
 }
 
 func TestImageExternalInsecureOption(t *testing.T) {
 	// fails for HTTP images when asked
+	t_SkipShortExternal(t)
 	hT := t_testFileOpts("fixtures/images/src_http.html",
 		map[string]interface{}{"EnforceHTTPS": true})
 	t_expectIssueCount(t, hT, 1)
@@ -107,6 +113,7 @@ func TestImageSrcEmpty(t *testing.T) {
 
 func TestImageSrcLineBreaks(t *testing.T) {
 	// deals with linebreaks in src
+	t_SkipShortExternal(t) // TODO use internal images
 	hT := t_testFile("fixtures/images/lineBreaks.html")
 	t_expectIssueCount(t, hT, 0)
 }

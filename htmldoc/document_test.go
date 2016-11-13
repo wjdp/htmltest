@@ -10,14 +10,30 @@ func TestDocumentParse(t *testing.T) {
 	doc := Document{
 		FilePath: "fixtures/documents/index.html",
 	}
+	doc.Init()
 	doc.Parse()
-	nodeElem := doc.HTMLNode.FirstChild.FirstChild.NextSibling.FirstChild
+	nodeElem := doc.htmlNode.FirstChild.FirstChild.NextSibling.FirstChild
 	assert.Equals(t, "document first body node", nodeElem.Data, "h1")
 }
 
-func TestDocumentsFromDir(t *testing.T) {
-	// it creates Document struts from an os directory
-	docs := DocumentsFromDir("fixtures/documents", []interface{}{"^lib/"})
-	// Fixtures dir has seven documents in various folders
-	assert.Equals(t, "document count", len(docs), 7)
+func TestDocumentNodesOfInterest(t *testing.T) {
+	doc := Document{
+		FilePath: "fixtures/documents/nodes.htm",
+	}
+	doc.Init()
+	doc.Parse()
+	assert.Equals(t, "nodes of interest", len(doc.NodesOfInterest), 4)
+}
+
+func TestDocumentIsHashValid(t *testing.T) {
+	// parse a document and check we have valid nodes
+	doc := Document{
+		FilePath: "fixtures/documents/index.html",
+	}
+	doc.Init()
+	doc.Parse()
+
+	assert.IsTrue(t, "#xyz present", doc.IsHashValid("xyz"))
+	assert.IsTrue(t, "#prq present", doc.IsHashValid("prq"))
+	assert.IsFalse(t, "#abc present", doc.IsHashValid("abc"))
 }

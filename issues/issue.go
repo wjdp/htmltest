@@ -47,8 +47,8 @@ func (issue *Issue) text() string {
 		issue.secondary())
 }
 
-func (issue *Issue) print() {
-	if issue.Level < issue.store.LogLevel {
+func (issue *Issue) print(force bool) {
+	if (issue.Level < issue.store.LogLevel) && !force {
 		return
 	}
 

@@ -40,7 +40,7 @@ func TestIssueSecondary(t *testing.T) {
 	assert.Equals(t, "issue1 secondary", issue1.secondary(), "http://example.com")
 }
 
-func ExampleIssuePrint() {
+func ExampleIssuePrintLogLevel() {
 	doc := htmldoc.Document{
 		SitePath: "dir/doc.html",
 	}
@@ -59,7 +59,7 @@ func ExampleIssuePrint() {
 		store:    &issueStore,
 		Message:  "test1",
 	}
-	issue1.print()
+	issue1.print(false)
 
 	issue2 := Issue{
 		Level:     WARNING,
@@ -67,7 +67,7 @@ func ExampleIssuePrint() {
 		store:     &issueStore,
 		Message:   "test2",
 	}
-	issue2.print()
+	issue2.print(false)
 
 	issue3 := Issue{
 		Level:    INFO,
@@ -75,10 +75,63 @@ func ExampleIssuePrint() {
 		store:    &issueStore,
 		Message:  "test3",
 	}
-	issue3.print()
+	issue3.print(false)
 
 	// Output:
 	// test1 --- dir/doc.html --> <nil>
 	// test2 --- dir/doc.html --> http://example.com
+
+}
+
+func ExampleIssuePrintLogAll() {
+	doc := htmldoc.Document{
+		SitePath: "dir/doc.html",
+	}
+	ref := htmldoc.Reference{
+		Document: &doc,
+		Path:     "http://example.com",
+	}
+
+	issueStore := IssueStore{
+		LogLevel: DEBUG,
+	}
+
+	issue1 := Issue{
+		Level:    ERROR,
+		Document: &doc,
+		store:    &issueStore,
+		Message:  "test1",
+	}
+	issue1.print(false)
+
+	issue2 := Issue{
+		Level:     WARNING,
+		Reference: &ref,
+		store:     &issueStore,
+		Message:   "test2",
+	}
+	issue2.print(false)
+
+	issue3 := Issue{
+		Level:    INFO,
+		Document: &doc,
+		store:    &issueStore,
+		Message:  "test3",
+	}
+	issue3.print(false)
+
+	issue4 := Issue{
+		Level:    DEBUG,
+		Document: &doc,
+		store:    &issueStore,
+		Message:  "test4",
+	}
+	issue4.print(false)
+
+	// Output:
+	// test1 --- dir/doc.html --> <nil>
+	// test2 --- dir/doc.html --> http://example.com
+	// test3 --- dir/doc.html --> <nil>
+	// test4 --- dir/doc.html --> <nil>
 
 }

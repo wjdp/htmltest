@@ -19,7 +19,7 @@ func TestReferenceScheme(t *testing.T) {
 
 	doc := Document{
 		SitePath: "doc.html",
-		HTMLNode: nodeDoc,
+		htmlNode: nodeDoc,
 	}
 
 	var ref *Reference
@@ -27,6 +27,8 @@ func TestReferenceScheme(t *testing.T) {
 	ref = NewReference(&doc, nodeElem, "http://test.com")
 	assert.Equals(t, "http reference", ref.Scheme(), "http")
 	ref = NewReference(&doc, nodeElem, "https://test.com")
+	assert.Equals(t, "https reference", ref.Scheme(), "https")
+	ref = NewReference(&doc, nodeElem, "//test.com")
 	assert.Equals(t, "https reference", ref.Scheme(), "https")
 	ref = NewReference(&doc, nodeElem,
 		"https://photos.smugmug.com/photos/i-CNHsHLM/0/440x622/i-CNHsHLM-440x622.jpg")
@@ -53,13 +55,19 @@ func TestReferenceURLString(t *testing.T) {
 
 	doc := Document{
 		SitePath: "doc.html",
-		HTMLNode: nodeDoc,
+		htmlNode: nodeDoc,
 	}
 
 	var ref *Reference
 
-	ref = NewReference(&doc, nodeElem, "google.com")
-	assert.Equals(t, "URLString", ref.URLString(), "google.com")
+	ref = NewReference(&doc, nodeElem, "http://example.com")
+	assert.Equals(t, "URLString", ref.URLString(), "http://example.com")
+	ref = NewReference(&doc, nodeElem, "http://example.com/")
+	assert.Equals(t, "URLString", ref.URLString(), "http://example.com/")
+	ref = NewReference(&doc, nodeElem, "https://example.com")
+	assert.Equals(t, "URLString", ref.URLString(), "https://example.com")
+	ref = NewReference(&doc, nodeElem, "//example.com")
+	assert.Equals(t, "URLString", ref.URLString(), "https://example.com")
 
 }
 
@@ -69,7 +77,7 @@ func TestReferenceIsInternalAbsolute(t *testing.T) {
 
 	doc := Document{
 		SitePath: "doc.html",
-		HTMLNode: nodeDoc,
+		htmlNode: nodeDoc,
 	}
 
 	var ref *Reference
@@ -93,21 +101,21 @@ func TestReferenceAbsolutePath(t *testing.T) {
 	doc := Document{
 		SitePath:  "doc.html",
 		Directory: "directory/subdir",
-		HTMLNode:  nodeDoc,
+		htmlNode:  nodeDoc,
 	}
 
 	var ref *Reference
 
 	ref = NewReference(&doc, nodeElem, "/abc/page.html")
-	assert.Equals(t, "internal absolute reference", ref.AbsolutePath(), "/abc/page.html")
+	assert.Equals(t, "internal absolute reference", ref.RefSitePath(), "/abc/page.html")
 	ref = NewReference(&doc, nodeElem, "/yyz")
-	assert.Equals(t, "internal absolute reference", ref.AbsolutePath(), "/yyz")
+	assert.Equals(t, "internal absolute reference", ref.RefSitePath(), "/yyz")
 	ref = NewReference(&doc, nodeElem, "zzy")
-	assert.Equals(t, "internal relative reference", ref.AbsolutePath(), "directory/subdir/zzy")
+	assert.Equals(t, "internal relative reference", ref.RefSitePath(), "directory/subdir/zzy")
 	ref = NewReference(&doc, nodeElem, "zzy/uup.jjr")
-	assert.Equals(t, "internal relative reference", ref.AbsolutePath(), "directory/subdir/zzy/uup.jjr")
+	assert.Equals(t, "internal relative reference", ref.RefSitePath(), "directory/subdir/zzy/uup.jjr")
 	ref = NewReference(&doc, nodeElem, "./zzy/uup.jjr")
-	assert.Equals(t, "internal relative reference", ref.AbsolutePath(), "directory/subdir/zzy/uup.jjr")
+	assert.Equals(t, "internal relative reference", ref.RefSitePath(), "directory/subdir/zzy/uup.jjr")
 }
 
 func TestURLStripQueryString(t *testing.T) {

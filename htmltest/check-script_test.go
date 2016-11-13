@@ -8,12 +8,14 @@ import (
 
 func TestScriptExternalSrcValid(t *testing.T) {
 	// passes for valid external src
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/scripts/script_valid_external.html")
 	t_expectIssueCount(t, hT, 0)
 }
 
 func TestScriptExternalSrcBroken(t *testing.T) {
 	// fails for broken external src
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/scripts/script_broken_external.html")
 	t_expectIssueCount(t, hT, 1)
 	// t_expectIssue(t, hT, "no such host", 1)
@@ -21,12 +23,14 @@ func TestScriptExternalSrcBroken(t *testing.T) {
 
 func TestScriptExternalInsecureDefault(t *testing.T) {
 	// passes for HTTP scripts by default
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/scripts/scriptInsecure.html")
 	t_expectIssueCount(t, hT, 0)
 }
 
 func TestScriptExternalInsecureOption(t *testing.T) {
 	// fails for HTTP scripts when asked
+	t_SkipShortExternal(t)
 	hT := t_testFileOpts("fixtures/scripts/scriptInsecure.html",
 		map[string]interface{}{"EnforceHTTPS": true})
 	t_expectIssueCount(t, hT, 1)

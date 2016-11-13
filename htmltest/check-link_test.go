@@ -22,6 +22,7 @@ func TestAnchorIgnorable(t *testing.T) {
 
 func TestAnchorExternalBroken(t *testing.T) {
 	// fails for broken external links
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/brokenLinkExternal.html")
 	t_expectIssueCount(t, hT, 1)
 }
@@ -35,6 +36,7 @@ func TestAnchorExternalIgnore(t *testing.T) {
 
 func TestAnchorExternalHashBrokenDefault(t *testing.T) {
 	// passes for broken external hashes by default
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/brokenHashOnTheWeb.html")
 	t_expectIssueCount(t, hT, 0)
 }
@@ -42,6 +44,7 @@ func TestAnchorExternalHashBrokenDefault(t *testing.T) {
 func TestAnchorExternalHashBrokenOption(t *testing.T) {
 	// fails for broken external hashes when asked
 	t.Skip("Not yet implemented")
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/brokenHashOnTheWeb.html")
 	t_expectIssueCount(t, hT, 1)
 	t_expectIssue(t, hT, "no such hash", 1)
@@ -51,24 +54,28 @@ func TestAnchorExternalCache(t *testing.T) {
 	// does not check links with parameters multiple times
 	// TODO check cache is being checked
 	t.Skip("Not yet implemented")
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/check_just_once.html")
 	t_expectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalHrefMalformed(t *testing.T) {
 	// does not explode on bad external links in files
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/bad_external_links.html")
 	t_expectIssueCount(t, hT, 2)
 }
 
 func TestAnchorExternalInsecureDefault(t *testing.T) {
 	// passes for non-HTTPS links when not asked
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/non_https.html")
 	t_expectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalInsecureOption(t *testing.T) {
 	// fails for non-HTTPS links when asked
+	t_SkipShortExternal(t)
 	hT := t_testFileOpts("fixtures/links/non_https.html",
 		map[string]interface{}{"EnforceHTTPS": true})
 	t_expectIssueCount(t, hT, 1)
@@ -77,12 +84,14 @@ func TestAnchorExternalInsecureOption(t *testing.T) {
 
 func TestAnchorExternalHrefIP(t *testing.T) {
 	// fails for broken IP address links
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/ip_href.html")
 	t_expectIssueCount(t, hT, 2)
 }
 
 func TestAnchorExternalHrefIPTimeout(t *testing.T) {
 	// fails for broken IP address links
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/ip_timeout.html")
 	t_expectIssueCount(t, hT, 1)
 	t_expectIssue(t, hT, "request exceeded our ExternalTimeout", 1)
@@ -91,6 +100,7 @@ func TestAnchorExternalHrefIPTimeout(t *testing.T) {
 func TestAnchorExternalFollowRedirects(t *testing.T) {
 	// should follow redirects
 	t.Skip("Need new link, times out")
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/linkWithRedirect.html")
 	t_expectIssueCount(t, hT, 0)
 }
@@ -98,6 +108,7 @@ func TestAnchorExternalFollowRedirects(t *testing.T) {
 func TestAnchorExternalFollowRedirectsDisabled(t *testing.T) {
 	// fails on redirects if not following
 	t.Skip("Not yet implemented, need new link, times out")
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/linkWithRedirect.html")
 	t_expectIssueCount(t, hT, 99)
 	t_expectIssue(t, hT, "PLACEHOLDER", 99)
@@ -105,18 +116,21 @@ func TestAnchorExternalFollowRedirectsDisabled(t *testing.T) {
 
 func TestAnchorExternalHTTPS(t *testing.T) {
 	// should understand https
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/linkWithHttps.html")
 	t_expectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalMissingProtocolValid(t *testing.T) {
 	// works for valid links missing the protocol
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/link_missing_protocol_valid.html")
 	t_expectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalMissingProtocolInvalid(t *testing.T) {
 	// fails for invalid links missing the protocol
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/link_missing_protocol_invalid.html")
 	t_expectIssueCount(t, hT, 1)
 	// t_expectIssue(t, hT, "no such host", 1)
@@ -124,18 +138,21 @@ func TestAnchorExternalMissingProtocolInvalid(t *testing.T) {
 
 func TestLinkExternalHrefPipes(t *testing.T) {
 	// works for pipes in the URL
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/escape_pipes.html")
 	t_expectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalHrefNonstandardChars(t *testing.T) {
 	// passes non-standard characters
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/non_standard_characters.html")
 	t_expectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalHrefUTF8(t *testing.T) {
 	// passes for external UTF-8 links
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/utf8Link.html")
 	t_expectIssueCount(t, hT, 0)
 }
@@ -161,12 +178,40 @@ func TestAnchorInternalRelativeLinksBase(t *testing.T) {
 	t_expectIssueCount(t, hT, 0)
 }
 
-func TestAnchorInternalHashBroken(t *testing.T) {
+func TestAnchorHashInternalValid(t *testing.T) {
+	// passes for valid internal hash
+	hT := t_testFile("fixtures/links/hashInternalOk.html")
+	t_expectIssueCount(t, hT, 0)
+}
+
+func TestAnchorHashInternalBroken(t *testing.T) {
 	// fails for broken internal hash
-	t.Skip("Not yet implemented")
-	hT := t_testFile("fixtures/links/brokenHashInternal.html")
-	t_expectIssueCount(t, hT, 99)
-	t_expectIssue(t, hT, "PLACEHOLDER", 99)
+	hT := t_testFile("fixtures/links/hashInternalBroken.html")
+	t_expectIssueCount(t, hT, 1)
+	t_expectIssue(t, hT, "hash does not exist", 1)
+}
+
+func TestAnchorHashSelfValid(t *testing.T) {
+	// passes for valid self hash
+	hT := t_testFile("fixtures/links/hashSelfOk.html")
+	t_expectIssueCount(t, hT, 0)
+}
+
+func TestAnchorHashSelfBroken(t *testing.T) {
+	// fails for broken self hash
+	hT := t_testFile("fixtures/links/hashSelfBroken.html")
+	t_expectIssueCount(t, hT, 1)
+	t_expectIssue(t, hT, "hash does not exist", 1)
+}
+
+func TestAnchorHashBrokenIgnore(t *testing.T) {
+	// fails for broken internal hash
+	hT1 := t_testFileOpts("fixtures/links/hashInternalBroken.html",
+		map[string]interface{}{"CheckInternalHash": false})
+	hT2 := t_testFileOpts("fixtures/links/hashSelfBroken.html",
+		map[string]interface{}{"CheckInternalHash": false})
+	t_expectIssueCount(t, hT1, 0)
+	t_expectIssueCount(t, hT2, 0)
 }
 
 func TestAnchorDirectoryRootResolve(t *testing.T) {
@@ -186,7 +231,7 @@ func TestAnchorDirectoryCustomRootBroken(t *testing.T) {
 	// fails if custom directory index file doesn't exist
 	hT := t_testFile("fixtures/links/link_pointing_to_directory.html")
 	t_expectIssueCount(t, hT, 1)
-	t_expectIssue(t, hT, "target does not exist", 1)
+	t_expectIssue(t, hT, "target is a directory, no index", 1)
 }
 
 func TestAnchorDirectoryNoTrailingSlash(t *testing.T) {
@@ -196,7 +241,7 @@ func TestAnchorDirectoryNoTrailingSlash(t *testing.T) {
 	t_expectIssue(t, hT, "target is a directory, href lacks trailing slash", 1)
 }
 
-func TestAnchorDirectoryNoTrailingSlashQueryHash(t *testing.T) {
+func TestAnchorDirectoryQueryHash(t *testing.T) {
 	// fails for internal linking to a directory without trailing slash
 	hT := t_testFile("fixtures/links/link_directory_with_slash_query_hash.html")
 	t_expectIssueCount(t, hT, 0)
@@ -205,6 +250,12 @@ func TestAnchorDirectoryNoTrailingSlashQueryHash(t *testing.T) {
 func TestAnchorDirectoryHtmlExtension(t *testing.T) {
 	// works for custom directory index file
 	hT := t_testDirectory("fixtures/links/_site/")
+	t_expectIssueCount(t, hT, 0)
+}
+
+func TestAnchorDirectoryWithEncodedCharacters(t *testing.T) {
+	// passes for folder with encoded characters
+	hT := t_testFile("fixtures/links/linkToFolderWithSpace.html")
 	t_expectIssueCount(t, hT, 0)
 }
 
@@ -239,7 +290,8 @@ func TestAnchorInternalDashedAttrs(t *testing.T) {
 }
 
 func TestAnchorInternalCaseMismatch(t *testing.T) {
-	// does not complain for internal links with mismatched cases
+	// does not complain for internal hash links with mismatched cases
+	t.Skip("Unsure on whether we should ignore case, pretty sure we shouldn't")
 	hT := t_testFile("fixtures/links/ignores_cases.html")
 	t_expectIssueCount(t, hT, 0)
 }
@@ -348,12 +400,14 @@ func TestLinkHrefAbsent(t *testing.T) {
 
 func TestLinkHrefBrokenCanonicalDefault(t *testing.T) {
 	// works for valid href within link elements
+	t_SkipShortExternal(t)
 	hT := t_testFile("fixtures/links/brokenCanonicalLink.html")
 	t_expectIssueCount(t, hT, 0)
 }
 
 func TestLinkHrefBrokenCanonicalOption(t *testing.T) {
 	// works for valid href within link elements
+	t_SkipShortExternal(t)
 	hT := t_testFileOpts("fixtures/links/brokenCanonicalLink.html",
 		map[string]interface{}{"IgnoreCanonicalBrokenLinks": false})
 	t_expectIssueCount(t, hT, 1)

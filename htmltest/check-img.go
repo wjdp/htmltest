@@ -8,11 +8,11 @@ import (
 )
 
 func (hT *HtmlTest) checkImg(document *htmldoc.Document, node *html.Node) {
-	attrs := extractAttrs(node.Attr,
+	attrs := htmldoc.ExtractAttrs(node.Attr,
 		[]string{"src", "alt", hT.opts.IgnoreTagAttribute})
 
 	// Ignore if data-proofer-ignore set
-	if attrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
+	if htmldoc.AttrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
 		return
 	}
 
@@ -20,13 +20,13 @@ func (hT *HtmlTest) checkImg(document *htmldoc.Document, node *html.Node) {
 	ref := htmldoc.NewReference(document, node, attrs["src"])
 
 	// Check alt present, fail if absent unless asked to ignore
-	if !attrPresent(node.Attr, "alt") && !hT.opts.IgnoreAltMissing {
+	if !htmldoc.AttrPresent(node.Attr, "alt") && !hT.opts.IgnoreAltMissing {
 		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.ERROR,
 			Message:   "alt attribute missing",
 			Reference: ref,
 		})
-	} else if attrPresent(node.Attr, "alt") {
+	} else if htmldoc.AttrPresent(node.Attr, "alt") {
 		// Following checks require alt attr is present
 		if len(attrs["alt"]) == 0 {
 			// Check alt has length, fail if empty
@@ -47,7 +47,7 @@ func (hT *HtmlTest) checkImg(document *htmldoc.Document, node *html.Node) {
 	}
 
 	// Check src present, fail if absent
-	if !attrPresent(node.Attr, "src") {
+	if !htmldoc.AttrPresent(node.Attr, "src") {
 		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.ERROR,
 			Message:   "src attribute missing",
