@@ -1,7 +1,6 @@
 language: go
 
 go:
-- 1.6.2
 - 1.7.3
 
 os:
@@ -31,4 +30,4 @@ deploy:
   on:
     tags: true
     repo: wjdp/htmltest
-    go: 1.6.2
+    go: 1.7.3
