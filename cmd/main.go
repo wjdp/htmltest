@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const VERSION string = "0.1.0"
+const VERSION string = "0.1.2"
 const SEPERATOR string = "========================================================================"
 
 func main() {
@@ -31,7 +31,7 @@ Options:
   --log-level=LEVEL   Logging level, 0-3: debug, info, warning, error.
   --conf=CFILE        Custom path to config file.
   -h --help           Show this text.`
-	versionText := "htmlproofer " + VERSION
+	versionText := "htmltest " + VERSION
 	arguments, _ := docopt.Parse(usage, nil, true, versionText, false)
 	// fmt.Println(arguments)
 
