@@ -7,13 +7,16 @@ import (
 	"strings"
 )
 
+// Representation of the link between a document and a resource
 type Reference struct {
-	Document *Document
-	Node     *html.Node
-	Path     string
-	URL      *url.URL
+	Document *Document  // Document node is in
+	Node     *html.Node // Node reference was created from
+	Path     string     // href/src taken verbatim from source
+	URL      *url.URL   // URL object created from Path
 }
 
+// Create a new reference given a document, node and path. Generates the URL
+// object.
 func NewReference(document *Document, node *html.Node, path string) *Reference {
 	// Clean path
 	path = strings.TrimLeftFunc(path, invalidPrePostRune)
@@ -33,6 +36,8 @@ func NewReference(document *Document, node *html.Node, path string) *Reference {
 	return &ref
 }
 
+// Returns the scheme of the reference. Uses URL.Scheme and adds "file" and
+// "self" schemes for inter-file and intra-file references.
 func (ref *Reference) Scheme() string {
 	if strings.HasPrefix(ref.Path, "//") {
 		// Could be http or https, we can handle https so prefer that
@@ -59,6 +64,8 @@ func (ref *Reference) Scheme() string {
 	return "" // Unknown
 }
 
+// Proxy for URL.String but deals with other valid URL types, such as missing
+// protocol URLs.
 func (ref *Reference) URLString() string {
 	// Format url for use in http.Get
 	urlStr := ref.URL.String()
@@ -68,23 +75,24 @@ func (ref *Reference) URLString() string {
 	return urlStr
 }
 
+// Is an internal absolute link
 func (ref *Reference) IsInternalAbsolute() bool {
-	// Is an internal absolute link
 	return !strings.HasPrefix(ref.Path, "//") && strings.HasPrefix(ref.Path, "/")
 }
 
+// For internals, return a path to the referenced file relative to the
+// 'site root'.
 func (ref *Reference) RefSitePath() string {
-	// If internal, return a path to the referenced file relative to the 'site root'
-	// Strip shit off the end?
 	if ref.IsInternalAbsolute() {
 		return ref.URL.Path
 	} else {
-		return path.Join(ref.Document.Directory, ref.URL.Path)
+		return path.Join(ref.Document.BasePath, ref.URL.Path)
 	}
 }
 
 // Utilities
 
+// Removes query string from given urlStr
 func URLStripQueryString(urlStr string) string {
 	return strings.Split(urlStr, "?")[0]
 }

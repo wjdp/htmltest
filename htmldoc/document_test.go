@@ -25,6 +25,24 @@ func TestDocumentNodesOfInterest(t *testing.T) {
 	assert.Equals(t, "nodes of interest", len(doc.NodesOfInterest), 4)
 }
 
+func TestDocumentBasePathDefault(t *testing.T) {
+	doc := Document{
+		FilePath: "fixtures/documents/index.html",
+	}
+	doc.Init()
+	doc.Parse()
+	assert.Equals(t, "BasePath", doc.BasePath, "")
+}
+
+func TestDocumentBasePathFromTag(t *testing.T) {
+	doc := Document{
+		FilePath: "fixtures/documents/dir2/base_tag.htm",
+	}
+	doc.Init()
+	doc.Parse()
+	assert.Equals(t, "BasePath", doc.BasePath, "/dir2")
+}
+
 func TestDocumentIsHashValid(t *testing.T) {
 	// parse a document and check we have valid nodes
 	doc := Document{

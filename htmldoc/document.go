@@ -3,33 +3,39 @@ package htmldoc
 import (
 	"golang.org/x/net/html"
 	"os"
+	"path"
 	"sync"
 )
 
+// Representation of a document within the tested site
 type Document struct {
-	FilePath        string // Relative to the shell session
-	SitePath        string // Relative to the site root
-	Directory       string
-	htmlMutex       *sync.Mutex
-	htmlNode        *html.Node
-	hashMap         map[string]*html.Node
-	NodesOfInterest []*html.Node
-	State           DocumentState
+	FilePath        string                // Relative to the shell session
+	SitePath        string                // Relative to the site root
+	BasePath        string                // Base for relative links
+	htmlMutex       *sync.Mutex           // Controls access to htmlNode
+	htmlNode        *html.Node            // Parsed output
+	hashMap         map[string]*html.Node // Map of valid id/names of nodes
+	NodesOfInterest []*html.Node          // Slice of nodes to run checks on
+	State           DocumentState         // Link to a DocumentState struct
 }
 
 // Used by checks that depend on the document being parsed
 type DocumentState struct {
-	FaviconPresent bool
+	FaviconPresent bool // Have we found a favicon in the document?
 }
 
+// Initialise the Document struct doesn't mesh nice with the NewXYZ()
+// convention but many optional parameters for Document and no parameter
+// overloading in Go
 func (doc *Document) Init() {
-	// Setup the document, doesn't mesh nice with the NewXYZ() convention but
-	// many optional parameters for Document and no parameter overloading in Go
+	// Setup the document,
 	doc.htmlMutex = &sync.Mutex{}
 	doc.NodesOfInterest = make([]*html.Node, 0)
 	doc.hashMap = make(map[string]*html.Node)
 }
 
+// Ask Document to parse its HTML file. Returns quickly if this has already
+// been done.
 func (doc *Document) Parse() {
 	// Parse the document
 	// Either called when the document is tested or when another document needs
@@ -52,6 +58,8 @@ func (doc *Document) Parse() {
 	doc.htmlMutex.Unlock() // MUTEX
 }
 
+// Internal recursive function that delves into the node tree and captures
+// nodes of interest and node id/names.
 func (doc *Document) parseNode(n *html.Node) {
 	if n.Type == html.ElementNode {
 		// If present save fragment identifier to the hashMap
@@ -62,7 +70,11 @@ func (doc *Document) parseNode(n *html.Node) {
 		// Identify and store tags of interest
 		switch n.Data {
 		case "a", "link", "img", "script":
+			// Nodes of interest
 			doc.NodesOfInterest = append(doc.NodesOfInterest, n)
+		case "base":
+			// Set BasePath from <base> tag
+			doc.BasePath = path.Join(doc.BasePath, GetAttr(n.Attr, "href"))
 		case "pre", "code":
 			return // Everything within these elements is not to be interpreted
 		}
@@ -73,6 +85,7 @@ func (doc *Document) parseNode(n *html.Node) {
 	}
 }
 
+// Is a hash/fragment present in this Document
 func (doc *Document) IsHashValid(hash string) bool {
 	doc.Parse() // Ensure doc has been parsed
 	_, ok := doc.hashMap[hash]

@@ -7,6 +7,15 @@ import (
 	"testing"
 )
 
+func TestGetAttr(t *testing.T) {
+	snip := "<img src=\"x\" alt=\"y\" />"
+	nodeDoc, _ := html.Parse(strings.NewReader(snip))
+	nodeImg := nodeDoc.FirstChild.FirstChild.NextSibling.FirstChild
+
+	assert.Equals(t, "src", GetAttr(nodeImg.Attr, "src"), "x")
+	assert.Equals(t, "alt", GetAttr(nodeImg.Attr, "alt"), "y")
+}
+
 func TestExtractAttrs(t *testing.T) {
 	snip := "<img src=\"x\" alt=\"y\" />"
 	nodeDoc, _ := html.Parse(strings.NewReader(snip))

@@ -173,7 +173,6 @@ func TestAnchorInternalBrokenIgnore(t *testing.T) {
 
 func TestAnchorInternalRelativeLinksBase(t *testing.T) {
 	// passes for relative links with a base
-	t.Skip("Broken, ones does not exist, third back operation to base not supported")
 	hT := t_testFile("fixtures/links/relativeLinksWithBase.html")
 	t_expectIssueCount(t, hT, 0)
 }

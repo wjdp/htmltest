@@ -1,3 +1,5 @@
+// Provides local document interface for htmltest. Models a store of documents,
+// individual documents and their internal and external references.
 package htmldoc
 
 import (
@@ -6,6 +8,7 @@ import (
 	"regexp"
 )
 
+// Store of Documents including Document discovery
 type DocumentStore struct {
 	BasePath          string               // Path, relative to cwd, the site is located in
 	IgnorePatterns    []interface{}        // Regexes of directories to ignore
@@ -15,6 +18,7 @@ type DocumentStore struct {
 	DirectoryIndex    string               // What file is the index of the directory
 }
 
+// Create and return a new Document store
 func NewDocumentStore() DocumentStore {
 	return DocumentStore{
 		Documents:       make([]*Document, 0),
@@ -22,19 +26,20 @@ func NewDocumentStore() DocumentStore {
 	}
 }
 
+// Add a document to the document store
 func (dS *DocumentStore) AddDocument(doc *Document) {
 	// Save reference to document to various data stores
 	dS.Documents = append(dS.Documents, doc)
 	dS.DocumentPathMap[doc.SitePath] = doc
 }
 
+// Discover all documents within DocumentStore.BasePath
 func (dS *DocumentStore) Discover() {
-	// Find all documents in BasePath
 	dS.discoverRecurse(".")
 }
 
+// Does dir match one of the IgnorePatterns?
 func (dS *DocumentStore) isDirIgnored(dir string) bool {
-	// Does path dir match IgnorePatterns?
 	for _, item := range dS.IgnorePatterns {
 		if ok, _ := regexp.MatchString(item.(string), dir+"/"); ok {
 			return true
@@ -43,6 +48,7 @@ func (dS *DocumentStore) isDirIgnored(dir string) bool {
 	return false
 }
 
+// Recursive function to discover documents by walking the file tree
 func (dS *DocumentStore) discoverRecurse(dPath string) {
 	// Recurse over relative path dPath, saves found documents to dS
 	if dS.isDirIgnored(dPath) {
@@ -72,9 +78,9 @@ func (dS *DocumentStore) discoverRecurse(dPath string) {
 			} else if path.Ext(fileinfo.Name()) == dS.DocumentExtension {
 				// If a file, create and save document
 				newDoc := &Document{
-					FilePath:  path.Join(dS.BasePath, fPath),
-					SitePath:  fPath,
-					Directory: dPath,
+					FilePath: path.Join(dS.BasePath, fPath),
+					SitePath: fPath,
+					BasePath: dPath,
 				}
 				newDoc.Init()
 				dS.AddDocument(newDoc)
@@ -86,9 +92,8 @@ func (dS *DocumentStore) discoverRecurse(dPath string) {
 
 }
 
+// Resolves internal absolute paths to documents
 func (dS *DocumentStore) ResolvePath(refPath string) (*Document, bool) {
-	// Resolves internal absolute paths to documents
-
 	// Match root document
 	if refPath == "/" {
 		d0, b0 := dS.DocumentPathMap[dS.DirectoryIndex]
@@ -112,6 +117,7 @@ func (dS *DocumentStore) ResolvePath(refPath string) (*Document, bool) {
 	return d2, b2
 }
 
+// Proxy to ResolvePath via ref.RefSitePath()
 func (dS *DocumentStore) ResolveRef(ref *Reference) (*Document, bool) {
 	return dS.ResolvePath(ref.RefSitePath())
 }

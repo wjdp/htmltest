@@ -99,9 +99,9 @@ func TestReferenceAbsolutePath(t *testing.T) {
 	nodeDoc, nodeElem := nodeGen(snip)
 
 	doc := Document{
-		SitePath:  "doc.html",
-		Directory: "directory/subdir",
-		htmlNode:  nodeDoc,
+		SitePath: "doc.html",
+		BasePath: "directory/subdir",
+		htmlNode: nodeDoc,
 	}
 
 	var ref *Reference

@@ -86,7 +86,7 @@ func TestImageInternalMissingCharsAndCases(t *testing.T) {
 
 func TestImageInternalWithBase(t *testing.T) {
 	// properly checks relative images with base
-	t.Skip("base tag not supported")
+	t.Skip("absolute base tags not supported")
 	hT := t_testFile("fixtures/images/relativeWithBase.html")
 	t_expectIssueCount(t, hT, 0)
 }
