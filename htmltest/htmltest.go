@@ -1,3 +1,4 @@
+// Main package, provides the HtmlTest struct and associated checks.
 package htmltest
 
 import (
@@ -12,6 +13,7 @@ import (
 	"time"
 )
 
+// A html testing session, user options are passed in and tests are run.
 type HtmlTest struct {
 	opts          Options
 	httpClient    *http.Client
@@ -21,6 +23,7 @@ type HtmlTest struct {
 	refCache      *refcache.RefCache
 }
 
+// Given user options run htmltest and return a pointer to the test object.
 func Test(optsUser map[string]interface{}) *HtmlTest {
 	hT := HtmlTest{}
 
@@ -149,6 +152,7 @@ func (hT *HtmlTest) postChecks(document *htmldoc.Document) {
 	}
 }
 
+// Return number of error level issues
 func (hT *HtmlTest) CountErrors() int {
 	return hT.issueStore.Count(issues.ERROR)
 }

@@ -1,3 +1,4 @@
+// Caches results of external link checking.
 package refcache
 
 import (
@@ -8,12 +9,14 @@ import (
 	"time"
 )
 
+// Store of cached references
 type RefCache struct {
 	refStore     map[string]CachedRef
 	rwMutex      *sync.RWMutex
 	cacheExpires time.Duration
 }
 
+// Create a cached reference
 func NewRefCache(storePath string, cacheExpiresStr string) *RefCache {
 	rS := &RefCache{}
 	_ = storePath
@@ -27,6 +30,7 @@ func NewRefCache(storePath string, cacheExpiresStr string) *RefCache {
 	return rS
 }
 
+// Read a saved store from storePath
 func (rS *RefCache) ReadStore(storePath string) bool {
 	// Read in RefCache
 	f, err := os.Open(storePath)
@@ -48,6 +52,7 @@ func (rS *RefCache) ReadStore(storePath string) bool {
 	return true
 }
 
+// Write store to storePath
 func (rS *RefCache) WriteStore(storePath string) {
 	// Write out RefCache
 	os.MkdirAll(path.Dir(storePath), 0777)
@@ -63,12 +68,14 @@ func (rS *RefCache) WriteStore(storePath string) {
 	}
 }
 
+// Single cached result
 type CachedRef struct {
 	StatusCode int
 	LastSeen   time.Time
 	// Body byte[] // For when we do hash checking on external documents
 }
 
+// Get a cached result, thread safe.
 func (rS *RefCache) Get(urlStr string) (*CachedRef, bool) {
 	rS.rwMutex.RLock()
 	val, ok := rS.refStore[urlStr]
@@ -87,6 +94,7 @@ func (rS *RefCache) Get(urlStr string) (*CachedRef, bool) {
 	}
 }
 
+// Save a result to the cache, thread safe.
 func (rS *RefCache) Save(urlStr string, statusCode int) {
 	cR := CachedRef{
 		StatusCode: statusCode,

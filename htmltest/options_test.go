@@ -43,10 +43,10 @@ func TestIsURLIgnored(t *testing.T) {
 		"NoRun": true,
 	}
 	hT := Test(userOpts)
-	assert.IsTrue(t, "url ignored", hT.opts.IsURLIgnored("https://google.com/?q=1234"))
-	assert.IsTrue(t, "url ignored", hT.opts.IsURLIgnored("https://test.example.com/"))
-	assert.IsTrue(t, "url ignored", hT.opts.IsURLIgnored("https://www.library.com/page"))
-	assert.IsTrue(t, "url ignored", hT.opts.IsURLIgnored("https://cdn.assetstore.info/lib/test.js"))
-	assert.IsFalse(t, "url left alone", hT.opts.IsURLIgnored("https://froogle.com/?q=1234"))
-	assert.IsFalse(t, "url left alone", hT.opts.IsURLIgnored("http://assetstore.info/lib/test.js"))
+	assert.IsTrue(t, "url ignored", hT.opts.isURLIgnored("https://google.com/?q=1234"))
+	assert.IsTrue(t, "url ignored", hT.opts.isURLIgnored("https://test.example.com/"))
+	assert.IsTrue(t, "url ignored", hT.opts.isURLIgnored("https://www.library.com/page"))
+	assert.IsTrue(t, "url ignored", hT.opts.isURLIgnored("https://cdn.assetstore.info/lib/test.js"))
+	assert.IsFalse(t, "url left alone", hT.opts.isURLIgnored("https://froogle.com/?q=1234"))
+	assert.IsFalse(t, "url left alone", hT.opts.isURLIgnored("http://assetstore.info/lib/test.js"))
 }

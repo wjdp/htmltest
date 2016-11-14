@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+// htmltest options struct, user and default options are merged and mapped
+// into an instance of this struct.
 type Options struct {
 	DirectoryPath string
 	FilePath      string
@@ -56,6 +58,7 @@ type Options struct {
 	NoRun bool // When true does not run tests, used to inspect state in unit tests
 }
 
+// Returns a map of default options.
 func DefaultOptions() map[string]interface{} {
 	// Specify defaults here
 	return map[string]interface{}{
@@ -112,6 +115,7 @@ func (hT *HtmlTest) setOptions(optsUser map[string]interface{}) {
 
 }
 
+// Utility function to test if key is in a slice/list
 func InList(list []string, key string) bool {
 	for _, item := range list {
 		if strings.Contains(key, item) {
@@ -121,7 +125,8 @@ func InList(list []string, key string) bool {
 	return false
 }
 
-func (opts *Options) IsURLIgnored(url string) bool {
+// Is the given URL ignored by the current configuration
+func (opts *Options) isURLIgnored(url string) bool {
 	for _, item := range opts.IgnoreURLs {
 		if ok, _ := regexp.MatchString(item.(string), url); ok {
 			return true

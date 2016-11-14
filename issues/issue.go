@@ -14,14 +14,14 @@ const WARNING int = 2
 const INFO int = 1
 const DEBUG int = 0
 
-var LogLevel int
-
+// Struct representing a single issue with a document.
+// Set all except Document and Reference, set one or the other.
 type Issue struct {
-	Level     int
-	Document  *htmldoc.Document
-	Reference *htmldoc.Reference
-	Message   string
-	store     *IssueStore
+	Level     int                // Level of the issue, use the consts at the top of this file
+	Document  *htmldoc.Document  // Document this issue pertains to
+	Reference *htmldoc.Reference // Reference this issue pertains to
+	Message   string             // Error message, keep short
+	store     *IssueStore        // Internal ref to the store this issue is owned by
 }
 
 func (issue *Issue) primary() string {

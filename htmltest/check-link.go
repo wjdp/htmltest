@@ -114,7 +114,7 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 	urlStr := ref.URLString()
 
 	// Does this url match an url ignore rule?
-	if hT.opts.IsURLIgnored(urlStr) {
+	if hT.opts.isURLIgnored(urlStr) {
 		return
 	}
 
