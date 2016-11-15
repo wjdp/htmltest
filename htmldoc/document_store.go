@@ -1,5 +1,6 @@
-// Provides local document interface for htmltest. Models a store of documents,
-// individual documents and their internal and external references.
+// Package htmldoc : Provides local document interface for htmltest. Models a
+// store of documents, individual documents and their internal and external
+// references.
 package htmldoc
 
 import (
@@ -8,7 +9,7 @@ import (
 	"regexp"
 )
 
-// Store of Documents including Document discovery
+// DocumentStore struct, store of Documents including Document discovery
 type DocumentStore struct {
 	BasePath          string               // Path, relative to cwd, the site is located in
 	IgnorePatterns    []interface{}        // Regexes of directories to ignore
@@ -18,7 +19,7 @@ type DocumentStore struct {
 	DirectoryIndex    string               // What file is the index of the directory
 }
 
-// Create and return a new Document store
+// NewDocumentStore : Create and return a new Document store.
 func NewDocumentStore() DocumentStore {
 	return DocumentStore{
 		Documents:       make([]*Document, 0),
@@ -26,14 +27,14 @@ func NewDocumentStore() DocumentStore {
 	}
 }
 
-// Add a document to the document store
+// AddDocument : Add a document to the document store.
 func (dS *DocumentStore) AddDocument(doc *Document) {
 	// Save reference to document to various data stores
 	dS.Documents = append(dS.Documents, doc)
 	dS.DocumentPathMap[doc.SitePath] = doc
 }
 
-// Discover all documents within DocumentStore.BasePath
+// Discover : Discover all documents within DocumentStore.BasePath.
 func (dS *DocumentStore) Discover() {
 	dS.discoverRecurse(".")
 }
@@ -92,7 +93,7 @@ func (dS *DocumentStore) discoverRecurse(dPath string) {
 
 }
 
-// Resolves internal absolute paths to documents
+// ResolvePath : Resolves internal absolute paths to documents.
 func (dS *DocumentStore) ResolvePath(refPath string) (*Document, bool) {
 	// Match root document
 	if refPath == "/" {
@@ -102,7 +103,7 @@ func (dS *DocumentStore) ResolvePath(refPath string) (*Document, bool) {
 
 	if refPath[0] == '/' && len(refPath) > 1 {
 		// Is an absolute link, remove the leading slash for map lookup
-		refPath = refPath[1:len(refPath)]
+		refPath = refPath[1:]
 	}
 
 	// Try path as-is, path.ext
@@ -117,7 +118,7 @@ func (dS *DocumentStore) ResolvePath(refPath string) (*Document, bool) {
 	return d2, b2
 }
 
-// Proxy to ResolvePath via ref.RefSitePath()
+// ResolveRef : Proxy to ResolvePath via ref.RefSitePath()
 func (dS *DocumentStore) ResolveRef(ref *Reference) (*Document, bool) {
 	return dS.ResolvePath(ref.RefSitePath())
 }

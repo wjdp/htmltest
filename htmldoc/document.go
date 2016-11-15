@@ -7,7 +7,7 @@ import (
 	"sync"
 )
 
-// Representation of a document within the tested site
+// Document struct, representation of a document within the tested site
 type Document struct {
 	FilePath        string                // Relative to the shell session
 	SitePath        string                // Relative to the site root
@@ -19,12 +19,13 @@ type Document struct {
 	State           DocumentState         // Link to a DocumentState struct
 }
 
-// Used by checks that depend on the document being parsed
+// DocumentState struct, used by checks that depend on the document being
+// parsed.
 type DocumentState struct {
 	FaviconPresent bool // Have we found a favicon in the document?
 }
 
-// Initialise the Document struct doesn't mesh nice with the NewXYZ()
+// Init : Initialise the Document struct doesn't mesh nice with the NewXYZ()
 // convention but many optional parameters for Document and no parameter
 // overloading in Go
 func (doc *Document) Init() {
@@ -34,8 +35,8 @@ func (doc *Document) Init() {
 	doc.hashMap = make(map[string]*html.Node)
 }
 
-// Ask Document to parse its HTML file. Returns quickly if this has already
-// been done.
+// Parse : Ask Document to parse its HTML file. Returns quickly if this has
+// already been done. Thread safe.
 func (doc *Document) Parse() {
 	// Parse the document
 	// Either called when the document is tested or when another document needs
@@ -63,9 +64,9 @@ func (doc *Document) Parse() {
 func (doc *Document) parseNode(n *html.Node) {
 	if n.Type == html.ElementNode {
 		// If present save fragment identifier to the hashMap
-		nodeId := GetId(n.Attr)
-		if nodeId != "" {
-			doc.hashMap[nodeId] = n
+		nodeID := GetID(n.Attr)
+		if nodeID != "" {
+			doc.hashMap[nodeID] = n
 		}
 		// Identify and store tags of interest
 		switch n.Data {
@@ -85,7 +86,7 @@ func (doc *Document) parseNode(n *html.Node) {
 	}
 }
 
-// Is a hash/fragment present in this Document
+// IsHashValid : Is a hash/fragment present in this Document.
 func (doc *Document) IsHashValid(hash string) bool {
 	doc.Parse() // Ensure doc has been parsed
 	_, ok := doc.hashMap[hash]

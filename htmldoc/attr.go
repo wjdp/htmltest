@@ -4,7 +4,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-// From attrs extract single attr
+// GetAttr : From attrs extract single attr
 func GetAttr(attrs []html.Attribute, key string) string {
 	for _, attr := range attrs {
 		if attr.Key == key {
@@ -14,7 +14,7 @@ func GetAttr(attrs []html.Attribute, key string) string {
 	return ""
 }
 
-// From attrs extract the asked for keys
+// ExtractAttrs : From attrs extract the asked for keys
 func ExtractAttrs(attrs []html.Attribute, keys []string) map[string]string {
 	attrMap := make(map[string]string)
 	for _, attr := range attrs {
@@ -29,7 +29,7 @@ func ExtractAttrs(attrs []html.Attribute, keys []string) map[string]string {
 	return attrMap
 }
 
-// Is key present within attrs?
+// AttrPresent : Is key present within attrs?
 func AttrPresent(attrs []html.Attribute, key string) bool {
 	for _, attr := range attrs {
 		if attr.Key == key {
@@ -39,8 +39,8 @@ func AttrPresent(attrs []html.Attribute, key string) bool {
 	return false
 }
 
-// Get hash/fragment id from node.Attrs
-func GetId(attrs []html.Attribute) string {
+// GetID : Get hash/fragment id from node.Attrs
+func GetID(attrs []html.Attribute) string {
 	for _, attr := range attrs {
 		if attr.Key == "id" {
 			return attr.Val

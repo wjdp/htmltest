@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-func (hT *HtmlTest) checkLink(document *htmldoc.Document, node *html.Node) {
+func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 	attrs := htmldoc.ExtractAttrs(node.Attr,
 		[]string{"href", "rel", hT.opts.IgnoreTagAttribute})
 
@@ -36,14 +36,14 @@ func (hT *HtmlTest) checkLink(document *htmldoc.Document, node *html.Node) {
 		switch node.Data {
 		case "a":
 			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.DEBUG,
+				Level:     issues.LevelDebug,
 				Message:   "anchor without href",
 				Reference: ref,
 			})
 			return
 		case "link":
 			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.ERROR,
+				Level:     issues.LevelError,
 				Message:   "link tag missing href",
 				Reference: ref,
 			})
@@ -54,7 +54,7 @@ func (hT *HtmlTest) checkLink(document *htmldoc.Document, node *html.Node) {
 	// Blank href
 	if attrs["href"] == "" {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
+			Level:     issues.LevelError,
 			Message:   "href blank",
 			Reference: ref,
 		})
@@ -64,7 +64,7 @@ func (hT *HtmlTest) checkLink(document *htmldoc.Document, node *html.Node) {
 	// href="#"
 	if attrs["href"] == "#" {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
+			Level:     issues.LevelError,
 			Message:   "empty hash",
 			Reference: ref,
 		})
@@ -76,7 +76,7 @@ func (hT *HtmlTest) checkLink(document *htmldoc.Document, node *html.Node) {
 	case "http":
 		if hT.opts.EnforceHTTPS {
 			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.ERROR,
+				Level:     issues.LevelError,
 				Message:   "is not an HTTPS target",
 				Reference: ref,
 			})
@@ -101,10 +101,10 @@ func (hT *HtmlTest) checkLink(document *htmldoc.Document, node *html.Node) {
 
 }
 
-func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
+func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 	if !hT.opts.CheckExternal {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.DEBUG,
+			Level:     issues.LevelDebug,
 			Message:   "skipping external check",
 			Reference: ref,
 		})
@@ -129,20 +129,20 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 		// If we have a valid result in cache, use that
 		statusCode = cR.StatusCode
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.DEBUG,
+			Level:     issues.LevelDebug,
 			Message:   "from cache",
 			Reference: ref,
 		})
 	} else {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.DEBUG,
+			Level:     issues.LevelDebug,
 			Message:   "fresh",
 			Reference: ref,
 		})
-		urlUrl, err := url.Parse(urlStr)
+		urlURL, err := url.Parse(urlStr)
 		req := &http.Request{
 			Method: "GET",
-			URL:    urlUrl,
+			URL:    urlURL,
 			Header: map[string][]string{
 				"Range": {"bytes=0-0"}, // If server supports prevents body being sent
 			},
@@ -151,7 +151,7 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 		hT.httpChannel <- true // Add to http concurrency limiter
 
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.INFO,
+			Level:     issues.LevelInfo,
 			Message:   "hitting",
 			Reference: ref,
 		})
@@ -167,7 +167,7 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 				cleanedMessage := strings.TrimPrefix(err.Error(), prefix)
 				// Add error
 				hT.issueStore.AddIssue(issues.Issue{
-					Level:     issues.ERROR,
+					Level:     issues.LevelError,
 					Message:   cleanedMessage,
 					Reference: ref,
 				})
@@ -175,7 +175,7 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 			}
 			if strings.Contains(err.Error(), "Client.Timeout") {
 				hT.issueStore.AddIssue(issues.Issue{
-					Level:     issues.ERROR,
+					Level:     issues.LevelError,
 					Message:   "request exceeded our ExternalTimeout",
 					Reference: ref,
 				})
@@ -184,7 +184,7 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 
 			// Unhandled client error, return generic error
 			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.ERROR,
+				Level:     issues.LevelError,
 				Message:   err.Error(),
 				Reference: ref,
 			})
@@ -199,13 +199,13 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 	switch statusCode {
 	case http.StatusOK:
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.DEBUG,
+			Level:     issues.LevelDebug,
 			Message:   http.StatusText(statusCode),
 			Reference: ref,
 		})
 	case http.StatusPartialContent:
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.DEBUG,
+			Level:     issues.LevelDebug,
 			Message:   http.StatusText(statusCode),
 			Reference: ref,
 		})
@@ -213,13 +213,13 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 		attrs := htmldoc.ExtractAttrs(ref.Node.Attr, []string{"rel"})
 		if attrs["rel"] == "canonical" && hT.opts.IgnoreCanonicalBrokenLinks {
 			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.WARNING,
+				Level:     issues.LevelWarning,
 				Message:   http.StatusText(statusCode) + " [rel=\"canonical\"]",
 				Reference: ref,
 			})
 		} else {
 			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.ERROR,
+				Level:     issues.LevelError,
 				Message:   http.StatusText(statusCode),
 				Reference: ref,
 			})
@@ -229,10 +229,10 @@ func (hT *HtmlTest) checkExternal(ref *htmldoc.Reference) {
 	// TODO check a hash id exists in external page if present in reference (URL.Fragment)
 }
 
-func (hT *HtmlTest) checkInternal(ref *htmldoc.Reference) {
+func (hT *HTMLTest) checkInternal(ref *htmldoc.Reference) {
 	if !hT.opts.CheckInternal {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.DEBUG,
+			Level:     issues.LevelDebug,
 			Message:   "skipping internal check",
 			Reference: ref,
 		})
@@ -246,7 +246,7 @@ func (hT *HtmlTest) checkInternal(ref *htmldoc.Reference) {
 		// If path doesn't end in slash and the resolved ref is an index.html, complain
 		if (ref.URL.Path[len(ref.URL.Path)-1] != '/') && (path.Base(refDoc.SitePath) == hT.opts.DirectoryIndex) && (!hT.opts.IgnoreDirectoryMissingTrailingSlash) {
 			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.ERROR,
+				Level:     issues.LevelError,
 				Message:   "target is a directory, href lacks trailing slash",
 				Reference: ref,
 			})
@@ -263,10 +263,10 @@ func (hT *HtmlTest) checkInternal(ref *htmldoc.Reference) {
 	}
 }
 
-func (hT *HtmlTest) checkInternalHash(ref *htmldoc.Reference) {
+func (hT *HTMLTest) checkInternalHash(ref *htmldoc.Reference) {
 	if !hT.opts.CheckInternalHash {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.DEBUG,
+			Level:     issues.LevelDebug,
 			Message:   "skipping hash check",
 			Reference: ref,
 		})
@@ -276,7 +276,7 @@ func (hT *HtmlTest) checkInternalHash(ref *htmldoc.Reference) {
 	// var refDoc *htmldoc.Document
 	if len(ref.URL.Fragment) == 0 {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
+			Level:     issues.LevelError,
 			Message:   "missing hash",
 			Reference: ref,
 		})
@@ -287,7 +287,7 @@ func (hT *HtmlTest) checkInternalHash(ref *htmldoc.Reference) {
 		refDoc, _ := hT.documentStore.ResolveRef(ref)
 		if !refDoc.IsHashValid(ref.URL.Fragment) {
 			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.ERROR,
+				Level:     issues.LevelError,
 				Message:   "hash does not exist",
 				Reference: ref,
 			})
@@ -296,7 +296,7 @@ func (hT *HtmlTest) checkInternalHash(ref *htmldoc.Reference) {
 		// self
 		if !ref.Document.IsHashValid(ref.URL.Fragment) {
 			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.ERROR,
+				Level:     issues.LevelError,
 				Message:   "hash does not exist",
 				Reference: ref,
 			})
@@ -304,11 +304,11 @@ func (hT *HtmlTest) checkInternalHash(ref *htmldoc.Reference) {
 	}
 }
 
-func (hT *HtmlTest) checkFile(ref *htmldoc.Reference, absPath string) {
+func (hT *HTMLTest) checkFile(ref *htmldoc.Reference, absPath string) {
 	f, err := os.Stat(absPath)
 	if os.IsNotExist(err) {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
+			Level:     issues.LevelError,
 			Message:   "target does not exist",
 			Reference: ref,
 		})
@@ -318,20 +318,20 @@ func (hT *HtmlTest) checkFile(ref *htmldoc.Reference, absPath string) {
 
 	if f.IsDir() {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
+			Level:     issues.LevelError,
 			Message:   "target is a directory, no index",
 			Reference: ref,
 		})
 	}
 }
 
-func (hT *HtmlTest) checkMailto(ref *htmldoc.Reference) {
+func (hT *HTMLTest) checkMailto(ref *htmldoc.Reference) {
 	if !hT.opts.CheckMailto {
 		return
 	}
 	if len(ref.URL.Opaque) == 0 {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
+			Level:     issues.LevelError,
 			Message:   "mailto is empty",
 			Reference: ref,
 		})
@@ -339,7 +339,7 @@ func (hT *HtmlTest) checkMailto(ref *htmldoc.Reference) {
 	}
 	if !strings.Contains(ref.URL.Opaque, "@") {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
+			Level:     issues.LevelError,
 			Message:   "contains an invalid email address",
 			Reference: ref,
 		})
@@ -347,13 +347,13 @@ func (hT *HtmlTest) checkMailto(ref *htmldoc.Reference) {
 	}
 }
 
-func (hT *HtmlTest) checkTel(ref *htmldoc.Reference) {
+func (hT *HTMLTest) checkTel(ref *htmldoc.Reference) {
 	if !hT.opts.CheckTel {
 		return
 	}
 	if len(ref.URL.Opaque) == 0 {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
+			Level:     issues.LevelError,
 			Message:   "tel is empty",
 			Reference: ref,
 		})

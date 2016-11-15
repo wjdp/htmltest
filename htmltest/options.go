@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-// htmltest options struct, user and default options are merged and mapped
+// Options struct for htmltest, user and default options are merged and mapped
 // into an instance of this struct.
 type Options struct {
 	DirectoryPath string
@@ -59,7 +59,7 @@ type Options struct {
 	NoRun bool // When true does not run tests, used to inspect state in unit tests
 }
 
-// Returns a map of default options.
+// DefaultOptions returns a map of default options.
 func DefaultOptions() map[string]interface{} {
 	// Specify defaults here
 	return map[string]interface{}{
@@ -88,7 +88,7 @@ func DefaultOptions() map[string]interface{} {
 		"DocumentConcurrencyLimit": 128,
 		"HTTPConcurrencyLimit":     16,
 
-		"LogLevel": issues.WARNING,
+		"LogLevel": issues.LevelWarning,
 		"LogSort":  "document",
 
 		"DirectoryIndex": "index.html",
@@ -108,7 +108,7 @@ func DefaultOptions() map[string]interface{} {
 	}
 }
 
-func (hT *HtmlTest) setOptions(optsUser map[string]interface{}) {
+func (hT *HTMLTest) setOptions(optsUser map[string]interface{}) {
 	// Merge user and default options, set Opts var
 	optsMap := DefaultOptions()
 	mergo.MergeWithOverwrite(&optsMap, optsUser)
@@ -117,7 +117,7 @@ func (hT *HtmlTest) setOptions(optsUser map[string]interface{}) {
 
 }
 
-// Utility function to test if key is in a slice/list
+// InList tests if key is in a slice/list.
 func InList(list []string, key string) bool {
 	for _, item := range list {
 		if strings.Contains(key, item) {

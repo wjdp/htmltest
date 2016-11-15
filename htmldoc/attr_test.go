@@ -42,7 +42,7 @@ func TestAttrValIdId(t *testing.T) {
 	nodeDoc, _ := html.Parse(strings.NewReader(snip))
 	nodeH1 := nodeDoc.FirstChild.FirstChild.NextSibling.FirstChild
 
-	assert.Equals(t, "h1 id", GetId(nodeH1.Attr), "x")
+	assert.Equals(t, "h1 id", GetID(nodeH1.Attr), "x")
 }
 
 func TestAttrValIdName(t *testing.T) {
@@ -50,5 +50,5 @@ func TestAttrValIdName(t *testing.T) {
 	nodeDoc, _ := html.Parse(strings.NewReader(snip))
 	nodeH1 := nodeDoc.FirstChild.FirstChild.NextSibling.FirstChild
 
-	assert.Equals(t, "h1 name", GetId(nodeH1.Attr), "x")
+	assert.Equals(t, "h1 name", GetID(nodeH1.Attr), "x")
 }

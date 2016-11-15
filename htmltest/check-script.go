@@ -6,7 +6,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-func (hT *HtmlTest) checkScript(document *htmldoc.Document, node *html.Node) {
+func (hT *HTMLTest) checkScript(document *htmldoc.Document, node *html.Node) {
 	attrs := htmldoc.ExtractAttrs(node.Attr,
 		[]string{"src", hT.opts.IgnoreTagAttribute})
 
@@ -22,7 +22,7 @@ func (hT *HtmlTest) checkScript(document *htmldoc.Document, node *html.Node) {
 	if htmldoc.AttrPresent(node.Attr, "src") && len(attrs["src"]) == 0 {
 		// Check src has length, fail if empty
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
+			Level:     issues.LevelError,
 			Message:   "src attribute present but empty",
 			Reference: ref,
 		})
@@ -32,7 +32,7 @@ func (hT *HtmlTest) checkScript(document *htmldoc.Document, node *html.Node) {
 	// Check invalid content
 	if !htmldoc.AttrPresent(node.Attr, "src") && node.FirstChild == nil {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.ERROR,
+			Level:     issues.LevelError,
 			Message:   "script content missing / no src attribute",
 			Reference: ref,
 		})
@@ -44,7 +44,7 @@ func (hT *HtmlTest) checkScript(document *htmldoc.Document, node *html.Node) {
 	case "http":
 		if hT.opts.EnforceHTTPS {
 			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.ERROR,
+				Level:     issues.LevelError,
 				Message:   "is not an HTTPS target",
 				Reference: ref,
 			})

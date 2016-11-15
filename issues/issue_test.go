@@ -8,7 +8,7 @@ import (
 
 func TestIssuePrimary(t *testing.T) {
 	issue0 := Issue{}
-	assert.Equals(t, "issue0 primary", issue0.primary(), TEXT_NIL)
+	assert.Equals(t, "issue0 primary", issue0.primary(), textNil)
 
 	doc := htmldoc.Document{
 		SitePath: "dir/doc.html",
@@ -29,7 +29,7 @@ func TestIssuePrimary(t *testing.T) {
 
 func TestIssueSecondary(t *testing.T) {
 	issue0 := Issue{}
-	assert.Equals(t, "issue0 secondary", issue0.secondary(), TEXT_NIL)
+	assert.Equals(t, "issue0 secondary", issue0.secondary(), textNil)
 
 	ref := htmldoc.Reference{
 		Path: "http://example.com",
@@ -50,11 +50,11 @@ func ExampleIssuePrintLogLevel() {
 	}
 
 	issueStore := IssueStore{
-		logLevel: WARNING,
+		logLevel: LevelWarning,
 	}
 
 	issue1 := Issue{
-		Level:    ERROR,
+		Level:    LevelError,
 		Document: &doc,
 		store:    &issueStore,
 		Message:  "test1",
@@ -62,7 +62,7 @@ func ExampleIssuePrintLogLevel() {
 	issue1.print(false, "")
 
 	issue2 := Issue{
-		Level:     WARNING,
+		Level:     LevelWarning,
 		Reference: &ref,
 		store:     &issueStore,
 		Message:   "test2",
@@ -70,7 +70,7 @@ func ExampleIssuePrintLogLevel() {
 	issue2.print(false, "")
 
 	issue3 := Issue{
-		Level:    INFO,
+		Level:    LevelInfo,
 		Document: &doc,
 		store:    &issueStore,
 		Message:  "test3",
@@ -93,11 +93,11 @@ func ExampleIssuePrintLogAll() {
 	}
 
 	issueStore := IssueStore{
-		logLevel: DEBUG,
+		logLevel: LevelDebug,
 	}
 
 	issue1 := Issue{
-		Level:    ERROR,
+		Level:    LevelError,
 		Document: &doc,
 		store:    &issueStore,
 		Message:  "test1",
@@ -105,7 +105,7 @@ func ExampleIssuePrintLogAll() {
 	issue1.print(false, "")
 
 	issue2 := Issue{
-		Level:     WARNING,
+		Level:     LevelWarning,
 		Reference: &ref,
 		store:     &issueStore,
 		Message:   "test2",
@@ -113,7 +113,7 @@ func ExampleIssuePrintLogAll() {
 	issue2.print(false, "")
 
 	issue3 := Issue{
-		Level:    INFO,
+		Level:    LevelInfo,
 		Document: &doc,
 		store:    &issueStore,
 		Message:  "test3",
@@ -121,7 +121,7 @@ func ExampleIssuePrintLogAll() {
 	issue3.print(false, "")
 
 	issue4 := Issue{
-		Level:    DEBUG,
+		Level:    LevelDebug,
 		Document: &doc,
 		store:    &issueStore,
 		Message:  "test4",

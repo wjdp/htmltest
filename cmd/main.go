@@ -12,8 +12,8 @@ import (
 	"time"
 )
 
-const VERSION string = "0.1.2"
-const SEPERATOR string = "========================================================================"
+const cmdVersion string = "0.1.2"
+const cmdSeparator string = "========================================================================"
 
 func main() {
 	usage := `htmltest - Test generated HTML for problems
@@ -32,7 +32,7 @@ Options:
   --log-level=LEVEL   Logging level, 0-3: debug, info, warning, error.
   --conf=CFILE        Custom path to config file.
   -h --help           Show this text.`
-	versionText := "htmltest " + VERSION
+	versionText := "htmltest " + cmdVersion
 	arguments, _ := docopt.Parse(usage, nil, true, versionText, false)
 	// fmt.Println(arguments)
 
@@ -90,7 +90,9 @@ func run(options optsMap) int {
 	timeStart := time.Now()
 
 	fmt.Println("htmltest started at", timeStart.Format("03:04:05"), "on", options["DirectoryPath"])
-	fmt.Println(SEPERATOR)
+	fmt.Println(cmdSeparator)
+
+	//
 
 	hT := htmltest.Test(options)
 
@@ -102,12 +104,13 @@ func run(options optsMap) int {
 		fmt.Println("✔✔✔ passed in", timeEnd.Sub(timeStart))
 		color.Unset()
 		return 0
-	} else {
-		color.Set(color.FgHiRed)
-		fmt.Println(SEPERATOR)
-		fmt.Println("✘✘✘ failed in", timeEnd.Sub(timeStart))
-		fmt.Println(numErrors, "errors")
-		color.Unset()
-		return 1
 	}
+
+	color.Set(color.FgHiRed)
+	fmt.Println(cmdSeparator)
+	fmt.Println("✘✘✘ failed in", timeEnd.Sub(timeStart))
+	fmt.Println(numErrors, "errors")
+	color.Unset()
+	return 1
+
 }

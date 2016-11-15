@@ -1,4 +1,4 @@
-// Caches results of external link checking.
+// Package refcache : caches results of external link checking.
 package refcache
 
 import (
@@ -9,14 +9,14 @@ import (
 	"time"
 )
 
-// Store of cached references
+// RefCache struct : store of cached references.
 type RefCache struct {
 	refStore     map[string]CachedRef
 	rwMutex      *sync.RWMutex
 	cacheExpires time.Duration
 }
 
-// Create a cached reference
+// NewRefCache : Create a cached reference.
 func NewRefCache(storePath string, cacheExpiresStr string) *RefCache {
 	rS := &RefCache{}
 	_ = storePath
@@ -30,7 +30,7 @@ func NewRefCache(storePath string, cacheExpiresStr string) *RefCache {
 	return rS
 }
 
-// Read a saved store from storePath
+// ReadStore : Read a saved store from storePath.
 func (rS *RefCache) ReadStore(storePath string) bool {
 	// Read in RefCache
 	f, err := os.Open(storePath)
@@ -52,7 +52,7 @@ func (rS *RefCache) ReadStore(storePath string) bool {
 	return true
 }
 
-// Write store to storePath
+// WriteStore : Write store to storePath.
 func (rS *RefCache) WriteStore(storePath string) {
 	// Write out RefCache
 	os.MkdirAll(path.Dir(storePath), 0777)
@@ -68,7 +68,7 @@ func (rS *RefCache) WriteStore(storePath string) {
 	}
 }
 
-// Single cached result
+// CachedRef struct : Single cached result
 type CachedRef struct {
 	StatusCode int
 	LastSeen   time.Time
@@ -85,13 +85,11 @@ func (rS *RefCache) Get(urlStr string) (*CachedRef, bool) {
 		if time.Now().Before(val.LastSeen.Add(rS.cacheExpires)) {
 			// All ok!
 			return &val, true
-		} else {
-			// Nope, cache has expired
-			return nil, false
 		}
-	} else {
+		// Nope, cache has expired
 		return nil, false
 	}
+	return nil, false
 }
 
 // Save a result to the cache, thread safe.

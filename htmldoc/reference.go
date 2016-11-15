@@ -7,7 +7,8 @@ import (
 	"strings"
 )
 
-// Representation of the link between a document and a resource
+// Reference struct, representation of the link between a document and a
+// resource.
 type Reference struct {
 	Document *Document  // Document node is in
 	Node     *html.Node // Node reference was created from
@@ -15,8 +16,8 @@ type Reference struct {
 	URL      *url.URL   // URL object created from Path
 }
 
-// Create a new reference given a document, node and path. Generates the URL
-// object.
+// NewReference : Create a new reference given a document, node and path.
+// Generates the URL object.
 func NewReference(document *Document, node *html.Node, path string) *Reference {
 	// Clean path
 	path = strings.TrimLeftFunc(path, invalidPrePostRune)
@@ -36,8 +37,8 @@ func NewReference(document *Document, node *html.Node, path string) *Reference {
 	return &ref
 }
 
-// Returns the scheme of the reference. Uses URL.Scheme and adds "file" and
-// "self" schemes for inter-file and intra-file references.
+// Scheme : Returns the scheme of the reference. Uses URL.Scheme and adds
+// "file" and "self" schemes for inter-file and intra-file references.
 func (ref *Reference) Scheme() string {
 	if strings.HasPrefix(ref.Path, "//") {
 		// Could be http or https, we can handle https so prefer that
@@ -51,11 +52,10 @@ func (ref *Reference) Scheme() string {
 	case "https":
 		return "https"
 	case "":
-		if len(ref.URL.Path) > 0 {
-			return "file"
-		} else {
+		if len(ref.URL.Path) == 0 {
 			return "self"
 		}
+		return "file"
 	case "mailto":
 		return "mailto"
 	case "tel":
@@ -64,8 +64,8 @@ func (ref *Reference) Scheme() string {
 	return "" // Unknown
 }
 
-// Proxy for URL.String but deals with other valid URL types, such as missing
-// protocol URLs.
+// URLString : Proxy for URL.String but deals with other valid URL types, such
+// as missing protocol URLs.
 func (ref *Reference) URLString() string {
 	// Format url for use in http.Get
 	urlStr := ref.URL.String()
@@ -75,24 +75,22 @@ func (ref *Reference) URLString() string {
 	return urlStr
 }
 
-// Is an internal absolute link
+// IsInternalAbsolute : Is an internal absolute link.
 func (ref *Reference) IsInternalAbsolute() bool {
 	return !strings.HasPrefix(ref.Path, "//") && strings.HasPrefix(ref.Path, "/")
 }
 
-// For internals, return a path to the referenced file relative to the
-// 'site root'.
+// RefSitePath : For internals, return a path to the referenced file relative
+// to the 'site root'.
 func (ref *Reference) RefSitePath() string {
 	if ref.IsInternalAbsolute() {
 		return ref.URL.Path
-	} else {
-		return path.Join(ref.Document.BasePath, ref.URL.Path)
 	}
+	return path.Join(ref.Document.BasePath, ref.URL.Path)
 }
 
-// Utilities
-
-// Removes query string from given urlStr
+// URLStripQueryString : Utility function to remove query string from given
+// urlStr.
 func URLStripQueryString(urlStr string) string {
 	return strings.Split(urlStr, "?")[0]
 }

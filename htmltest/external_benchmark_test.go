@@ -7,7 +7,7 @@ import (
 
 func BenchmarkExternal(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		t_testDirectoryOpts("/home/will/local/history-project/_site/",
-			map[string]interface{}{"LogLevel": issues.INFO, "CheckExternal": false})
+		tTestDirectoryOpts("/home/will/local/history-project/_site/",
+			map[string]interface{}{"LogLevel": issues.LevelInfo, "CheckExternal": false})
 	}
 }

@@ -6,15 +6,24 @@ import (
 	"github.com/wjdp/htmltest/htmldoc"
 )
 
-const TEXT_NIL string = "<nil>"
+const textNil string = "<nil>" // Text substitution when primary or secondary part of issue is nil
 
-const NONE int = 99
-const ERROR int = 3
-const WARNING int = 2
-const INFO int = 1
-const DEBUG int = 0
+// LevelNone : option to suppress output, actual error types follow
+const LevelNone int = 99
 
-// Struct representing a single issue with a document.
+// LevelError : Fatal problems, presence of an error causes tests to fail
+const LevelError int = 3
+
+// LevelWarning : An advisory, tests still pass
+const LevelWarning int = 2
+
+// LevelInfo : Verbose information, normally hidden, not too noisy
+const LevelInfo int = 1
+
+// LevelDebug : Debug output, normally hidden, very noisy
+const LevelDebug int = 0
+
+// Issue struct representing a single issue with a document.
 // Set all except Document and Reference, set one or the other.
 type Issue struct {
 	Level     int                // Level of the issue, use the consts at the top of this file
@@ -30,49 +39,47 @@ func (issue *Issue) primary() string {
 		return issue.Document.SitePath
 	} else if issue.Reference != nil && issue.Reference.Document != nil {
 		return issue.Reference.Document.SitePath
-	} else {
-		return TEXT_NIL
 	}
+	return textNil
 }
 
 // Textual description of the secondary item in the issue
 func (issue *Issue) secondary() string {
 	if issue.Reference != nil {
 		return issue.Reference.Path
-	} else {
-		return TEXT_NIL
 	}
+	return textNil
 }
 
+// Text to print
 func (issue *Issue) text() string {
 	pri := issue.primary()
 	sec := issue.secondary()
-	if pri == TEXT_NIL && sec == TEXT_NIL {
-		return issue.Message
-	} else {
+	if pri != textNil || sec != textNil {
 		return fmt.Sprintf("%v --- %v --> %v", issue.Message, issue.primary(),
 			issue.secondary())
 	}
+	return issue.Message
 }
 
+// Print to stdout with colour
 func (issue *Issue) print(force bool, prefix string) {
 	if (issue.Level < issue.store.logLevel) && !force {
 		return
 	}
 
 	switch issue.Level {
-	case ERROR:
+	case LevelError:
 		color.Set(color.FgRed)
-	case WARNING:
+	case LevelWarning:
 		color.Set(color.FgYellow)
-	case INFO:
+	case LevelInfo:
 		color.Set(color.FgBlue)
-	case DEBUG:
+	case LevelDebug:
 		color.Set(color.FgMagenta)
 	}
 
 	fmt.Println(prefix + issue.text())
 
 	color.Unset()
-
 }

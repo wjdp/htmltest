@@ -103,7 +103,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `IgnoreAltMissing` | Turns off image alt attribute checking. | `false` |
 | `IgnoreDirectoryMissingTrailingSlash` | Turns off errors for links to directories without a trailing slash. | `false` |
 | `IgnoreTagAttribute` | Specify the ignore attribute. All tags with this attribute will be excluded from every check. | `"data-proofer-ignore"` |
-| `TestFilesConcurrently` | :warning: :construction: *EXPERIMENTAL* Turns on concurrent checking of files. | `false` |
+| `TestFilesConcurrently` | :warning: :construction: *EXPERIMENTAL* Turns on [concurrent](https://github.com/wjdp/htmltest/wiki/Concurrency) checking of files. | `false` |
 | `DocumentConcurrencyLimit` | Maximum number of documents to process at once. | `128` |
 | `HTTPConcurrencyLimit` | Maximum number of open HTTP connections. If you raise this number ensure the `ExternalTimeout` is suitably raised. | `16` |
 | `LogLevel` | Logging level, 0-3: debug, info, warning, error. | `2` |

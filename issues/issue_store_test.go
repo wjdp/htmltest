@@ -10,32 +10,32 @@ import (
 )
 
 func TestIssueStoreNew(t *testing.T) {
-	iS := NewIssueStore(ERROR, false)
-	assert.Equals(t, "IssueStore LogLevel", iS.logLevel, ERROR)
+	iS := NewIssueStore(LevelError, false)
+	assert.Equals(t, "IssueStore LogLevel", iS.logLevel, LevelError)
 }
 
 func TestIssueStoreAdd(t *testing.T) {
-	iS := NewIssueStore(NONE, false)
-	issue := Issue{Level: ERROR, Message: "test"}
+	iS := NewIssueStore(LevelNone, false)
+	issue := Issue{Level: LevelError, Message: "test"}
 	iS.AddIssue(issue)
-	assert.Equals(t, "issue count", iS.Count(ERROR), 1)
+	assert.Equals(t, "issue count", iS.Count(LevelError), 1)
 }
 
 func TestIssueStoreCount(t *testing.T) {
-	iS := NewIssueStore(NONE, false)
-	iS.AddIssue(Issue{Level: ERROR, Message: "error"})
-	iS.AddIssue(Issue{Level: WARNING, Message: "warn"})
-	iS.AddIssue(Issue{Level: INFO, Message: "notice"})
-	assert.Equals(t, "issue count", iS.Count(ERROR), 1)
-	assert.Equals(t, "issue count", iS.Count(WARNING), 2)
-	assert.Equals(t, "issue count", iS.Count(INFO), 3)
+	iS := NewIssueStore(LevelNone, false)
+	iS.AddIssue(Issue{Level: LevelError, Message: "error"})
+	iS.AddIssue(Issue{Level: LevelWarning, Message: "warn"})
+	iS.AddIssue(Issue{Level: LevelInfo, Message: "notice"})
+	assert.Equals(t, "issue count", iS.Count(LevelError), 1)
+	assert.Equals(t, "issue count", iS.Count(LevelWarning), 2)
+	assert.Equals(t, "issue count", iS.Count(LevelInfo), 3)
 }
 
 func TestIssueStoreMessageMatchCount(t *testing.T) {
-	iS := NewIssueStore(NONE, false)
-	iS.AddIssue(Issue{Level: ERROR, Message: "error one"})
-	iS.AddIssue(Issue{Level: WARNING, Message: "error two"})
-	iS.AddIssue(Issue{Level: INFO, Message: "notice"})
+	iS := NewIssueStore(LevelNone, false)
+	iS.AddIssue(Issue{Level: LevelError, Message: "error one"})
+	iS.AddIssue(Issue{Level: LevelWarning, Message: "error two"})
+	iS.AddIssue(Issue{Level: LevelInfo, Message: "notice"})
 	assert.Equals(t, "issue message match count",
 		iS.MessageMatchCount("carrots"), 0)
 	assert.Equals(t, "issue message match count",
@@ -49,18 +49,18 @@ func TestIssueStoreMessageMatchCount(t *testing.T) {
 func TestIssueStoreWriteLog(t *testing.T) {
 	// passes for log written using LogLevel
 	LOGFILE := "issue-store-test.log"
-	iS := NewIssueStore(ERROR, false)
+	iS := NewIssueStore(LevelError, false)
 	doc := htmldoc.Document{
 		SitePath: "dir/page.html",
 	}
 	issue1 := Issue{
-		Level:    ERROR,
+		Level:    LevelError,
 		Message:  "test1",
 		Document: &doc,
 	}
 	iS.AddIssue(issue1)
 	issue2 := Issue{
-		Level:    WARNING,
+		Level:    LevelWarning,
 		Message:  "test2",
 		Document: &doc,
 	}
@@ -83,9 +83,9 @@ func TestIssueStoreWriteLog(t *testing.T) {
 
 func ExampleIssueStoreDumpIssues() {
 	// Passes for dumping all issues, ignoring LogLevel
-	iS := NewIssueStore(NONE, true)
+	iS := NewIssueStore(LevelNone, true)
 	issue1 := Issue{
-		Level:   ERROR,
+		Level:   LevelError,
 		Message: "test1",
 	}
 	iS.AddIssue(issue1)
@@ -93,7 +93,7 @@ func ExampleIssueStoreDumpIssues() {
 		SitePath: "dir/page.html",
 	}
 	issue2 := Issue{
-		Level:    ERROR,
+		Level:    LevelError,
 		Message:  "test2",
 		Document: &doc,
 	}
@@ -108,12 +108,12 @@ func ExampleIssueStoreDumpIssues() {
 }
 
 func ExampleIssueStorePrintDocumentIssues() {
-	iS := NewIssueStore(ERROR, false)
+	iS := NewIssueStore(LevelError, false)
 	doc := htmldoc.Document{
 		SitePath: "dir/page.html",
 	}
 	issue := Issue{
-		Level:    ERROR,
+		Level:    LevelError,
 		Message:  "test1",
 		Document: &doc,
 	}
@@ -126,12 +126,12 @@ func ExampleIssueStorePrintDocumentIssues() {
 }
 
 func ExampleIssueStorePrintDocumentIssuesEmpty() {
-	iS := NewIssueStore(ERROR, false)
+	iS := NewIssueStore(LevelError, false)
 	doc := htmldoc.Document{
 		SitePath: "dir/page.html",
 	}
 	issue := Issue{
-		Level:    INFO,
+		Level:    LevelInfo,
 		Message:  "test1",
 		Document: &doc,
 	}

@@ -1,4 +1,5 @@
-// Main package, provides the HtmlTest struct and associated checks.
+// Package htmltest : Main package, provides the HTMLTest struct and
+// associated checks.
 package htmltest
 
 import (
@@ -13,8 +14,9 @@ import (
 	"time"
 )
 
-// A html testing session, user options are passed in and tests are run.
-type HtmlTest struct {
+// HTMLTest struct, A html testing session, user options are passed in and
+// tests are run.
+type HTMLTest struct {
 	opts          Options
 	httpClient    *http.Client
 	httpChannel   chan bool
@@ -23,9 +25,10 @@ type HtmlTest struct {
 	refCache      *refcache.RefCache
 }
 
-// Given user options run htmltest and return a pointer to the test object.
-func Test(optsUser map[string]interface{}) *HtmlTest {
-	hT := HtmlTest{}
+// Test : Given user options run htmltest and return a pointer to the test
+// object.
+func Test(optsUser map[string]interface{}) *HTMLTest {
+	hT := HTMLTest{}
 
 	// Merge user options with defaults and set hT.opts
 	hT.setOptions(optsUser)
@@ -91,10 +94,10 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 	return &hT
 }
 
-func (hT *HtmlTest) testDocuments() {
+func (hT *HTMLTest) testDocuments() {
 	if hT.opts.TestFilesConcurrently {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:   issues.WARNING,
+			Level:   issues.LevelWarning,
 			Message: "running in concurrent mode, this is experimental",
 		})
 		var wg sync.WaitGroup
@@ -117,7 +120,7 @@ func (hT *HtmlTest) testDocuments() {
 	}
 }
 
-func (hT *HtmlTest) testDocument(document *htmldoc.Document) {
+func (hT *HTMLTest) testDocument(document *htmldoc.Document) {
 	document.Parse()
 	for _, n := range document.NodesOfInterest {
 		switch n.Data {
@@ -147,17 +150,17 @@ func (hT *HtmlTest) testDocument(document *htmldoc.Document) {
 	}
 }
 
-func (hT *HtmlTest) postChecks(document *htmldoc.Document) {
+func (hT *HTMLTest) postChecks(document *htmldoc.Document) {
 	// Checks to run after document has been parsed
 	if hT.opts.CheckFavicon && !document.State.FaviconPresent {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:   issues.ERROR,
+			Level:   issues.LevelError,
 			Message: "favicon missing",
 		})
 	}
 }
 
-// Return number of error level issues
-func (hT *HtmlTest) CountErrors() int {
-	return hT.issueStore.Count(issues.ERROR)
+// CountErrors : Return number of error level issues
+func (hT *HTMLTest) CountErrors() int {
+	return hT.issueStore.Count(issues.LevelError)
 }

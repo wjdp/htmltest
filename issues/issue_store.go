@@ -1,4 +1,4 @@
-// htmltest issue store, provides a store and issue structs.
+// Package issues : htmltest issue store, provides a store and issue structs.
 package issues
 
 import (
@@ -9,7 +9,7 @@ import (
 	"sync"
 )
 
-// Store of htmltest issues.
+// IssueStore : store of htmltest issues.
 type IssueStore struct {
 	logLevel         int                 // Level of errors to report
 	printImmediately bool                // Print issues when added
@@ -19,7 +19,7 @@ type IssueStore struct {
 	byteLog          []byte              // Bytestream of issues, built when issues are added and written to disk at end
 }
 
-// Create an issuestore, assigns defaults and returns.
+// NewIssueStore : Create an issuestore, assigns defaults and returns.
 func NewIssueStore(logLevel int, printImmediately bool) IssueStore {
 	iS := IssueStore{logLevel: logLevel, printImmediately: printImmediately}
 	iS.issues = make([]*Issue, 0)
@@ -29,7 +29,7 @@ func NewIssueStore(logLevel int, printImmediately bool) IssueStore {
 	return iS
 }
 
-// Add an issue to the issue store, thread safe.
+// AddIssue : Add an issue to the issue store, thread safe.
 func (iS *IssueStore) AddIssue(issue Issue) {
 	issue.store = iS // Set ref to issue store in issue
 
@@ -39,7 +39,7 @@ func (iS *IssueStore) AddIssue(issue Issue) {
 	iS.issuesByDoc[issue.primary()] = append(
 		iS.issuesByDoc[issue.primary()], &issue)
 
-	if iS.printImmediately || issue.primary() == TEXT_NIL {
+	if iS.printImmediately || issue.primary() == textNil {
 		issue.print(false, "")
 	}
 	if issue.Level >= iS.logLevel {
@@ -50,44 +50,46 @@ func (iS *IssueStore) AddIssue(issue Issue) {
 	iS.storeMutex.Unlock()
 }
 
-// Count the number of issues in the store at, or above, the given level.
+// Count : Counts the number of issues in the store at, or above, the given
+// level.
 func (iS *IssueStore) Count(level int) int {
 	count := 0
 	for _, issue := range iS.issues {
 		if issue.Level >= level {
-			count += 1
+			count++
 		}
 	}
 	return count
 }
 
-// Count the number of issues in the store at, or above, the given level
-// pertaining to the provided document. Thread safe.
+// CountByDoc : Count the number of issues in the store at, or above, the given
+// level pertaining to the provided document. Thread safe.
 func (iS *IssueStore) CountByDoc(level int, doc *htmldoc.Document) int {
 	iS.storeMutex.RLock()
 	count := 0
 	for _, issue := range iS.issuesByDoc[doc.SitePath] {
 		if issue.Level >= level {
-			count += 1
+			count++
 		}
 	}
 	iS.storeMutex.RUnlock()
 	return count
 }
 
-// Count the number of issues in the store containing the provided substr.
+// MessageMatchCount : Count the number of issues in the store containing the
+// provided substr.
 func (iS *IssueStore) MessageMatchCount(substr string) int {
 	count := 0
 	for _, issue := range iS.issues {
 		if strings.Contains(issue.Message, substr) {
-			count += 1
+			count++
 		}
 	}
 	return count
 }
 
-// Print issues pertaining to a single document, given that document's
-// SitePath. Respects log level.
+// PrintDocumentIssues : Print issues pertaining to a single document, given
+// that document's SitePath. Respects log level.
 func (iS *IssueStore) PrintDocumentIssues(doc *htmldoc.Document) {
 	if iS.CountByDoc(iS.logLevel, doc) == 0 {
 		return
@@ -100,8 +102,8 @@ func (iS *IssueStore) PrintDocumentIssues(doc *htmldoc.Document) {
 	iS.storeMutex.RUnlock()
 }
 
-// Write the issue store to the given path, filtered by logLevel given in
-// NewIssueStore.
+// WriteLog : Write the issue store to the given path, filtered by logLevel
+// given in NewIssueStore.
 func (iS *IssueStore) WriteLog(path string) {
 	err := ioutil.WriteFile(path, iS.byteLog, 0644)
 	if err != nil {
@@ -109,7 +111,8 @@ func (iS *IssueStore) WriteLog(path string) {
 	}
 }
 
-// Dump all issues to stdout, called by test helpers when issue asserts fail.
+// DumpIssues : Dump all issues to stdout, called by test helpers when issue
+// asserts fail.
 func (iS *IssueStore) DumpIssues(force bool) {
 	fmt.Println("<<<<<<<<<<<<<<<<<<<<<<<<")
 	for _, issue := range iS.issues {
