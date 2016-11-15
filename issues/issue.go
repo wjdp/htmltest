@@ -24,6 +24,7 @@ type Issue struct {
 	store     *IssueStore        // Internal ref to the store this issue is owned by
 }
 
+// Textual description of the primary item in the issue
 func (issue *Issue) primary() string {
 	if issue.Document != nil {
 		return issue.Document.SitePath
@@ -34,6 +35,7 @@ func (issue *Issue) primary() string {
 	}
 }
 
+// Textual description of the secondary item in the issue
 func (issue *Issue) secondary() string {
 	if issue.Reference != nil {
 		return issue.Reference.Path
@@ -43,12 +45,18 @@ func (issue *Issue) secondary() string {
 }
 
 func (issue *Issue) text() string {
-	return fmt.Sprintf("%v --- %v --> %v", issue.Message, issue.primary(),
-		issue.secondary())
+	pri := issue.primary()
+	sec := issue.secondary()
+	if pri == TEXT_NIL && sec == TEXT_NIL {
+		return issue.Message
+	} else {
+		return fmt.Sprintf("%v --- %v --> %v", issue.Message, issue.primary(),
+			issue.secondary())
+	}
 }
 
-func (issue *Issue) print(force bool) {
-	if (issue.Level < issue.store.LogLevel) && !force {
+func (issue *Issue) print(force bool, prefix string) {
+	if (issue.Level < issue.store.logLevel) && !force {
 		return
 	}
 
@@ -63,7 +71,7 @@ func (issue *Issue) print(force bool) {
 		color.Set(color.FgMagenta)
 	}
 
-	fmt.Println(issue.text())
+	fmt.Println(prefix + issue.text())
 
 	color.Unset()
 

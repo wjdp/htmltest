@@ -40,6 +40,7 @@ type Options struct {
 	HTTPConcurrencyLimit     int
 
 	LogLevel int
+	LogSort  string
 
 	DirectoryIndex string
 
@@ -88,6 +89,7 @@ func DefaultOptions() map[string]interface{} {
 		"HTTPConcurrencyLimit":     16,
 
 		"LogLevel": issues.WARNING,
+		"LogSort":  "document",
 
 		"DirectoryIndex": "index.html",
 

@@ -30,8 +30,8 @@ func Test(optsUser map[string]interface{}) *HtmlTest {
 	// Merge user options with defaults and set hT.opts
 	hT.setOptions(optsUser)
 
-	// Create issue store and set LogLevel
-	hT.issueStore = issues.NewIssueStore(hT.opts.LogLevel)
+	// Create issue store and set LogLevel and printImmediately if sort is "seq"
+	hT.issueStore = issues.NewIssueStore(hT.opts.LogLevel, (hT.opts.LogSort == "seq"))
 
 	transport := &http.Transport{
 		TLSNextProto: nil, // Disable HTTP/2, "write on closed buffer" errors
@@ -140,6 +140,11 @@ func (hT *HtmlTest) testDocument(document *htmldoc.Document) {
 		}
 	}
 	hT.postChecks(document)
+
+	// If sorting by document output issues now
+	if hT.opts.LogSort == "document" {
+		hT.issueStore.PrintDocumentIssues(document)
+	}
 }
 
 func (hT *HtmlTest) postChecks(document *htmldoc.Document) {

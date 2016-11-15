@@ -107,6 +107,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `DocumentConcurrencyLimit` | Maximum number of documents to process at once. | `128` |
 | `HTTPConcurrencyLimit` | Maximum number of open HTTP connections. If you raise this number ensure the `ExternalTimeout` is suitably raised. | `16` |
 | `LogLevel` | Logging level, 0-3: debug, info, warning, error. | `2` |
+| `LogSort` | How to sort/present issues. Can be `seq` for sequential output or `document` to group by document. | `document` |
 | `DirectoryIndex` | The file to look for when linking to a directory. | `index.html` |
 | `ExternalTimeout` | Number of seconds to wait on an HTTP connection before failing. | `15` |
 | `StripQueryString` | Enables stripping of query strings from external checks. | `true` |

@@ -50,7 +50,7 @@ func ExampleIssuePrintLogLevel() {
 	}
 
 	issueStore := IssueStore{
-		LogLevel: WARNING,
+		logLevel: WARNING,
 	}
 
 	issue1 := Issue{
@@ -59,7 +59,7 @@ func ExampleIssuePrintLogLevel() {
 		store:    &issueStore,
 		Message:  "test1",
 	}
-	issue1.print(false)
+	issue1.print(false, "")
 
 	issue2 := Issue{
 		Level:     WARNING,
@@ -67,7 +67,7 @@ func ExampleIssuePrintLogLevel() {
 		store:     &issueStore,
 		Message:   "test2",
 	}
-	issue2.print(false)
+	issue2.print(false, "")
 
 	issue3 := Issue{
 		Level:    INFO,
@@ -75,7 +75,7 @@ func ExampleIssuePrintLogLevel() {
 		store:    &issueStore,
 		Message:  "test3",
 	}
-	issue3.print(false)
+	issue3.print(false, "")
 
 	// Output:
 	// test1 --- dir/doc.html --> <nil>
@@ -93,7 +93,7 @@ func ExampleIssuePrintLogAll() {
 	}
 
 	issueStore := IssueStore{
-		LogLevel: DEBUG,
+		logLevel: DEBUG,
 	}
 
 	issue1 := Issue{
@@ -102,7 +102,7 @@ func ExampleIssuePrintLogAll() {
 		store:    &issueStore,
 		Message:  "test1",
 	}
-	issue1.print(false)
+	issue1.print(false, "")
 
 	issue2 := Issue{
 		Level:     WARNING,
@@ -110,7 +110,7 @@ func ExampleIssuePrintLogAll() {
 		store:     &issueStore,
 		Message:   "test2",
 	}
-	issue2.print(false)
+	issue2.print(false, "")
 
 	issue3 := Issue{
 		Level:    INFO,
@@ -118,7 +118,7 @@ func ExampleIssuePrintLogAll() {
 		store:    &issueStore,
 		Message:  "test3",
 	}
-	issue3.print(false)
+	issue3.print(false, "")
 
 	issue4 := Issue{
 		Level:    DEBUG,
@@ -126,7 +126,7 @@ func ExampleIssuePrintLogAll() {
 		store:    &issueStore,
 		Message:  "test4",
 	}
-	issue4.print(false)
+	issue4.print(false, "")
 
 	// Output:
 	// test1 --- dir/doc.html --> <nil>
