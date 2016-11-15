@@ -1,0 +1,15 @@
+<!-- Simple audio playback -->
+<audio src="nope.mp3" autoplay>
+  Your browser does not support the <code>audio</code> element.
+</audio>
+
+<!-- Audio playback with captions -->
+<audio src="nope.mp3">
+  <track kind="captions" src="nope.en.vtt" srclang="en" label="English">
+  <track kind="captions" src="nope.sv.vtt" srclang="sv" label="Svenska">
+</audio>
+
+<audio controls="controls">
+  Your browser does not support the <code>audio</code> element.
+  <source src="nope.mp3" type="audio/wav">
+</audio>
