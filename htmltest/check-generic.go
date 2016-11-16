@@ -29,17 +29,21 @@ func (hT *HTMLTest) checkGeneric(document *htmldoc.Document, node *html.Node, ke
 	// Route reference check
 	switch ref.Scheme() {
 	case "http":
-		if hT.opts.EnforceHTTPS {
-			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.LevelError,
-				Message:   "is not an HTTPS target",
-				Reference: ref,
-			})
-		}
+		hT.enforceHTTPS(ref)
 		hT.checkExternal(ref)
 	case "https":
 		hT.checkExternal(ref)
 	case "file":
 		hT.checkInternal(ref)
+	}
+}
+
+func (hT *HTMLTest) enforceHTTPS(ref *htmldoc.Reference) {
+	if hT.opts.EnforceHTTPS {
+		hT.issueStore.AddIssue(issues.Issue{
+			Level:     issues.LevelError,
+			Message:   "is not an HTTPS target",
+			Reference: ref,
+		})
 	}
 }

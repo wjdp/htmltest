@@ -74,13 +74,7 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 	// Route reference check
 	switch ref.Scheme() {
 	case "http":
-		if hT.opts.EnforceHTTPS {
-			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.LevelError,
-				Message:   "is not an HTTPS target",
-				Reference: ref,
-			})
-		}
+		hT.enforceHTTPS(ref)
 		hT.checkExternal(ref)
 	case "https":
 		hT.checkExternal(ref)
