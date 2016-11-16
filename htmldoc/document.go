@@ -70,7 +70,9 @@ func (doc *Document) parseNode(n *html.Node) {
 		}
 		// Identify and store tags of interest
 		switch n.Data {
-		case "a", "link", "img", "script":
+		case "a", "area", "audio", "blockquote", "del", "embed", "iframe", "img",
+			"input", "ins", "link", "object", "q", "script", "source", "track",
+			"video":
 			// Nodes of interest
 			doc.NodesOfInterest = append(doc.NodesOfInterest, n)
 		case "base":

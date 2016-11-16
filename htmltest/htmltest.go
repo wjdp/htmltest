@@ -140,6 +140,17 @@ func (hT *HTMLTest) testDocument(document *htmldoc.Document) {
 			if hT.opts.CheckScripts {
 				hT.checkScript(document, n)
 			}
+		case "area":
+			hT.checkGeneric(document, n, "href")
+		case "blockquote", "del", "ins", "q":
+			hT.checkGeneric(document, n, "cite")
+		case "iframe", "input", "audio", "embed", "source", "track":
+			hT.checkGeneric(document, n, "src")
+		case "video":
+			hT.checkGeneric(document, n, "src")
+			hT.checkGeneric(document, n, "poster")
+		case "object":
+			hT.checkGeneric(document, n, "data")
 		}
 	}
 	hT.postChecks(document)
