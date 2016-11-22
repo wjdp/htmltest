@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-const cmdVersion string = "0.1.2"
+const cmdVersion string = "0.2.0"
 const cmdSeparator string = "========================================================================"
 
 func main() {
