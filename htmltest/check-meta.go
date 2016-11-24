@@ -10,7 +10,9 @@ import (
 )
 
 func (hT *HTMLTest) checkMeta(document *htmldoc.Document, node *html.Node) {
-	hT.checkMetaRefresh(document, node)
+	if hT.opts.CheckMetaRefresh {
+		hT.checkMetaRefresh(document, node)
+	}
 }
 
 func (hT *HTMLTest) checkMetaRefresh(document *htmldoc.Document, node *html.Node) {

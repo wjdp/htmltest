@@ -18,6 +18,8 @@ type Options struct {
 	CheckLinks   bool
 	CheckImages  bool
 	CheckScripts bool
+	CheckMeta    bool
+	CheckGeneric bool
 
 	CheckExternal     bool
 	CheckInternal     bool
@@ -25,7 +27,9 @@ type Options struct {
 	CheckMailto       bool
 	CheckTel          bool
 	CheckFavicon      bool
-	EnforceHTTPS      bool
+	CheckMetaRefresh  bool
+
+	EnforceHTTPS bool
 
 	IgnoreURLs []interface{}
 	IgnoreDirs []interface{}
@@ -67,6 +71,8 @@ func DefaultOptions() map[string]interface{} {
 		"CheckLinks":   true,
 		"CheckImages":  true,
 		"CheckScripts": true,
+		"CheckMeta":    true,
+		"CheckGeneric": true,
 
 		"CheckExternal":     true,
 		"CheckInternal":     true,
@@ -74,7 +80,9 @@ func DefaultOptions() map[string]interface{} {
 		"CheckMailto":       true,
 		"CheckTel":          true,
 		"CheckFavicon":      false,
-		"EnforceHTTPS":      false,
+		"CheckMetaRefresh":  true,
+
+		"EnforceHTTPS": false,
 
 		"IgnoreURLs": []interface{}{},
 		"IgnoreDirs": []interface{}{},

@@ -141,18 +141,30 @@ func (hT *HTMLTest) testDocument(document *htmldoc.Document) {
 				hT.checkScript(document, n)
 			}
 		case "meta":
-			hT.checkMeta(document, n)
+			if hT.opts.CheckMeta {
+				hT.checkMeta(document, n)
+			}
 		case "area":
-			hT.checkGeneric(document, n, "href")
+			if hT.opts.CheckGeneric {
+				hT.checkGeneric(document, n, "href")
+			}
 		case "blockquote", "del", "ins", "q":
-			hT.checkGeneric(document, n, "cite")
+			if hT.opts.CheckGeneric {
+				hT.checkGeneric(document, n, "cite")
+			}
 		case "iframe", "input", "audio", "embed", "source", "track":
-			hT.checkGeneric(document, n, "src")
+			if hT.opts.CheckGeneric {
+				hT.checkGeneric(document, n, "src")
+			}
 		case "video":
-			hT.checkGeneric(document, n, "src")
-			hT.checkGeneric(document, n, "poster")
+			if hT.opts.CheckGeneric {
+				hT.checkGeneric(document, n, "src")
+				hT.checkGeneric(document, n, "poster")
+			}
 		case "object":
-			hT.checkGeneric(document, n, "data")
+			if hT.opts.CheckGeneric {
+				hT.checkGeneric(document, n, "data")
+			}
 		}
 	}
 	hT.postChecks(document)

@@ -53,6 +53,7 @@ Many options of the following tests can customised. Items marked :soon: are not 
 - `a` `link`: Whether external links use HTTPS.
 - `img`: Whether your images have valid alt attributes.
 - `link`: Whether pages have a valid favicon.
+- `meta`: Whether refresh tags are valid and the url works.
 - `meta`: :soon: Whether images and URLs in the OpenGraph metadata are valid.
 - `meta` `title`: :soon: Whether you've got the [recommended tags](https://support.google.com/webmasters/answer/79812?hl=en) in your head.
 
@@ -90,12 +91,15 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `CheckLinks` | Enables checking `<link…` tags. | `true` |
 | `CheckImages` | Enables checking `<img…` tags | `true` |
 | `CheckScripts` | Enables checking `<script…` tags. | `true` |
+| `CheckMeta` | Enables checking `<meta…` tags. | `true` |
+| `CheckGeneric` | Enables other tags, see items marked with checkGeneric on the [tags wiki page](https://github.com/wjdp/htmltest/wiki/Tags). | `true` |
 | `CheckExternal` | Enables external reference checking; all tag types. | `true` |
 | `CheckInternal` | Enables internal reference checking; all tag types. | `true` |
 | `CheckInternalHash` | Enables internal hash/fragment checking. | `true` |
 | `CheckMailto` | Enables–albeit quite basic–`mailto:` link checking. | `true` |
 | `CheckTel` | Enables–albeit quite basic–`tel:` link checking. | `true` |
 | `CheckFavicon` | Enables favicon checking, ensures every page has a favicon set. | `false` |
+| `CheckMetaRefresh` | Enables checking meta refresh tags. | `true` |
 | `EnforceHTTPS` | Fails when encountering an `http://` link. Useful to prevent mixed content errors when serving over HTTPS. | `false` |
 | `IgnoreURLs` | Array of regexs of URLs to ignore. | empty |
 | `IgnoreDirs` | Array of regexs of directories to ignore when scanning for HTML files. | empty |
