@@ -140,6 +140,8 @@ func (hT *HTMLTest) testDocument(document *htmldoc.Document) {
 			if hT.opts.CheckScripts {
 				hT.checkScript(document, n)
 			}
+		case "meta":
+			hT.checkMeta(document, n)
 		case "area":
 			hT.checkGeneric(document, n, "href")
 		case "blockquote", "del", "ins", "q":

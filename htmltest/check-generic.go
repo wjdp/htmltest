@@ -26,6 +26,11 @@ func (hT *HTMLTest) checkGeneric(document *htmldoc.Document, node *html.Node, ke
 		})
 	}
 
+	// Check the reference
+	hT.checkGenericRef(ref)
+}
+
+func (hT *HTMLTest) checkGenericRef(ref *htmldoc.Reference) {
 	// Route reference check
 	switch ref.Scheme() {
 	case "http":
