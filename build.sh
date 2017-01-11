@@ -1,3 +1,3 @@
 #!/bin/bash
 
-go build -o bin/htmltest -x cmd/main.go
+go build -o bin/htmltest -x main.go
