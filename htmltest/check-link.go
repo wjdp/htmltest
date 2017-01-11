@@ -3,6 +3,7 @@ package htmltest
 import (
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
+	"github.com/wjdp/htmltest/output"
 	"golang.org/x/net/html"
 	"log"
 	"net/http"
@@ -308,7 +309,7 @@ func (hT *HTMLTest) checkFile(ref *htmldoc.Reference, absPath string) {
 		})
 		return
 	}
-	checkErr(err) // Crash on other errors
+	output.CheckErrorPanic(err)
 
 	if f.IsDir() {
 		hT.issueStore.AddIssue(issues.Issue{

@@ -4,6 +4,7 @@
 package htmldoc
 
 import (
+	"github.com/wjdp/htmltest/output"
 	"os"
 	"path"
 	"regexp"
@@ -58,17 +59,17 @@ func (dS *DocumentStore) discoverRecurse(dPath string) {
 
 	// Open directory to scan
 	f, err := os.Open(path.Join(dS.BasePath, dPath))
-	checkErr(err)
+	output.CheckErrorPanic(err)
 	defer f.Close()
 
 	// Get FileInfo of directory (scan it)
 	fi, err := f.Stat()
-	checkErr(err)
+	output.CheckErrorPanic(err)
 
 	if fi.IsDir() { // Double check we're dealing with a directory
 		// Read all FileInfo-s from directory, Readdir(count int)
 		fis, err := f.Readdir(-1)
-		checkErr(err)
+		output.CheckErrorPanic(err)
 
 		// Iterate over contents of directory
 		for _, fileinfo := range fis {

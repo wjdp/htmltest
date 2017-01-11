@@ -6,6 +6,7 @@ import (
 	"github.com/docopt/docopt-go"
 	"github.com/fatih/color"
 	"github.com/wjdp/htmltest/htmltest"
+	"github.com/wjdp/htmltest/output"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
@@ -54,11 +55,16 @@ type optsMap map[string]interface{}
 
 func parseConfFile(path string) optsMap {
 	yamlFile, err := ioutil.ReadFile(path)
-	checkErr(err)
+
+	if os.IsNotExist(err) {
+		output.AbortWith(`No path provided & .htmltest.yml does not exist.
+See htmltest -h for usage.`)
+	}
+	output.CheckErrorGeneric(err)
 
 	var optsUser optsMap
 	err = yaml.Unmarshal(yamlFile, &optsUser)
-	checkErr(err)
+	output.CheckErrorGeneric(err)
 
 	return optsUser
 }
@@ -78,12 +84,6 @@ func parseCLIArgs(arguments map[string]interface{}) optsMap {
 		options["LogLevel"] = arguments["--log-level"]
 	}
 	return options
-}
-
-func checkErr(err error) {
-	if err != nil {
-		panic(err)
-	}
 }
 
 func run(options optsMap) int {
