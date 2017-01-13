@@ -302,18 +302,22 @@ func TestAnchorInternalCaseMismatch(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
-func TestAnchorInternalHashDefault(t *testing.T) {
-	// fails for # href when not asked
+func TestAnchorInternalHashBlankDefault(t *testing.T) {
+	// fails for href="#" when not asked
 	hT := tTestFile("fixtures/links/hash_href.html")
 	tExpectIssue(t, hT, "empty hash", 1)
 	tExpectIssueCount(t, hT, 1)
 }
 
-func TestAnchorInternalHashOption(t *testing.T) {
-	// passes for # href when asked
-	t.Skip("Not yet implemented")
-	hT := tTestFile("fixtures/links/hash_href.html")
-	tExpectIssueCount(t, hT, 0)
+func TestAnchorInternalHashBlankOption(t *testing.T) {
+	// passes for href="#" when asked, see
+	// https://github.com/wjdp/htmltest/issues/30
+	hT1 := tTestFileOpts("fixtures/links/hash_href.html",
+		map[string]interface{}{"CheckInternalHash": false})
+	tExpectIssueCount(t, hT1, 0)
+	hT2 := tTestFileOpts("fixtures/links/hash_href.html",
+		map[string]interface{}{"IgnoreInternalEmptyHash": true})
+	tExpectIssueCount(t, hT2, 0)
 }
 
 func TestAnchorInternalHashWeird(t *testing.T) {
