@@ -3,12 +3,11 @@
 package htmltest
 
 import (
-	"fmt"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
+	"github.com/wjdp/htmltest/output"
 	"github.com/wjdp/htmltest/refcache"
 	"net/http"
-	"os"
 	"path"
 	"sync"
 	"time"
@@ -73,15 +72,14 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 		// Single document mode
 		doc, ok := hT.documentStore.ResolvePath(hT.opts.FilePath)
 		if !ok {
-			fmt.Println("Could not find document", hT.opts.FilePath, "in", hT.opts.DirectoryPath)
-			os.Exit(1)
+			output.AbortWith("Could not find document", hT.opts.FilePath, "in", hT.opts.DirectoryPath)
 		}
 		hT.testDocument(doc)
 	} else if hT.opts.DirectoryPath != "" {
 		// Test documents
 		hT.testDocuments()
 	} else {
-		panic("Neither file or directory path provided")
+		output.AbortWith("Neither file or directory path provided")
 	}
 
 	if hT.opts.EnableCache {

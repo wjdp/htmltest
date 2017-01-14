@@ -1,6 +1,7 @@
 package htmldoc
 
 import (
+	"github.com/wjdp/htmltest/output"
 	"golang.org/x/net/html"
 	"os"
 	"path"
@@ -48,11 +49,11 @@ func (doc *Document) Parse() {
 	}
 	// Open, parse, and close document
 	f, err := os.Open(doc.FilePath)
-	checkErr(err)
+	output.CheckErrorPanic(err)
 	defer f.Close()
 
 	htmlNode, err := html.Parse(f)
-	checkErr(err)
+	output.CheckErrorGeneric(err)
 
 	doc.htmlNode = htmlNode
 	doc.parseNode(htmlNode)
