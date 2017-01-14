@@ -13,8 +13,12 @@ import (
 	"time"
 )
 
-const cmdVersion string = "0.2.0"
+const cmdVersion string = "dev"
 const cmdSeparator string = "========================================================================"
+
+var (
+	buildDate string
+)
 
 func main() {
 	usage := `htmltest - Test generated HTML for problems
@@ -33,7 +37,7 @@ Options:
   --log-level=LEVEL   Logging level, 0-3: debug, info, warning, error.
   --conf=CFILE        Custom path to config file.
   -h --help           Show this text.`
-	versionText := "htmltest " + cmdVersion
+	versionText := "htmltest " + cmdVersion + "\n" + buildDate
 	arguments, _ := docopt.Parse(usage, nil, true, versionText, false)
 	// fmt.Println(arguments)
 
