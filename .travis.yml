@@ -1,22 +1,24 @@
 language: go
 
 go:
-- 1.7.3
+- 1.7.4
 
 os:
 - linux
 - osx
 
 install:
-- go get -t ./...
+- go get -t ./... # Fetch all dependencies
 
 script:
-- ./coverage.sh
-- go build -o bin/htmltest-$TRAVIS_OS_NAME -x main.go
-- bin/htmltest-$TRAVIS_OS_NAME --conf htmldoc/fixtures/conf.yaml
+- ./coverage.sh   # Run test suite with coverage reporting
+- go build -o bin/htmltest-$TRAVIS_OS_NAME -x main.go  # Build
+- bin/htmltest-$TRAVIS_OS_NAME -h         # Print usage
+- bin/htmltest-$TRAVIS_OS_NAME --version  # Print version
+- bin/htmltest-$TRAVIS_OS_NAME --conf htmldoc/fixtures/conf.yaml # Run
 
 after_success:
-- bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash) # Report coverage to codecov
 
 before_deploy:
 - chmod +x bin/htmltest-$TRAVIS_OS_NAME
@@ -30,4 +32,4 @@ deploy:
   on:
     tags: true
     repo: wjdp/htmltest
-    go: 1.7.3
+    go: 1.7.4
