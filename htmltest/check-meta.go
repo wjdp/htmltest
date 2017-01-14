@@ -1,12 +1,10 @@
 package htmltest
 
 import (
-	// "fmt"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"golang.org/x/net/html"
 	"regexp"
-	"strings"
 )
 
 func (hT *HTMLTest) checkMeta(document *htmldoc.Document, node *html.Node) {
@@ -22,7 +20,11 @@ func (hT *HTMLTest) checkMetaRefresh(document *htmldoc.Document, node *html.Node
 	// Checks for meta refresh redirect tag
 	if attrs["http-equiv"] == "refresh" {
 		// Extract the timing and path from the content attr
-		contentSplit := strings.Split(attrs["content"], ";url=")
+
+		// Build regex to match ;url= and alike, the split the content attribute
+		re, _ := regexp.Compile(";[ ]{0,1}[Uu][Rr][Ll]=")
+		contentSplit := re.Split(attrs["content"], 2)
+
 		// Define ref from this
 		var ref *htmldoc.Reference
 		if len(contentSplit) == 2 {

@@ -16,6 +16,19 @@ func TestMetaRefreshExternalValid(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+// Passes for valid external meta refresh with space between the ; and the
+// url def.
+func TestMetaRefreshExternalValidCaps(t *testing.T) {
+	hT := tTestFile("fixtures/meta/refresh-external-valid-space.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
+// Passes for valid external meta refresh with URL in caps.
+func TestMetaRefreshExternalValidSpace(t *testing.T) {
+	hT := tTestFile("fixtures/meta/refresh-external-valid-caps.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
 // Fails broken external URL in meta refresh.
 func TestMetaRefreshExternalBroken(t *testing.T) {
 	hT := tTestFile("fixtures/meta/refresh-external-broken.html")
