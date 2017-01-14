@@ -34,6 +34,7 @@ type Options struct {
 	IgnoreURLs []interface{}
 	IgnoreDirs []interface{}
 
+	IgnoreInternalEmptyHash             bool
 	IgnoreCanonicalBrokenLinks          bool
 	IgnoreAltMissing                    bool
 	IgnoreDirectoryMissingTrailingSlash bool
@@ -87,6 +88,7 @@ func DefaultOptions() map[string]interface{} {
 		"IgnoreURLs": []interface{}{},
 		"IgnoreDirs": []interface{}{},
 
+		"IgnoreInternalEmptyHash":             false,
 		"IgnoreCanonicalBrokenLinks":          true,
 		"IgnoreAltMissing":                    false,
 		"IgnoreDirectoryMissingTrailingSlash": false,

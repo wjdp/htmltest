@@ -63,11 +63,13 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 
 	// href="#"
 	if attrs["href"] == "#" {
-		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.LevelError,
-			Message:   "empty hash",
-			Reference: ref,
-		})
+		if hT.opts.CheckInternalHash && !hT.opts.IgnoreInternalEmptyHash {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelError,
+				Message:   "empty hash",
+				Reference: ref,
+			})
+		}
 		return
 	}
 

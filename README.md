@@ -94,7 +94,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `CheckMeta` | Enables checking `<meta…` tags. | `true` |
 | `CheckGeneric` | Enables other tags, see items marked with checkGeneric on the [tags wiki page](https://github.com/wjdp/htmltest/wiki/Tags). | `true` |
 | `CheckExternal` | Enables external reference checking; all tag types. | `true` |
-| `CheckInternal` | Enables internal reference checking; all tag types. | `true` |
+| `CheckInternal` | Enables internal reference checking; all tag types. When disabled will prevent internal hash checking unless the reference only contains a hash fragment (`#heading`) and therefore refers to the current page. | `true` |
 | `CheckInternalHash` | Enables internal hash/fragment checking. | `true` |
 | `CheckMailto` | Enables–albeit quite basic–`mailto:` link checking. | `true` |
 | `CheckTel` | Enables–albeit quite basic–`tel:` link checking. | `true` |
@@ -103,7 +103,8 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `EnforceHTTPS` | Fails when encountering an `http://` link. Useful to prevent mixed content errors when serving over HTTPS. | `false` |
 | `IgnoreURLs` | Array of regexs of URLs to ignore. | empty |
 | `IgnoreDirs` | Array of regexs of directories to ignore when scanning for HTML files. | empty |
-| `IgnoreCanonicalBrokenLinks` | When true produces a warning, rather than an error for broken canonical links. When testing a site which isn't live yet or before publishing a new page canonical links will fail. | `true` |
+| `IgnoreInternalEmptyHash` | When true produces a warning, rather than an error, for links with `href="#"`. | `false` |
+| `IgnoreCanonicalBrokenLinks` | When true produces a warning, rather than an error, for broken canonical links. When testing a site which isn't live yet or before publishing a new page canonical links will fail. | `true` |
 | `IgnoreAltMissing` | Turns off image alt attribute checking. | `false` |
 | `IgnoreDirectoryMissingTrailingSlash` | Turns off errors for links to directories without a trailing slash. | `false` |
 | `IgnoreTagAttribute` | Specify the ignore attribute. All tags with this attribute will be excluded from every check. | `"data-proofer-ignore"` |
