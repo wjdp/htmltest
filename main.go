@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-const cmdVersion string = "dev"
+const cmdVersion string = "0.3.0"
 const cmdSeparator string = "========================================================================"
 
 var (
