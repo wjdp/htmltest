@@ -13,9 +13,9 @@ install:
 script:
 - ./coverage.sh   # Run test suite with coverage reporting
 - go build -ldflags "-X main.buildDate=`date -u +%Y-%m-%dT%H:%M:%SZ`" -o bin/htmltest-$TRAVIS_OS_NAME -x main.go
-- bin/htmltest-$TRAVIS_OS_NAME -h         # Print usage
-- bin/htmltest-$TRAVIS_OS_NAME --version  # Print version
-- bin/htmltest-$TRAVIS_OS_NAME --conf htmldoc/fixtures/conf.yaml # Run
+- bin/htmltest-$TRAVIS_OS_NAME -h  # Print usage
+- bin/htmltest-$TRAVIS_OS_NAME -v  # Print version
+- bin/htmltest-$TRAVIS_OS_NAME -c htmldoc/fixtures/conf.yaml -l0 # Run
 
 after_success:
 - bash <(curl -s https://codecov.io/bash) # Report coverage to codecov

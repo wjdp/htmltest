@@ -10,6 +10,7 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -25,29 +26,35 @@ func main() {
            https://github.com/wjdp/htmltest
 
 Usage:
-  htmltest
-  htmltest [--log-level=LEVEL] <path>
-  htmltest --conf=CFILE
-  htmltest --version
+  htmltest [options] [<path>]
+  htmltest -v --version
   htmltest -h --help
 
 Options:
-  <path>              Path to directory or file to test, if omitted:
-                      htmlproofer --conf=.htmltest.yml
-  --log-level=LEVEL   Logging level, 0-3: debug, info, warning, error.
-  --conf=CFILE        Custom path to config file.
-  -h --help           Show this text.`
+  <path>                       Path to directory or file to test, if omitted we
+                               attempt to read from .htmltest.yml.
+  -c FILE, --conf FILE         Custom path to config file.
+  -h, --help                   Show this text.
+  -l LEVEL, --log-level LEVEL  Logging level, 0-3: debug, info, warning, error.
+  -s, --skip-external          Skip external link checks, may shorten execution
+                               time considerably.
+  -v, --version                Show version and build time.
+`
 	versionText := "htmltest " + cmdVersion + "\n" + buildDate
 	arguments, _ := docopt.Parse(usage, nil, true, versionText, false)
+
 	// fmt.Println(arguments)
 
 	var options map[string]interface{}
 	if arguments["--conf"] != nil {
-		options = parseConfFile(arguments["--conf"].(string))
+		// Config file specified
+		options = parseConfFile(arguments, arguments["--conf"].(string), true)
 	} else if arguments["<path>"] != nil {
+		// Path specified
 		options = parseCLIArgs(arguments)
 	} else {
-		options = parseConfFile(".htmltest.yml")
+		// Other
+		options = parseConfFile(arguments, ".htmltest.yml", false)
 	}
 
 	exitCode := run(options)
@@ -57,37 +64,57 @@ Options:
 
 type optsMap map[string]interface{}
 
-func parseConfFile(path string) optsMap {
+func parseConfFile(arguments map[string]interface{}, path string, explicit bool) optsMap {
 	yamlFile, err := ioutil.ReadFile(path)
 
 	if os.IsNotExist(err) {
-		output.AbortWith(`No path provided & .htmltest.yml does not exist.
+		if explicit {
+			output.AbortWith("The provided config file: ", path, "does not exist.")
+		} else {
+			output.AbortWith(`No path provided & the default config .htmltest.yml does not exist.
 See htmltest -h for usage.`)
+		}
 	}
 	output.CheckErrorGeneric(err)
 
-	var optsUser optsMap
-	err = yaml.Unmarshal(yamlFile, &optsUser)
+	var optsConf optsMap
+	err = yaml.Unmarshal(yamlFile, &optsConf)
 	output.CheckErrorGeneric(err)
 
-	return optsUser
+	// Override or append config options with any specified in CLI args
+	augmentWithCLIArgs(optsConf, arguments)
+
+	return optsConf
 }
 
+// Wrapper for augmentWithCLIArgs when you don't already have an options map.
 func parseCLIArgs(arguments map[string]interface{}) optsMap {
-	// Deal with cl arguments
-	options := map[string]interface{}{}
+	options := optsMap{}
+	augmentWithCLIArgs(options, arguments)
+	return options
+}
+
+// Override or append to the options map with CLI args.
+func augmentWithCLIArgs(options optsMap, arguments map[string]interface{}) {
+	// Deal with cli arguments
 
 	if arguments["<path>"] != nil {
 		options["DirectoryPath"] = arguments["<path>"]
-	} else {
-		// All other options exhausted, run on current directory
-		options["DirectoryPath"] = "."
 	}
 
 	if arguments["--log-level"] != nil {
-		options["LogLevel"] = arguments["--log-level"]
+		if ll, err := strconv.Atoi(arguments["--log-level"].(string)); err == nil && ll >= 0 {
+			options["LogLevel"] = ll
+		} else {
+			output.AbortWith("--log-level must be a positive integer")
+		}
 	}
-	return options
+
+	if arguments["--skip-external"].(bool) {
+		output.Warn("Skipping the checking of external links.")
+		options["CheckExternal"] = false
+	}
+
 }
 
 func run(options optsMap) int {
@@ -95,8 +122,6 @@ func run(options optsMap) int {
 
 	fmt.Println("htmltest started at", timeStart.Format("03:04:05"), "on", options["DirectoryPath"])
 	fmt.Println(cmdSeparator)
-
-	//
 
 	hT := htmltest.Test(options)
 

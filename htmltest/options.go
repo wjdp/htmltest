@@ -1,9 +1,11 @@
 package htmltest
 
 import (
+	"fmt"
 	"github.com/imdario/mergo"
 	"github.com/wjdp/htmltest/issues"
 	"path"
+	"reflect"
 	"regexp"
 	"strings"
 )
@@ -125,6 +127,17 @@ func (hT *HTMLTest) setOptions(optsUser map[string]interface{}) {
 	hT.opts = Options{}
 	mergo.MapWithOverwrite(&hT.opts, optsMap)
 
+	// If debug dump the options struct
+	if hT.opts.LogLevel == issues.LevelDebug {
+		s := reflect.ValueOf(&hT.opts).Elem()
+		typeOfT := s.Type()
+
+		for i := 0; i < s.NumField(); i++ {
+			f := s.Field(i)
+			fmt.Printf("%d: %s %s = %v\n", i,
+				typeOfT.Field(i).Name, f.Type(), f.Interface())
+		}
+	}
 }
 
 // InList tests if key is in a slice/list.
