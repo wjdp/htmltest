@@ -187,3 +187,8 @@ func (hT *HTMLTest) postChecks(document *htmldoc.Document) {
 func (hT *HTMLTest) CountErrors() int {
 	return hT.issueStore.Count(issues.LevelError)
 }
+
+// CountDocuments : Return number of documents in hT document store
+func (hT *HTMLTest) CountDocuments() int {
+	return len(hT.documentStore.Documents)
+}
