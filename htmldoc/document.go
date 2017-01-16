@@ -1,6 +1,7 @@
 package htmldoc
 
 import (
+	"fmt"
 	"github.com/wjdp/htmltest/output"
 	"golang.org/x/net/html"
 	"os"
@@ -18,6 +19,7 @@ type Document struct {
 	hashMap         map[string]*html.Node // Map of valid id/names of nodes
 	NodesOfInterest []*html.Node          // Slice of nodes to run checks on
 	State           DocumentState         // Link to a DocumentState struct
+	DoctypeNode     *html.Node            // Pointer to doctype node if exists
 }
 
 // DocumentState struct, used by checks that depend on the document being
@@ -63,7 +65,10 @@ func (doc *Document) Parse() {
 // Internal recursive function that delves into the node tree and captures
 // nodes of interest and node id/names.
 func (doc *Document) parseNode(n *html.Node) {
-	if n.Type == html.ElementNode {
+	switch n.Type {
+	case html.DoctypeNode:
+		doc.DoctypeNode = n
+	case html.ElementNode:
 		// If present save fragment identifier to the hashMap
 		nodeID := GetID(n.Attr)
 		if nodeID != "" {
@@ -82,7 +87,11 @@ func (doc *Document) parseNode(n *html.Node) {
 		case "pre", "code":
 			return // Everything within these elements is not to be interpreted
 		}
+	case html.ErrorNode:
+		fmt.Printf("%+v\n", n)
+		panic("Oops, in parsing your HTML we fell over.")
 	}
+
 	// Iterate over children
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
 		doc.parseNode(c)

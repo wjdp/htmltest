@@ -120,6 +120,11 @@ func (hT *HTMLTest) testDocuments() {
 
 func (hT *HTMLTest) testDocument(document *htmldoc.Document) {
 	document.Parse()
+
+	if hT.opts.CheckDoctype {
+		hT.checkDoctype(document)
+	}
+
 	for _, n := range document.NodesOfInterest {
 		switch n.Data {
 		case "a":

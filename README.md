@@ -56,6 +56,7 @@ Many options of the following tests can customised. Items marked :soon: are not 
 - `meta`: Whether refresh tags are valid and the url works.
 - `meta`: :soon: Whether images and URLs in the OpenGraph metadata are valid.
 - `meta` `title`: :soon: Whether you've got the [recommended tags](https://support.google.com/webmasters/answer/79812?hl=en) in your head.
+- 'DOCTYPE': Whether a doctype is correctly specified.
 
 ### What's Not
 
@@ -87,6 +88,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | :----- | :---------- | :------ |
 | `DirectoryPath` | Directory to scan for HTML files. | |
 | `FilePath` | File to scan, omit if using `DirectoryPath`. | |
+| `CheckDoctype` | Enables checking the document type declaration. | `true` |
 | `CheckAnchors` | Enables checking `<a…` tags. | `true` |
 | `CheckLinks` | Enables checking `<link…` tags. | `true` |
 | `CheckImages` | Enables checking `<img…` tags | `true` |
@@ -100,6 +102,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `CheckTel` | Enables–albeit quite basic–`tel:` link checking. | `true` |
 | `CheckFavicon` | Enables favicon checking, ensures every page has a favicon set. | `false` |
 | `CheckMetaRefresh` | Enables checking meta refresh tags. | `true` |
+| `EnforceHTML5` | Fails when the doctype isn't `<!DOCTYPE html>`. | `false` |
 | `EnforceHTTPS` | Fails when encountering an `http://` link. Useful to prevent mixed content errors when serving over HTTPS. | `false` |
 | `IgnoreURLs` | Array of regexs of URLs to ignore. | empty |
 | `IgnoreDirs` | Array of regexs of directories to ignore when scanning for HTML files. | empty |
