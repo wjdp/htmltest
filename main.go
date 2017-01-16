@@ -10,6 +10,7 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
+	"path"
 	"strconv"
 	"time"
 )
@@ -69,7 +70,8 @@ func parseConfFile(arguments map[string]interface{}, path string, explicit bool)
 
 	if os.IsNotExist(err) {
 		if explicit {
-			output.AbortWith("The provided config file: ", path, "does not exist.")
+			output.AbortWith("Cannot access config file '" + path +
+				"', no such file.")
 		} else {
 			output.AbortWith(`No path provided & the default config .htmltest.yml does not exist.
 See htmltest -h for usage.`)
@@ -98,8 +100,32 @@ func parseCLIArgs(arguments map[string]interface{}) optsMap {
 func augmentWithCLIArgs(options optsMap, arguments map[string]interface{}) {
 	// Deal with cli arguments
 
+	// We've been given a path, check it exists and decide if it's a single
+	// file or a directory of files to check.
 	if arguments["<path>"] != nil {
-		options["DirectoryPath"] = arguments["<path>"]
+		// Open <path>
+		f, err := os.Open(path.Clean(arguments["<path>"].(string)))
+		if os.IsNotExist(err) {
+			output.AbortWith("Cannot access '" + arguments["<path>"].(string) +
+				"', no such file or directory.")
+		}
+		output.CheckErrorGeneric(err)
+		defer f.Close()
+
+		// Get FileInfo, (scan for details)
+		fi, err := f.Stat()
+		output.CheckErrorPanic(err)
+
+		if fi.IsDir() {
+			// We have a directory
+			options["DirectoryPath"] = path.Clean(arguments["<path>"].(string))
+		} else {
+			// We have a file
+			options["DirectoryPath"] = path.Dir(arguments["<path>"].(string))
+			options["FilePath"] = path.Base(arguments["<path>"].(string))
+
+		}
+
 	}
 
 	if arguments["--log-level"] != nil {
@@ -131,6 +157,7 @@ func run(options optsMap) int {
 	if numErrors == 0 {
 		color.Set(color.FgHiGreen)
 		fmt.Println("✔✔✔ passed in", timeEnd.Sub(timeStart))
+		fmt.Println("tested", hT.CountDocuments(), "documents")
 		color.Unset()
 		return 0
 	}
@@ -138,7 +165,7 @@ func run(options optsMap) int {
 	color.Set(color.FgHiRed)
 	fmt.Println(cmdSeparator)
 	fmt.Println("✘✘✘ failed in", timeEnd.Sub(timeStart))
-	fmt.Println(numErrors, "errors")
+	fmt.Println(numErrors, "errors in", hT.CountDocuments(), "documents")
 	color.Unset()
 	return 1
 
