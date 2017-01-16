@@ -3,6 +3,7 @@ package issues
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 	"github.com/wjdp/htmltest/htmldoc"
 	"io/ioutil"
 	"strings"
@@ -92,6 +93,11 @@ func (iS *IssueStore) MessageMatchCount(substr string) int {
 // that document's SitePath. Respects log level.
 func (iS *IssueStore) PrintDocumentIssues(doc *htmldoc.Document) {
 	if iS.CountByDoc(iS.logLevel, doc) == 0 {
+		if iS.logLevel == LevelDebug {
+			color.Set(color.FgMagenta)
+			fmt.Println(doc.SitePath)
+			color.Unset()
+		}
 		return
 	}
 	iS.storeMutex.RLock()

@@ -16,6 +16,7 @@ type Options struct {
 	DirectoryPath string
 	FilePath      string
 
+	CheckDoctype bool
 	CheckAnchors bool
 	CheckLinks   bool
 	CheckImages  bool
@@ -31,6 +32,7 @@ type Options struct {
 	CheckFavicon      bool
 	CheckMetaRefresh  bool
 
+	EnforceHTML5 bool
 	EnforceHTTPS bool
 
 	IgnoreURLs []interface{}
@@ -70,6 +72,7 @@ type Options struct {
 func DefaultOptions() map[string]interface{} {
 	// Specify defaults here
 	return map[string]interface{}{
+		"CheckDoctype": true,
 		"CheckAnchors": true,
 		"CheckLinks":   true,
 		"CheckImages":  true,
@@ -85,6 +88,7 @@ func DefaultOptions() map[string]interface{} {
 		"CheckFavicon":      false,
 		"CheckMetaRefresh":  true,
 
+		"EnforceHTML5": false,
 		"EnforceHTTPS": false,
 
 		"IgnoreURLs": []interface{}{},

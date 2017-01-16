@@ -38,6 +38,7 @@ func tTestFile(filename string) *HTMLTest {
 		"ExternalTimeout": tExternalTimeout,
 		"EnableCache":     false,
 		"EnableLog":       false,
+		"CheckDoctype":    false,
 	}
 	return Test(opts)
 }
@@ -50,6 +51,7 @@ func tTestFileOpts(filename string, tOpts map[string]interface{}) *HTMLTest {
 		"ExternalTimeout": tExternalTimeout,
 		"EnableCache":     false,
 		"EnableLog":       false,
+		"CheckDoctype":    false,
 	}
 	mergo.MergeWithOverwrite(&opts, tOpts)
 	return Test(opts)
@@ -62,6 +64,7 @@ func tTestDirectory(filename string) *HTMLTest {
 		"ExternalTimeout": tExternalTimeout,
 		"EnableCache":     false,
 		"EnableLog":       false,
+		"CheckDoctype":    false,
 	}
 	return Test(opts)
 }
@@ -73,6 +76,7 @@ func tTestDirectoryOpts(filename string, tOpts map[string]interface{}) *HTMLTest
 		"ExternalTimeout": tExternalTimeout,
 		"EnableCache":     false,
 		"EnableLog":       false,
+		"CheckDoctype":    false,
 	}
 	mergo.MergeWithOverwrite(&opts, tOpts)
 	return Test(opts)
