@@ -6,22 +6,20 @@ import (
 	"github.com/wjdp/htmltest/htmldoc"
 )
 
-const textNil string = "<nil>" // Text substitution when primary or secondary part of issue is nil
-
-// LevelNone : option to suppress output, actual error types follow
-const LevelNone int = 99
-
-// LevelError : Fatal problems, presence of an error causes tests to fail
-const LevelError int = 3
-
-// LevelWarning : An advisory, tests still pass
-const LevelWarning int = 2
-
-// LevelInfo : Verbose information, normally hidden, not too noisy
-const LevelInfo int = 1
-
-// LevelDebug : Debug output, normally hidden, very noisy
-const LevelDebug int = 0
+const (
+	// LevelNone : option to suppress output, actual error types follow
+	LevelNone int = 99
+	// LevelError : Fatal problems, presence of an error causes tests to fail
+	LevelError int = 3
+	// LevelWarning : An advisory, tests still pass
+	LevelWarning int = 2
+	// LevelInfo : Verbose information, normally hidden, not too noisy
+	LevelInfo int = 1
+	// LevelDebug : Debug output, normally hidden, very noisy
+	LevelDebug int = 0
+	// Text substitution when primary or secondary part of issue is nil
+	textNil string = "<nil>"
+)
 
 // Issue struct representing a single issue with a document.
 // Set all except Document and Reference, set one or the other.
