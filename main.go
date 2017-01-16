@@ -20,6 +20,7 @@ const cmdSeparator string = "===================================================
 
 var (
 	buildDate string
+	fileMode  bool
 )
 
 func main() {
@@ -119,11 +120,12 @@ func augmentWithCLIArgs(options optsMap, arguments map[string]interface{}) {
 		if fi.IsDir() {
 			// We have a directory
 			options["DirectoryPath"] = path.Clean(arguments["<path>"].(string))
+			fileMode = false
 		} else {
 			// We have a file
 			options["DirectoryPath"] = path.Dir(arguments["<path>"].(string))
 			options["FilePath"] = path.Base(arguments["<path>"].(string))
-
+			fileMode = true
 		}
 
 	}
@@ -157,7 +159,9 @@ func run(options optsMap) int {
 	if numErrors == 0 {
 		color.Set(color.FgHiGreen)
 		fmt.Println("✔✔✔ passed in", timeEnd.Sub(timeStart))
-		fmt.Println("tested", hT.CountDocuments(), "documents")
+		if !fileMode {
+			fmt.Println("tested", hT.CountDocuments(), "documents")
+		}
 		color.Unset()
 		return 0
 	}
@@ -165,7 +169,11 @@ func run(options optsMap) int {
 	color.Set(color.FgHiRed)
 	fmt.Println(cmdSeparator)
 	fmt.Println("✘✘✘ failed in", timeEnd.Sub(timeStart))
-	fmt.Println(numErrors, "errors in", hT.CountDocuments(), "documents")
+	if fileMode {
+		fmt.Println(numErrors, "errors")
+	} else {
+		fmt.Println(numErrors, "errors in", hT.CountDocuments(), "documents")
+	}
 	color.Unset()
 	return 1
 
