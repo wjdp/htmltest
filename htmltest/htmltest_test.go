@@ -43,9 +43,9 @@ func TestNormalLookingPage(t *testing.T) {
 }
 
 func TestCacheIntegration(t *testing.T) {
-	tTestFileOpts("fixtures/links/linkWithHttps.html",
+	tTestFileOpts("fixtures/links/https-valid.html",
 		map[string]interface{}{"EnableCache": true})
-	hT2 := tTestFileOpts("fixtures/links/linkWithHttps.html",
+	hT2 := tTestFileOpts("fixtures/links/https-valid.html",
 		map[string]interface{}{"EnableCache": true, "NoRun": true})
 	_, okY := hT2.refCache.Get("https://github.com/octocat/Spoon-Knife/issues")
 	_, okN := hT2.refCache.Get("https://github.com/octocat/Spoon-Knife/milestones")

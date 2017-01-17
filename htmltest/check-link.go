@@ -5,7 +5,6 @@ import (
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/output"
 	"golang.org/x/net/html"
-	"log"
 	"net/http"
 	"net/url"
 	"os"
