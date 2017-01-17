@@ -185,7 +185,7 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 				Message:   err.Error(),
 				Reference: ref,
 			})
-			log.Println("Unhandled httpClient error:", err.Error())
+
 			return
 		}
 		// Save cached result

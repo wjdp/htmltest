@@ -117,8 +117,15 @@ func TestAnchorExternalFollowRedirectsDisabled(t *testing.T) {
 func TestAnchorExternalHTTPS(t *testing.T) {
 	// should understand https
 	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/linkWithHttps.html")
+	hT := tTestFile("fixtures/links/https-valid.html")
 	tExpectIssueCount(t, hT, 0)
+}
+
+func TestAnchorExternalHTTPSInvalid(t *testing.T) {
+	// should understand https
+	tSkipShortExternal(t)
+	hT := tTestFile("fixtures/links/https-invalid.html")
+	tExpectIssueCount(t, hT, 6)
 }
 
 func TestAnchorExternalMissingProtocolValid(t *testing.T) {
