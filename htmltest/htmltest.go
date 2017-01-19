@@ -29,6 +29,11 @@ type HTMLTest struct {
 func Test(optsUser map[string]interface{}) *HTMLTest {
 	hT := HTMLTest{}
 
+	// If FilePath set, modify FileExtension
+	if optsUser["FilePath"] != nil {
+		optsUser["FileExtension"] = path.Ext(optsUser["FilePath"].(string))
+	}
+
 	// Merge user options with defaults and set hT.opts
 	hT.setOptions(optsUser)
 
@@ -63,7 +68,7 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 	hT.documentStore = htmldoc.NewDocumentStore()
 	// Setup document store
 	hT.documentStore.BasePath = hT.opts.DirectoryPath
-	hT.documentStore.DocumentExtension = ".html" // TODO add option
+	hT.documentStore.DocumentExtension = hT.opts.FileExtension
 	hT.documentStore.DirectoryIndex = hT.opts.DirectoryIndex
 	hT.documentStore.IgnorePatterns = hT.opts.IgnoreDirs
 	// Discover documents
