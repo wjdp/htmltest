@@ -16,6 +16,7 @@ type Options struct {
 	DirectoryPath  string
 	DirectoryIndex string
 	FilePath       string
+	FileExtension  string
 
 	CheckDoctype bool
 	CheckAnchors bool
@@ -72,6 +73,7 @@ func DefaultOptions() map[string]interface{} {
 	// Specify defaults here
 	return map[string]interface{}{
 		"DirectoryIndex": "index.html",
+		"FileExtension":  ".html",
 
 		"CheckDoctype": true,
 		"CheckAnchors": true,

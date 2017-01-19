@@ -91,6 +91,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `DirectoryPath` | Directory to scan for HTML files. | |
 | `DirectoryIndex` | The file to look for when linking to a directory. | `index.html` |
 | `FilePath` | Single file to test within `DirectoryPath`, omit to test all. | |
+| `FileExtension` | Extension of your HTML documents, includes the dot. If `FilePath` is set we use the extension from that. | `.html` |
 | `CheckDoctype` | Enables checking the document type declaration. | `true` |
 | `CheckAnchors` | Enables checking `<a…` tags. | `true` |
 | `CheckLinks` | Enables checking `<link…` tags. | `true` |
