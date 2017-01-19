@@ -13,8 +13,9 @@ import (
 // Options struct for htmltest, user and default options are merged and mapped
 // into an instance of this struct.
 type Options struct {
-	DirectoryPath string
-	FilePath      string
+	DirectoryPath  string
+	DirectoryIndex string
+	FilePath       string
 
 	CheckDoctype bool
 	CheckAnchors bool
@@ -51,18 +52,16 @@ type Options struct {
 	LogLevel int
 	LogSort  string
 
-	DirectoryIndex string
-
 	ExternalTimeout    int
 	StripQueryString   bool
 	StripQueryExcludes []string
 
-	EnableCache  bool
-	EnableLog    bool
-	ProgDir      string
-	CacheFile    string
-	LogFile      string
-	CacheExpires string // Accepts golang time period strings, hours (16h) is really only useful option
+	EnableCache     bool
+	EnableLog       bool
+	OutputDir       string
+	OutputCacheFile string
+	OutputLogFile   string
+	CacheExpires    string // Accepts golang time period strings, hours (16h) is really only useful option
 
 	// --- Internals below here ---
 	NoRun bool // When true does not run tests, used to inspect state in unit tests
@@ -72,6 +71,8 @@ type Options struct {
 func DefaultOptions() map[string]interface{} {
 	// Specify defaults here
 	return map[string]interface{}{
+		"DirectoryIndex": "index.html",
+
 		"CheckDoctype": true,
 		"CheckAnchors": true,
 		"CheckLinks":   true,
@@ -107,18 +108,16 @@ func DefaultOptions() map[string]interface{} {
 		"LogLevel": issues.LevelWarning,
 		"LogSort":  "document",
 
-		"DirectoryIndex": "index.html",
-
 		"ExternalTimeout":    15,
 		"StripQueryString":   true,
 		"StripQueryExcludes": []string{"fonts.googleapis.com"},
 
-		"EnableCache":  true,
-		"EnableLog":    true,
-		"ProgDir":      path.Join("tmp", ".htmltest"),
-		"CacheFile":    "refcache.json",
-		"LogFile":      "htmltest.log",
-		"CacheExpires": "336h",
+		"EnableCache":     true,
+		"EnableLog":       true,
+		"OutputDir":       path.Join("tmp", ".htmltest"),
+		"OutputCacheFile": "refcache.json",
+		"OutputLogFile":   "htmltest.log",
+		"CacheExpires":    "336h",
 
 		"NoRun": false,
 	}

@@ -32,8 +32,9 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 	// Merge user options with defaults and set hT.opts
 	hT.setOptions(optsUser)
 
-	// Create issue store and set LogLevel and printImmediately if sort is "seq"
-	hT.issueStore = issues.NewIssueStore(hT.opts.LogLevel, (hT.opts.LogSort == "seq"))
+	// Create issue store and set LogLevel and printImmediately if sort is seq
+	hT.issueStore = issues.NewIssueStore(hT.opts.LogLevel,
+		(hT.opts.LogSort == "seq"))
 
 	transport := &http.Transport{
 		TLSNextProto: nil, // Disable HTTP/2, "write on closed buffer" errors
@@ -50,7 +51,7 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 	// Setup refcache
 	cachePath := ""
 	if hT.opts.EnableCache {
-		cachePath = path.Join(hT.opts.ProgDir, hT.opts.CacheFile)
+		cachePath = path.Join(hT.opts.OutputDir, hT.opts.OutputCacheFile)
 	}
 	hT.refCache = refcache.NewRefCache(cachePath, hT.opts.CacheExpires)
 
@@ -72,7 +73,8 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 		// Single document mode
 		doc, ok := hT.documentStore.ResolvePath(hT.opts.FilePath)
 		if !ok {
-			output.AbortWith("Could not find document", hT.opts.FilePath, "in", hT.opts.DirectoryPath)
+			output.AbortWith("Could not find document", hT.opts.FilePath, "in",
+				hT.opts.DirectoryPath)
 		}
 		hT.testDocument(doc)
 	} else if hT.opts.DirectoryPath != "" {
@@ -86,7 +88,8 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 		hT.refCache.WriteStore(cachePath)
 	}
 	if hT.opts.EnableLog {
-		hT.issueStore.WriteLog(path.Join(hT.opts.ProgDir, hT.opts.LogFile))
+		hT.issueStore.WriteLog(path.Join(hT.opts.OutputDir,
+			hT.opts.OutputLogFile))
 	}
 
 	return &hT

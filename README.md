@@ -84,10 +84,13 @@ If you've got a lot of errors, reading them off a TTY may be difficult. We write
 
 htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directory that you're running the tool from and you can just say `htmltest` to run your tests. You'll probably also want to cache the `tmp/.htmltest` directory.
 
+### Basic Options
+
 | Option | Description | Default |
 | :----- | :---------- | :------ |
 | `DirectoryPath` | Directory to scan for HTML files. | |
-| `FilePath` | File to scan, omit if using `DirectoryPath`. | |
+| `DirectoryIndex` | The file to look for when linking to a directory. | `index.html` |
+| `FilePath` | Single file to test within `DirectoryPath`, omit to test all. | |
 | `CheckDoctype` | Enables checking the document type declaration. | `true` |
 | `CheckAnchors` | Enables checking `<a…` tags. | `true` |
 | `CheckLinks` | Enables checking `<link…` tags. | `true` |
@@ -116,13 +119,12 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `HTTPConcurrencyLimit` | Maximum number of open HTTP connections. If you raise this number ensure the `ExternalTimeout` is suitably raised. | `16` |
 | `LogLevel` | Logging level, 0-3: debug, info, warning, error. | `2` |
 | `LogSort` | How to sort/present issues. Can be `seq` for sequential output or `document` to group by document. | `document` |
-| `DirectoryIndex` | The file to look for when linking to a directory. | `index.html` |
 | `ExternalTimeout` | Number of seconds to wait on an HTTP connection before failing. | `15` |
 | `StripQueryString` | Enables stripping of query strings from external checks. | `true` |
 | `StripQueryExcludes` | List of URLs to disable query stripping on. | `["fonts.googleapis.com"]` |
-| `ProgDir` | Directory to store cache and log files in. Relative to executing directory. | `tmp/.htmltest` |
-| `CacheFile` | File within `ProgDir` to store reference cache. | `refcache.json` |
-| `LogFile` | File within `ProgDir` to store last tests errors. | `htmltest.log` |
+| `OutputDir` | Directory to store cache and log files in. Relative to executing directory. | `tmp/.htmltest` |
+| `OutputCacheFile` | File within `OutputDir` to store reference cache. | `refcache.json` |
+| `OutputLogFile` | File within `OutputDir` to store last tests errors. | `htmltest.log` |
 | `CacheExpires` | Cache validity period, accepts [go.time duration strings](https://golang.org/pkg/time/#ParseDuration) (…"m", "h"). | `336h` (two weeks) |
 
 ### Example
