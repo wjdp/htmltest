@@ -15,11 +15,11 @@ If you generate HTML files, [html-proofer](https://github.com/gjtorikian/html-pr
 
 ## :floppy_disk: Installation
 
-Download the [latest binary release](https://github.com/wjdp/htmltest/releases) and stick it in your binary folder (`~/bin`).
+:arrow_down: Download the [latest binary release](https://github.com/wjdp/htmltest/releases/latest) and stick it in your binary folder (`~/bin`). You may need to make it executable (`chmod +x htmltest`).
 
-For a CI environment–like Travis–put the desired version in the following and run: `curl -L https://github.com/wjdp/htmltest/releases/download/vX.X.X/htmltest-linux` then execute with `./htmltest-linux`
+For a CI environment—like Travis—put the desired version in the following and run: `curl -L https://github.com/wjdp/htmltest/releases/download/vX.X.X/htmltest-linux` then execute with `./htmltest-linux`. Replace `linux` with `osx` for Mac builds. At this time there are no builds for Windows, I'd like to [fix that](https://github.com/wjdp/htmltest/issues/18).
 
-We store temporary files in `tmp/.htmltest` by default. You probably want to ignore that in your version control system.
+We store temporary files in `tmp/.htmltest` by default. You probably want to ignore that in your version control system, and perhaps [cache it in your CI system](https://docs.travis-ci.com/user/caching/#Arbitrary-directories).
 
 ## :computer: Usage
 
