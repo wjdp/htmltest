@@ -28,18 +28,19 @@ htmltest - Test generated HTML for problems
            https://github.com/wjdp/htmltest
 
 Usage:
-  htmltest
-  htmltest [--log-level=LEVEL] <path>
-  htmltest --conf=CFILE
-  htmltest --version
+  htmltest [options] [<path>]
+  htmltest -v --version
   htmltest -h --help
 
 Options:
-  <path>              Path to directory or file to test, if omitted:
-                      htmlproofer --conf=.htmltest.yml
-  --log-level=LEVEL   Logging level, 0-3: debug, info, warning, error.
-  --conf=CFILE        Custom path to config file.
-  -h --help           Show this text.
+  <path>                       Path to directory or file to test, if omitted we
+                               attempt to read from .htmltest.yml.
+  -c FILE, --conf FILE         Custom path to config file.
+  -h, --help                   Show this text.
+  -l LEVEL, --log-level LEVEL  Logging level, 0-3: debug, info, warning, error.
+  -s, --skip-external          Skip external link checks, may shorten execution
+                               time considerably.
+  -v, --version                Show version and build time.
 ```
 
 ## :microscope: What's Tested?
