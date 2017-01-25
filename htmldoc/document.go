@@ -89,7 +89,9 @@ func (doc *Document) parseNode(n *html.Node) {
 		}
 	case html.ErrorNode:
 		fmt.Printf("%+v\n", n)
-		panic("Oops, in parsing your HTML we fell over.")
+		fmt.Println("Oops, in parsing your HTML we fell over.\n",
+			"Please let the developer know about this.\n",
+			"https://github.com/wjdp/htmltest/issues/new")
 	}
 
 	// Iterate over children
