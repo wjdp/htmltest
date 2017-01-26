@@ -26,12 +26,25 @@ before_deploy:
 - chmod +x bin/htmltest-$TRAVIS_OS_NAME
 
 deploy:
-  provider: releases
-  api_key:
-    secure: ZV+Mttq0eaYALR9M/AQBnu9i0ytpT8bcWVvEwNjztRbLzsgGQOzReJiRI8gNUcrufRLI7G4n0feg9mCOLCD3kzG/7vYFiww2NzGk5zxLh8XSGDnTvd2Elm9DlCBmJTTgsS+HHxTo/0D4W5YeYo2UqWe8/5yvZHMdmKzqTRNwobccpkl9lCmUJXfX2tJ1fRlG6WKhTl7qhVVV/uj4m0pTOuVL3UmYiI5N5zFb/szAhGpmO0OHtlmRYqoaAcuBdml/dvfa4bcezuN63JIgb54DAMARjIGavJ8ehUeJKnsTXwNcEE/6AhTA9oMlEwNvy4FxZ28WpbzGupPOto6oW0apFdkeVaJ2eqzSd5kA6ql//Sc1EOQGyJmdDuHJ65/2JF5QnPaOzfid5PzUslrlC3Agby6Sikp0sLcfVamLe9P8PClvbm3qPI6UJf+B+miY0wYNhLnZUdBAuNTPwrorWt4RCTVyDAgdnFir6WSUsS7e5T+wgLh7YQ/YFRqORI719hGbNGfKurZEjCNchEbjVd0PhO3CUtWsh6P9Tn5HnJMcofWyqoxvOkSpeDVPYpwC+A095wqugp2T94kPAJUy05eR2q6va0jDtrwwmPcvGVnoH3kG8Hihxn0dANEIwighle/xOwle+xWr/x+8+tGedwhGeLal/sSCsUDYQi+Rpdk7AeY=
-  file: bin/htmltest-$TRAVIS_OS_NAME
-  skip_cleanup: true
-  on:
-    tags: true
-    repo: wjdp/htmltest
-    go: 1.7.4
+  - provider: releases
+    api_key:
+      secure: ZV+Mttq0eaYALR9M/AQBnu9i0ytpT8bcWVvEwNjztRbLzsgGQOzReJiRI8gNUcrufRLI7G4n0feg9mCOLCD3kzG/7vYFiww2NzGk5zxLh8XSGDnTvd2Elm9DlCBmJTTgsS+HHxTo/0D4W5YeYo2UqWe8/5yvZHMdmKzqTRNwobccpkl9lCmUJXfX2tJ1fRlG6WKhTl7qhVVV/uj4m0pTOuVL3UmYiI5N5zFb/szAhGpmO0OHtlmRYqoaAcuBdml/dvfa4bcezuN63JIgb54DAMARjIGavJ8ehUeJKnsTXwNcEE/6AhTA9oMlEwNvy4FxZ28WpbzGupPOto6oW0apFdkeVaJ2eqzSd5kA6ql//Sc1EOQGyJmdDuHJ65/2JF5QnPaOzfid5PzUslrlC3Agby6Sikp0sLcfVamLe9P8PClvbm3qPI6UJf+B+miY0wYNhLnZUdBAuNTPwrorWt4RCTVyDAgdnFir6WSUsS7e5T+wgLh7YQ/YFRqORI719hGbNGfKurZEjCNchEbjVd0PhO3CUtWsh6P9Tn5HnJMcofWyqoxvOkSpeDVPYpwC+A095wqugp2T94kPAJUy05eR2q6va0jDtrwwmPcvGVnoH3kG8Hihxn0dANEIwighle/xOwle+xWr/x+8+tGedwhGeLal/sSCsUDYQi+Rpdk7AeY=
+    file: bin/htmltest-$TRAVIS_OS_NAME
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: wjdp/htmltest
+      go: 1.7.4
+  - provider: s3
+    access_key_id: AKIAIH2ZE2KZBNCVEGCA
+    secret_access_key:
+      secure: Rgwp7uzg/Uf9RYyOk2BNmUfEhdCk0843r0ndgxafNxSZu4SvXL5SgOvtulN4+aVOSAkyDwRpy645a2f8q4dl+idyQbLdn/U8/AIH3Q2vCPT3N/a4c74Ccf4yzIXzYoqRUuc0/DZKn7H6LNoDLBmdAQywVkf4EVA/hvIzr3qAj3kPjYJZtWSABWNSm4Zy03nobG8ONMOEJORGxJE9Kmnjpu2Jdita2rkZyjj0qHNG8OxrfMxvhbfUtYADe5jTlcda8FR2h5CDg/U6x18d0KdUqdGCslVjfdn0OduAC5l+DlhKlUNrts9NoNHQc1Sp4CzjtsbrINME6l3inq+ca7uow5jet8ov5NkurSrPljGAqIOTsMX4sTpQc2GwthZEqhYbtgIPFyuX4lANKYqQCTdxF/rGug6fdhr7CeN//XqeZ6e9s5b86lre2iG25O1J4NyUlfzcSmlUezla8NZ2tV7GHCiTqWUf+18XyT/jfARoZEQB81yu2ib11eoMlYhOUb48D6V+jTp07aGrvHdyFch3nVcJUdW7YexeAvKRqdiyCa2kIIRO6YvHAPKaorG5GU2GF91ed3l9+qEsyAsk6I6HggqRyhwLw7vVTvsNwJjChqGTlCW1FMa7dT3yM4I8VjPcm8IIJ8e6hwzScwULV0cxiYdTBBaXVVSbZxPXAag/WcY=
+    bucket: htmltest-builds
+    region: eu-west-1
+    acl: public_read
+    skip_cleanup: true
+    upload-dir: "`git describe --tags`"
+    local_dir: bin
+    on:
+      repo: wjdp/htmltest
+      branch: master
