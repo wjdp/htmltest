@@ -15,7 +15,9 @@ script:
 - go build -ldflags "-X main.buildDate=`date -u +%Y-%m-%dT%H:%M:%SZ` -X main.version=`git describe --tags`" -o bin/htmltest-$TRAVIS_OS_NAME -x main.go
 - bin/htmltest-$TRAVIS_OS_NAME -h  # Print usage
 - bin/htmltest-$TRAVIS_OS_NAME -v  # Print version
-- bin/htmltest-$TRAVIS_OS_NAME -c htmldoc/fixtures/conf.yaml -l0 # Run
+- bin/htmltest-$TRAVIS_OS_NAME -c htmldoc/fixtures/conf.yaml -l0 # Run config
+- bin/htmltest-$TRAVIS_OS_NAME htmldoc/fixtures/documents/dir1 # Run on dir
+- bin/htmltest-$TRAVIS_OS_NAME htmltest/fixtures/links/head_link_href.html # Run on file
 
 after_success:
 - bash <(curl -s https://codecov.io/bash) # Report coverage to codecov
