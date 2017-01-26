@@ -43,7 +43,7 @@ deploy:
     region: eu-west-1
     acl: public_read
     skip_cleanup: true
-    upload-dir: "`git describe --tags`"
+    upload-dir: "builds/`git describe --tags`"
     local_dir: bin
     on:
       repo: wjdp/htmltest
