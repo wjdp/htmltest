@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"strings"
 	"sync"
+	"github.com/wjdp/htmltest/output"
 )
 
 // IssueStore : store of htmltest issues.
@@ -112,9 +113,7 @@ func (iS *IssueStore) PrintDocumentIssues(doc *htmldoc.Document) {
 // given in NewIssueStore.
 func (iS *IssueStore) WriteLog(path string) {
 	err := ioutil.WriteFile(path, iS.byteLog, 0644)
-	if err != nil {
-		panic(err)
-	}
+	output.CheckErrorPanic(err)
 }
 
 // DumpIssues : Dump all issues to stdout, called by test helpers when issue
