@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"path"
 	"strings"
+	"github.com/wjdp/htmltest/output"
 )
 
 // Reference struct, representation of the link between a document and a
@@ -30,9 +31,7 @@ func NewReference(document *Document, node *html.Node, path string) *Reference {
 	}
 	// Parse and store parsed URL
 	u, err := url.Parse(path)
-	if err != nil {
-		panic(err)
-	}
+	output.CheckErrorPanic(err)
 	ref.URL = u
 	return &ref
 }

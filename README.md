@@ -11,7 +11,7 @@ If you generate HTML files, [html-proofer](https://github.com/gjtorikian/html-pr
 
 :horse_racing: *Faster?* Yep, quite a bit actually. On [a site](https://github.com/newtheatre/history-project) with over 2000 files htmlproofer took over [three minutes](https://travis-ci.org/newtheatre/history-project#L564), htmltest took [8.6 seconds](https://travis-ci.org/newtheatre/history-project#L538). Both tools had full valid caches.
 
-:confused: *Why make another tool*: A mix of frustration with using htmlproofer/Ruby on large sites and needing a good project to learn Go with. Yep, this is my first major Go program, it uses pretty much the same spec/tests as htmlproofer so should be accurate, but probably could do with some refactoring.
+:confused: *Why make another tool*: A mix of frustration with using htmlproofer/Ruby on large sites and needing a good project to get to grips with Go.
 
 ## :floppy_disk: Installation
 
@@ -57,7 +57,7 @@ Many options of the following tests can customised. Items marked :soon: are not 
 - `meta`: Whether refresh tags are valid and the url works.
 - `meta`: :soon: Whether images and URLs in the OpenGraph metadata are valid.
 - `meta` `title`: :soon: Whether you've got the [recommended tags](https://support.google.com/webmasters/answer/79812?hl=en) in your head.
-- 'DOCTYPE': Whether a doctype is correctly specified.
+- `DOCTYPE`: Whether a doctype is correctly specified.
 
 ### What's Not
 

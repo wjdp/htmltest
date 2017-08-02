@@ -7,6 +7,7 @@ import (
 	"path"
 	"sync"
 	"time"
+	"github.com/wjdp/htmltest/output"
 )
 
 // RefCache struct : store of cached references.
@@ -36,7 +37,7 @@ func (rS *RefCache) ReadStore(storePath string) bool {
 	f, err := os.Open(storePath)
 	if err != nil {
 		if !os.IsNotExist(err) {
-			panic(err)
+			output.CheckErrorPanic(err)
 		}
 		return false
 	}
@@ -44,9 +45,7 @@ func (rS *RefCache) ReadStore(storePath string) bool {
 
 	var refStore map[string]CachedRef
 	err = json.NewDecoder(f).Decode(&refStore)
-	if err != nil {
-		panic(err)
-	}
+	output.CheckErrorPanic(err)
 
 	rS.refStore = refStore
 	return true
@@ -57,15 +56,11 @@ func (rS *RefCache) WriteStore(storePath string) {
 	// Write out RefCache
 	os.MkdirAll(path.Dir(storePath), 0777)
 	f, err := os.Create(storePath)
-	if err != nil {
-		panic(err)
-	}
+	output.CheckErrorPanic(err)
 	defer f.Close()
 
 	err = json.NewEncoder(f).Encode(&rS.refStore)
-	if err != nil {
-		panic(err)
-	}
+	output.CheckErrorPanic(err)
 }
 
 // CachedRef struct : Single cached result
