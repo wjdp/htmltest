@@ -1,11 +1,11 @@
 package htmldoc
 
 import (
+	"github.com/wjdp/htmltest/output"
 	"golang.org/x/net/html"
 	"net/url"
 	"path"
 	"strings"
-	"github.com/wjdp/htmltest/output"
 )
 
 // Reference struct, representation of the link between a document and a
