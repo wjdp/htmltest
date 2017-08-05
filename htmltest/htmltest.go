@@ -11,6 +11,7 @@ import (
 	"path"
 	"sync"
 	"time"
+	"crypto/tls"
 )
 
 // HTMLTest struct, A html testing session, user options are passed in and
@@ -42,7 +43,12 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 		(hT.opts.LogSort == "seq"))
 
 	transport := &http.Transport{
-		TLSNextProto: nil, // Disable HTTP/2, "write on closed buffer" errors
+		// Disable HTTP/2, this is required due to a number of edge cases where http negotiates H2, but something goes
+		// wrong when actually using it. Downgrading to H1 when this issue is hit is not yet supported so we use the
+		// following to disable H2 support:
+		// > Programs that must disable HTTP/2 can do so by setting Transport.TLSNextProto ... to a non-nil, empty map.
+		// See issue #49
+		TLSNextProto: make(map[string]func(authority string, c *tls.Conn) http.RoundTripper),
 	}
 	hT.httpClient = &http.Client{
 		// Durations are in nanoseconds
