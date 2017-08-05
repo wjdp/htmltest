@@ -128,6 +128,14 @@ func TestAnchorExternalHTTPSInvalid(t *testing.T) {
 	tExpectIssueCount(t, hT, 6)
 }
 
+func TestAnchorExternalHTTPSBadH2(t *testing.T) {
+	// should connect to servers with bad http/2 support
+	// See issue #49
+	tSkipShortExternal(t)
+	hT := tTestFile("fixtures/links/https-valid-h2.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestAnchorExternalMissingProtocolValid(t *testing.T) {
 	// works for valid links missing the protocol
 	tSkipShortExternal(t)
