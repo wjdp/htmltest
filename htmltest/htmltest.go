@@ -14,6 +14,7 @@ import (
 	"crypto/tls"
 	"gopkg.in/seborama/govcr.v2"
 	"strings"
+	"os"
 )
 
 // Base path for VCR cassettes, relative to this package
@@ -89,6 +90,19 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 
 	if hT.opts.NoRun {
 		return &hT
+	}
+
+	// Check the provided DirectoryPath exists
+	f, err := os.Open(hT.opts.DirectoryPath)
+	if os.IsNotExist(err) {
+		output.AbortWith("Cannot access '" + hT.opts.DirectoryPath + "', no such directory.")
+	}
+	// Get FileInfo, (scan for details)
+	fi, err := f.Stat()
+	output.CheckErrorPanic(err)
+	// Check if directory
+	if !fi.IsDir() {
+		output.AbortWith("DirectoryIndex '" + hT.opts.DirectoryPath + "' is a file, not a directory.")
 	}
 
 	// Init our document store
