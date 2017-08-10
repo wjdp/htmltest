@@ -28,6 +28,12 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 		document.State.FaviconPresent = true
 	}
 
+	// Ignore if rel=dns-prefetch, see #40. If we have more cases like this a hashable type should be created and
+	// checked against.
+	if attrs["rel"] == "dns-prefetch" {
+		return
+	}
+
 	// Create reference
 	ref := htmldoc.NewReference(document, node, attrs["href"])
 

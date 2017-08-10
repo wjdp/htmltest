@@ -438,6 +438,12 @@ func TestLinkHrefBrokenCanonicalOption(t *testing.T) {
 	tExpectIssueCount(t, hT, 1)
 }
 
+func TestLinkRelDnsPrefetch(t *testing.T) {
+	// ignores links with rel="dns-prefetch"
+	hT := tTestFile("fixtures/links/link-rel-dns-prefetch.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestAnchorPre(t *testing.T) {
 	// works for broken anchors within pre & code
 	hT := tTestFile("fixtures/links/anchors_in_pre.html")
