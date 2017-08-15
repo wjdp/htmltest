@@ -254,8 +254,10 @@ func (hT *HTMLTest) checkInternal(ref *htmldoc.Reference) {
 	refDoc, refExists := hT.documentStore.ResolveRef(ref)
 
 	if refExists {
-		// If path doesn't end in slash and the resolved ref is an index.html, complain
-		if (ref.URL.Path[len(ref.URL.Path)-1] != '/') && (path.Base(refDoc.SitePath) == hT.opts.DirectoryIndex) && (!hT.opts.IgnoreDirectoryMissingTrailingSlash) {
+		// If the resolved ref is an index.html and the path doesn't end in a
+		// trailing slash (and isn't linking directly to the index), complain.
+		if !hT.opts.IgnoreDirectoryMissingTrailingSlash && path.Base(refDoc.SitePath) == hT.opts.DirectoryIndex &&
+			!strings.HasSuffix(ref.URL.Path, hT.opts.DirectoryIndex) && !strings.HasSuffix(ref.URL.Path, "/") {
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelError,
 				Message:   "target is a directory, href lacks trailing slash",
