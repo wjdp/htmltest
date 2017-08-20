@@ -383,11 +383,18 @@ func TestMailtoBlank(t *testing.T) {
 	tExpectIssue(t, hT, "mailto is empty", 1)
 }
 
-func TestMailtoInvalid(t *testing.T) {
+func TestMailtoInvalidFormat(t *testing.T) {
 	// fails for invalid mailto links
 	hT := tTestFile("fixtures/links/invalid_mailto_link.html")
 	tExpectIssueCount(t, hT, 1)
 	tExpectIssue(t, hT, "contains an invalid email address", 1)
+}
+
+func TestMailtoInvalidMx(t *testing.T) {
+	// fails for invalid mailto links
+	hT := tTestFile("fixtures/links/invalid_mailto_mx.html")
+	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "domain contains no valid MX records", 1)
 }
 
 func TestMailtoIgnore(t *testing.T) {

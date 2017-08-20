@@ -10,6 +10,7 @@ import (
 	"os"
 	"path"
 	"strings"
+	"net"
 	"fmt"
 )
 
@@ -347,6 +348,34 @@ func (hT *HTMLTest) checkMailto(ref *htmldoc.Reference) {
 			Message:   "contains an invalid email address",
 			Reference: ref,
 		})
+		return
+	}
+	domain := strings.Split(ref.URL.Opaque, "@")[1]
+	_, err := net.LookupMX(domain)
+	if err != nil {
+		if dnserr, ok := err.(*net.DNSError); ok {
+			switch dnserr.Err {
+			case "no such host":
+				hT.issueStore.AddIssue(issues.Issue{
+					Level:     issues.LevelError,
+					Message:   "domain contains no valid MX records",
+					Reference: ref,
+				})
+				break
+			default:
+				hT.issueStore.AddIssue(issues.Issue{
+					Level:     issues.LevelError,
+					Message:   "unable to perform LookupMX, unkown error",
+					Reference: ref,
+				})
+			}
+		} else {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelWarning,
+				Message:   "unable to perform LookupMX, unkown error",
+				Reference: ref,
+			})
+		}
 		return
 	}
 }
