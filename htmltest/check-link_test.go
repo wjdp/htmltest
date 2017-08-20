@@ -390,11 +390,17 @@ func TestMailtoInvalidFormat(t *testing.T) {
 	tExpectIssue(t, hT, "contains an invalid email address", 1)
 }
 
-func TestMailtoInvalidMx(t *testing.T) {
+func TestMailtoInvalidNoRecords(t *testing.T) {
 	// fails for invalid mailto links
-	hT := tTestFile("fixtures/links/invalid_mailto_mx.html")
+	hT := tTestFile("fixtures/links/invalid_mailto_norecords.html")
 	tExpectIssueCount(t, hT, 1)
-	tExpectIssue(t, hT, "domain contains no valid MX records", 1)
+	tExpectIssue(t, hT, "email cannot be routed to domain, no MX/A/AAAA records", 1)
+}
+
+func TestMailtoInvalidAFallback(t *testing.T) {
+	// fails for invalid mailto links
+	hT := tTestFile("fixtures/links/invalid_mailto_fallback.html")
+	tExpectIssueCount(t, hT, 0)
 }
 
 func TestMailtoIgnore(t *testing.T) {

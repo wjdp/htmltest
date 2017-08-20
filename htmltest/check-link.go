@@ -350,33 +350,46 @@ func (hT *HTMLTest) checkMailto(ref *htmldoc.Reference) {
 		})
 		return
 	}
+
+	// split off domain, check mx, fallback to A or AAAA if that fais
 	domain := strings.Split(ref.URL.Opaque, "@")[1]
 	_, err := net.LookupMX(domain)
+	var dnserr *net.DNSError
+	var ok bool
 	if err != nil {
-		if dnserr, ok := err.(*net.DNSError); ok {
+		if dnserr, ok = err.(*net.DNSError); ok {
 			switch dnserr.Err {
 			case "no such host":
-				hT.issueStore.AddIssue(issues.Issue{
-					Level:     issues.LevelError,
-					Message:   "domain contains no valid MX records",
-					Reference: ref,
-				})
-				break
-			default:
-				hT.issueStore.AddIssue(issues.Issue{
-					Level:     issues.LevelError,
-					Message:   "unable to perform LookupMX, unkown error",
-					Reference: ref,
-				})
+				// current no MX records, but we should try again with A record
+				_, err := net.LookupHost(domain)
+				if dnserr, ok = err.(*net.DNSError); ok {
+					break
+				} else {
+					hT.issueStore.AddIssue(issues.Issue{
+						Level:     issues.LevelWarning,
+						Message:   "unable to perform LookupHost, unknown error",
+						Reference: ref,
+					})
+					return
+				}
 			}
 		} else {
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelWarning,
-				Message:   "unable to perform LookupMX, unkown error",
+				Message:   "unable to perform LookupMX, unknown error",
 				Reference: ref,
 			})
+			return
 		}
-		return
+	}
+
+	// check if we finally have a dnserr
+	if dnserr != nil {
+		hT.issueStore.AddIssue(issues.Issue{
+			Level:     issues.LevelError,
+			Message:   "email cannot be routed to domain, no MX/A/AAAA records",
+			Reference: ref,
+		})
 	}
 }
 
