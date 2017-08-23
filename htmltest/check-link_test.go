@@ -390,11 +390,24 @@ func TestMailtoInvalidFormat(t *testing.T) {
 	tExpectIssue(t, hT, "contains an invalid email address", 1)
 }
 
+func TestMailtoInvalidCname(t *testing.T) {
+	// fails for invalid mailto links
+	hT := tTestFile("fixtures/links/invalid_mailto_cname.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestMailtoInvalidCnameLoop(t *testing.T) {
+	// fails for invalid mailto links
+	hT := tTestFile("fixtures/links/invalid_mailto_cname_loop.html")
+	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "email domain could not be resolved correctly", 1)
+}
+
 func TestMailtoInvalidNoRecords(t *testing.T) {
 	// fails for invalid mailto links
 	hT := tTestFile("fixtures/links/invalid_mailto_norecords.html")
 	tExpectIssueCount(t, hT, 1)
-	tExpectIssue(t, hT, "email cannot be routed to domain, no MX/A/AAAA records", 1)
+	tExpectIssue(t, hT, "email domain could not be resolved correctly", 1)
 }
 
 func TestMailtoInvalidAFallback(t *testing.T) {
