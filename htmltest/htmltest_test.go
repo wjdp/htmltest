@@ -54,7 +54,8 @@ func TestCacheIntegration(t *testing.T) {
 }
 
 func TestConcurrencyDirExternals(t *testing.T) {
+	tSkipShortExternal(t)
 	hT := tTestDirectoryOpts("fixtures/concurrency/manyBrokenExt",
-		map[string]interface{}{"TestFilesConcurrently": true, "VCREnable": true}) // "LogLevel": 1
+		map[string]interface{}{"TestFilesConcurrently": true}) // "LogLevel": 1
 	tExpectIssueCount(t, hT, 26)
 }
