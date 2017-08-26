@@ -27,6 +27,14 @@ func TestAnchorExternalBroken(t *testing.T) {
 	tExpectIssueCount(t, hT, 1)
 }
 
+func TestAnchorExternalBrokenNoVCR(t *testing.T) {
+	// fails for broken external links without VCR. This is needed as the code that handles 'dial tcp' errors doesn't
+	// get called with VCR. It returns a rather empty response with status code of 0.
+	tSkipShortExternal(t)
+	hT := tTestFile("fixtures/links/brokenLinkExternal.html")
+	tExpectIssueCount(t, hT, 1)
+}
+
 func TestAnchorExternalIgnore(t *testing.T) {
 	// ignores external links when asked
 	hT := tTestFileOpts("fixtures/links/brokenLinkExternal.html",

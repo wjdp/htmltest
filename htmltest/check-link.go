@@ -10,6 +10,7 @@ import (
 	"os"
 	"path"
 	"strings"
+	"fmt"
 )
 
 func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
@@ -220,9 +221,10 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 				Reference: ref,
 			})
 		} else {
+			// Failed VCRed requests end up here with a status code of zero
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelError,
-				Message:   http.StatusText(statusCode),
+				Message:   fmt.Sprintf("%s %d", "Non-OK status:", statusCode),
 				Reference: ref,
 			})
 		}
