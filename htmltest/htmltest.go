@@ -14,7 +14,6 @@ import (
 	"crypto/tls"
 	"gopkg.in/seborama/govcr.v2"
 	"strings"
-	"fmt"
 )
 
 // Base path for VCR cassettes, relative to this package
@@ -125,9 +124,10 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 			hT.opts.OutputLogFile))
 	}
 
-	if hT.opts.VCREnable {
-		fmt.Printf("%+v\n", vcr.Stats())
-	}
+	// This is useful for debugging the VCR, but rather noisy otherwise
+	//if hT.opts.VCREnable {
+	//	fmt.Printf("%+v\n", vcr.Stats())
+	//}
 
 	return &hT
 }
