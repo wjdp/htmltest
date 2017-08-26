@@ -18,7 +18,7 @@ import (
 )
 
 // Base path for VCR cassettes, relative to this package
-const vcrCassetteBasePath string = "fixtures/vcr/"
+const vcrCassetteBasePath string = "fixtures/vcr"
 
 // HTMLTest struct, A html testing session, user options are passed in and
 // tests are run.
@@ -71,7 +71,7 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 		vcr = govcr.NewVCR(hT.opts.FilePath,
 			&govcr.VCRConfig{
 				Client: hT.httpClient,
-				CassettePath: vcrCassetteBasePath + "/" + cassettePath,
+				CassettePath: path.Join(vcrCassetteBasePath, cassettePath),
 			})
 
 		// Inject VCR's http.Client wrapper
