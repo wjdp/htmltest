@@ -112,8 +112,8 @@ func TestImageSrcEmpty(t *testing.T) {
 
 func TestImageSrcLineBreaks(t *testing.T) {
 	// deals with linebreaks in src
-	tSkipShortExternal(t) // TODO use internal images
-	hT := tTestFile("fixtures/images/lineBreaks.html")
+	hT := tTestFileOpts("fixtures/images/lineBreaks.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
