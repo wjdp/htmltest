@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-// Kepe it quiet
+// Keep it quiet
 const tLogLevel int = issues.LevelNone
 
 // We're running non-concurrently, speed up the tests by turning down the
@@ -30,8 +30,9 @@ func tExpectIssueCount(t *testing.T, hT *HTMLTest, expected int) {
 	}
 }
 
-func tTestFile(filename string) *HTMLTest {
-	opts := map[string]interface{}{
+// Default options for running a file test
+func defaultFileTestOpts(filename string) map[string]interface{} {
+	return map[string]interface{}{
 		"DirectoryPath":   path.Dir(filename),
 		"FilePath":        path.Base(filename),
 		"LogLevel":        tLogLevel,
@@ -40,25 +41,23 @@ func tTestFile(filename string) *HTMLTest {
 		"EnableLog":       false,
 		"CheckDoctype":    false,
 	}
-	return Test(opts)
 }
 
+// Test a single file and return the run test
+func tTestFile(filename string) *HTMLTest {
+	return Test(defaultFileTestOpts(filename))
+}
+
+// Test a single file with custom options and return the run test
 func tTestFileOpts(filename string, tOpts map[string]interface{}) *HTMLTest {
-	opts := map[string]interface{}{
-		"DirectoryPath":   path.Dir(filename),
-		"FilePath":        path.Base(filename),
-		"LogLevel":        tLogLevel,
-		"ExternalTimeout": tExternalTimeout,
-		"EnableCache":     false,
-		"EnableLog":       false,
-		"CheckDoctype":    false,
-	}
+	opts := defaultFileTestOpts(filename)
 	mergo.MergeWithOverwrite(&opts, tOpts)
 	return Test(opts)
 }
 
-func tTestDirectory(filename string) *HTMLTest {
-	opts := map[string]interface{}{
+// Default options for running a directory test
+func defaultDirectoryTestOpts(filename string) map[string]interface{} {
+	return map[string]interface{}{
 		"DirectoryPath":   filename,
 		"LogLevel":        tLogLevel,
 		"ExternalTimeout": tExternalTimeout,
@@ -66,18 +65,14 @@ func tTestDirectory(filename string) *HTMLTest {
 		"EnableLog":       false,
 		"CheckDoctype":    false,
 	}
-	return Test(opts)
+}
+
+func tTestDirectory(filename string) *HTMLTest {
+	return Test(defaultDirectoryTestOpts(filename))
 }
 
 func tTestDirectoryOpts(filename string, tOpts map[string]interface{}) *HTMLTest {
-	opts := map[string]interface{}{
-		"DirectoryPath":   filename,
-		"LogLevel":        tLogLevel,
-		"ExternalTimeout": tExternalTimeout,
-		"EnableCache":     false,
-		"EnableLog":       false,
-		"CheckDoctype":    false,
-	}
+	opts := defaultDirectoryTestOpts(filename)
 	mergo.MergeWithOverwrite(&opts, tOpts)
 	return Test(opts)
 }
