@@ -14,6 +14,7 @@ const tLogLevel int = issues.LevelNone
 // timeout. Assumes we're on a good connection.
 const tExternalTimeout int = 3
 
+// Raise an error if a specific issue isn't present in the test's store
 func tExpectIssue(t *testing.T, hT *HTMLTest, message string, expected int) {
 	c := hT.issueStore.MessageMatchCount(message)
 	if c != expected {
@@ -22,6 +23,7 @@ func tExpectIssue(t *testing.T, hT *HTMLTest, message string, expected int) {
 	}
 }
 
+// Raise an error if issue count of errors != expected
 func tExpectIssueCount(t *testing.T, hT *HTMLTest, expected int) {
 	c := hT.issueStore.Count(issues.LevelError)
 	if c != expected {
@@ -67,16 +69,19 @@ func defaultDirectoryTestOpts(filename string) map[string]interface{} {
 	}
 }
 
+// Test a directory and return the run test
 func tTestDirectory(filename string) *HTMLTest {
 	return Test(defaultDirectoryTestOpts(filename))
 }
 
+// Test a directory with custom options and return the run test
 func tTestDirectoryOpts(filename string, tOpts map[string]interface{}) *HTMLTest {
 	opts := defaultDirectoryTestOpts(filename)
 	mergo.MergeWithOverwrite(&opts, tOpts)
 	return Test(opts)
 }
 
+// All tests that make network calls should be marked with this function
 func tSkipShortExternal(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping test requiring network calls in short mode")
