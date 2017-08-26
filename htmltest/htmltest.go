@@ -59,7 +59,7 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 	hT.httpClient = &http.Client{
 		// Durations are in nanoseconds
 		Transport: transport,
-		Timeout:   time.Duration(hT.opts.ExternalTimeout * 1000000000),
+		Timeout:   time.Duration(hT.opts.ExternalTimeout) * time.Second,
 	}
 
 	// If enabled (unit tests only) patch in govcr to the httpClient
