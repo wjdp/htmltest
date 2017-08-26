@@ -1,6 +1,6 @@
 {
   "Name": "image_missing_protocol_valid.html",
-  "Path": "fixtures/vcr//images",
+  "Path": "fixtures/vcr/images",
   "Tracks": [
     {
       "Request": {
@@ -55,7 +55,7 @@
             "image/png"
           ],
           "Date": [
-            "Sat, 26 Aug 2017 18:14:51 GMT"
+            "Sat, 26 Aug 2017 21:49:37 GMT"
           ],
           "Etag": [
             "e30ab56b28c8e93fee2f6eb8fc508f85"
@@ -88,10 +88,10 @@
             "1502403035.73148"
           ],
           "X-Trans-Id": [
-            "tx37029d9d478f41e788f0c-0059a1ba9b"
+            "tx763a4f0ff5c64734b3136-0059a1ecf0"
           ],
           "X-Varnish": [
-            "26978199, 62801492, 52745116"
+            "35437213, 81830049, 130615150"
           ]
         },
         "Body": "iQ==",
@@ -1484,7 +1484,7 @@
           ],
           "SignedCertificateTimestamps": null,
           "OCSPResponse": "MIIB0woBAKCCAcwwggHIBgkrBgEFBQcwAQEEggG5MIIBtTCBnqIWBBRRaP+QrwIHdTzM2WVkYqISuFlyOxgPMjAxNzA4MjYwODAzNDZaMHMwcTBJMAkGBSsOAwIaBQAEFM8m9Rj6yX6PjLNC4BwvahCejl8KBBRRaP+QrwIHdTzM2WVkYqISuFlyOwIQBalcDTSoMfN/il9ynMI8dIAAGA8yMDE3MDgyNjA4MDM0NlqgERgPMjAxNzA5MDIwNzE4NDZaMA0GCSqGSIb3DQEBCwUAA4IBAQAaPvElMKAxHNudOmSWLVNpm6Pi1boVscJ4fBTrcUs4/2ZaRSg/IdN774vna4a22ZQG8bdZbkD571n7mVIn/vyw71Nu+wSVsK1dx02ONf3AT1WjSR0Mal/+/UN4jbLqRH3qg0wICFEPgjgISm6T8BYvLhSrDxlTA6GAFhi64guIBqjrKGSzUIQ+bPnvg16NPDjlmL0Yw1oIMfCjw+KEk59Df/N1lfRFPrPgWG5LT3bAVtIOareWFICPZDc15Yv0+lW3TtDMhn/D/9J+/8UR/Gvi+nMgtTpviXp6U82a1gNdgP4KgBXqTk+EsYRghFLY2wJGkCivbvaZqcxr9jQcX8+D",
-          "TLSUnique": "YnGy69FaD4X6xqYA"
+          "TLSUnique": "Gd5uHJGz13rimp5X"
         }
       },
       "ErrType": "",

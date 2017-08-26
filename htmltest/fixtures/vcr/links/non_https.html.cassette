@@ -1,6 +1,6 @@
 {
   "Name": "non_https.html",
-  "Path": "fixtures/vcr//links",
+  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {
@@ -34,7 +34,7 @@
             "bytes"
           ],
           "Age": [
-            "1728"
+            "2929"
           ],
           "Connection": [
             "keep-alive"
@@ -46,7 +46,7 @@
             "text/html"
           ],
           "Date": [
-            "Sat, 26 Aug 2017 18:16:14 GMT"
+            "Sat, 26 Aug 2017 21:49:40 GMT"
           ],
           "Location": [
             "https://ben.balter.com/"
@@ -64,19 +64,19 @@
             "HIT"
           ],
           "X-Cache-Hits": [
-            "3"
+            "8"
           ],
           "X-Fastly-Request-Id": [
-            "55a35f85340dc737fc5fb16e8230c1fe51d8db0a"
+            "e27313300a31b750d72a9ad0c628db1560172bec"
           ],
           "X-Github-Request-Id": [
-            "9018:22ADC:1FDDE63:2B28C08:59A1B42E"
+            "22E2:22ADC:20E0BB3:2C7EFE9:59A1E182"
           ],
           "X-Served-By": [
-            "cache-ams4122-AMS"
+            "cache-ams4141-AMS"
           ],
           "X-Timer": [
-            "S1503771375.668650,VS0,VE0"
+            "S1503784180.181153,VS0,VE0"
           ]
         },
         "Body": "PGh0bWw+DQo8aGVhZD48dGl0bGU+MzAxIE1vdmVkIFBlcm1hbmVudGx5PC90aXRsZT48L2hlYWQ+DQo8Ym9keSBiZ2NvbG9yPSJ3aGl0ZSI+DQo8Y2VudGVyPjxoMT4zMDEgTW92ZWQgUGVybWFuZW50bHk8L2gxPjwvY2VudGVyPg0KPGhyPjxjZW50ZXI+bmdpbng8L2NlbnRlcj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
@@ -127,7 +127,7 @@
             "*"
           ],
           "Age": [
-            "0"
+            "534"
           ],
           "Cache-Control": [
             "max-age=600"
@@ -145,10 +145,10 @@
             "text/html; charset=utf-8"
           ],
           "Date": [
-            "Sat, 26 Aug 2017 18:16:15 GMT"
+            "Sat, 26 Aug 2017 21:49:40 GMT"
           ],
           "Expires": [
-            "Sat, 26 Aug 2017 18:04:13 GMT"
+            "Sat, 26 Aug 2017 20:29:30 GMT"
           ],
           "Last-Modified": [
             "Thu, 24 Aug 2017 21:35:25 GMT"
@@ -169,16 +169,16 @@
             "0"
           ],
           "X-Fastly-Request-Id": [
-            "08fe5dd530f542ec142e5178fda2642723068661"
+            "73081804cf79b2c835b016c0d2f59b6fb8cbe1cb"
           ],
           "X-Github-Request-Id": [
-            "242C:3F4F:1A24239:24BBA0A:59A1B5C5"
+            "0BD4:3F4E:F1574F:1526794:59A1D7D2"
           ],
           "X-Served-By": [
-            "cache-ams4131-AMS"
+            "cache-ams4444-AMS"
           ],
           "X-Timer": [
-            "S1503771375.942532,VS0,VE83"
+            "S1503784180.405492,VS0,VE0"
           ]
         },
         "Body": "PA==",
@@ -1227,7 +1227,7 @@
           ],
           "SignedCertificateTimestamps": null,
           "OCSPResponse": null,
-          "TLSUnique": "oshTKWIAJQqBEk8J"
+          "TLSUnique": "s2ALi9iLGHsNWhyo"
         }
       },
       "ErrType": "",

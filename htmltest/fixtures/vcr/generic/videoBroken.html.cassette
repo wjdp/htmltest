@@ -1,6 +1,6 @@
 {
   "Name": "videoBroken.html",
-  "Path": "fixtures/vcr//generic",
+  "Path": "fixtures/vcr/generic",
   "Tracks": [
     {
       "Request": {

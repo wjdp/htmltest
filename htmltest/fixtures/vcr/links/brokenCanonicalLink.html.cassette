@@ -1,6 +1,6 @@
 {
   "Name": "brokenCanonicalLink.html",
-  "Path": "fixtures/vcr//links",
+  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {
@@ -87,7 +87,7 @@
             "text/html; charset=utf-8"
           ],
           "Date": [
-            "Sat, 26 Aug 2017 18:06:19 GMT"
+            "Sat, 26 Aug 2017 21:50:02 GMT"
           ],
           "Public-Key-Pins": [
             "max-age=5184000; pin-sha256=\"WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18=\"; pin-sha256=\"RRM1dGqnDFsCJXBTHky16vi1obOlCgFFn/yOhI/y+ho=\"; pin-sha256=\"k2v657xBsOVe1PQRwOsHsw3bsGT2VzIqz5K+59sNQws=\"; pin-sha256=\"K87oWBWM9UZfyddvDfoxL+8lpNyoUB2ptGtn0fv6G2Q=\"; pin-sha256=\"IQBnNBEiFuhj+8x6X8XLgh01V9Ic5/V3IRQLNFFc7v4=\"; pin-sha256=\"iie1VXtL7HzAMF+/PVPR9xzT80kQxdZeJ+zduCB3uj0=\"; pin-sha256=\"LvRiGEjRqfzurezaWuj8Wie2gyHMrW5Q06LspMnox7A=\"; includeSubDomains"
@@ -96,8 +96,8 @@
             "GitHub.com"
           ],
           "Set-Cookie": [
-            "logged_in=no; domain=.github.com; path=/; expires=Wed, 26 Aug 2037 18:06:19 -0000; secure; HttpOnly",
-            "_gh_sess=eyJzZXNzaW9uX2lkIjoiNmY5NGQxMmExY2E1YTFkYWFiOGQxOTUwNzIzMDNhYjIiLCJsYXN0X3JlYWRfZnJvbV9yZXBsaWNhcyI6MTUwMzc3MDc3OTU5OCwicmVmZXJyYWxfY29kZSI6Imh0dHA6Ly9naXRodWIuY29tLzQwNHh5eiJ9--47d5b78667ef6271d912eb0baaaba35abc07da2c; path=/; secure; HttpOnly"
+            "logged_in=no; domain=.github.com; path=/; expires=Wed, 26 Aug 2037 21:50:02 -0000; secure; HttpOnly",
+            "_gh_sess=eyJzZXNzaW9uX2lkIjoiNWJmYzllYjQ3OWZmYjZjNWMxOTU2YjlhNTE2MTkyNWIiLCJsYXN0X3JlYWRfZnJvbV9yZXBsaWNhcyI6MTUwMzc4NDIwMjI0MywicmVmZXJyYWxfY29kZSI6Imh0dHA6Ly9naXRodWIuY29tLzQwNHh5eiJ9--c327a8b9f606f8f68805a2a58fc177aa905ccdc8; path=/; secure; HttpOnly"
           ],
           "Status": [
             "404 Not Found"
@@ -115,16 +115,16 @@
             "deny"
           ],
           "X-Github-Request-Id": [
-            "D7BE:2B758:25AA0F2:3FCB6DC:59A1B89B"
+            "8044:2B75A:401475D:6FE0A98:59A1ED09"
           ],
           "X-Request-Id": [
-            "cc3fec8dbc5e67eab48d4cf41f28b294"
+            "8808f8c0a149e5d01796577bb42affce"
           ],
           "X-Runtime": [
-            "0.008259"
+            "0.006814"
           ],
           "X-Runtime-Rack": [
-            "0.013190"
+            "0.010621"
           ],
           "X-Ua-Compatible": [
             "IE=Edge,chrome=1"
@@ -1603,7 +1603,7 @@
           ],
           "SignedCertificateTimestamps": null,
           "OCSPResponse": null,
-          "TLSUnique": "//H2bj9syhmoOZrT"
+          "TLSUnique": "WNpkVNr5QriPT4ib"
         }
       },
       "ErrType": "",

@@ -1,6 +1,6 @@
 {
   "Name": "image_missing_protocol_invalid.html",
-  "Path": "fixtures/vcr//images",
+  "Path": "fixtures/vcr/images",
   "Tracks": [
     {
       "Request": {
@@ -46,7 +46,7 @@
             "text/plain; charset=UTF-8"
           ],
           "Date": [
-            "Sat, 26 Aug 2017 18:14:52 GMT"
+            "Sat, 26 Aug 2017 21:49:37 GMT"
           ],
           "Strict-Transport-Security": [
             "max-age=31536000; includeSubDomains; preload"
@@ -64,7 +64,7 @@
             "https=1;nocookies=1"
           ],
           "X-Cache": [
-            "cp1050 pass, cp3049 pass, cp3037 pass"
+            "cp1062 pass, cp3049 pass, cp3037 pass"
           ],
           "X-Cache-Status": [
             "pass"
@@ -73,10 +73,10 @@
             "79.73.152.121"
           ],
           "X-Trans-Id": [
-            "tx9bd9f7378d8a463989bf1-0059a1ba9c"
+            "tx91208a7b33c64b68b7c64-0059a1ecf1"
           ],
           "X-Varnish": [
-            "388039211, 324565441, 55685130"
+            "240166568, 340946087, 127194126"
           ]
         },
         "Body": "NDA0IE5vdCBGb3VuZAoKVGhlIHJlc291cmNlIGNvdWxkIG5vdCBiZSBmb3VuZC4KCiBSZWdleHAgZmFpbGVkIHRvIG1hdGNoIFVSSTogIi93aWtpcGVkaWEvZW4vdGh1bWIvZm9vb29vZi5wbmciICA=",
@@ -1471,7 +1471,7 @@
           ],
           "SignedCertificateTimestamps": null,
           "OCSPResponse": "MIIB0woBAKCCAcwwggHIBgkrBgEFBQcwAQEEggG5MIIBtTCBnqIWBBRRaP+QrwIHdTzM2WVkYqISuFlyOxgPMjAxNzA4MjYwODAzNDZaMHMwcTBJMAkGBSsOAwIaBQAEFM8m9Rj6yX6PjLNC4BwvahCejl8KBBRRaP+QrwIHdTzM2WVkYqISuFlyOwIQBalcDTSoMfN/il9ynMI8dIAAGA8yMDE3MDgyNjA4MDM0NlqgERgPMjAxNzA5MDIwNzE4NDZaMA0GCSqGSIb3DQEBCwUAA4IBAQAaPvElMKAxHNudOmSWLVNpm6Pi1boVscJ4fBTrcUs4/2ZaRSg/IdN774vna4a22ZQG8bdZbkD571n7mVIn/vyw71Nu+wSVsK1dx02ONf3AT1WjSR0Mal/+/UN4jbLqRH3qg0wICFEPgjgISm6T8BYvLhSrDxlTA6GAFhi64guIBqjrKGSzUIQ+bPnvg16NPDjlmL0Yw1oIMfCjw+KEk59Df/N1lfRFPrPgWG5LT3bAVtIOareWFICPZDc15Yv0+lW3TtDMhn/D/9J+/8UR/Gvi+nMgtTpviXp6U82a1gNdgP4KgBXqTk+EsYRghFLY2wJGkCivbvaZqcxr9jQcX8+D",
-          "TLSUnique": "FSKVFBkKMACbVlpO"
+          "TLSUnique": "21O/deHLkAsvVcLB"
         }
       },
       "ErrType": "",

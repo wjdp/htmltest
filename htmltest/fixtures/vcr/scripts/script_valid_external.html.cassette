@@ -1,6 +1,6 @@
 {
   "Name": "script_valid_external.html",
-  "Path": "fixtures/vcr//scripts",
+  "Path": "fixtures/vcr/scripts",
   "Tracks": [
     {
       "Request": {
@@ -37,7 +37,7 @@
             "*"
           ],
           "Age": [
-            "1675539"
+            "1653572"
           ],
           "Alt-Svc": [
             "quic=\":443\"; ma=2592000; v=\"39,38,37,35\""
@@ -58,10 +58,10 @@
             "text/javascript; charset=UTF-8"
           ],
           "Date": [
-            "Mon, 07 Aug 2017 08:49:16 GMT"
+            "Mon, 07 Aug 2017 18:30:34 GMT"
           ],
           "Expires": [
-            "Tue, 07 Aug 2018 08:49:16 GMT"
+            "Tue, 07 Aug 2018 18:30:34 GMT"
           ],
           "Last-Modified": [
             "Tue, 20 Dec 2016 18:17:03 GMT"
@@ -2426,7 +2426,7 @@
             "AN3rHSt6DU+mIIuBrYFocH4ujp0B1VyIjT0RxM227L7MAAABXecSujgAAAQDAEYwRAIgamAd7T8aeNfeHVwiGfmEMpADqarfiG4xWupVA5M2rzoCIFNrBmb3JJTpBSCo/DRagyLPEIERkr71N8ejdDSc304D"
           ],
           "OCSPResponse": null,
-          "TLSUnique": "6zDaj+gEoVWhWUd8"
+          "TLSUnique": "NjbxalK8t2vcst5L"
         }
       },
       "ErrType": "",

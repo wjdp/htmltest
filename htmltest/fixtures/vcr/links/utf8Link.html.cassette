@@ -1,6 +1,6 @@
 {
   "Name": "utf8Link.html",
-  "Path": "fixtures/vcr//links",
+  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {
@@ -47,7 +47,7 @@
             "text/html"
           ],
           "Date": [
-            "Sat, 26 Aug 2017 18:06:18 GMT"
+            "Sat, 26 Aug 2017 21:50:01 GMT"
           ],
           "Location": [
             "https://ben.balter.com/2014/09/29/source-disclosed-%E2%89%A0-open-source/"
@@ -68,16 +68,16 @@
             "0"
           ],
           "X-Fastly-Request-Id": [
-            "5ee9dfcf466476afb091ad4f38018138299bd061"
+            "9219a38ea8cf27728f267f5ddc45e771bb80324c"
           ],
           "X-Github-Request-Id": [
-            "CAE8:2251:1A51225:25492E4:59A1B899"
+            "8E80:224E:2E87FA:41AE7E:59A1ED08"
           ],
           "X-Served-By": [
-            "cache-ams4432-AMS"
+            "cache-ams4440-AMS"
           ],
           "X-Timer": [
-            "S1503770779.587174,VS0,VE0"
+            "S1503784201.214302,VS0,VE0"
           ]
         },
         "Body": "PGh0bWw+DQo8aGVhZD48dGl0bGU+MzAxIE1vdmVkIFBlcm1hbmVudGx5PC90aXRsZT48L2hlYWQ+DQo8Ym9keSBiZ2NvbG9yPSJ3aGl0ZSI+DQo8Y2VudGVyPjxoMT4zMDEgTW92ZWQgUGVybWFuZW50bHk8L2gxPjwvY2VudGVyPg0KPGhyPjxjZW50ZXI+bmdpbng8L2NlbnRlcj4NCjwvYm9keT4NCjwvaHRtbD4NCg==",
@@ -146,10 +146,10 @@
             "text/html; charset=utf-8"
           ],
           "Date": [
-            "Sat, 26 Aug 2017 18:06:18 GMT"
+            "Sat, 26 Aug 2017 21:50:01 GMT"
           ],
           "Expires": [
-            "Sat, 26 Aug 2017 18:16:18 GMT"
+            "Sat, 26 Aug 2017 22:00:01 GMT"
           ],
           "Last-Modified": [
             "Thu, 24 Aug 2017 21:35:25 GMT"
@@ -170,16 +170,16 @@
             "0"
           ],
           "X-Fastly-Request-Id": [
-            "c62ff92a411dbb41ac0ec8e729765f7e4c5c2707"
+            "4187eace70ca94bc7f5a21d024a2a517b6d862ac"
           ],
           "X-Github-Request-Id": [
-            "96B6:22E22:20E0FFE:2DDE970:59A1B899"
+            "7A12:22E21:1350923:1AF668E:59A1ED08"
           ],
           "X-Served-By": [
-            "cache-ams4424-AMS"
+            "cache-ams4435-AMS"
           ],
           "X-Timer": [
-            "S1503770779.833394,VS0,VE0"
+            "S1503784201.419384,VS0,VE1"
           ]
         },
         "Body": "PA==",
@@ -1228,7 +1228,7 @@
           ],
           "SignedCertificateTimestamps": null,
           "OCSPResponse": null,
-          "TLSUnique": "aFsylji+s0cS423l"
+          "TLSUnique": "atZB0DXd9c/GLfF3"
         }
       },
       "ErrType": "",

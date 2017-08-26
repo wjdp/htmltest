@@ -1,6 +1,6 @@
 {
   "Name": "escape_pipes.html",
-  "Path": "fixtures/vcr//links",
+  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {
@@ -46,10 +46,10 @@
             "text/css; charset=utf-8"
           ],
           "Date": [
-            "Sat, 26 Aug 2017 18:06:17 GMT"
+            "Sat, 26 Aug 2017 21:50:00 GMT"
           ],
           "Expires": [
-            "Sat, 26 Aug 2017 18:06:17 GMT"
+            "Sat, 26 Aug 2017 21:50:00 GMT"
           ],
           "Server": [
             "ESF"
@@ -2408,7 +2408,7 @@
             "AN3rHSt6DU+mIIuBrYFocH4ujp0B1VyIjT0RxM227L7MAAABXecSujgAAAQDAEYwRAIgamAd7T8aeNfeHVwiGfmEMpADqarfiG4xWupVA5M2rzoCIFNrBmb3JJTpBSCo/DRagyLPEIERkr71N8ejdDSc304D"
           ],
           "OCSPResponse": null,
-          "TLSUnique": "2F1dI2v8JV4OCWN9"
+          "TLSUnique": "Djjcl26AKgw1tdql"
         }
       },
       "ErrType": "",

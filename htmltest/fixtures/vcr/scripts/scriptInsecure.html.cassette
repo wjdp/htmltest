@@ -1,6 +1,6 @@
 {
   "Name": "scriptInsecure.html",
-  "Path": "fixtures/vcr//scripts",
+  "Path": "fixtures/vcr/scripts",
   "Tracks": [
     {
       "Request": {
@@ -37,7 +37,7 @@
             "*"
           ],
           "Age": [
-            "1672213"
+            "1672507"
           ],
           "Cache-Control": [
             "public, max-age=31536000, stale-while-revalidate=2592000"
@@ -55,10 +55,10 @@
             "text/javascript; charset=UTF-8"
           ],
           "Date": [
-            "Mon, 07 Aug 2017 09:44:42 GMT"
+            "Mon, 07 Aug 2017 13:14:59 GMT"
           ],
           "Expires": [
-            "Tue, 07 Aug 2018 09:44:42 GMT"
+            "Tue, 07 Aug 2018 13:14:59 GMT"
           ],
           "Last-Modified": [
             "Tue, 20 Dec 2016 18:17:03 GMT"

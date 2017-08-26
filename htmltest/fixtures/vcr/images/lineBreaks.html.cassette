@@ -1,6 +1,6 @@
 {
   "Name": "lineBreaks.html",
-  "Path": "fixtures/vcr//images",
+  "Path": "fixtures/vcr/images",
   "Tracks": [
     {
       "Request": {
@@ -31,7 +31,7 @@
         "ProtoMinor": 1,
         "Header": {
           "Age": [
-            "250179"
+            "259680"
           ],
           "Cache-Control": [
             "public, max-age=31536000, must-revalidate"
@@ -82,10 +82,10 @@
             "max-age=604800"
           ],
           "Via": [
-            "1.1 5fc330730b7a22af558c1164ae769565.cloudfront.net (CloudFront)"
+            "1.1 ede9297e2bd56d0c4c812154e0ce4da2.cloudfront.net (CloudFront)"
           ],
           "X-Amz-Cf-Id": [
-            "GzXfOuUXG5wtX5qjloot7nDAF8FighMmdVse01hgAuH6jCz8nnaxFQ=="
+            "rCd6YLDRmEXxpUFXuYZMbNHP1zap8OmlbnToy9unTNBkaJCItieZKg=="
           ],
           "X-Cache": [
             "Hit from cloudfront"
@@ -3124,7 +3124,7 @@
           ],
           "SignedCertificateTimestamps": null,
           "OCSPResponse": "MIIB0woBAKCCAcwwggHIBgkrBgEFBQcwAQEEggG5MIIBtTCBnqIWBBRZpGYGUqB7lZI8o5QHJ5Z0W/k90BgPMjAxNzA4MjQxODU3MDFaMHMwcTBJMAkGBSsOAwIaBQAEFDP1qsYdZucFXQMXOk0fPhhxOIUNBBRZpGYGUqB7lZI8o5QHJ5Z0W/k90AIQA3MuUIKV/g7x0NJHVbkdk4AAGA8yMDE3MDgyNDE4NTcwMVqgERgPMjAxNzA4MzExODEyMDFaMA0GCSqGSIb3DQEBCwUAA4IBAQB85h6tEimdmWOetbaEcQyw2Rr13ITT4ru37a/KS947TceQzzO4ToJL/F5KltbNIKJMmjENQ5pJW4rCTDT/jOZWzohyu4N0z27wZMxuiyTaESK2i60pKL0BeUKDrw2rn5Ewc0lM6KK4m/21/PxN7Psp3rK0kCUNT42rbNMMjR7DKeISA/MCGvBrmD82EolnrDjSb/k/ydgSlW3IucnmrT3U+l1hYJDhBrpNFosWQ69gTVw1KNgNVYwMHWQ2Q5KcX2O2DQiSQK8IZk65FA/9IOuhmiV65FXCu2sjY8fItd8kvjyIVN0NqhuvdnYQDrlXzDqRidDOLFMGR6kxH24YHwTT",
-          "TLSUnique": "udcrG3biunADO0Xv"
+          "TLSUnique": "KATNLTLgZHHdt2mr"
         }
       },
       "ErrType": "",
