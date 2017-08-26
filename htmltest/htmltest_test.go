@@ -37,8 +37,8 @@ func TestHTML5Page(t *testing.T) {
 
 func TestNormalLookingPage(t *testing.T) {
 	// Page containing HTML5 tags
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/html/normal_looking_page.html")
+	hT := tTestFileOpts("fixtures/html/normal_looking_page.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
@@ -54,8 +54,7 @@ func TestCacheIntegration(t *testing.T) {
 }
 
 func TestConcurrencyDirExternals(t *testing.T) {
-	tSkipShortExternal(t)
 	hT := tTestDirectoryOpts("fixtures/concurrency/manyBrokenExt",
-		map[string]interface{}{"TestFilesConcurrently": true}) // "LogLevel": 1
+		map[string]interface{}{"TestFilesConcurrently": true, "VCREnable": true}) // "LogLevel": 1
 	tExpectIssueCount(t, hT, 26)
 }

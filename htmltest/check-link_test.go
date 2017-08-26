@@ -22,30 +22,30 @@ func TestAnchorIgnorable(t *testing.T) {
 
 func TestAnchorExternalBroken(t *testing.T) {
 	// fails for broken external links
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/brokenLinkExternal.html")
+	hT := tTestFileOpts("fixtures/links/brokenLinkExternal.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 1)
 }
 
 func TestAnchorExternalIgnore(t *testing.T) {
 	// ignores external links when asked
 	hT := tTestFileOpts("fixtures/links/brokenLinkExternal.html",
-		map[string]interface{}{"CheckExternal": false})
+		map[string]interface{}{"CheckExternal": false, "VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalHashBrokenDefault(t *testing.T) {
 	// passes for broken external hashes by default
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/brokenHashOnTheWeb.html")
+	hT := tTestFileOpts("fixtures/links/brokenHashOnTheWeb.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalHashBrokenOption(t *testing.T) {
 	// fails for broken external hashes when asked
 	t.Skip("Not yet implemented")
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/brokenHashOnTheWeb.html")
+	hT := tTestFileOpts("fixtures/links/brokenHashOnTheWeb.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 1)
 	tExpectIssue(t, hT, "no such hash", 1)
 }
@@ -54,45 +54,43 @@ func TestAnchorExternalCache(t *testing.T) {
 	// does not check links with parameters multiple times
 	// TODO check cache is being checked
 	t.Skip("Not yet implemented")
-	tSkipShortExternal(t)
 	hT := tTestFile("fixtures/links/check_just_once.html")
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalHrefMalformed(t *testing.T) {
 	// does not explode on bad external links in files
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/bad_external_links.html")
+	hT := tTestFileOpts("fixtures/links/bad_external_links.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 2)
 }
 
 func TestAnchorExternalInsecureDefault(t *testing.T) {
 	// passes for non-HTTPS links when not asked
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/non_https.html")
+	hT := tTestFileOpts("fixtures/links/non_https.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalInsecureOption(t *testing.T) {
 	// fails for non-HTTPS links when asked
-	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/links/non_https.html",
-		map[string]interface{}{"EnforceHTTPS": true})
+		map[string]interface{}{"EnforceHTTPS": true, "VCREnable": true})
 	tExpectIssueCount(t, hT, 1)
 	tExpectIssue(t, hT, "is not an HTTPS target", 1)
 }
 
 func TestAnchorExternalHrefIP(t *testing.T) {
 	// fails for broken IP address links
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/ip_href.html")
+	hT := tTestFileOpts("fixtures/links/ip_href.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 2)
 }
 
 func TestAnchorExternalHrefIPTimeout(t *testing.T) {
 	// fails for broken IP address links
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/ip_timeout.html")
+	hT := tTestFileOpts("fixtures/links/ip_timeout.html",
+		map[string]interface{}{"ExternalTimeout": 1})
 	tExpectIssueCount(t, hT, 1)
 	tExpectIssue(t, hT, "request exceeded our ExternalTimeout", 1)
 }
@@ -100,75 +98,75 @@ func TestAnchorExternalHrefIPTimeout(t *testing.T) {
 func TestAnchorExternalFollowRedirects(t *testing.T) {
 	// should follow redirects
 	t.Skip("Need new link, times out")
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/linkWithRedirect.html")
+	hT := tTestFileOpts("fixtures/links/linkWithRedirect.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalFollowRedirectsDisabled(t *testing.T) {
 	// fails on redirects if not following
 	t.Skip("Not yet implemented, need new link, times out")
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/linkWithRedirect.html")
+	hT := tTestFileOpts("fixtures/links/linkWithRedirect.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 99)
 	tExpectIssue(t, hT, "PLACEHOLDER", 99)
 }
 
 func TestAnchorExternalHTTPS(t *testing.T) {
 	// should understand https
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/https-valid.html")
+	hT := tTestFileOpts("fixtures/links/https-valid.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalHTTPSInvalid(t *testing.T) {
 	// should understand https
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/https-invalid.html")
+	hT := tTestFileOpts("fixtures/links/https-invalid.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 6)
 }
 
 func TestAnchorExternalHTTPSBadH2(t *testing.T) {
 	// should connect to servers with bad http/2 support
 	// See issue #49
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/https-valid-h2.html")
+	hT := tTestFileOpts("fixtures/links/https-valid-h2.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalMissingProtocolValid(t *testing.T) {
 	// works for valid links missing the protocol
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/link_missing_protocol_valid.html")
+	hT := tTestFileOpts("fixtures/links/link_missing_protocol_valid.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalMissingProtocolInvalid(t *testing.T) {
 	// fails for invalid links missing the protocol
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/link_missing_protocol_invalid.html")
+	hT := tTestFileOpts("fixtures/links/link_missing_protocol_invalid.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 1)
 	// tExpectIssue(t, hT, "no such host", 1)
 }
 
 func TestLinkExternalHrefPipes(t *testing.T) {
 	// works for pipes in the URL
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/escape_pipes.html")
+	hT := tTestFileOpts("fixtures/links/escape_pipes.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalHrefNonstandardChars(t *testing.T) {
 	// passes non-standard characters
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/non_standard_characters.html")
+	hT := tTestFileOpts("fixtures/links/non_standard_characters.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalHrefUTF8(t *testing.T) {
 	// passes for external UTF-8 links
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/utf8Link.html")
+	hT := tTestFileOpts("fixtures/links/utf8Link.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
@@ -425,16 +423,15 @@ func TestLinkHrefAbsent(t *testing.T) {
 
 func TestLinkHrefBrokenCanonicalDefault(t *testing.T) {
 	// works for valid href within link elements
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/links/brokenCanonicalLink.html")
+	hT := tTestFileOpts("fixtures/links/brokenCanonicalLink.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestLinkHrefBrokenCanonicalOption(t *testing.T) {
 	// works for valid href within link elements
-	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/links/brokenCanonicalLink.html",
-		map[string]interface{}{"IgnoreCanonicalBrokenLinks": false})
+		map[string]interface{}{"IgnoreCanonicalBrokenLinks": false, "VCREnable": true})
 	tExpectIssueCount(t, hT, 1)
 }
 

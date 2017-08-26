@@ -8,31 +8,30 @@ import (
 
 func TestScriptExternalSrcValid(t *testing.T) {
 	// passes for valid external src
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/scripts/script_valid_external.html")
+	hT := tTestFileOpts("fixtures/scripts/script_valid_external.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestScriptExternalSrcBroken(t *testing.T) {
 	// fails for broken external src
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/scripts/script_broken_external.html")
+	hT := tTestFileOpts("fixtures/scripts/script_broken_external.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 1)
 	// tExpectIssue(t, hT, "no such host", 1)
 }
 
 func TestScriptExternalInsecureDefault(t *testing.T) {
 	// passes for HTTP scripts by default
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/scripts/scriptInsecure.html")
+	hT := tTestFileOpts("fixtures/scripts/scriptInsecure.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestScriptExternalInsecureOption(t *testing.T) {
 	// fails for HTTP scripts when asked
-	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/scripts/scriptInsecure.html",
-		map[string]interface{}{"EnforceHTTPS": true})
+		map[string]interface{}{"EnforceHTTPS": true, "VCREnable": true})
 	tExpectIssueCount(t, hT, 1)
 	tExpectIssue(t, hT, "is not an HTTPS target", 1)
 }
