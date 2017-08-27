@@ -3,6 +3,7 @@ package htmltest
 import (
 	"github.com/daviddengcn/go-assert"
 	"testing"
+	"github.com/wjdp/htmltest/output"
 )
 
 func TestDefaultOptions(t *testing.T) {
@@ -21,7 +22,10 @@ func TestSetOptions(t *testing.T) {
 		"LogLevel":      1337,
 		"NoRun":         true,
 	}
-	hT := Test(userOpts)
+
+	hT, err := Test(userOpts)
+	output.CheckErrorPanic(err)
+
 	assert.Equals(t, "hT.opts.CheckExternal", hT.opts.CheckExternal, false)
 	assert.Equals(t, "hT.opts.LogLevel", hT.opts.LogLevel, 1337)
 	assert.Equals(t, "hT.opts.ExternalTimeout", hT.opts.ExternalTimeout,
@@ -42,7 +46,10 @@ func TestIsURLIgnored(t *testing.T) {
 			"library.com", "//\\w+.assetstore.info/lib/"},
 		"NoRun": true,
 	}
-	hT := Test(userOpts)
+
+	hT, err := Test(userOpts)
+	output.CheckErrorPanic(err)
+
 	assert.IsTrue(t, "url ignored", hT.opts.isURLIgnored("https://google.com/?q=1234"))
 	assert.IsTrue(t, "url ignored", hT.opts.isURLIgnored("https://test.example.com/"))
 	assert.IsTrue(t, "url ignored", hT.opts.isURLIgnored("https://www.library.com/page"))

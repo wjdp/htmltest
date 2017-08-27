@@ -15,6 +15,8 @@ import (
 	"gopkg.in/seborama/govcr.v2"
 	"strings"
 	"os"
+	"errors"
+	"fmt"
 )
 
 // Base path for VCR cassettes, relative to this package
@@ -33,7 +35,7 @@ type HTMLTest struct {
 
 // Test : Given user options run htmltest and return a pointer to the test
 // object.
-func Test(optsUser map[string]interface{}) *HTMLTest {
+func Test(optsUser map[string]interface{}) (*HTMLTest, error) {
 	hT := HTMLTest{}
 
 	// If FilePath set, modify FileExtension
@@ -81,7 +83,7 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 	// Make buffered channel to act as concurrency limiter
 	hT.httpChannel = make(chan bool, hT.opts.HTTPConcurrencyLimit)
 
-	// Setup refcache
+	// Setup refCache
 	cachePath := ""
 	if hT.opts.EnableCache {
 		cachePath = path.Join(hT.opts.OutputDir, hT.opts.OutputCacheFile)
@@ -89,20 +91,30 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 	hT.refCache = refcache.NewRefCache(cachePath, hT.opts.CacheExpires)
 
 	if hT.opts.NoRun {
-		return &hT
+		return &hT, nil
+	}
+
+	// Either of these options are required to run
+	if hT.opts.DirectoryPath == "" && hT.opts.FilePath == "" {
+		err := errors.New("Neither FilePath nor DirectoryPath provided")
+		return &hT, err
 	}
 
 	// Check the provided DirectoryPath exists
 	f, err := os.Open(hT.opts.DirectoryPath)
 	if os.IsNotExist(err) {
-		output.AbortWith("Cannot access '" + hT.opts.DirectoryPath + "', no such directory.")
+		err := errors.New(fmt.Sprint(
+			"Cannot access '" + hT.opts.DirectoryPath + "', no such directory."))
+		return &hT, err
 	}
 	// Get FileInfo, (scan for details)
 	fi, err := f.Stat()
 	output.CheckErrorPanic(err)
-	// Check if directory
+	// Check if DirectoryPath directory
 	if !fi.IsDir() {
-		output.AbortWith("DirectoryIndex '" + hT.opts.DirectoryPath + "' is a file, not a directory.")
+		err := errors.New(fmt.Sprint(
+			"DirectoryPath '" + hT.opts.DirectoryPath + "' is a file, not a directory."))
+		return &hT, err
 	}
 
 	// Init our document store
@@ -119,15 +131,14 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 		// Single document mode
 		doc, ok := hT.documentStore.ResolvePath(hT.opts.FilePath)
 		if !ok {
-			output.AbortWith("Could not find document", hT.opts.FilePath, "in",
-				hT.opts.DirectoryPath)
+			err := errors.New(fmt.Sprint(
+				"Could not find document", hT.opts.FilePath, "in", hT.opts.DirectoryPath))
+			return &hT, err
 		}
 		hT.testDocument(doc)
 	} else if hT.opts.DirectoryPath != "" {
 		// Test documents
 		hT.testDocuments()
-	} else {
-		output.AbortWith("Neither file or directory path provided")
 	}
 
 	if hT.opts.EnableCache {
@@ -143,7 +154,7 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 	//	fmt.Printf("%+v\n", vcr.Stats())
 	//}
 
-	return &hT
+	return &hT, nil
 }
 
 func (hT *HTMLTest) testDocuments() {
