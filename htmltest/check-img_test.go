@@ -7,15 +7,15 @@ import (
 
 func TestImageExternalWorking(t *testing.T) {
 	// passes for existing external images
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/images/existingImageExternal.html")
+	hT := tTestFileOpts("fixtures/images/existingImageExternal.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestImageExternalMissing(t *testing.T) {
 	// fails for missing external images
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/images/missingImageExternal.html")
+	hT := tTestFileOpts("fixtures/images/missingImageExternal.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 1)
 	// Issue contains "no such host"
 	// tExpectIssue(t, hT, "no such host", 1)
@@ -23,31 +23,30 @@ func TestImageExternalMissing(t *testing.T) {
 
 func TestImageExternalMissingProtocolValid(t *testing.T) {
 	// works for valid images missing the protocol
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/images/image_missing_protocol_valid.html")
+	hT := tTestFileOpts("fixtures/images/image_missing_protocol_valid.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestImageExternalMissingProtocolInvalid(t *testing.T) {
 	// fails for invalid images missing the protocol
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/images/image_missing_protocol_invalid.html")
+	hT := tTestFileOpts("fixtures/images/image_missing_protocol_invalid.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 1)
 	// tExpectIssue(t, hT, message, 1)
 }
 
 func TestImageExternalInsecureDefault(t *testing.T) {
 	// passes for HTTP images by default
-	tSkipShortExternal(t)
-	hT := tTestFile("fixtures/images/src_http.html")
+	hT := tTestFileOpts("fixtures/images/src_http.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestImageExternalInsecureOption(t *testing.T) {
 	// fails for HTTP images when asked
-	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/images/src_http.html",
-		map[string]interface{}{"EnforceHTTPS": true})
+		map[string]interface{}{"EnforceHTTPS": true, "VCREnable": true})
 	tExpectIssueCount(t, hT, 1)
 	tExpectIssue(t, hT, "is not an HTTPS target", 1)
 }
@@ -113,8 +112,8 @@ func TestImageSrcEmpty(t *testing.T) {
 
 func TestImageSrcLineBreaks(t *testing.T) {
 	// deals with linebreaks in src
-	tSkipShortExternal(t) // TODO use internal images
-	hT := tTestFile("fixtures/images/lineBreaks.html")
+	hT := tTestFileOpts("fixtures/images/lineBreaks.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 

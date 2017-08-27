@@ -1,0 +1,92 @@
+{
+  "Name": "scriptInsecure.html",
+  "Path": "fixtures/vcr/scripts",
+  "Tracks": [
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "http",
+          "Opaque": "",
+          "User": null,
+          "Host": "ajax.googleapis.com",
+          "Path": "/ajax/libs/jquery/1.8.2/jquery.min.js",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": ""
+        },
+        "Header": {
+          "Range": [
+            "bytes=0-0"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "206 Partial Content",
+        "StatusCode": 206,
+        "Proto": "HTTP/1.1",
+        "ProtoMajor": 1,
+        "ProtoMinor": 1,
+        "Header": {
+          "Accept-Ranges": [
+            "bytes"
+          ],
+          "Access-Control-Allow-Origin": [
+            "*"
+          ],
+          "Age": [
+            "1672507"
+          ],
+          "Cache-Control": [
+            "public, max-age=31536000, stale-while-revalidate=2592000"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Length": [
+            "1"
+          ],
+          "Content-Range": [
+            "bytes 0-0/33621"
+          ],
+          "Content-Type": [
+            "text/javascript; charset=UTF-8"
+          ],
+          "Date": [
+            "Mon, 07 Aug 2017 13:14:59 GMT"
+          ],
+          "Expires": [
+            "Tue, 07 Aug 2018 13:14:59 GMT"
+          ],
+          "Last-Modified": [
+            "Tue, 20 Dec 2016 18:17:03 GMT"
+          ],
+          "Server": [
+            "sffe"
+          ],
+          "Timing-Allow-Origin": [
+            "*"
+          ],
+          "Vary": [
+            "Accept-Encoding"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-Xss-Protection": [
+            "1; mode=block"
+          ]
+        },
+        "Body": "Hw==",
+        "ContentLength": 1,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "",
+      "ErrMsg": ""
+    }
+  ]
+}

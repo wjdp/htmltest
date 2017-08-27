@@ -12,7 +12,12 @@ import (
 	"sync"
 	"time"
 	"crypto/tls"
+	"gopkg.in/seborama/govcr.v2"
+	"strings"
 )
+
+// Base path for VCR cassettes, relative to this package
+const vcrCassetteBasePath string = "fixtures/vcr"
 
 // HTMLTest struct, A html testing session, user options are passed in and
 // tests are run.
@@ -53,7 +58,23 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 	hT.httpClient = &http.Client{
 		// Durations are in nanoseconds
 		Transport: transport,
-		Timeout:   time.Duration(hT.opts.ExternalTimeout * 1000000000),
+		Timeout:   time.Duration(hT.opts.ExternalTimeout) * time.Second,
+	}
+
+	// If enabled (unit tests only) patch in govcr to the httpClient
+	var vcr *govcr.VCRControlPanel
+	if hT.opts.VCREnable {
+		// Strip fixtures/ from the start of the path. This will break if the path doesn't start with "fixtures/"
+		cassettePath := strings.Split(hT.opts.DirectoryPath, "fixtures/")[1]
+		// Build VCR
+		vcr = govcr.NewVCR(hT.opts.FilePath,
+			&govcr.VCRConfig{
+				Client: hT.httpClient,
+				CassettePath: path.Join(vcrCassetteBasePath, cassettePath),
+			})
+
+		// Inject VCR's http.Client wrapper
+		hT.httpClient = vcr.Client
 	}
 
 	// Make buffered channel to act as concurrency limiter
@@ -102,6 +123,11 @@ func Test(optsUser map[string]interface{}) *HTMLTest {
 		hT.issueStore.WriteLog(path.Join(hT.opts.OutputDir,
 			hT.opts.OutputLogFile))
 	}
+
+	// This is useful for debugging the VCR, but rather noisy otherwise
+	//if hT.opts.VCREnable {
+	//	fmt.Printf("%+v\n", vcr.Stats())
+	//}
 
 	return &hT
 }

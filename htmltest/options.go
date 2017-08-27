@@ -66,6 +66,7 @@ type Options struct {
 
 	// --- Internals below here ---
 	NoRun bool // When true does not run tests, used to inspect state in unit tests
+	VCREnable bool // When true patches the govcr httpClient to mock network calls
 }
 
 // DefaultOptions returns a map of default options.
@@ -122,6 +123,7 @@ func DefaultOptions() map[string]interface{} {
 		"CacheExpires":    "336h",
 
 		"NoRun": false,
+		"VCREnable": false,
 	}
 }
 

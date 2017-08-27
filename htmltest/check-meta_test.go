@@ -12,26 +12,30 @@ func TestMetaRefreshSelfValid(t *testing.T) {
 
 // Passes for valid external meta refresh.
 func TestMetaRefreshExternalValid(t *testing.T) {
-	hT := tTestFile("fixtures/meta/refresh-external-valid.html")
+	hT := tTestFileOpts("fixtures/meta/refresh-external-valid.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 // Passes for valid external meta refresh with space between the ; and the
 // url def.
 func TestMetaRefreshExternalValidCaps(t *testing.T) {
-	hT := tTestFile("fixtures/meta/refresh-external-valid-space.html")
+	hT := tTestFileOpts("fixtures/meta/refresh-external-valid-space.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 // Passes for valid external meta refresh with URL in caps.
 func TestMetaRefreshExternalValidSpace(t *testing.T) {
-	hT := tTestFile("fixtures/meta/refresh-external-valid-caps.html")
+	hT := tTestFileOpts("fixtures/meta/refresh-external-valid-caps.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 // Fails broken external URL in meta refresh.
 func TestMetaRefreshExternalBroken(t *testing.T) {
-	hT := tTestFile("fixtures/meta/refresh-external-broken.html")
+	hT := tTestFileOpts("fixtures/meta/refresh-external-broken.html",
+		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 1)
 }
 

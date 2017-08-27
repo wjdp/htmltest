@@ -46,7 +46,8 @@ var genericTests = []struct {
 
 func TestCheckGenericTable(t *testing.T) {
 	for _, gt := range genericTests {
-		hT := tTestFile(path.Join("fixtures/generic", gt.fixture))
+		hT := tTestFileOpts(path.Join("fixtures/generic", gt.fixture),
+			map[string]interface{}{"VCREnable": true})
 		c := hT.issueStore.Count(issues.LevelError)
 		if c != gt.errorCount {
 			t.Error("error count", c, "!=", gt.errorCount, "in", gt.fixture)
