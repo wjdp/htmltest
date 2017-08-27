@@ -5,6 +5,45 @@ import (
 	"testing"
 )
 
+func TestMissingOptions(t *testing.T) {
+	// returns error when we don't set FilePath nor DirectoryPath
+	_, err := Test(map[string]interface{}{})
+	assert.NotEquals(t, "Error", err, nil)
+	assert.Equals(t, "Error", err.Error(),
+		"Neither FilePath nor DirectoryPath provided")
+}
+
+func TestDirectoryPathNonExistent(t *testing.T) {
+	// returns error when DirectoryPath doesn't actually exist
+	_, err := Test(map[string]interface{}{
+		"DirectoryPath": "no-exist",
+	})
+	assert.NotEquals(t, "Error", err, nil)
+	assert.Equals(t, "Error", err.Error(),
+		"Cannot access 'no-exist', no such directory.")
+}
+
+func TestDirectoryPathIsFile(t *testing.T) {
+	// returns error DirectoryPath resolves to a file
+	_, err := Test(map[string]interface{}{
+		"DirectoryPath": "fixtures/utils/file",
+	})
+	assert.NotEquals(t, "Error", err, nil)
+	assert.Equals(t, "Error", err.Error(),
+		"DirectoryPath 'fixtures/utils/file' is a file, not a directory.")
+}
+
+func TestFilePathMissing(t *testing.T) {
+	// returns error when we can't find FilePath
+	_, err := Test(map[string]interface{}{
+		"DirectoryPath": "fixtures/utils",
+		"FilePath": "no-file",
+	})
+	assert.NotEquals(t, "Error", err, nil)
+	assert.Equals(t, "Error", err.Error(),
+		"Could not find FilePath 'no-file' in 'fixtures/utils'")
+}
+
 func TestCheckAnchorsDisable(t *testing.T) {
 	hT := tTestFileOpts("fixtures/links/brokenLinkInternal.html",
 		map[string]interface{}{"CheckAnchors": false})
@@ -40,6 +79,16 @@ func TestNormalLookingPage(t *testing.T) {
 	hT := tTestFileOpts("fixtures/html/normal_looking_page.html",
 		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
+}
+
+func TestCountDocuments(t *testing.T) {
+	hT := tTestDirectory("fixtures/documents/folder-ok")
+	assert.Equals(t, "CountDocuments", hT.CountDocuments(), 3)
+}
+
+func TestCountErrors(t *testing.T) {
+	hT := tTestDirectory("fixtures/documents/folder-not-ok")
+	assert.Equals(t, "CountErrors", hT.CountErrors(), 2)
 }
 
 func TestCacheIntegration(t *testing.T) {

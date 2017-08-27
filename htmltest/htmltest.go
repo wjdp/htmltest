@@ -132,7 +132,7 @@ func Test(optsUser map[string]interface{}) (*HTMLTest, error) {
 		doc, ok := hT.documentStore.ResolvePath(hT.opts.FilePath)
 		if !ok {
 			err := errors.New(fmt.Sprint(
-				"Could not find document", hT.opts.FilePath, "in", hT.opts.DirectoryPath))
+				"Could not find FilePath '", hT.opts.FilePath, "' in '", hT.opts.DirectoryPath, "'"))
 			return &hT, err
 		}
 		hT.testDocument(doc)
