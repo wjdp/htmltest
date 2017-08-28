@@ -151,7 +151,13 @@ func run(options optsMap) int {
 	fmt.Println("htmltest started at", timeStart.Format("03:04:05"), "on", options["DirectoryPath"])
 	fmt.Println(cmdSeparator)
 
-	hT := htmltest.Test(options)
+	// Run htmltest
+	hT, err := htmltest.Test(options)
+
+	if err != nil {
+		// Couldn't even run, dump error and exit
+		output.AbortWith(err)
+	}
 
 	timeEnd := time.Now()
 	numErrors := hT.CountErrors()

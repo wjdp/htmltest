@@ -5,6 +5,7 @@ import (
 	"github.com/wjdp/htmltest/issues"
 	"path"
 	"testing"
+	"github.com/wjdp/htmltest/output"
 )
 
 // Keep it quiet
@@ -47,14 +48,18 @@ func defaultFileTestOpts(filename string) map[string]interface{} {
 
 // Test a single file and return the run test
 func tTestFile(filename string) *HTMLTest {
-	return Test(defaultFileTestOpts(filename))
+	hT, err := Test(defaultFileTestOpts(filename))
+	output.CheckErrorPanic(err)
+	return hT
 }
 
 // Test a single file with custom options and return the run test
 func tTestFileOpts(filename string, tOpts map[string]interface{}) *HTMLTest {
 	opts := defaultFileTestOpts(filename)
 	mergo.MergeWithOverwrite(&opts, tOpts)
-	return Test(opts)
+	hT, err := Test(opts)
+	output.CheckErrorPanic(err)
+	return hT
 }
 
 // Default options for running a directory test
@@ -71,14 +76,18 @@ func defaultDirectoryTestOpts(filename string) map[string]interface{} {
 
 // Test a directory and return the run test
 func tTestDirectory(filename string) *HTMLTest {
-	return Test(defaultDirectoryTestOpts(filename))
+	hT, err := Test(defaultDirectoryTestOpts(filename))
+	output.CheckErrorPanic(err)
+	return hT
 }
 
 // Test a directory with custom options and return the run test
 func tTestDirectoryOpts(filename string, tOpts map[string]interface{}) *HTMLTest {
 	opts := defaultDirectoryTestOpts(filename)
 	mergo.MergeWithOverwrite(&opts, tOpts)
-	return Test(opts)
+	hT, err := Test(opts)
+	output.CheckErrorPanic(err)
+	return hT
 }
 
 // All tests that make network calls should be marked with this function
