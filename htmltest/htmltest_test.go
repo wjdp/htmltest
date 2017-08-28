@@ -91,6 +91,23 @@ func TestCountErrors(t *testing.T) {
 	assert.Equals(t, "CountErrors", hT.CountErrors(), 2)
 }
 
+func TestFileExtensionDefault(t *testing.T) {
+	// Non .html files are ignored
+	hT := tTestDirectory("fixtures/documents/folder-htm")
+	assert.Equals(t, "CountDocuments", hT.CountDocuments(), 0)
+	assert.Equals(t, "CountErrors", hT.CountErrors(), 0)
+}
+
+func TestFileExtensionOption(t *testing.T) {
+	// FileExtension (+DirectoryIndex) works when set
+	hT := tTestDirectoryOpts("fixtures/documents/folder-htm", map[string]interface{}{
+		"FileExtension": ".htm",
+		"DirectoryIndex": "index.htm",
+	})
+	assert.Equals(t, "CountDocuments", hT.CountDocuments(), 3)
+	tExpectIssueCount(t, hT, 1)
+}
+
 func TestCacheIntegration(t *testing.T) {
 	tTestFileOpts("fixtures/links/https-valid.html",
 		map[string]interface{}{"EnableCache": true})
