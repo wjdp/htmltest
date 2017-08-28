@@ -114,7 +114,6 @@ func TestAnchorExternalHrefIPTimeout(t *testing.T) {
 
 func TestAnchorExternalFollowRedirects(t *testing.T) {
 	// should follow redirects
-	t.Skip("Need new link, times out")
 	hT := tTestFileOpts("fixtures/links/linkWithRedirect.html",
 		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 0)
