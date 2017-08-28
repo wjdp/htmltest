@@ -3,6 +3,7 @@ package htmldoc
 import (
 	"github.com/daviddengcn/go-assert"
 	"testing"
+	"sync"
 )
 
 func TestDocumentParse(t *testing.T) {
@@ -15,6 +16,43 @@ func TestDocumentParse(t *testing.T) {
 	nodeElem := doc.htmlNode.FirstChild.FirstChild.NextSibling.FirstChild
 	assert.Equals(t, "document first body node", nodeElem.Data, "h1")
 }
+
+func TestDocumentParseOnce(t *testing.T) {
+	// Document.Parse should only parse once, subsequent calls should return quickly
+	doc := Document{
+		FilePath: "fixtures/documents/index.html",
+	}
+	doc.Init()
+	doc.Parse()
+	// Store copy of htmlNode
+	hN := doc.htmlNode
+	doc.Parse()
+	// and assert it's the same one
+	assert.Equals(t, "htmlNode", doc.htmlNode, hN)
+}
+
+func TestDocumentParseOnceConcurrent(t *testing.T) {
+	// Document.Parse should be thread safe
+	doc := Document{
+		FilePath: "fixtures/documents/index.html",
+	}
+	doc.Init()
+	// Parse many times
+	wg := sync.WaitGroup{}
+	for i := 0; i < 320; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			doc.Parse()
+		}()
+	}
+	// Wait until all jobs done
+	wg.Wait()
+	// Assert we have something sensible by the end of this
+	nodeElem := doc.htmlNode.FirstChild.FirstChild.NextSibling.FirstChild
+	assert.Equals(t, "document first body node", nodeElem.Data, "h1")
+}
+
 
 func TestDocumentNodesOfInterest(t *testing.T) {
 	doc := Document{

@@ -39,16 +39,18 @@ func (doc *Document) Init() {
 }
 
 // Parse : Ask Document to parse its HTML file. Returns quickly if this has
-// already been done. Thread safe.
+// already been done. Thread safe. Either called when the document is tested
+// or when another document needs data from this one.
 func (doc *Document) Parse() {
-	// Parse the document
-	// Either called when the document is tested or when another document needs
-	// data from this one.
-	doc.htmlMutex.Lock() // MUTEX
+	// Only one routine may parse the doc
+	doc.htmlMutex.Lock()
+	defer doc.htmlMutex.Unlock()
+
+	// If document has already been parsed, return early.
 	if doc.htmlNode != nil {
-		doc.htmlMutex.Unlock() // MUTEX
 		return
 	}
+
 	// Open, parse, and close document
 	f, err := os.Open(doc.FilePath)
 	output.CheckErrorPanic(err)
@@ -59,7 +61,6 @@ func (doc *Document) Parse() {
 
 	doc.htmlNode = htmlNode
 	doc.parseNode(htmlNode)
-	doc.htmlMutex.Unlock() // MUTEX
 }
 
 // Internal recursive function that delves into the node tree and captures
