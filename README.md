@@ -1,6 +1,7 @@
 # :white_check_mark: htmltest
 
-[![Build Status](https://travis-ci.org/wjdp/htmltest.svg?branch=master)](https://travis-ci.org/wjdp/htmltest)
+[![Travis Build Status](https://travis-ci.org/wjdp/htmltest.svg?branch=master)](https://travis-ci.org/wjdp/htmltest)
+[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/9s4qld5exuosmv0q/branch/master?svg=true)](https://ci.appveyor.com/project/wjdp/htmltest/branch/master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/wjdp/htmltest)](https://goreportcard.com/report/github.com/wjdp/htmltest)
 [![codecov](https://codecov.io/gh/wjdp/htmltest/branch/master/graph/badge.svg)](https://codecov.io/gh/wjdp/htmltest)
 [![GoDoc](https://godoc.org/github.com/wjdp/htmltest?status.svg)](https://godoc.org/github.com/wjdp/htmltest)
