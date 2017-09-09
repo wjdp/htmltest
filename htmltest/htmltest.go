@@ -184,6 +184,11 @@ func (hT *HTMLTest) testDocuments() {
 }
 
 func (hT *HTMLTest) testDocument(document *htmldoc.Document) {
+	hT.issueStore.AddIssue(issues.Issue{
+		Level:    issues.LevelDebug,
+		Message:  "testDocument on " + document.SitePath,
+	})
+
 	document.Parse()
 
 	if hT.opts.CheckDoctype {
