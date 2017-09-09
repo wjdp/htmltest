@@ -32,7 +32,7 @@ artifacts:
 deploy:
   provider: GitHub
   auth_token:
-      secure: 7ijatuctLTwV3xu0FAyCHjcupsNxqfv3MVfDLB2bUeoRwyy+rGJmF2JsQDP2h6ya # your encrypted token from GitHub
+      secure: 9+xdNIvrnAVRoTFYPvdfYxnSUtWXObdc4DUIndJwiliSsD44stBnDwCvPZ+3OH3e # your encrypted token from GitHub
   artifact: htmltest-binaries
   on:
     appveyor_repo_tag: true        # deploy on tag push only
