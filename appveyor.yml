@@ -1,0 +1,37 @@
+environment:
+  GOPATH: C:\GOPATH
+  GOARCH: amd64
+
+init:
+  - set PATH=%PATH%;%GOPATH%\bin
+  - go version
+  - go env
+
+# clones and cd's to path
+clone_folder: C:\GOPATH\src\github.com\wjdp\htmltest
+
+install:
+  - go get -t ./... # Fetch all dependencies
+
+build_script:
+  - go test -v -race ./... # Run test suite
+  - cmd: for /f %%i in ('"call powershell (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd-hh:mm:ssZ')"') do set BUILD_DATE=%%i
+  - cmd: for /f %%i in ('"call git describe --tags"') do set VERSION=%%i
+  - cmd: go build -ldflags "-X main.buildDate=%BUILD_DATE% -X main.version=%VERSION%" -o bin/htmltest-%GOARCH%.exe -x main.go
+  - cmd: .\bin\htmltest-%GOARCH%.exe -h  # Print usage
+  - cmd: .\bin\htmltest-%GOARCH%.exe -v  # Print version
+  - cmd: .\bin\htmltest-%GOARCH%.exe -c htmldoc/fixtures/conf.yaml -l0 # Run config
+  - cmd: .\bin\htmltest-%GOARCH%.exe htmldoc/fixtures/documents/dir1 # Run on dir
+  - cmd: .\bin\htmltest-%GOARCH%.exe htmltest/fixtures/links/head_link_href.html # Run on file
+
+artifacts:
+  - path: bin\*.exe
+    name: htmltest-binaries
+
+deploy:
+  provider: GitHub
+  auth_token:
+      secure: 7ijatuctLTwV3xu0FAyCHjcupsNxqfv3MVfDLB2bUeoRwyy+rGJmF2JsQDP2h6ya # your encrypted token from GitHub
+  artifact: htmltest-binaries
+  on:
+    appveyor_repo_tag: true        # deploy on tag push only
