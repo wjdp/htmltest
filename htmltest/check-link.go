@@ -357,6 +357,7 @@ func (hT *HTMLTest) checkMailto(ref *htmldoc.Reference) {
 
 	domain := strings.Split(ref.URL.Opaque, "@")[1]
 
+	// loop over the current domain until we have a valid result or have exhausted all possibilities
 	for domain != "" {
 		// if a simple MX lookup works, we are done, continue
 		if _, err := net.LookupMX(domain); err == nil {
