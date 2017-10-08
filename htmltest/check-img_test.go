@@ -193,6 +193,30 @@ func TestImagePre(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestImageUsemap(t *testing.T) {
+	// deals with valid usemap
+	hT := tTestFile("fixtures/images/usemapValid.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestImageUsemapMapDoesNotExist(t *testing.T) {
+	// detects usemap pointing to a non-existent map
+	hT := tTestFile("fixtures/images/usemapMapDoesNotExist.html")
+	tExpectIssueCount(t, hT, 1)
+}
+
+func TestImageUsemapReferenceInvalid(t *testing.T) {
+	// detects usemap with reference formally invalid
+	hT := tTestFile("fixtures/images/usemapReferenceInvalid.html")
+	tExpectIssueCount(t, hT, 1)
+}
+
+func TestImageUsemapEmpty(t *testing.T) {
+	// detects empty usemap
+	hT := tTestFile("fixtures/images/usemapEmpty.html")
+	tExpectIssueCount(t, hT, 1)
+}
+
 func TestImageMultipleProblems(t *testing.T) {
 	hT := tTestFile("fixtures/images/multipleProblems.html")
 	tExpectIssueCount(t, hT, 6)
