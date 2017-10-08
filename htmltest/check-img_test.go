@@ -217,6 +217,18 @@ func TestImageUsemapEmpty(t *testing.T) {
 	tExpectIssueCount(t, hT, 1)
 }
 
+func TestImageUsemapInLink(t *testing.T) {
+	// detects forbidden usemap in an <a> alement
+	hT := tTestFile("fixtures/images/usemapInLink.html")
+	tExpectIssueCount(t, hT, 1)
+}
+
+func TestImageUsemapInButton(t *testing.T) {
+	// detects forbidden usemap in a <button> alement
+	hT := tTestFile("fixtures/images/usemapInButton.html")
+	tExpectIssueCount(t, hT, 1)
+}
+
 func TestImageMultipleProblems(t *testing.T) {
 	hT := tTestFile("fixtures/images/multipleProblems.html")
 	tExpectIssueCount(t, hT, 6)

@@ -83,6 +83,21 @@ func (hT *HTMLTest) checkImg(document *htmldoc.Document, node *html.Node) {
 		} else {
 			hT.checkInternalHash(usemapRef)
 		}
+
+		parent := node.Parent
+		if parent.Data == "a" {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelError,
+				Message:   "img with usemap in a link",
+				Reference: ref,
+			})
+		} else if parent.Data == "button" {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelError,
+				Message:   "img with usemap in a button",
+				Reference: ref,
+			})
+		}
 	}
 
 	// Route reference check
