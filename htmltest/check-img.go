@@ -71,7 +71,7 @@ func (hT *HTMLTest) checkImg(document *htmldoc.Document, node *html.Node) {
 		if len(usemapRef.URL.Path) > 0 {
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelError,
-				Message:   "path in usemap attribute",
+				Message:   "only fragment starting with # allowed in usemap attribute",
 				Reference: ref,
 			})
 		} else if len(usemapRef.URL.Fragment) == 0 {
@@ -88,13 +88,13 @@ func (hT *HTMLTest) checkImg(document *htmldoc.Document, node *html.Node) {
 		if parent.Data == "a" {
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelError,
-				Message:   "img with usemap in a link",
+				Message:   "<img> with usemap attribute not allowed as a descendant of an <a> element",
 				Reference: ref,
 			})
 		} else if parent.Data == "button" {
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelError,
-				Message:   "img with usemap in a button",
+				Message:   "<img> with usemap attribute not allowed as a descendant of a <button>",
 				Reference: ref,
 			})
 		}
