@@ -203,6 +203,7 @@ func TestImageUsemapMapDoesNotExist(t *testing.T) {
 	// detects usemap pointing to a non-existent map
 	hT := tTestFile("fixtures/images/usemapMapDoesNotExist.html")
 	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "hash does not exist", 1)
 }
 
 func TestImageUsemapReferenceInvalid(t *testing.T) {
