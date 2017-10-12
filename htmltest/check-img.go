@@ -9,7 +9,7 @@ import (
 
 func (hT *HTMLTest) checkImg(document *htmldoc.Document, node *html.Node) {
 	attrs := htmldoc.ExtractAttrs(node.Attr,
-		[]string{"src", "alt", hT.opts.IgnoreTagAttribute})
+		[]string{"src", "alt", "usemap", hT.opts.IgnoreTagAttribute})
 
 	// Ignore if data-proofer-ignore set
 	if htmldoc.AttrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
@@ -62,6 +62,42 @@ func (hT *HTMLTest) checkImg(document *htmldoc.Document, node *html.Node) {
 			Reference: ref,
 		})
 		return
+	}
+
+	// Check usemap
+	if htmldoc.AttrPresent(node.Attr, "usemap") {
+		usemapRef := htmldoc.NewReference(document, node, attrs["usemap"])
+
+		if len(usemapRef.URL.Path) > 0 {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelError,
+				Message:   "only fragment starting with # allowed in usemap attribute",
+				Reference: ref,
+			})
+		} else if len(usemapRef.URL.Fragment) == 0 {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelError,
+				Message:   "usemap empty",
+				Reference: ref,
+			})
+		} else {
+			hT.checkInternalHash(usemapRef)
+		}
+
+		parent := node.Parent
+		if parent.Data == "a" {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelError,
+				Message:   "<img> with usemap attribute not allowed as descendant of an <a> element",
+				Reference: ref,
+			})
+		} else if parent.Data == "button" {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelError,
+				Message:   "<img> with usemap attribute not allowed as descendant of a <button>",
+				Reference: ref,
+			})
+		}
 	}
 
 	// Route reference check
