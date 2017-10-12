@@ -254,14 +254,15 @@ func (hT *HTMLTest) checkInternal(ref *htmldoc.Reference) {
 				Message:   "target is a directory, href lacks trailing slash",
 				Reference: ref,
 			})
+			refExists = false
 		}
 	} else {
 		// If that fails attempt to lookup with filesystem, resolve a path and check
 		refOsPath := path.Join(hT.opts.DirectoryPath, ref.RefSitePath())
-		hT.checkFile(ref, refOsPath)
+		refExists = hT.checkFile(ref, refOsPath)
 	}
 
-	if len(ref.URL.Fragment) > 0 {
+	if refExists && len(ref.URL.Fragment) > 0 {
 		// Is also a hash link
 		hT.checkInternalHash(ref)
 	}
@@ -308,7 +309,7 @@ func (hT *HTMLTest) checkInternalHash(ref *htmldoc.Reference) {
 	}
 }
 
-func (hT *HTMLTest) checkFile(ref *htmldoc.Reference, absPath string) {
+func (hT *HTMLTest) checkFile(ref *htmldoc.Reference, absPath string) bool {
 	f, err := os.Stat(absPath)
 	if os.IsNotExist(err) {
 		hT.issueStore.AddIssue(issues.Issue{
@@ -316,7 +317,7 @@ func (hT *HTMLTest) checkFile(ref *htmldoc.Reference, absPath string) {
 			Message:   "target does not exist",
 			Reference: ref,
 		})
-		return
+		return false
 	}
 	output.CheckErrorPanic(err)
 
@@ -326,7 +327,9 @@ func (hT *HTMLTest) checkFile(ref *htmldoc.Reference, absPath string) {
 			Message:   "target is a directory, no index",
 			Reference: ref,
 		})
+		return false
 	}
+	return true
 }
 
 func (hT *HTMLTest) checkMailto(ref *htmldoc.Reference) {
