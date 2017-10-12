@@ -210,24 +210,28 @@ func TestImageUsemapReferenceInvalid(t *testing.T) {
 	// detects usemap with reference formally invalid
 	hT := tTestFile("fixtures/images/usemapReferenceInvalid.html")
 	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "only fragment starting with # allowed", 1)
 }
 
 func TestImageUsemapEmpty(t *testing.T) {
 	// detects empty usemap
 	hT := tTestFile("fixtures/images/usemapEmpty.html")
 	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "usemap empty", 1)
 }
 
 func TestImageUsemapInLink(t *testing.T) {
 	// detects forbidden usemap in an <a> alement
 	hT := tTestFile("fixtures/images/usemapInLink.html")
 	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "usemap attribute not allowed as descendant of an <a>", 1)
 }
 
 func TestImageUsemapInButton(t *testing.T) {
 	// detects forbidden usemap in a <button> alement
 	hT := tTestFile("fixtures/images/usemapInButton.html")
 	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "usemap attribute not allowed as descendant of a <button>", 1)
 }
 
 func TestImageMultipleProblems(t *testing.T) {

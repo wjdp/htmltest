@@ -88,13 +88,13 @@ func (hT *HTMLTest) checkImg(document *htmldoc.Document, node *html.Node) {
 		if parent.Data == "a" {
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelError,
-				Message:   "<img> with usemap attribute not allowed as a descendant of an <a> element",
+				Message:   "<img> with usemap attribute not allowed as descendant of an <a> element",
 				Reference: ref,
 			})
 		} else if parent.Data == "button" {
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelError,
-				Message:   "<img> with usemap attribute not allowed as a descendant of a <button>",
+				Message:   "<img> with usemap attribute not allowed as descendant of a <button>",
 				Reference: ref,
 			})
 		}
