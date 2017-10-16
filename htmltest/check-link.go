@@ -1,16 +1,16 @@
 package htmltest
 
 import (
-	"github.com/wjdp/htmltest/htmldoc"
-	"github.com/wjdp/htmltest/issues"
-	"github.com/wjdp/htmltest/output"
+	"fmt"
 	"golang.org/x/net/html"
 	"net/http"
 	"net/url"
 	"os"
 	"path"
 	"strings"
-	"fmt"
+	"wjdp.uk/htmltest/htmldoc"
+	"wjdp.uk/htmltest/issues"
+	"wjdp.uk/htmltest/output"
 )
 
 func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {

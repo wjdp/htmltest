@@ -2,8 +2,8 @@ package issues
 
 import (
 	"github.com/daviddengcn/go-assert"
-	"github.com/wjdp/htmltest/htmldoc"
 	"testing"
+	"wjdp.uk/htmltest/htmldoc"
 )
 
 func TestIssuePrimary(t *testing.T) {

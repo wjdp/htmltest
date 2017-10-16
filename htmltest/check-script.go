@@ -1,9 +1,9 @@
 package htmltest
 
 import (
-	"github.com/wjdp/htmltest/htmldoc"
-	"github.com/wjdp/htmltest/issues"
 	"golang.org/x/net/html"
+	"wjdp.uk/htmltest/htmldoc"
+	"wjdp.uk/htmltest/issues"
 )
 
 func (hT *HTMLTest) checkScript(document *htmldoc.Document, node *html.Node) {

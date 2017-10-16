@@ -3,11 +3,11 @@ package refcache
 
 import (
 	"encoding/json"
-	"github.com/wjdp/htmltest/output"
 	"os"
 	"path"
 	"sync"
 	"time"
+	"wjdp.uk/htmltest/output"
 )
 
 // RefCache struct : store of cached references.

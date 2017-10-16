@@ -2,11 +2,11 @@ package issues
 
 import (
 	"github.com/daviddengcn/go-assert"
-	"github.com/wjdp/htmltest/htmldoc"
 	"io/ioutil"
 	"os"
 	"strings"
 	"testing"
+	"wjdp.uk/htmltest/htmldoc"
 )
 
 func TestIssueStoreNew(t *testing.T) {

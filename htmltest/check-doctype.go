@@ -2,8 +2,8 @@ package htmltest
 
 import (
 	"fmt"
-	"github.com/wjdp/htmltest/htmldoc"
-	"github.com/wjdp/htmltest/issues"
+	"wjdp.uk/htmltest/htmldoc"
+	"wjdp.uk/htmltest/issues"
 )
 
 func (hT *HTMLTest) checkDoctype(document *htmldoc.Document) {

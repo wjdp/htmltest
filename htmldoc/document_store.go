@@ -4,10 +4,10 @@
 package htmldoc
 
 import (
-	"github.com/wjdp/htmltest/output"
 	"os"
 	"path"
 	"regexp"
+	"wjdp.uk/htmltest/output"
 )
 
 // DocumentStore struct, store of Documents including Document discovery
