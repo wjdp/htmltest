@@ -1,8 +1,7 @@
 language: go
 
 # When upgrading Go version also change deploy > provider > on > go at the bottom of this file.
-go:
-- 1.9.1
+go: 1.9.1
 
 os:
 - linux
@@ -35,7 +34,6 @@ deploy:
     on:
       tags: true
       repo: wjdp/htmltest
-      go: 1.8.3
   - provider: s3
     access_key_id: AKIAIH2ZE2KZBNCVEGCA
     secret_access_key:
@@ -49,4 +47,3 @@ deploy:
     on:
       repo: wjdp/htmltest
       branch: master
-      go: 1.8.3
