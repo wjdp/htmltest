@@ -1,8 +1,8 @@
 package htmltest
 
 import (
-	"github.com/wjdp/htmltest/issues"
 	"testing"
+	"wjdp.uk/htmltest/issues"
 )
 
 func BenchmarkExternal(b *testing.B) {

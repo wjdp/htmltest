@@ -3,11 +3,11 @@ package htmltest
 import (
 	"fmt"
 	"github.com/imdario/mergo"
-	"github.com/wjdp/htmltest/issues"
 	"path"
 	"reflect"
 	"regexp"
 	"strings"
+	"wjdp.uk/htmltest/issues"
 )
 
 // Options struct for htmltest, user and default options are merged and mapped
@@ -65,7 +65,7 @@ type Options struct {
 	CacheExpires    string // Accepts golang time period strings, hours (16h) is really only useful option
 
 	// --- Internals below here ---
-	NoRun bool // When true does not run tests, used to inspect state in unit tests
+	NoRun     bool // When true does not run tests, used to inspect state in unit tests
 	VCREnable bool // When true patches the govcr httpClient to mock network calls
 }
 
@@ -122,7 +122,7 @@ func DefaultOptions() map[string]interface{} {
 		"OutputLogFile":   "htmltest.log",
 		"CacheExpires":    "336h",
 
-		"NoRun": false,
+		"NoRun":     false,
 		"VCREnable": false,
 	}
 }

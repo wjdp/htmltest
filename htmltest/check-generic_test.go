@@ -1,9 +1,9 @@
 package htmltest
 
 import (
-	"github.com/wjdp/htmltest/issues"
 	"path"
 	"testing"
+	"wjdp.uk/htmltest/issues"
 )
 
 var genericTests = []struct {

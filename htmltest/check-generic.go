@@ -2,9 +2,9 @@ package htmltest
 
 import (
 	"fmt"
-	"github.com/wjdp/htmltest/htmldoc"
-	"github.com/wjdp/htmltest/issues"
 	"golang.org/x/net/html"
+	"wjdp.uk/htmltest/htmldoc"
+	"wjdp.uk/htmltest/issues"
 )
 
 // Checks the reference in the provided node and attribute key

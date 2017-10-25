@@ -37,7 +37,7 @@ func TestFilePathMissing(t *testing.T) {
 	// returns error when we can't find FilePath
 	_, err := Test(map[string]interface{}{
 		"DirectoryPath": "fixtures/utils",
-		"FilePath": "no-file",
+		"FilePath":      "no-file",
 	})
 	assert.NotEquals(t, "Error", err, nil)
 	assert.Equals(t, "Error", err.Error(),
@@ -101,7 +101,7 @@ func TestFileExtensionDefault(t *testing.T) {
 func TestFileExtensionOption(t *testing.T) {
 	// FileExtension (+DirectoryIndex) works when set
 	hT := tTestDirectoryOpts("fixtures/documents/folder-htm", map[string]interface{}{
-		"FileExtension": ".htm",
+		"FileExtension":  ".htm",
 		"DirectoryIndex": "index.htm",
 	})
 	assert.Equals(t, "CountDocuments", hT.CountDocuments(), 3)

@@ -2,11 +2,11 @@ package htmldoc
 
 import (
 	"fmt"
-	"github.com/wjdp/htmltest/output"
 	"golang.org/x/net/html"
 	"os"
 	"path"
 	"sync"
+	"wjdp.uk/htmltest/output"
 )
 
 // Document struct, representation of a document within the tested site

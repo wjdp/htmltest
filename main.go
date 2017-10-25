@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"github.com/docopt/docopt-go"
 	"github.com/fatih/color"
-	"github.com/wjdp/htmltest/htmltest"
-	"github.com/wjdp/htmltest/output"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
 	"path"
 	"strconv"
 	"time"
+	"wjdp.uk/htmltest/htmltest"
+	"wjdp.uk/htmltest/output"
 )
 
 const cmdSeparator string = "========================================================================"
