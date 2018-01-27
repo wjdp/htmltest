@@ -155,7 +155,9 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 
 		// Set headers
 		for key, value := range hT.opts.HTTPHeaders {
-			req.Header.Set(key, value)
+			// Due to the way we're loading in config these keys and values are interface{}. In normal cases they are
+			// strings, but could very easily be ints (side note: this isn't great, we'll fix this later, #73)
+			req.Header.Set(fmt.Sprintf("%v", key), fmt.Sprintf("%v", value))
 		}
 
 		hT.httpChannel <- true // Add to http concurrency limiter

@@ -46,7 +46,7 @@ type Options struct {
 	IgnoreDirectoryMissingTrailingSlash bool
 	IgnoreTagAttribute                  string
 
-	HTTPHeaders map[string]string
+	HTTPHeaders map[interface{}]interface{}
 
 	TestFilesConcurrently    bool
 	DocumentConcurrencyLimit int
