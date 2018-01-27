@@ -144,14 +144,9 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 
 		// Build the request
 		req, err := http.NewRequest("GET", urlStr, nil)
-		if err != nil {
-			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.LevelError,
-				Message:   err.Error(),
-				Reference: ref,
-			})
-			return
-		}
+		// Only error NewRequest raises is if the url isn't valid, we have already checked it by this point so OK just
+		// to panic if err != nil.
+		output.CheckErrorPanic(err)
 
 		// Set headers
 		for key, value := range hT.opts.HTTPHeaders {
