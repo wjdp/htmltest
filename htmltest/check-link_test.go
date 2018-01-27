@@ -150,6 +150,15 @@ func TestAnchorExternalHTTPSBadH2(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestAnchorExternalRequiresAccepts(t *testing.T) {
+	// should connect to servers with bad http/2 support
+	// See issue #49
+	hT := tTestFileOpts("fixtures/links/http_requires_accept.html",
+		map[string]interface{}{"VCREnable": true})
+	tExpectIssueCount(t, hT, 0)
+}
+
+
 func TestAnchorExternalMissingProtocolValid(t *testing.T) {
 	// works for valid links missing the protocol
 	hT := tTestFileOpts("fixtures/links/link_missing_protocol_valid.html",

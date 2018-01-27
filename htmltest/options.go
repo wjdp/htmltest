@@ -108,6 +108,7 @@ func DefaultOptions() map[string]interface{} {
 
 		"Headers": map[string]string{
 			"Range":  "bytes=0-0", // If server supports prevents body being sent
+			"Accept": "*/*",       // We accept all content types
 		},
 
 		"TestFilesConcurrently":    false,
