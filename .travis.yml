@@ -1,7 +1,6 @@
 language: go
 
-# When upgrading Go version also change deploy > provider > on > go at the bottom of this file.
-go: 1.9.1
+go: 1.9.3
 
 os:
 - linux
