@@ -75,6 +75,86 @@
       },
       "ErrType": "*errors.errorString",
       "ErrMsg": "net/http: request canceled while waiting for connection"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "http",
+          "Opaque": "",
+          "User": null,
+          "Host": "198.51.100.52",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*errors.errorString",
+      "ErrMsg": "net/http: request canceled while waiting for connection"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "http",
+          "Opaque": "",
+          "User": null,
+          "Host": "203.0.113.114",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*errors.errorString",
+      "ErrMsg": "net/http: request canceled while waiting for connection"
     }
   ]
 }

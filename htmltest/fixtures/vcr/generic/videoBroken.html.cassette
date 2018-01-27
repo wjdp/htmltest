@@ -75,6 +75,86 @@
       },
       "ErrType": "*net.OpError",
       "ErrMsg": "dial tcp: lookup swowkopskpok.com on 127.0.1.1:53: no such host"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "http",
+          "Opaque": "",
+          "User": null,
+          "Host": "nope.yyz",
+          "Path": "/vid.mp4",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*net.OpError",
+      "ErrMsg": "dial tcp: lookup nope.yyz on 127.0.1.1:53: no such host"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "swowkopskpok.com",
+          "Path": "/xyz.ogg",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*net.OpError",
+      "ErrMsg": "dial tcp: lookup swowkopskpok.com on 127.0.1.1:53: no such host"
     }
   ]
 }
