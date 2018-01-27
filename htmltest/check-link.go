@@ -153,9 +153,9 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 			return
 		}
 
-		// Add headers
+		// Set headers
 		for key, value := range hT.opts.HTTPHeaders {
-			req.Header.Add(key, value)
+			req.Header.Set(key, value)
 		}
 
 		hT.httpChannel <- true // Add to http concurrency limiter
