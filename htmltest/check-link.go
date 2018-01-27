@@ -6,7 +6,6 @@ import (
 	"github.com/wjdp/htmltest/output"
 	"golang.org/x/net/html"
 	"net/http"
-	"net/url"
 	"os"
 	"path"
 	"strings"
@@ -142,13 +141,21 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 			Message:   "fresh",
 			Reference: ref,
 		})
-		urlURL, err := url.Parse(urlStr)
-		req := &http.Request{
-			Method: "GET",
-			URL:    urlURL,
-			Header: map[string][]string{
-				"Range": {"bytes=0-0"}, // If server supports prevents body being sent
-			},
+
+		// Build the request
+		req, err := http.NewRequest("GET", urlStr, nil)
+		if err != nil {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelError,
+				Message:   err.Error(),
+				Reference: ref,
+			})
+			return
+		}
+
+		// Add headers
+		for key, value := range hT.opts.Headers {
+			req.Header.Add(key, value)
 		}
 
 		hT.httpChannel <- true // Add to http concurrency limiter
