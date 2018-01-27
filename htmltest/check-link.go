@@ -154,7 +154,7 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 		}
 
 		// Add headers
-		for key, value := range hT.opts.Headers {
+		for key, value := range hT.opts.HTTPHeaders {
 			req.Header.Add(key, value)
 		}
 

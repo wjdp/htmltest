@@ -46,7 +46,7 @@ type Options struct {
 	IgnoreDirectoryMissingTrailingSlash bool
 	IgnoreTagAttribute                  string
 
-	Headers map[string]string
+	HTTPHeaders map[string]string
 
 	TestFilesConcurrently    bool
 	DocumentConcurrencyLimit int
@@ -106,7 +106,7 @@ func DefaultOptions() map[string]interface{} {
 		"IgnoreDirectoryMissingTrailingSlash": false,
 		"IgnoreTagAttribute":                  "data-proofer-ignore",
 
-		"Headers": map[string]string{
+		"HTTPHeaders": map[string]string{
 			"Range":  "bytes=0-0", // If server supports prevents body being sent
 			"Accept": "*/*",       // We accept all content types
 		},
