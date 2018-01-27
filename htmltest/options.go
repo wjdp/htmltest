@@ -67,8 +67,9 @@ type Options struct {
 	CacheExpires    string // Accepts golang time period strings, hours (16h) is really only useful option
 
 	// --- Internals below here ---
-	NoRun     bool // When true does not run tests, used to inspect state in unit tests
-	VCREnable bool // When true patches the govcr httpClient to mock network calls
+	NoRun     bool   // When true does not run tests, used to inspect state in unit tests
+	VCREnable bool   // When true patches the govcr httpClient to mock network calls
+	Version   string // Instigator should set this to a version string
 }
 
 // DefaultOptions returns a map of default options.
@@ -131,6 +132,7 @@ func DefaultOptions() map[string]interface{} {
 
 		"NoRun":     false,
 		"VCREnable": false,
+		"Version":   "dev",
 	}
 }
 

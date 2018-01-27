@@ -148,7 +148,10 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 		// to panic if err != nil.
 		output.CheckErrorPanic(err)
 
-		// Set headers
+		// Set UA header
+		req.Header.Set("User-Agent", "htmltest/" + hT.opts.Version)
+
+		// Set headers from HTTPHeaders option
 		for key, value := range hT.opts.HTTPHeaders {
 			// Due to the way we're loading in config these keys and values are interface{}. In normal cases they are
 			// strings, but could very easily be ints (side note: this isn't great, we'll fix this later, #73)

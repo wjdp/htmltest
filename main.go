@@ -13,6 +13,7 @@ import (
 	"path"
 	"strconv"
 	"time"
+	"strings"
 )
 
 const cmdSeparator string = "========================================================================"
@@ -58,6 +59,9 @@ Options:
 		// Other
 		options = parseConfFile(arguments, ".htmltest.yml", false)
 	}
+
+	// Pass version into options
+	options["Version"] = strings.TrimLeft(version, "v")
 
 	exitCode := run(options)
 	os.Exit(exitCode)
