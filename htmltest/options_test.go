@@ -2,8 +2,8 @@ package htmltest
 
 import (
 	"github.com/daviddengcn/go-assert"
-	"testing"
 	"github.com/wjdp/htmltest/output"
+	"testing"
 )
 
 func TestDefaultOptions(t *testing.T) {

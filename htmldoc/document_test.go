@@ -2,8 +2,8 @@ package htmldoc
 
 import (
 	"github.com/daviddengcn/go-assert"
-	"testing"
 	"sync"
+	"testing"
 )
 
 func TestDocumentParse(t *testing.T) {
@@ -52,7 +52,6 @@ func TestDocumentParseOnceConcurrent(t *testing.T) {
 	nodeElem := doc.htmlNode.FirstChild.FirstChild.NextSibling.FirstChild
 	assert.Equals(t, "document first body node", nodeElem.Data, "h1")
 }
-
 
 func TestDocumentNodesOfInterest(t *testing.T) {
 	doc := Document{

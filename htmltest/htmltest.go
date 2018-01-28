@@ -3,20 +3,20 @@
 package htmltest
 
 import (
+	"crypto/tls"
+	"errors"
+	"fmt"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/output"
 	"github.com/wjdp/htmltest/refcache"
+	"gopkg.in/seborama/govcr.v2"
 	"net/http"
+	"os"
 	"path"
+	"strings"
 	"sync"
 	"time"
-	"crypto/tls"
-	"gopkg.in/seborama/govcr.v2"
-	"strings"
-	"os"
-	"errors"
-	"fmt"
 )
 
 // Base path for VCR cassettes, relative to this package
@@ -72,7 +72,7 @@ func Test(optsUser map[string]interface{}) (*HTMLTest, error) {
 		// Build VCR
 		vcr = govcr.NewVCR(hT.opts.FilePath,
 			&govcr.VCRConfig{
-				Client: hT.httpClient,
+				Client:       hT.httpClient,
 				CassettePath: path.Join(vcrCassetteBasePath, cassettePath),
 			})
 
@@ -185,8 +185,8 @@ func (hT *HTMLTest) testDocuments() {
 
 func (hT *HTMLTest) testDocument(document *htmldoc.Document) {
 	hT.issueStore.AddIssue(issues.Issue{
-		Level:    issues.LevelDebug,
-		Message:  "testDocument on " + document.SitePath,
+		Level:   issues.LevelDebug,
+		Message: "testDocument on " + document.SitePath,
 	})
 
 	document.Parse()

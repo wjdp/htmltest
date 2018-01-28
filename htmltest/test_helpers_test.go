@@ -3,9 +3,9 @@ package htmltest
 import (
 	"github.com/imdario/mergo"
 	"github.com/wjdp/htmltest/issues"
+	"github.com/wjdp/htmltest/output"
 	"path"
 	"testing"
-	"github.com/wjdp/htmltest/output"
 )
 
 // Keep it quiet

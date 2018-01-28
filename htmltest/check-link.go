@@ -1,6 +1,7 @@
 package htmltest
 
 import (
+	"fmt"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/output"
@@ -9,7 +10,6 @@ import (
 	"os"
 	"path"
 	"strings"
-	"fmt"
 )
 
 func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
@@ -149,7 +149,7 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 		output.CheckErrorPanic(err)
 
 		// Set UA header
-		req.Header.Set("User-Agent", "htmltest/" + hT.opts.Version)
+		req.Header.Set("User-Agent", "htmltest/"+hT.opts.Version)
 
 		// Set headers from HTTPHeaders option
 		for key, value := range hT.opts.HTTPHeaders {

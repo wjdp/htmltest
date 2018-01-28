@@ -12,8 +12,8 @@ import (
 	"os"
 	"path"
 	"strconv"
-	"time"
 	"strings"
+	"time"
 )
 
 const cmdSeparator string = "========================================================================"

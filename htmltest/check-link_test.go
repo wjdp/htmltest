@@ -158,7 +158,6 @@ func TestAnchorExternalRequiresAccepts(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
-
 func TestAnchorExternalMissingProtocolValid(t *testing.T) {
 	// works for valid links missing the protocol
 	hT := tTestFileOpts("fixtures/links/link_missing_protocol_valid.html",
