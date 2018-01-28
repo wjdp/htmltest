@@ -6,7 +6,6 @@ import (
 	"github.com/wjdp/htmltest/output"
 	"golang.org/x/net/html"
 	"net/http"
-	"net/url"
 	"os"
 	"path"
 	"strings"
@@ -142,13 +141,18 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 			Message:   "fresh",
 			Reference: ref,
 		})
-		urlURL, err := url.Parse(urlStr)
-		req := &http.Request{
-			Method: "GET",
-			URL:    urlURL,
-			Header: map[string][]string{
-				"Range": {"bytes=0-0"}, // If server supports prevents body being sent
-			},
+
+		// Build the request
+		req, err := http.NewRequest("GET", urlStr, nil)
+		// Only error NewRequest raises is if the url isn't valid, we have already checked it by this point so OK just
+		// to panic if err != nil.
+		output.CheckErrorPanic(err)
+
+		// Set headers
+		for key, value := range hT.opts.HTTPHeaders {
+			// Due to the way we're loading in config these keys and values are interface{}. In normal cases they are
+			// strings, but could very easily be ints (side note: this isn't great, we'll fix this later, #73)
+			req.Header.Set(fmt.Sprintf("%v", key), fmt.Sprintf("%v", value))
 		}
 
 		hT.httpChannel <- true // Add to http concurrency limiter

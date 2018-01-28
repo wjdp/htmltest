@@ -46,6 +46,8 @@ type Options struct {
 	IgnoreDirectoryMissingTrailingSlash bool
 	IgnoreTagAttribute                  string
 
+	HTTPHeaders map[interface{}]interface{}
+
 	TestFilesConcurrently    bool
 	DocumentConcurrencyLimit int
 	HTTPConcurrencyLimit     int
@@ -65,7 +67,7 @@ type Options struct {
 	CacheExpires    string // Accepts golang time period strings, hours (16h) is really only useful option
 
 	// --- Internals below here ---
-	NoRun bool // When true does not run tests, used to inspect state in unit tests
+	NoRun     bool // When true does not run tests, used to inspect state in unit tests
 	VCREnable bool // When true patches the govcr httpClient to mock network calls
 }
 
@@ -104,6 +106,11 @@ func DefaultOptions() map[string]interface{} {
 		"IgnoreDirectoryMissingTrailingSlash": false,
 		"IgnoreTagAttribute":                  "data-proofer-ignore",
 
+		"HTTPHeaders": map[string]string{
+			"Range":  "bytes=0-0", // If server supports prevents body being sent
+			"Accept": "*/*",       // We accept all content types
+		},
+
 		"TestFilesConcurrently":    false,
 		"DocumentConcurrencyLimit": 128,
 		"HTTPConcurrencyLimit":     16,
@@ -122,7 +129,7 @@ func DefaultOptions() map[string]interface{} {
 		"OutputLogFile":   "htmltest.log",
 		"CacheExpires":    "336h",
 
-		"NoRun": false,
+		"NoRun":     false,
 		"VCREnable": false,
 	}
 }
