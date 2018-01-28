@@ -22,7 +22,7 @@ func TestDocumentStoreIgnorePatterns(t *testing.T) {
 	dS.BasePath = "fixtures/documents"
 	dS.DocumentExtension = ".html" // Ignores .htm
 	dS.DirectoryIndex = "index.html"
-	dS.IgnorePatterns = []interface{}{"^lib/"}
+	dS.IgnorePatterns = []string{"^lib/"}
 	dS.Discover()
 	// Fixtures dir has seven documents in various folders, (one ignored in lib)
 	assert.Equals(t, "document count", len(dS.Documents), 5)

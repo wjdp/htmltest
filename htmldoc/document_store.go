@@ -13,7 +13,7 @@ import (
 // DocumentStore struct, store of Documents including Document discovery
 type DocumentStore struct {
 	BasePath          string               // Path, relative to cwd, the site is located in
-	IgnorePatterns    []interface{}        // Regexes of directories to ignore
+	IgnorePatterns    []string        // Regexes of directories to ignore
 	Documents         []*Document          // All of the documents, used to iterate over
 	DocumentPathMap   map[string]*Document // Maps slash separated paths to documents
 	DocumentExtension string               // File extension to look for
@@ -43,7 +43,7 @@ func (dS *DocumentStore) Discover() {
 // Does dir match one of the IgnorePatterns?
 func (dS *DocumentStore) isDirIgnored(dir string) bool {
 	for _, item := range dS.IgnorePatterns {
-		if ok, _ := regexp.MatchString(item.(string), dir+"/"); ok {
+		if ok, _ := regexp.MatchString(item, dir+"/"); ok {
 			return true
 		}
 	}

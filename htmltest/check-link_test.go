@@ -24,7 +24,7 @@ func TestAnchorMatchIgnore(t *testing.T) {
 	// ignores links in IgnoreURLs
 	hT := tTestFileOpts("fixtures/links/brokenLinkExternalSingle.html",
 		map[string]interface{}{
-			"IgnoreURLs": []interface{}{"www.asdo3IRJ395295jsingrkrg4.com"},
+			"IgnoreURLs": []string{"www.asdo3IRJ395295jsingrkrg4.com"},
 		})
 	tExpectIssueCount(t, hT, 0)
 }

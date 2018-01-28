@@ -19,6 +19,10 @@ const (
 	LevelDebug int = 0
 	// Text substitution when primary or secondary part of issue is nil
 	textNil string = "<nil>"
+
+	// Between which levels is normal?
+	MinLevel int = LevelDebug
+	MaxLevel int = LevelError
 )
 
 // Issue struct representing a single issue with a document.
