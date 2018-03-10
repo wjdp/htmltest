@@ -256,6 +256,13 @@ func TestAnchorDirectoryRootResolve(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestAnchorDirectoryRootResolveWithIgnoredDir(t *testing.T) {
+	// ignoring the target of the link does not break
+	hT := tTestFileOpts("fixtures/links/linkToFolder.html",
+		map[string]interface{}{"IgnoreDirs": []interface{}{"folder"}})
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestAnchorDirectoryCustomRoot(t *testing.T) {
 	// works for custom directory index file
 	t.Skip("Not yet implemented")
