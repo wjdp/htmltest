@@ -278,15 +278,21 @@ func TestAnchorDirectoryNoTrailingSlash(t *testing.T) {
 }
 
 func TestAnchorDirectoryNoTrailingSlashOption(t *testing.T) {
-	// fails for internal linking to a directory without trailing slash
+	// passes for internal linking to a directory without trailing slash when asked
 	hT := tTestFileOpts("fixtures/links/link_directory_without_slash.html",
 		map[string]interface{}{"IgnoreDirectoryMissingTrailingSlash": true})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorDirectoryQueryHash(t *testing.T) {
-	// fails for internal linking to a directory without trailing slash
+	// passes for internal linking to a directory with trailing slash
 	hT := tTestFile("fixtures/links/link_directory_with_slash_query_hash.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestAnchorDirectoryRootExplicit(t *testing.T) {
+	// passes when linking explicitly to the directory root
+	hT := tTestFile("fixtures/links/root-link-explicit.html")
 	tExpectIssueCount(t, hT, 0)
 }
 
