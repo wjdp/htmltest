@@ -331,12 +331,15 @@ func (hT *HTMLTest) checkFile(ref *htmldoc.Reference, absPath string) bool {
 	output.CheckErrorPanic(err)
 
 	if f.IsDir() {
-		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.LevelError,
-			Message:   "target is a directory, no index",
-			Reference: ref,
-		})
-		return false
+		f, err = os.Stat(path.Join(absPath, hT.opts.DirectoryIndex))
+		if os.IsNotExist(err) {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelError,
+				Message:   "target is a directory, no index",
+				Reference: ref,
+			})
+			return false
+		}
 	}
 	return true
 }
