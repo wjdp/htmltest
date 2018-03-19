@@ -1,9 +1,10 @@
 package htmltest
 
 import (
-	"github.com/wjdp/htmltest/issues"
 	"path"
 	"testing"
+
+	"github.com/wjdp/htmltest/issues"
 )
 
 var genericTests = []struct {
@@ -28,6 +29,7 @@ var genericTests = []struct {
 	{"embedMissing.html", 0},
 	{"iframeValid.html", 0},
 	{"iframeBroken.html", 1},
+	{"iframeBrokenButIgnored.html", 0},
 	{"iframeBlank.html", 2},
 	{"iframeMissing.html", 0},
 	{"inputSrcValid.html", 0},

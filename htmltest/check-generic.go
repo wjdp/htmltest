@@ -2,6 +2,7 @@ package htmltest
 
 import (
 	"fmt"
+
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"golang.org/x/net/html"
@@ -11,6 +12,11 @@ import (
 func (hT *HTMLTest) checkGeneric(document *htmldoc.Document, node *html.Node, key string) {
 	// Fail silently if attribute isn't present
 	if !htmldoc.AttrPresent(node.Attr, key) {
+		return
+	}
+
+	// Ignore if data-proofer-ignore set
+	if htmldoc.AttrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
 		return
 	}
 
