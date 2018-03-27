@@ -1,6 +1,6 @@
 language: go
 
-go: 1.9.3
+go: "1.10.x"
 
 os:
 - linux
@@ -10,7 +10,8 @@ install:
 - go get -t ./... # Fetch all dependencies
 
 script:
-- ./coverage.sh   # Run test suite with coverage reporting
+- go test -v -race -coverprofile=coverage.txt -covermode=atomic -coverpkg=./... ./... # Run test suite and generate coverage
+- go tool cover -func=coverage.txt  # Report coverage
 - go build -ldflags "-X main.buildDate=`date -u +%Y-%m-%dT%H:%M:%SZ` -X main.version=`git describe --tags`" -o bin/htmltest-$TRAVIS_OS_NAME -x main.go
 - bin/htmltest-$TRAVIS_OS_NAME -h  # Print usage
 - bin/htmltest-$TRAVIS_OS_NAME -v  # Print version
