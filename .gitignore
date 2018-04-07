@@ -38,6 +38,7 @@ main
 
 # builds
 bin/
+dist/
 
 # Cache dirs of program
 .htmltest

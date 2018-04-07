@@ -1,0 +1,32 @@
+project_name: htmltest
+
+git:
+  short_hash: true
+
+builds:
+  - binary: htmltest
+    main: ./main.go
+    goos:
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
+
+archive:
+  replacements:
+    darwin: osx
+    linux: linux
+    windows: windows
+  format_overrides:
+    - goos: windows
+      format: zip
+
+release:
+  github:
+    owner: wjdp
+    name: htmltest
+
+  draft: true
+
+

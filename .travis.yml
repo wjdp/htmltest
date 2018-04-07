@@ -25,15 +25,18 @@ after_success:
 before_deploy:
 - chmod +x bin/htmltest-$TRAVIS_OS_NAME
 
+env:
+  global:
+  - secure: "H3SLwfn+szCdi2CmAsfbpHLYJBd0gvMR7Ik9oiJm+haY8+Y+BRDCFcb5CX6yiKsfJpQDM8sLLsF6t7nmiZVPAHx5q0ORExe5ddS6HhjvACeH7DnYCoHpDZaVr8DP6TPOZcHE2JWX2gdxI4Rg10bsnvxVbCYzoCjFFUD6ZXlPTJvkPQFQgCjLg0xfDxZloIpkYtkmheIjvBzkPXLygZzhNNq7BzhvY3CyYn4Gpda09woOSmar1ccVaVurzszlxD4fEIdKPapcS8MPXS2a7LPA8A0glr04aX75F3SHZQ/KtOU5jrNPxfyto+btTsAzoNytUFynPKXTLhkGgVnmLuixlTCVaB5KkMlKUE5MILwl4rDmzcs7jfXA/NIXl28oBw8+LHoFLEF27V+fSoRa8yulOCg4v2yvATZvtyK96QZ8bpT8hVvccVJDWDZZeEzQQlCfsB/ENjAeb7ryQjluZfivZMT3b6GpBmDTJxfeiBqRp+YYZiaB1XPTr87IQ68AIzhr6E+EPvENV4R5oFCUgaFtC5ptq86WSfHb2Iwy21sGf7tFho/jprjVsy6qtJ6qtizwOHT4IEahIAOk4Itj/7oLi2nL+qSj4ST/LFFdzQljTA7fy3ADB6xrDgE5Sr1prYd+uEuLmf1ZTHtiKBsvflJdbzPTwWU+qFO5wT1aWxo46+c="
+
 deploy:
-  - provider: releases
-    api_key:
-      secure: ZV+Mttq0eaYALR9M/AQBnu9i0ytpT8bcWVvEwNjztRbLzsgGQOzReJiRI8gNUcrufRLI7G4n0feg9mCOLCD3kzG/7vYFiww2NzGk5zxLh8XSGDnTvd2Elm9DlCBmJTTgsS+HHxTo/0D4W5YeYo2UqWe8/5yvZHMdmKzqTRNwobccpkl9lCmUJXfX2tJ1fRlG6WKhTl7qhVVV/uj4m0pTOuVL3UmYiI5N5zFb/szAhGpmO0OHtlmRYqoaAcuBdml/dvfa4bcezuN63JIgb54DAMARjIGavJ8ehUeJKnsTXwNcEE/6AhTA9oMlEwNvy4FxZ28WpbzGupPOto6oW0apFdkeVaJ2eqzSd5kA6ql//Sc1EOQGyJmdDuHJ65/2JF5QnPaOzfid5PzUslrlC3Agby6Sikp0sLcfVamLe9P8PClvbm3qPI6UJf+B+miY0wYNhLnZUdBAuNTPwrorWt4RCTVyDAgdnFir6WSUsS7e5T+wgLh7YQ/YFRqORI719hGbNGfKurZEjCNchEbjVd0PhO3CUtWsh6P9Tn5HnJMcofWyqoxvOkSpeDVPYpwC+A095wqugp2T94kPAJUy05eR2q6va0jDtrwwmPcvGVnoH3kG8Hihxn0dANEIwighle/xOwle+xWr/x+8+tGedwhGeLal/sSCsUDYQi+Rpdk7AeY=
-    file: bin/htmltest-$TRAVIS_OS_NAME
+  - provider: script
     skip_cleanup: true
+    script: curl -sL http://git.io/goreleaser | bash
     on:
       tags: true
       repo: wjdp/htmltest
+      condition: $TRAVIS_OS_NAME = linux
   - provider: s3
     access_key_id: AKIAIH2ZE2KZBNCVEGCA
     secret_access_key:
