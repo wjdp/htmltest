@@ -16,9 +16,29 @@ If you generate HTML files, [html-proofer](https://github.com/gjtorikian/html-pr
 
 ## :floppy_disk: Installation
 
-:arrow_down: Download the [latest binary release](https://github.com/wjdp/htmltest/releases/latest) and stick it in your binary folder (`~/bin`). You may need to make it executable (`chmod +x htmltest`).
+### :penguin: Linux / :green_apple: OSX / :iphone: Arm
 
-For a CI environment—like Travis—put the desired version in the following and run: `curl -L https://github.com/wjdp/htmltest/releases/download/vX.X.X/htmltest-linux` then execute with `./htmltest-linux`. Replace `linux` with `osx` for Mac builds. At this time there are no builds for Windows, I'd like to [fix that](https://github.com/wjdp/htmltest/issues/18).
+#### System-wide Install
+
+```bash
+curl https://htmltest.wjdp.uk | sudo bash -s -- -b /usr/local/bin
+```
+
+You'll be prompted for your password. After simply do `htmltest` to run.
+
+#### Into Current Directory
+
+```bash
+curl https://htmltest.wjdp.uk | bash
+```
+
+By default this will install `htmltest` into `./bin` of your current directory, to run do `bin/htmltest`. Rather suitable for CI environments.
+
+### ![win64](https://user-images.githubusercontent.com/1690934/30242799-17a573f2-9595-11e7-9aa5-04e34b04b0cd.png) Windows
+
+:arrow_down: Download the [latest binary release](https://github.com/wjdp/htmltest/releases/latest) and put it somewhere on your PATH.
+
+### Notes
 
 We store temporary files in `tmp/.htmltest` by default. You probably want to ignore that in your version control system, and perhaps [cache it in your CI system](https://docs.travis-ci.com/user/caching/#Arbitrary-directories).
 
