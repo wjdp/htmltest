@@ -12,7 +12,7 @@ install:
 script:
 - go test -v -race -coverprofile=coverage.txt -covermode=atomic -coverpkg=./... ./... # Run test suite and generate coverage
 - go tool cover -func=coverage.txt  # Report coverage
-- go build -ldflags "-X main.buildDate=`date -u +%Y-%m-%dT%H:%M:%SZ` -X main.version=`git describe --tags`" -o bin/htmltest-$TRAVIS_OS_NAME -x main.go
+- go build -ldflags "-X main.date=`date -u +%Y-%m-%dT%H:%M:%SZ` -X main.version=`git describe --tags`" -o bin/htmltest-$TRAVIS_OS_NAME -x main.go
 - bin/htmltest-$TRAVIS_OS_NAME -h  # Print usage
 - bin/htmltest-$TRAVIS_OS_NAME -v  # Print version
 - bin/htmltest-$TRAVIS_OS_NAME -c htmldoc/fixtures/conf.yaml -l0 # Run config
@@ -30,14 +30,14 @@ env:
   - secure: "H3SLwfn+szCdi2CmAsfbpHLYJBd0gvMR7Ik9oiJm+haY8+Y+BRDCFcb5CX6yiKsfJpQDM8sLLsF6t7nmiZVPAHx5q0ORExe5ddS6HhjvACeH7DnYCoHpDZaVr8DP6TPOZcHE2JWX2gdxI4Rg10bsnvxVbCYzoCjFFUD6ZXlPTJvkPQFQgCjLg0xfDxZloIpkYtkmheIjvBzkPXLygZzhNNq7BzhvY3CyYn4Gpda09woOSmar1ccVaVurzszlxD4fEIdKPapcS8MPXS2a7LPA8A0glr04aX75F3SHZQ/KtOU5jrNPxfyto+btTsAzoNytUFynPKXTLhkGgVnmLuixlTCVaB5KkMlKUE5MILwl4rDmzcs7jfXA/NIXl28oBw8+LHoFLEF27V+fSoRa8yulOCg4v2yvATZvtyK96QZ8bpT8hVvccVJDWDZZeEzQQlCfsB/ENjAeb7ryQjluZfivZMT3b6GpBmDTJxfeiBqRp+YYZiaB1XPTr87IQ68AIzhr6E+EPvENV4R5oFCUgaFtC5ptq86WSfHb2Iwy21sGf7tFho/jprjVsy6qtJ6qtizwOHT4IEahIAOk4Itj/7oLi2nL+qSj4ST/LFFdzQljTA7fy3ADB6xrDgE5Sr1prYd+uEuLmf1ZTHtiKBsvflJdbzPTwWU+qFO5wT1aWxo46+c="
 
 deploy:
-  - provider: script
+  - provider: script # Actual releases, uses goreleaser and xcompiles on a Linux box
     skip_cleanup: true
     script: curl -sL http://git.io/goreleaser | bash
     on:
       tags: true
       repo: wjdp/htmltest
       condition: $TRAVIS_OS_NAME = linux
-  - provider: s3
+  - provider: s3 # 'Snapshot' builds for every commit to master into s3 bucket
     access_key_id: AKIAIH2ZE2KZBNCVEGCA
     secret_access_key:
       secure: Rgwp7uzg/Uf9RYyOk2BNmUfEhdCk0843r0ndgxafNxSZu4SvXL5SgOvtulN4+aVOSAkyDwRpy645a2f8q4dl+idyQbLdn/U8/AIH3Q2vCPT3N/a4c74Ccf4yzIXzYoqRUuc0/DZKn7H6LNoDLBmdAQywVkf4EVA/hvIzr3qAj3kPjYJZtWSABWNSm4Zy03nobG8ONMOEJORGxJE9Kmnjpu2Jdita2rkZyjj0qHNG8OxrfMxvhbfUtYADe5jTlcda8FR2h5CDg/U6x18d0KdUqdGCslVjfdn0OduAC5l+DlhKlUNrts9NoNHQc1Sp4CzjtsbrINME6l3inq+ca7uow5jet8ov5NkurSrPljGAqIOTsMX4sTpQc2GwthZEqhYbtgIPFyuX4lANKYqQCTdxF/rGug6fdhr7CeN//XqeZ6e9s5b86lre2iG25O1J4NyUlfzcSmlUezla8NZ2tV7GHCiTqWUf+18XyT/jfARoZEQB81yu2ib11eoMlYhOUb48D6V+jTp07aGrvHdyFch3nVcJUdW7YexeAvKRqdiyCa2kIIRO6YvHAPKaorG5GU2GF91ed3l9+qEsyAsk6I6HggqRyhwLw7vVTvsNwJjChqGTlCW1FMa7dT3yM4I8VjPcm8IIJ8e6hwzScwULV0cxiYdTBBaXVVSbZxPXAag/WcY=

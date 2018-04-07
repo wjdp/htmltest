@@ -11,13 +11,25 @@ builds:
       - darwin
       - linux
     goarch:
+      - 386
       - amd64
+      - arm
+      - arm64
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - Merge pull request
+    - Merge branch
 
 archive:
   replacements:
     darwin: osx
     linux: linux
     windows: windows
+    386: i386
+    amd64: amd64
   format_overrides:
     - goos: windows
       format: zip

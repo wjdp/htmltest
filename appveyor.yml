@@ -18,7 +18,7 @@ build_script:
   - go test -v -race ./... # Run test suite
   - cmd: for /f %%i in ('"call powershell (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd-hh:mm:ssZ')"') do set BUILD_DATE=%%i
   - cmd: for /f %%i in ('"call git describe --tags"') do set VERSION=%%i
-  - cmd: go build -ldflags "-X main.buildDate=%BUILD_DATE% -X main.version=%VERSION%" -o bin/htmltest-%OS_NAME%.exe -x main.go
+  - cmd: go build -ldflags "-X main.date=%BUILD_DATE% -X main.version=%VERSION%" -o bin/htmltest-%OS_NAME%.exe -x main.go
   - cmd: .\bin\htmltest-%OS_NAME%.exe -h  # Print usage
   - cmd: .\bin\htmltest-%OS_NAME%.exe -v  # Print version
   - cmd: .\bin\htmltest-%OS_NAME%.exe -c htmldoc/fixtures/conf.yaml -l0 # Run config
