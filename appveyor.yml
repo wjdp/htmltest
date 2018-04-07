@@ -28,11 +28,3 @@ build_script:
 artifacts:
   - path: bin\*.exe
     name: htmltest-binaries
-
-deploy:
-  provider: GitHub
-  auth_token:
-      secure: 9+xdNIvrnAVRoTFYPvdfYxnSUtWXObdc4DUIndJwiliSsD44stBnDwCvPZ+3OH3e # your encrypted token from GitHub
-  artifact: htmltest-binaries
-  on:
-    appveyor_repo_tag: true        # deploy on tag push only
