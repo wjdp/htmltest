@@ -16,3 +16,12 @@ OptionC:
   - 1
   - 2
   - 3
+
+CheckDoctype: yes
+DirectoryPath: abc
+DocumentConcurrencyLimit: 24
+IgnoreURLs:
+  - url1
+  - url2
+HTTPHeaders:
+  "Accept": text/html

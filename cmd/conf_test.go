@@ -62,3 +62,16 @@ func TestReadConfigToml(t *testing.T) {
 func TestReadConfigJson(t *testing.T) {
 	testReadConfig(t, path.Join("fixtures", "config.json"))
 }
+
+// Read in yaml config and create optsMap
+func TestViperToOpts(t *testing.T) {
+	readConfig(path.Join("fixtures", "config.yml"))
+	optsMap := viperToOpts()
+
+	assert.IsTrue(t, "CheckDoctype", optsMap["CheckDoctype"].(bool))
+	assert.Equals(t, "DirectoryPath", optsMap["DirectoryPath"], "abc")
+	assert.Equals(t, "DocumentConcurrencyLimit", optsMap["DocumentConcurrencyLimit"], 24)
+	assert.Equals(t, "IgnoreURLs", len(optsMap["IgnoreURLs"].([]string)), 2)
+	// map[accept:text/html], TODO is making Accept lowercase
+	assert.Equals(t, "HTTPHeaders[Accept]", optsMap["HTTPHeaders"].(map[string]string)["Accept"], "text/html")
+}
