@@ -42,7 +42,7 @@ func TestInList(t *testing.T) {
 
 func TestIsURLIgnored(t *testing.T) {
 	userOpts := map[string]interface{}{
-		"IgnoreURLs": []interface{}{"google.com", "test.example.com",
+		"IgnoreURLs": []string{"google.com", "test.example.com",
 			"library.com", "//\\w+.assetstore.info/lib/"},
 		"NoRun": true,
 	}
