@@ -1,0 +1,18 @@
+BoolTrue1: true
+BoolTrue2: True
+BoolTrue3: yes
+BoolTrue4: Yes
+BoolTrue5: 1
+
+BoolFalse1: false
+BoolFalse2: False
+BoolFalse3: no
+BoolFalse4: No
+BoolFalse5: 0
+
+OptionA: 123
+OptionB: abc
+OptionC:
+  - 1
+  - 2
+  - 3
