@@ -194,6 +194,13 @@ func TestAnchorExternalHrefUTF8(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestAnchorExternalSpurious(t *testing.T) {
+	// passes for weird server
+	hT := tTestFileOpts("fixtures/links/spurious-404.html",
+		map[string]interface{}{"VCREnable": true})
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestAnchorInternalBroken(t *testing.T) {
 	// fails for broken internal links
 	hT := tTestFile("fixtures/links/brokenLinkInternal.html")
