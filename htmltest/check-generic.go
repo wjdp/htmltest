@@ -15,11 +15,6 @@ func (hT *HTMLTest) checkGeneric(document *htmldoc.Document, node *html.Node, ke
 		return
 	}
 
-	// Ignore if data-proofer-ignore set
-	if htmldoc.AttrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
-		return
-	}
-
 	urlStr := htmldoc.GetAttr(node.Attr, key)
 	ref := htmldoc.NewReference(document, node, urlStr)
 
