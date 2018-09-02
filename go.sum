@@ -1,7 +1,17 @@
+github.com/daviddengcn/go-algs v0.0.0-20180330170136-fe23fabd9d06 h1:jEHTltplMBbYsHlSnvZD1J4CsfweUSJIqS8uP56q1Ng=
+github.com/daviddengcn/go-algs v0.0.0-20180330170136-fe23fabd9d06/go.mod h1:CpyLopUWBmqupyWU6OlSfrzgIuzNq0R6DXzM74O9RMs=
+github.com/daviddengcn/go-assert v0.0.0-20150305222929-ba7e68aeeff6 h1:OPIYL/VhQiSpoaxIcmeYdghLswBylfk6JDVCUqadXxg=
+github.com/daviddengcn/go-assert v0.0.0-20150305222929-ba7e68aeeff6/go.mod h1:N+OekMaElW3rSAfDdNX6Dff3HS237/OhC08jYFW4oCw=
+github.com/daviddengcn/go-villa v0.0.0-20160111144444-3f35da8ba982 h1:2Trx4ntMtxmus9nN2w1PIqJOI8jB3RjlnDnFm/ImlIU=
+github.com/daviddengcn/go-villa v0.0.0-20160111144444-3f35da8ba982/go.mod h1:U8xNoHcXfPnZzy9zCxeKRjaJgC1d3613rFHjZVVAqKc=
 github.com/docopt/docopt-go v0.0.0-20180111231733-ee0de3bc6815 h1:bWDMxwH3px2JBh6AyO7hdCn/PkvCZXii8TGj7sbtEbQ=
 github.com/docopt/docopt-go v0.0.0-20180111231733-ee0de3bc6815/go.mod h1:WwZ+bS3ebgob9U8Nd0kOddGdZWjyMGR8Wziv+TBNwSE=
 github.com/fatih/color v1.7.0 h1:DkWD4oS2D8LGGgTQ6IvwJJXSL5Vp2ffcQg58nFV38Ys=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
+github.com/golangplus/bytes v0.0.0-20160111154220-45c989fe5450 h1:7xqw01UYS+KCI25bMrPxwNYkSns2Db1ziQPpVq99FpE=
+github.com/golangplus/bytes v0.0.0-20160111154220-45c989fe5450/go.mod h1:Bk6SMAONeMXrxql8uvOKuAZSu8aM5RUGv+1C6IJaEho=
+github.com/golangplus/sort v0.0.0-20160821213012-8253da0d33c1 h1:SAa/oX7Dlm9gEfZGnLW9gtT42QufjbDZhIL8kV++1kY=
+github.com/golangplus/sort v0.0.0-20160821213012-8253da0d33c1/go.mod h1:QfPzxzvnnTTxeT9BlGNopDfHRXm1ITdu9ZBkwK1X7eA=
 github.com/imdario/mergo v0.3.6 h1:xTNEAn+kxVO7dTZGu0CegyqKZmoWFI0rF8UxjlB2d28=
 github.com/imdario/mergo v0.3.6/go.mod h1:2EnlNZ0deacrJVfApfmtdGgDfMuh/nq6Ok1EcJh5FfA=
 github.com/mattn/go-colorable v0.0.9 h1:UVL0vNpWh04HeJXV0KLcaT7r06gOH2l4OW6ddYRUIY4=
