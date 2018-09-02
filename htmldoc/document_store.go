@@ -12,12 +12,13 @@ import (
 
 // DocumentStore struct, store of Documents including Document discovery
 type DocumentStore struct {
-	BasePath          string               // Path, relative to cwd, the site is located in
-	IgnorePatterns    []interface{}        // Regexes of directories to ignore
-	Documents         []*Document          // All of the documents, used to iterate over
-	DocumentPathMap   map[string]*Document // Maps slash separated paths to documents
-	DocumentExtension string               // File extension to look for
-	DirectoryIndex    string               // What file is the index of the directory
+	BasePath           string               // Path, relative to cwd, the site is located in
+	IgnorePatterns     []interface{}        // Regexes of directories to ignore
+	Documents          []*Document          // All of the documents, used to iterate over
+	DocumentPathMap    map[string]*Document // Maps slash separated paths to documents
+	DocumentExtension  string               // File extension to look for
+	DirectoryIndex     string               // What file is the index of the directory
+	IgnoreTagAttribute string               // Attribute to ignore element and children if found on element
 }
 
 // NewDocumentStore : Create and return a new Document store.
@@ -33,6 +34,8 @@ func (dS *DocumentStore) AddDocument(doc *Document) {
 	// Save reference to document to various data stores
 	dS.Documents = append(dS.Documents, doc)
 	dS.DocumentPathMap[doc.SitePath] = doc
+	// Pass some vars on
+	doc.ignoreTagAttribute = dS.IgnoreTagAttribute
 }
 
 // Discover : Discover all documents within DocumentStore.BasePath.

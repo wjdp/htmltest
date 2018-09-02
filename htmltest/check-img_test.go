@@ -96,6 +96,12 @@ func TestImageIgnorable(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestImageIgnorableChildren(t *testing.T) {
+	// ignores images contained within a parent element with data-proofer-ignore
+	hT := tTestFile("fixtures/images/ignorableImagesChildren.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestImageSrcMising(t *testing.T) {
 	// fails for image with no src
 	hT := tTestFile("fixtures/images/missingImageSrc.html")
