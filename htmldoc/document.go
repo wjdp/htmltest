@@ -11,15 +11,16 @@ import (
 
 // Document struct, representation of a document within the tested site
 type Document struct {
-	FilePath        string                // Relative to the shell session
-	SitePath        string                // Relative to the site root
-	BasePath        string                // Base for relative links
-	htmlMutex       *sync.Mutex           // Controls access to htmlNode
-	htmlNode        *html.Node            // Parsed output
-	hashMap         map[string]*html.Node // Map of valid id/names of nodes
-	NodesOfInterest []*html.Node          // Slice of nodes to run checks on
-	State           DocumentState         // Link to a DocumentState struct
-	DoctypeNode     *html.Node            // Pointer to doctype node if exists
+	FilePath           string                // Relative to the shell session
+	SitePath           string                // Relative to the site root
+	BasePath           string                // Base for relative links
+	htmlMutex          *sync.Mutex           // Controls access to htmlNode
+	htmlNode           *html.Node            // Parsed output
+	hashMap            map[string]*html.Node // Map of valid id/names of nodes
+	NodesOfInterest    []*html.Node          // Slice of nodes to run checks on
+	State              DocumentState         // Link to a DocumentState struct
+	DoctypeNode        *html.Node            // Pointer to doctype node if exists
+	ignoreTagAttribute string                // Attribute to ignore element and children if found on element
 }
 
 // DocumentState struct, used by checks that depend on the document being
@@ -66,6 +67,11 @@ func (doc *Document) Parse() {
 // Internal recursive function that delves into the node tree and captures
 // nodes of interest and node id/names.
 func (doc *Document) parseNode(n *html.Node) {
+	// Ignore this tree if data-proofer-ignore set
+	if doc.ignoreTagAttribute != "" && AttrPresent(n.Attr, doc.ignoreTagAttribute) {
+		return
+	}
+
 	switch n.Type {
 	case html.DoctypeNode:
 		doc.DoctypeNode = n

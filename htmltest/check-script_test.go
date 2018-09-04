@@ -87,3 +87,8 @@ func TestScriptIgnorable(t *testing.T) {
 	hT := tTestFile("fixtures/scripts/scriptIgnorable.html")
 	tExpectIssueCount(t, hT, 0)
 }
+
+func TestScriptIgnorableChildren(t *testing.T) {
+	hT := tTestFile("fixtures/scripts/scriptIgnorableChildren.html")
+	tExpectIssueCount(t, hT, 0)
+}

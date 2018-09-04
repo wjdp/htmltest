@@ -15,7 +15,7 @@ func (hT *HTMLTest) checkMeta(document *htmldoc.Document, node *html.Node) {
 
 func (hT *HTMLTest) checkMetaRefresh(document *htmldoc.Document, node *html.Node) {
 	attrs := htmldoc.ExtractAttrs(node.Attr,
-		[]string{"http-equiv", "content", hT.opts.IgnoreTagAttribute})
+		[]string{"http-equiv", "content"})
 
 	// Checks for meta refresh redirect tag
 	if attrs["http-equiv"] == "refresh" {

@@ -9,12 +9,7 @@ import (
 
 func (hT *HTMLTest) checkImg(document *htmldoc.Document, node *html.Node) {
 	attrs := htmldoc.ExtractAttrs(node.Attr,
-		[]string{"src", "alt", "usemap", hT.opts.IgnoreTagAttribute})
-
-	// Ignore if data-proofer-ignore set
-	if htmldoc.AttrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
-		return
-	}
+		[]string{"src", "alt", "usemap"})
 
 	// Create reference
 	ref := htmldoc.NewReference(document, node, attrs["src"])

@@ -124,6 +124,7 @@ func Test(optsUser map[string]interface{}) (*HTMLTest, error) {
 	hT.documentStore.DocumentExtension = hT.opts.FileExtension
 	hT.documentStore.DirectoryIndex = hT.opts.DirectoryIndex
 	hT.documentStore.IgnorePatterns = hT.opts.IgnoreDirs
+	hT.documentStore.IgnoreTagAttribute = hT.opts.IgnoreTagAttribute
 	// Discover documents
 	hT.documentStore.Discover()
 

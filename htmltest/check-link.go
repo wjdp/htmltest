@@ -14,12 +14,7 @@ import (
 
 func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 	attrs := htmldoc.ExtractAttrs(node.Attr,
-		[]string{"href", "rel", hT.opts.IgnoreTagAttribute})
-
-	// Ignore if data-proofer-ignore set
-	if htmldoc.AttrPresent(node.Attr, hT.opts.IgnoreTagAttribute) {
-		return
-	}
+		[]string{"href", "rel"})
 
 	// Check if favicon
 	if htmldoc.AttrPresent(node.Attr, "rel") &&

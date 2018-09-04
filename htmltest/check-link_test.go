@@ -20,6 +20,13 @@ func TestAnchorIgnorable(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestAnchorIgnorableChildren(t *testing.T) {
+	// ignores links marked as ignore data-proofer-ignore in child elements
+	hT := tTestFile("fixtures/links/ignorableLinksChildren.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
+
 func TestAnchorMatchIgnore(t *testing.T) {
 	// ignores links in IgnoreURLs
 	hT := tTestFileOpts("fixtures/links/brokenLinkExternalSingle.html",
