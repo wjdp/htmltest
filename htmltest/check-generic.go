@@ -45,6 +45,11 @@ func (hT *HTMLTest) checkGenericRef(ref *htmldoc.Reference) {
 }
 
 func (hT *HTMLTest) enforceHTTPS(ref *htmldoc.Reference) {
+	// Does this url match an url ignore rule?
+	if hT.opts.isURLIgnored(ref.URLString()) {
+		return
+	}
+
 	if hT.opts.EnforceHTTPS {
 		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.LevelError,
