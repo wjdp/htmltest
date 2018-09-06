@@ -83,3 +83,10 @@ func TestMetaRefreshContentInvalid(t *testing.T) {
 	tExpectIssueCount(t, hT3, 1)
 	tExpectIssue(t, hT3, "invalid content attribute in meta refresh", 1)
 }
+
+// Fails when meta refresh url starts with a single or double quote
+func TestIssue92(t *testing.T) {
+	hT := tTestFile("fixtures/meta/issues/92.html")
+	tExpectIssueCount(t, hT, 2)
+	tExpectIssue(t, hT, "url in meta refresh must not start with single or double quote", 2)
+}
