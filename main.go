@@ -19,9 +19,9 @@ import (
 const cmdSeparator string = "========================================================================"
 
 var (
-	version   string
-	date string
-	fileMode  bool
+	version  string
+	date     string
+	fileMode bool
 )
 
 func main() {

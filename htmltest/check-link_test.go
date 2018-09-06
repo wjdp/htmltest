@@ -26,7 +26,6 @@ func TestAnchorIgnorableChildren(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
-
 func TestAnchorMatchIgnore(t *testing.T) {
 	// ignores links in IgnoreURLs
 	hT := tTestFileOpts("fixtures/links/brokenLinkExternalSingle.html",
