@@ -103,6 +103,16 @@ func TestAnchorExternalInsecureOption(t *testing.T) {
 	tExpectIssue(t, hT, "is not an HTTPS target", 1)
 }
 
+func TestAnchorExternalInsecureOptionIgnored(t *testing.T) {
+	// passes when checking for non-HTTPS links but they're in the IgnoreURLs list
+	hT := tTestFileOpts("fixtures/links/issues/94.html",
+		map[string]interface{}{
+			"EnforceHTTPS": true,
+			"IgnoreURLs": []interface{}{"plantuml.com", "plantuml.net", "forum.plantuml.net"},
+		})
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestAnchorExternalHrefIP(t *testing.T) {
 	// fails for broken IP address links
 	hT := tTestFileOpts("fixtures/links/ip_href.html",
