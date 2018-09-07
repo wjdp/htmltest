@@ -28,6 +28,15 @@ func (hT *HTMLTest) checkMetaRefresh(document *htmldoc.Document, node *html.Node
 		// Define ref from this
 		var ref *htmldoc.Reference
 		if len(contentSplit) == 2 {
+			if contentSplit[1][0]==34 || contentSplit[1][0]==39 {
+				hT.issueStore.AddIssue(issues.Issue{
+					Level:     issues.LevelError,
+					Message:   "url in meta refresh must not start with single or double quote",
+					Reference: ref,
+				})
+				return
+			}
+
 			ref = htmldoc.NewReference(document, node, contentSplit[1])
 		} else {
 			ref = htmldoc.NewReference(document, node, "")
