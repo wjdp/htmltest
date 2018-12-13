@@ -133,6 +133,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `IgnoreURLs` | Array of regexs of URLs to ignore. | empty |
 | `IgnoreDirs` | Array of regexs of directories to ignore when scanning for HTML files. | empty |
 | `IgnoreInternalEmptyHash` | When true prevents raising an error for links with `href="#"`. | `false` |
+| `IgnoreBlankHref` | When true ignores links with `href=""`. | `false` |
 | `IgnoreCanonicalBrokenLinks` | When true produces a warning, rather than an error, for broken canonical links. When testing a site which isn't live yet or before publishing a new page canonical links will fail. | `true` |
 | `IgnoreAltMissing` | Turns off image alt attribute checking. | `false` |
 | `IgnoreDirectoryMissingTrailingSlash` | Turns off errors for links to directories without a trailing slash. | `false` |
