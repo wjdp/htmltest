@@ -143,6 +143,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `IgnoreCanonicalBrokenLinks` | When true produces a warning, rather than an error, for broken canonical links. When testing a site which isn't live yet or before publishing a new page canonical links will fail. | `true` |
 | `IgnoreAltMissing` | Turns off image alt attribute checking. | `false` |
 | `IgnoreDirectoryMissingTrailingSlash` | Turns off errors for links to directories without a trailing slash. | `false` |
+| `IgnoreSSLVerify` | Turns off x509 errors for self-signed certificates. | `false` |
 | `IgnoreTagAttribute` | Specify the ignore attribute. All tags with this attribute will be excluded from every check. | `"data-proofer-ignore"` |
 | `HTTPHeaders` | Dictionary of headers to include in external requests | `{"Range":  "bytes=0-0", "Accept": "*/*"}` |
 | `TestFilesConcurrently` | :warning: :construction: *EXPERIMENTAL* Turns on [concurrent](https://github.com/wjdp/htmltest/wiki/Concurrency) checking of files. | `false` |
