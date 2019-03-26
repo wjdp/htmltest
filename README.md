@@ -44,7 +44,7 @@ By default this will install `htmltest` into `./bin` of your current directory, 
 Mount your directory with html files into the container and test them.
 
 If you need more arguments to the test run it like this:  
-```docker run v $(pwd):/test --rm wjdp/htmltest htmltest -l 3 -s```
+```docker run -v $(pwd):/test --rm wjdp/htmltest htmltest -l 3 -s```
 
 ### Notes
 
