@@ -38,6 +38,14 @@ By default this will install `htmltest` into `./bin` of your current directory, 
 
 :arrow_down: Download the [latest binary release](https://github.com/wjdp/htmltest/releases/latest) and put it somewhere on your PATH.
 
+### :whale: Docker
+
+```docker run -v $(pwd):/test --rm wjdp/htmltest```  
+Mount your directory with html files into the container and test them.
+
+If you need more arguments to the test run it like this:  
+```docker run -v $(pwd):/test --rm wjdp/htmltest htmltest -l 3 -s```
+
 ### Notes
 
 We store temporary files in `tmp/.htmltest` by default. You probably want to ignore that in your version control system, and perhaps [cache it in your CI system](https://docs.travis-ci.com/user/caching/#Arbitrary-directories).
