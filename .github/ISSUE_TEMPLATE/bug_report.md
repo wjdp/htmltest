@@ -1,38 +1,42 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Create a report to help us fix issues
 title: ''
-labels: ''
+labels: bug
 assignees: ''
 
 ---
 
-**Describe the bug**
+# Describe the bug
 A clear and concise description of what the bug is.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+# To Reproduce
+Steps to reproduce the behaviour:
+1. Run with config and options …
+2. Scroll down to '....'
+3. See error
 
-**Expected behavior**
+### .htmltest.yml
+
+Please copy in your config file
+
+```yml
+
+```
+
+### Source files
+
+Please include any relevant lines from the directory you were using htmltest on. Ideally you would be able to find a single line that if included causes this bug. 
+
+# Expected behaviour
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+# Actual behaviour
+A clear and concise description of what actually happened. If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+## Versions
+ - OS: [e.g. Ubuntu 18.04]
+ - htmltest: [e.g. 0.10.1, run `htmltest -v`]
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
-**Additional context**
+## Additional context
 Add any other context about the problem here.
