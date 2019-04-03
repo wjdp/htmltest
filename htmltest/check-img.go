@@ -21,7 +21,7 @@ func (hT *HTMLTest) checkImg(document *htmldoc.Document, node *html.Node) {
 			Message:   "alt attribute missing",
 			Reference: ref,
 		})
-	} else if htmldoc.AttrPresent(node.Attr, "alt") {
+	} else if htmldoc.AttrPresent(node.Attr, "alt") && !hT.opts.IgnoreAltMissing {
 		// Following checks require alt attr is present
 		if len(attrs["alt"]) == 0 {
 			// Check alt has length, fail if empty
