@@ -193,6 +193,13 @@ func TestImageAltIgnoreMissing(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestImageAltIgnoreMissingWithBlank(t *testing.T) {
+	// ignores missing alt tags when asked
+	hT := tTestFileOpts("fixtures/images/altBlank.html",
+		map[string]interface{}{"IgnoreAltMissing": true})
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestImagePre(t *testing.T) {
 	// works for broken images within pre & code
 	hT := tTestFile("fixtures/images/badImagesInPre.html")
