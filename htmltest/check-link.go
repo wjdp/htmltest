@@ -74,6 +74,18 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 		return
 	}
 
+	urlStr := ref.URLString()
+
+	// Does this url match an url ignore rule?
+	if hT.opts.isURLIgnored(urlStr) {
+		hT.issueStore.AddIssue(issues.Issue{
+			Level:     issues.LevelDebug,
+			Message:   "URLIgnored",
+			Reference: ref,
+		})
+		return
+	}
+
 	// Route reference check
 	switch ref.Scheme() {
 	case "http":
@@ -107,13 +119,7 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 		})
 		return
 	}
-
 	urlStr := ref.URLString()
-
-	// Does this url match an url ignore rule?
-	if hT.opts.isURLIgnored(urlStr) {
-		return
-	}
 
 	if hT.opts.StripQueryString && !InList(hT.opts.StripQueryExcludes, urlStr) {
 		urlStr = htmldoc.URLStripQueryString(urlStr)
