@@ -1,8 +1,5 @@
 project_name: htmltest
 
-git:
-  short_hash: true
-
 builds:
   - binary: htmltest
     main: ./main.go
