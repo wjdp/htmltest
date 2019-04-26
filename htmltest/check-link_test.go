@@ -564,13 +564,13 @@ func TestAnchorBlankHTML4(t *testing.T) {
 
 func TestSelfSignedLink(t *testing.T) {
 	hT := tTestFileOpts("fixtures/links/selfSignedLink.html",
-		"IgnoreSSLVerify": false})
+		map[string]interface{}{"IgnoreSSLVerify": false})
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestSelfSignedLinkIgnoreSSLVerify(t *testing.T) {
 	hT := tTestFileOpts("fixtures/links/selfSignedLink.html",
-		"IgnoreSSLVerify": true})
+		map[string]interface{}{"IgnoreSSLVerify": true})
 	tExpectIssueCount(t, hT, 1)
 }
 
