@@ -565,13 +565,13 @@ func TestAnchorBlankHTML4(t *testing.T) {
 func TestSelfSignedLink(t *testing.T) {
 	hT := tTestFileOpts("fixtures/links/selfSignedLink.html",
 		map[string]interface{}{"IgnoreSSLVerify": false})
-	tExpectIssueCount(t, hT, 0)
+	tExpectIssueCount(t, hT, 1)
 }
 
 func TestSelfSignedLinkIgnoreSSLVerify(t *testing.T) {
 	hT := tTestFileOpts("fixtures/links/selfSignedLink.html",
 		map[string]interface{}{"IgnoreSSLVerify": true})
-	tExpectIssueCount(t, hT, 1)
+	tExpectIssueCount(t, hT, 0)
 }
 
 // Favicon
