@@ -562,6 +562,18 @@ func TestAnchorBlankHTML4(t *testing.T) {
 	tExpectIssueCount(t, hT2, 1)
 }
 
+func TestSelfSignedLink(t *testing.T) {
+	hT := tTestFileOpts("fixtures/links/selfSignedLink.html",
+		"IgnoreSSLVerify": false})
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestSelfSignedLinkIgnoreSSLVerify(t *testing.T) {
+	hT := tTestFileOpts("fixtures/links/selfSignedLink.html",
+		"IgnoreSSLVerify": true})
+	tExpectIssueCount(t, hT, 1)
+}
+
 // Favicon
 
 func TestFaviconDefaultMissing(t *testing.T) {
