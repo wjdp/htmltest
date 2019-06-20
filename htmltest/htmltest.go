@@ -57,6 +57,7 @@ func Test(optsUser map[string]interface{}) (*HTMLTest, error) {
 		// > Programs that must disable HTTP/2 can do so by setting Transport.TLSNextProto ... to a non-nil, empty map.
 		// See issue #49
 		TLSNextProto: make(map[string]func(authority string, c *tls.Conn) http.RoundTripper),
+		TLSClientConfig: &tls.Config{InsecureSkipVerify : hT.opts.IgnoreSSLVerify},
 	}
 	hT.httpClient = &http.Client{
 		// Durations are in nanoseconds

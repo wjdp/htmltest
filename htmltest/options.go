@@ -44,6 +44,7 @@ type Options struct {
 	IgnoreCanonicalBrokenLinks          bool
 	IgnoreAltMissing                    bool
 	IgnoreDirectoryMissingTrailingSlash bool
+	IgnoreSSLVerify                     bool
 	IgnoreTagAttribute                  string
 
 	HTTPHeaders map[interface{}]interface{}
@@ -105,6 +106,7 @@ func DefaultOptions() map[string]interface{} {
 		"IgnoreCanonicalBrokenLinks":          true,
 		"IgnoreAltMissing":                    false,
 		"IgnoreDirectoryMissingTrailingSlash": false,
+		"IgnoreSSLVerify":                     false,
 		"IgnoreTagAttribute":                  "data-proofer-ignore",
 
 		"HTTPHeaders": map[string]string{
