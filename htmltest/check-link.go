@@ -52,13 +52,25 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 		}
 	}
 
-	// Blank href
-	if attrs["href"] == "" {
+	// Don't check if href is in ignored list
+	if hT.opts.isHrefIgnored(attrs["href"]) {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.LevelError,
-			Message:   "href blank",
+			Level:     issues.LevelDebug,
+			Message:   "skipping href in IgnoreHrefs",
 			Reference: ref,
 		})
+		return;
+	}
+
+	// Blank href
+	if attrs["href"] == "" {
+		if !hT.opts.IgnoreBlankHref {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelError,
+				Message:   "href blank",
+				Reference: ref,
+			})
+		}
 		return
 	}
 

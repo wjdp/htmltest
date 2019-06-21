@@ -39,8 +39,10 @@ type Options struct {
 
 	IgnoreURLs []interface{}
 	IgnoreDirs []interface{}
+	IgnoreHrefs[]interface{}
 
 	IgnoreInternalEmptyHash             bool
+	IgnoreBlankHref                     bool
 	IgnoreCanonicalBrokenLinks          bool
 	IgnoreAltMissing                    bool
 	IgnoreDirectoryMissingTrailingSlash bool
@@ -101,8 +103,10 @@ func DefaultOptions() map[string]interface{} {
 
 		"IgnoreURLs": []interface{}{},
 		"IgnoreDirs": []interface{}{},
+		"IgnoreHrefs":[]interface{}{},
 
 		"IgnoreInternalEmptyHash":             false,
+		"IgnoreBlankHref":                     false,
 		"IgnoreCanonicalBrokenLinks":          true,
 		"IgnoreAltMissing":                    false,
 		"IgnoreDirectoryMissingTrailingSlash": false,
@@ -172,6 +176,16 @@ func InList(list []string, key string) bool {
 func (opts *Options) isURLIgnored(url string) bool {
 	for _, item := range opts.IgnoreURLs {
 		if ok, _ := regexp.MatchString(item.(string), url); ok {
+			return true
+		}
+	}
+	return false
+}
+
+// Is the href in ignored list
+func (opts *Options) isHrefIgnored(href string) bool {
+	for _, item := range opts.IgnoreHrefs {
+		if (href == item.(string)) {
 			return true
 		}
 	}
