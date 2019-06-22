@@ -54,11 +54,13 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 
 	// Blank href
 	if attrs["href"] == "" {
-		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.LevelError,
-			Message:   "href blank",
-			Reference: ref,
-		})
+		if !hT.opts.IgnoreEmptyHref {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelError,
+				Message:   "href blank",
+				Reference: ref,
+			})
+		}
 		return
 	}
 

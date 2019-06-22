@@ -467,6 +467,13 @@ func TestLinkHrefBlank(t *testing.T) {
 	tExpectIssue(t, hT, "href blank", 1)
 }
 
+func TestLinkHrefBlankIgnore(t *testing.T) {
+	// works for empty href within link elements when ignoring
+	hT := tTestFileOpts("fixtures/links/head_link_href_empty.html",
+		map[string]interface{}{"IgnoreEmptyHref": true})
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestLinkHrefAbsent(t *testing.T) {
 	// fails for absent href within link elements
 	hT := tTestFile("fixtures/links/head_link_href_absent.html")
