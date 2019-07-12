@@ -13,7 +13,7 @@ require (
 	github.com/seborama/govcr v2.2.1+incompatible // indirect
 	golang.org/x/net v0.0.0-20201224014010-6772e930b67b
 	golang.org/x/sys v0.0.0-20210113181707-4bcb84eeeb78 // indirect
-	gopkg.in/seborama/govcr.v2 v2.4.2
+	gopkg.in/seborama/govcr.v3 v3.2.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 

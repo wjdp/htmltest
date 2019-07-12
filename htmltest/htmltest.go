@@ -17,7 +17,7 @@ import (
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/output"
 	"github.com/wjdp/htmltest/refcache"
-	"gopkg.in/seborama/govcr.v2"
+	"gopkg.in/seborama/govcr.v3"
 )
 
 // Base path for VCR cassettes, relative to this package
