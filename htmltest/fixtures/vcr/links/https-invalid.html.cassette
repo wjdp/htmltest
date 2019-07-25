@@ -1,6 +1,5 @@
 {
   "Name": "https-invalid.html",
-  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {

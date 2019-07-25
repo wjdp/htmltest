@@ -1,6 +1,5 @@
 {
   "Name": "link_missing_protocol_invalid.html",
-  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {

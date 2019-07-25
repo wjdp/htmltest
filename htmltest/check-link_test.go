@@ -146,7 +146,7 @@ func TestAnchorExternalInsecureOptionIgnoredInsecure(t *testing.T) {
 		})
 	tExpectIssueCount(t, hT, 2)
 	tExpectIssue(t, hT, "is not an HTTPS target", 1)
-	tExpectIssue(t, hT, "Non-OK status", 1)
+	tExpectIssue(t, hT, "no such host", 1)
 }
 
 func TestAnchorExternalHrefIP(t *testing.T) {
@@ -695,7 +695,7 @@ func TestAnchorPre(t *testing.T) {
 	hT := tTestFileOpts("fixtures/links/anchors_in_pre.html",
 		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 2)
-	tExpectIssue(t, hT, "Non-OK status", 2)
+	tExpectIssue(t, hT, "no such host", 2)
 }
 
 func TestLinkPre(t *testing.T) {

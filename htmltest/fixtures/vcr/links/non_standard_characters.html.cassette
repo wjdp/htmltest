@@ -1,6 +1,5 @@
 {
   "Name": "non_standard_characters.html",
-  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {
