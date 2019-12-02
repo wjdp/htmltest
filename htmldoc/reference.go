@@ -1,7 +1,6 @@
 package htmldoc
 
 import (
-	"github.com/wjdp/htmltest/output"
 	"golang.org/x/net/html"
 	"net/url"
 	"path"
@@ -19,7 +18,7 @@ type Reference struct {
 
 // NewReference : Create a new reference given a document, node and path.
 // Generates the URL object.
-func NewReference(document *Document, node *html.Node, path string) *Reference {
+func NewReference(document *Document, node *html.Node, path string) (*Reference, error) {
 	// Clean path
 	path = strings.TrimLeftFunc(path, invalidPrePostRune)
 	path = strings.TrimRightFunc(path, invalidPrePostRune)
@@ -31,9 +30,11 @@ func NewReference(document *Document, node *html.Node, path string) *Reference {
 	}
 	// Parse and store parsed URL
 	u, err := url.Parse(path)
-	output.CheckErrorPanic(err)
+	if err != nil {
+		return nil, err
+	}
 	ref.URL = u
-	return &ref
+	return &ref, nil
 }
 
 // Scheme : Returns the scheme of the reference. Uses URL.Scheme and adds
