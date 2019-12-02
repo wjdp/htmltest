@@ -1,12 +1,14 @@
 package htmltest
 
 import (
+	"crypto/x509"
 	"fmt"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/output"
 	"golang.org/x/net/html"
 	"net/http"
+	"net/url"
 	"os"
 	"path"
 	"strings"
@@ -187,6 +189,18 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 					Reference: ref,
 				})
 				return
+			}
+
+			if certErr, ok := err.(*url.Error).Err.(x509.UnknownAuthorityError); ok {
+				err = validateCertChain(certErr.Cert)
+				if err == nil {
+					hT.issueStore.AddIssue(issues.Issue{
+						Level:     issues.LevelWarning,
+						Reference: ref,
+						Message:   "incomplete certificate chain",
+					})
+					return
+				}
 			}
 
 			// Unhandled client error, return generic error

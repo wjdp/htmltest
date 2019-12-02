@@ -108,7 +108,7 @@ func TestAnchorExternalInsecureOptionIgnored(t *testing.T) {
 	hT := tTestFileOpts("fixtures/links/issues/94.html",
 		map[string]interface{}{
 			"EnforceHTTPS": true,
-			"IgnoreURLs": []interface{}{"plantuml.com", "plantuml.net", "forum.plantuml.net"},
+			"IgnoreURLs":   []interface{}{"plantuml.com", "plantuml.net", "forum.plantuml.net"},
 		})
 	tExpectIssueCount(t, hT, 0)
 }
@@ -156,6 +156,14 @@ func TestAnchorExternalHTTPSInvalid(t *testing.T) {
 	hT := tTestFileOpts("fixtures/links/https-invalid.html",
 		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 6)
+}
+
+func TestAnchorExternalHTTPSMissingChain(t *testing.T) {
+	// should support https aia
+	// see issue #130
+	hT := tTestFileOpts("fixtures/links/https-incomplete-chain.html",
+		map[string]interface{}{"VCREnable": true})
+	tExpectIssue(t, hT, "incomplete certificate chain", 1)
 }
 
 func TestAnchorExternalHTTPSBadH2(t *testing.T) {
