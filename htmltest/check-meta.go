@@ -1,6 +1,7 @@
 package htmltest
 
 import (
+	"fmt"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"golang.org/x/net/html"
@@ -27,8 +28,9 @@ func (hT *HTMLTest) checkMetaRefresh(document *htmldoc.Document, node *html.Node
 
 		// Define ref from this
 		var ref *htmldoc.Reference
+		var err error
 		if len(contentSplit) == 2 {
-			if contentSplit[1][0]==34 || contentSplit[1][0]==39 {
+			if contentSplit[1][0] == 34 || contentSplit[1][0] == 39 {
 				hT.issueStore.AddIssue(issues.Issue{
 					Level:     issues.LevelError,
 					Message:   "url in meta refresh must not start with single or double quote",
@@ -37,9 +39,17 @@ func (hT *HTMLTest) checkMetaRefresh(document *htmldoc.Document, node *html.Node
 				return
 			}
 
-			ref = htmldoc.NewReference(document, node, contentSplit[1])
+			ref, err = htmldoc.NewReference(document, node, contentSplit[1])
 		} else {
-			ref = htmldoc.NewReference(document, node, "")
+			ref, err = htmldoc.NewReference(document, node, "")
+		}
+		if err != nil {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:    issues.LevelError,
+				Document: document,
+				Message:  fmt.Sprintf("bad reference: %q", err),
+			})
+			return
 		}
 
 		// If refresh the content attribute must be set

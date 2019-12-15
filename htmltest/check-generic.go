@@ -16,7 +16,15 @@ func (hT *HTMLTest) checkGeneric(document *htmldoc.Document, node *html.Node, ke
 	}
 
 	urlStr := htmldoc.GetAttr(node.Attr, key)
-	ref := htmldoc.NewReference(document, node, urlStr)
+	ref, err := htmldoc.NewReference(document, node, urlStr)
+	if err != nil {
+		hT.issueStore.AddIssue(issues.Issue{
+			Level:    issues.LevelError,
+			Document: document,
+			Message:  fmt.Sprintf("bad reference: %q", err),
+		})
+		return
+	}
 
 	// Check attr isn't blank
 	if urlStr == "" {

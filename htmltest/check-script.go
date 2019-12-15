@@ -1,6 +1,7 @@
 package htmltest
 
 import (
+	"fmt"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"golang.org/x/net/html"
@@ -11,7 +12,15 @@ func (hT *HTMLTest) checkScript(document *htmldoc.Document, node *html.Node) {
 		[]string{"src"})
 
 	// Create reference
-	ref := htmldoc.NewReference(document, node, attrs["src"])
+	ref, err := htmldoc.NewReference(document, node, attrs["src"])
+	if err != nil {
+		hT.issueStore.AddIssue(issues.Issue{
+			Level:    issues.LevelError,
+			Document: document,
+			Message:  fmt.Sprintf("bad reference: %q", err),
+		})
+		return
+	}
 
 	// Check src problems
 	if htmldoc.AttrPresent(node.Attr, "src") && len(attrs["src"]) == 0 {
