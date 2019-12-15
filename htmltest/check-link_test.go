@@ -162,7 +162,7 @@ func TestAnchorExternalHTTPSMissingChain(t *testing.T) {
 	// should support https aia
 	// see issue #130
 	hT := tTestFileOpts("fixtures/links/https-incomplete-chain.html",
-		map[string]interface{}{"VCREnable": true})
+		map[string]interface{}{"VCREnable": false})
 	tExpectIssue(t, hT, "incomplete certificate chain", 1)
 }
 
