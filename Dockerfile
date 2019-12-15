@@ -15,6 +15,8 @@ RUN CGO_ENABLED=0 go build -installsuffix 'static' -ldflags "-X main.date=`date 
 
 FROM ${TARGET} AS final
 
+RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
+
 WORKDIR /bin
 COPY --from=builder /app ./htmltest
 WORKDIR /test
