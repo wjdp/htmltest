@@ -57,10 +57,14 @@ func (hT *HTMLTest) enforceHTTPS(ref *htmldoc.Reference) {
 	if hT.opts.isURLIgnored(ref.URLString()) {
 		return
 	}
+	issueLevel := issues.LevelError
+	if hT.opts.IgnoreExternalBrokenLinks {
+		issueLevel = issues.LevelWarning
+	}
 
 	if hT.opts.EnforceHTTPS {
 		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.LevelError,
+			Level:     issueLevel,
 			Message:   "is not an HTTPS target",
 			Reference: ref,
 		})

@@ -42,12 +42,27 @@ func TestAnchorExternalBroken(t *testing.T) {
 	tExpectIssueCount(t, hT, 1)
 }
 
+func TestAnchorExternalBrokenOption(t *testing.T) {
+	// passes for broken external links when asked
+	hT := tTestFileOpts("fixtures/links/brokenLinkExternal.html",
+		map[string]interface{}{"IgnoreExternalBrokenLinks": true, "VCREnable": true})
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestAnchorExternalBrokenNoVCR(t *testing.T) {
 	// fails for broken external links without VCR. This is needed as the code that handles 'dial tcp' errors doesn't
 	// get called with VCR. It returns a rather empty response with status code of 0.
 	tSkipShortExternal(t)
 	hT := tTestFile("fixtures/links/brokenLinkExternal.html")
 	tExpectIssueCount(t, hT, 1)
+}
+
+func TestAnchorExternalBrokenOptionNoVCR(t *testing.T) {
+	// passes for broken external links without VCR when asked.
+	tSkipShortExternal(t)
+	hT := tTestFileOpts("fixtures/links/brokenLinkExternal.html",
+		map[string]interface{}{"IgnoreExternalBrokenLinks": true})
+	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalIgnore(t *testing.T) {
@@ -103,6 +118,13 @@ func TestAnchorExternalInsecureOption(t *testing.T) {
 	tExpectIssue(t, hT, "is not an HTTPS target", 1)
 }
 
+func TestAnchorExternalBrokenOptionInsecure(t *testing.T) {
+	// passes for non-HTTPS links when asked
+	hT := tTestFileOpts("fixtures/links/non_https.html",
+		map[string]interface{}{"EnforceHTTPS": true, "IgnoreExternalBrokenLinks": true, "VCREnable": true})
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestAnchorExternalInsecureOptionIgnored(t *testing.T) {
 	// passes when checking for non-HTTPS links but they're in the IgnoreURLs list
 	hT := tTestFileOpts("fixtures/links/issues/94.html",
@@ -120,12 +142,26 @@ func TestAnchorExternalHrefIP(t *testing.T) {
 	tExpectIssueCount(t, hT, 2)
 }
 
+func TestAnchorExternalBrokenOptionHrefIP(t *testing.T) {
+	// passes for broken IP address links when asked
+	hT := tTestFileOpts("fixtures/links/ip_href.html",
+		map[string]interface{}{"VCREnable": true, "IgnoreExternalBrokenLinks": true})
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestAnchorExternalHrefIPTimeout(t *testing.T) {
 	// fails for broken IP address links
 	hT := tTestFileOpts("fixtures/links/ip_timeout.html",
 		map[string]interface{}{"ExternalTimeout": 1})
 	tExpectIssueCount(t, hT, 1)
 	tExpectIssue(t, hT, "request exceeded our ExternalTimeout", 1)
+}
+
+func TestAnchorExternalBrokenOptionHrefIPTimeout(t *testing.T) {
+	// passes for broken IP address links when aksed
+	hT := tTestFileOpts("fixtures/links/ip_timeout.html",
+		map[string]interface{}{"IgnoreExternalBrokenLinks": true, "ExternalTimeout": 1})
+	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalFollowRedirects(t *testing.T) {
@@ -158,12 +194,26 @@ func TestAnchorExternalHTTPSInvalid(t *testing.T) {
 	tExpectIssueCount(t, hT, 6)
 }
 
+func TestAnchorExternalBrokenOptionHTTPSInvalid(t *testing.T) {
+	// should pass for invalid https when asked
+	hT := tTestFileOpts("fixtures/links/https-invalid.html",
+		map[string]interface{}{"IgnoreExternalBrokenLinks": true, "VCREnable": true})
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestAnchorExternalHTTPSMissingChain(t *testing.T) {
 	// should support https aia
 	// see issue #130
 	hT := tTestFileOpts("fixtures/links/https-incomplete-chain.html",
 		map[string]interface{}{"VCREnable": false})
 	tExpectIssue(t, hT, "incomplete certificate chain", 1)
+}
+
+func TestAnchorExternalBrokenOptionHTTPSMissingChain(t *testing.T) {
+	// should pass for incomplete chains when asked
+	hT := tTestFileOpts("fixtures/links/https-incomplete-chain.html",
+		map[string]interface{}{"IgnoreExternalBrokenLinks": true, "VCREnable": false})
+	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalHTTPSBadH2(t *testing.T) {
@@ -195,6 +245,13 @@ func TestAnchorExternalMissingProtocolInvalid(t *testing.T) {
 		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 1)
 	// tExpectIssue(t, hT, "no such host", 1)
+}
+
+func TestAnchorExternalBrokenOptionMissingProtocol(t *testing.T) {
+	// passes for invalid links missing the protocol when asked
+	hT := tTestFileOpts("fixtures/links/link_missing_protocol_invalid.html",
+		map[string]interface{}{"IgnoreExternalBrokenLinks": true, "VCREnable": true})
+	tExpectIssueCount(t, hT, 0)
 }
 
 func TestLinkExternalHrefPipes(t *testing.T) {

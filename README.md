@@ -142,6 +142,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `IgnoreInternalEmptyHash` | When true prevents raising an error for links with `href="#"`. | `false` |
 | `IgnoreEmptyHref` | When true prevents raising an error for links with `href=""`. | `false` |
 | `IgnoreCanonicalBrokenLinks` | When true produces a warning, rather than an error, for broken canonical links. When testing a site which isn't live yet or before publishing a new page canonical links will fail. | `true` |
+| `IgnoreExternalBrokenLinks` | When true produces a warning, rather than an error, for broken external links. Useful when testing a site having hundreds of external links. | `false` |
 | `IgnoreAltMissing` | Turns off image alt attribute checking. | `false` |
 | `IgnoreDirectoryMissingTrailingSlash` | Turns off errors for links to directories without a trailing slash. | `false` |
 | `IgnoreSSLVerify` | Turns off x509 errors for self-signed certificates. | `false` |
