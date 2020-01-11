@@ -37,6 +37,13 @@ By default this will install `htmltest` into `./bin` of your current directory, 
 
 :arrow_down: Download the [latest binary release](https://github.com/wjdp/htmltest/releases/latest) and put it somewhere on your PATH.
 
+### :blowfish: OpenBSD
+
+:arrow_down: Download the [latest binary release](https://github.com/wjdp/htmltest/releases/latest) and put it somewhere on your PATH.
+
+You can also build from sources by cloning this repo and running `sh build.sh`, which puts the `htmltest` executable in the `./bin` dir. Use in place, or install to path such as `/usr/local/bin`.
+
+
 ### :whale: Docker
 
 ```docker run -v $(pwd):/test --rm wjdp/htmltest```  
