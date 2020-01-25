@@ -42,3 +42,6 @@ dist/
 
 # Cache dirs of program
 .htmltest
+
+# JetBrains config
+.idea/
