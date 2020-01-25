@@ -111,6 +111,10 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 }
 
 func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
+	issueLevel := issues.LevelError
+	if hT.opts.IgnoreExternalBrokenLinks {
+		issueLevel = issues.LevelWarning
+	}
 	if !hT.opts.CheckExternal {
 		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.LevelDebug,
@@ -184,7 +188,7 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 				cleanedMessage := strings.TrimPrefix(err.Error(), prefix)
 				// Add error
 				hT.issueStore.AddIssue(issues.Issue{
-					Level:     issues.LevelError,
+					Level:     issueLevel,
 					Message:   cleanedMessage,
 					Reference: ref,
 				})
@@ -192,7 +196,7 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 			}
 			if strings.Contains(err.Error(), "Client.Timeout") {
 				hT.issueStore.AddIssue(issues.Issue{
-					Level:     issues.LevelError,
+					Level:     issueLevel,
 					Message:   "request exceeded our ExternalTimeout",
 					Reference: ref,
 				})
@@ -213,7 +217,7 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 
 			// Unhandled client error, return generic error
 			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.LevelError,
+				Level:     issueLevel,
 				Message:   err.Error(),
 				Reference: ref,
 			})
@@ -249,7 +253,7 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 		} else {
 			// Failed VCRed requests end up here with a status code of zero
 			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issues.LevelError,
+				Level:     issueLevel,
 				Message:   fmt.Sprintf("%s %d", "Non-OK status:", statusCode),
 				Reference: ref,
 			})
