@@ -20,4 +20,5 @@ RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
 WORKDIR /bin
 COPY --from=builder /app ./htmltest
 WORKDIR /test
-CMD [ "htmltest", "./"]
+ENTRYPOINT ["htmltest"]
+CMD ["./"]

@@ -50,7 +50,7 @@ You can also build from sources by cloning this repo and running `sh build.sh`, 
 Mount your directory with html files into the container and test them.
 
 If you need more arguments to the test run it like this:  
-```docker run -v $(pwd):/test --rm wjdp/htmltest htmltest -l 3 -s```
+```docker run -v $(pwd):/test --rm wjdp/htmltest -l 3 -s```
 
 ### Notes
 
