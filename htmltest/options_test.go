@@ -1,9 +1,10 @@
 package htmltest
 
 import (
+	"testing"
+
 	"github.com/daviddengcn/go-assert"
 	"github.com/wjdp/htmltest/output"
-	"testing"
 )
 
 func TestDefaultOptions(t *testing.T) {
@@ -56,4 +57,19 @@ func TestIsURLIgnored(t *testing.T) {
 	assert.IsTrue(t, "url ignored", hT.opts.isURLIgnored("https://cdn.assetstore.info/lib/test.js"))
 	assert.IsFalse(t, "url left alone", hT.opts.isURLIgnored("https://froogle.com/?q=1234"))
 	assert.IsFalse(t, "url left alone", hT.opts.isURLIgnored("http://assetstore.info/lib/test.js"))
+}
+
+func TestMergeHTTPHeaders(t *testing.T) {
+	userOpts := map[string]interface{}{
+		"HTTPHeaders": map[interface{}]interface{}{
+			"Range":  "bytes=0-10",
+			"Accept": "*/*",
+		},
+		"NoRun": true,
+	}
+
+	hT, err := Test(userOpts)
+	output.CheckErrorPanic(err)
+
+	assert.Equals(t, "url ignored", hT.opts.HTTPHeaders["Range"], "bytes=0-10")
 }
