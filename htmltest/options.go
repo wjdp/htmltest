@@ -2,12 +2,13 @@ package htmltest
 
 import (
 	"fmt"
-	"github.com/imdario/mergo"
-	"github.com/wjdp/htmltest/issues"
 	"path"
 	"reflect"
 	"regexp"
 	"strings"
+
+	"github.com/imdario/mergo"
+	"github.com/wjdp/htmltest/issues"
 )
 
 // Options struct for htmltest, user and default options are merged and mapped
@@ -113,7 +114,7 @@ func DefaultOptions() map[string]interface{} {
 		"IgnoreSSLVerify":                     false,
 		"IgnoreTagAttribute":                  "data-proofer-ignore",
 
-		"HTTPHeaders": map[string]string{
+		"HTTPHeaders": map[interface{}]interface{}{
 			"Range":  "bytes=0-0", // If server supports prevents body being sent
 			"Accept": "*/*",       // We accept all content types
 		},
@@ -145,9 +146,9 @@ func DefaultOptions() map[string]interface{} {
 func (hT *HTMLTest) setOptions(optsUser map[string]interface{}) {
 	// Merge user and default options, set Opts var
 	optsMap := DefaultOptions()
-	mergo.MergeWithOverwrite(&optsMap, optsUser)
+	mergo.Merge(&optsMap, optsUser, mergo.WithOverride)
 	hT.opts = Options{}
-	mergo.MapWithOverwrite(&hT.opts, optsMap)
+	mergo.Map(&hT.opts, optsMap, mergo.WithOverride)
 
 	// If debug dump the options struct
 	if hT.opts.LogLevel == issues.LevelDebug {
