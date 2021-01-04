@@ -49,6 +49,12 @@ Options:
 	// fmt.Println(arguments)
 
 	var options map[string]interface{}
+
+	// Check for NO_COLOR environment variable and turn off colourization if
+	// it is set.
+	// See https://no-color.org/
+	color.NoColor = os.Getenv("NO_COLOR") != ""
+
 	if arguments["--conf"] != nil {
 		// Config file specified
 		options = parseConfFile(arguments, arguments["--conf"].(string), true)
@@ -65,7 +71,6 @@ Options:
 
 	exitCode := run(options)
 	os.Exit(exitCode)
-
 }
 
 type optsMap map[string]interface{}

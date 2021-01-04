@@ -60,7 +60,7 @@ func (issue *Issue) text() string {
 	return issue.Message
 }
 
-// Print to stdout with colour
+// Print to stdout with optional colour (controlled by color.NoColor - see main())
 func (issue *Issue) print(force bool, prefix string) {
 	if (issue.Level < issue.store.logLevel) && !force {
 		return
