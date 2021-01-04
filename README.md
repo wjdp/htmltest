@@ -15,7 +15,7 @@ If you generate HTML files, [html-proofer](https://github.com/gjtorikian/html-pr
 
 ## :floppy_disk: Installation
 
-### :penguin: Linux / :green_apple: OSX / :iphone: Arm
+### :penguin: Linux / :green_apple: macOS / :iphone: Arm
 
 #### System-wide Install
 
@@ -111,6 +111,10 @@ Add the `data-proofer-ignore` attribute to any tag to ignore it from every check
 ## :bookmark_tabs: Caching
 
 Checking external URLs can slow tests down and potentially annoy the URL's host. htmltest caches the status code of checked external URLs and stores this cache between runs. We write the cache to `tmp/.htmltest/refcache.json` and expire items after two weeks by default.
+
+## :rainbow: Colour Output
+
+By default, output in the TTY uses colours to indicate warnings, errors, and success. To turn off colourization, set an environment variable named `NO_COLOR`. If it is present, no colour will be used. The value is ignored. (See [no-color.org](https://no-color.org/).)
 
 ## :fax: Logging
 
