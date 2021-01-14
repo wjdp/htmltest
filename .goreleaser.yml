@@ -27,7 +27,7 @@ changelog:
 archives:
   - id: default
     replacements:
-      darwin: osx
+      darwin: macos
       linux: linux
       windows: windows
       386: i386
@@ -40,7 +40,7 @@ archives:
 release:
   github:
     owner: wjdp
-    name: htmltest
+    name: htmltest-github-actions
 
   draft: true
 

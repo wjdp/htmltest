@@ -9,9 +9,9 @@ WORKDIR /src
 COPY ./go.mod ./go.sum ./
 RUN go mod download
 
-# Import the code from the context.
 COPY ./ ./
-RUN CGO_ENABLED=0 go build -installsuffix 'static' -ldflags "-X main.date=`date -u +%Y-%m-%dT%H:%M:%SZ` -X main.version=`git describe --tags`" -o /app .
+ARG VERSION
+RUN CGO_ENABLED=0 go build -installsuffix 'static' -ldflags "-X main.date=`date -u +%Y-%m-%dT%H:%M:%SZ` -X main.version=${VERSION}" -o /app .
 
 FROM ${TARGET} AS final
 
