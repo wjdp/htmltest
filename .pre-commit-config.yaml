@@ -1,0 +1,12 @@
+# Needs pre-commit installed both to system and to local repo to do anything
+# See https://pre-commit.com/
+
+repos:
+  - repo: git://github.com/dnephin/pre-commit-golang
+    rev: master
+    hooks:
+      - id: go-fmt
+      - id: go-imports
+      - id: go-build
+      - id: go-unit-tests
+      - id: go-mod-tidy
