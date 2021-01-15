@@ -1,0 +1,141 @@
+name: build
+
+on: push
+
+env:
+  GO_VERSION: 1.15.6
+
+jobs:
+  git-describe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Fetch tags
+        run: git fetch --force --tags
+      - run: git describe --always
+      - run: git describe --tags
+
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # os: [ ubuntu-latest, macos-latest ]
+        os: [ ubuntu-latest ]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: Run unit tests
+        run: go test -v -race -coverprofile=coverage.txt -covermode=atomic -coverpkg=./... ./...
+      - name: Report coverage
+        run: go tool cover -func=coverage.txt
+
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # os: [ ubuntu-latest, macos-latest ]
+        os: [ ubuntu-latest ]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Fetch tags
+        run: git fetch --force --tags
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: Set binary name
+        run: echo "BINARY_NAME=htmltest-${{ matrix.os }}-$(echo $GITHUB_REF | cut -d'/' -f 3)-$(echo $GITHUB_SHA | cut -c1-8)" >> $GITHUB_ENV
+      - name: Build
+        run: go build -ldflags "-X main.date=`date -u +%Y-%m-%dT%H:%M:%SZ` -X main.version=`git describe --tags`" -o bin/$BINARY_NAME -x main.go
+      - name: Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.BINARY_NAME }}
+          path: bin/${{ env.BINARY_NAME }}
+      - name: Print usage and version
+        run: |
+          bin/$BINARY_NAME -h  # Print usage
+          bin/$BINARY_NAME -v  # Print version
+      - name: Test running binary against fixtures
+        run: |
+          bin/$BINARY_NAME -c htmldoc/fixtures/conf.yaml -l0 # Run config
+          bin/$BINARY_NAME htmldoc/fixtures/documents/dir1 # Run on dir
+          bin/$BINARY_NAME htmltest/fixtures/links/head_link_href.html # Run on file
+
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: gofmt
+        run: test -z "$(gofmt -d .)"
+
+  goreleaser:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [ test, build ]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Fetch tags
+        run: git fetch --force --tags
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          version: latest
+          args: release --rm-dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  docker-build:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [ test, build ]
+    env:
+      DOCKER_REPO: wjdp/htmltest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Fetch tags
+        run: git fetch --force --tags
+      - name: Set GIT_VERSION
+        run: echo "GIT_VERSION=$(git describe --tags)" >> $GITHUB_ENV
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ${{ env.DOCKER_REPO }}:${{ env.GIT_VERSION }}
+          cache-from: ${{ env.DOCKER_REPO }}:latest
+          build-args: |
+            VERSION=${{ env.GIT_VERSION }}
+            GO_VERSION=${{ env.GO_VERSION }}
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
