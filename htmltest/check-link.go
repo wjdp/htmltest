@@ -182,18 +182,6 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 		<-hT.httpChannel // Bump off http concurrency limiter
 
 		if err != nil {
-			if strings.Contains(err.Error(), "dial tcp") {
-				// Remove long prefix
-				prefix := "Get " + urlStr + ": dial tcp: lookup "
-				cleanedMessage := strings.TrimPrefix(err.Error(), prefix)
-				// Add error
-				hT.issueStore.AddIssue(issues.Issue{
-					Level:     issueLevel,
-					Message:   cleanedMessage,
-					Reference: ref,
-				})
-				return
-			}
 			if strings.Contains(err.Error(), "Client.Timeout") {
 				hT.issueStore.AddIssue(issues.Issue{
 					Level:     issueLevel,
@@ -213,6 +201,20 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 					})
 					return
 				}
+			}
+
+			// More generic, should be kept below more specific cases
+			if strings.Contains(err.Error(), "dial tcp") {
+				// Remove long prefix
+				prefix := "Get " + urlStr + ": dial tcp: lookup "
+				cleanedMessage := strings.TrimPrefix(err.Error(), prefix)
+				// Add error
+				hT.issueStore.AddIssue(issues.Issue{
+					Level:     issueLevel,
+					Message:   cleanedMessage,
+					Reference: ref,
+				})
+				return
 			}
 
 			// Unhandled client error, return generic error
