@@ -20,7 +20,7 @@ func tExpectIssue(t *testing.T, hT *HTMLTest, message string, expected int) {
 	c := hT.issueStore.MessageMatchCount(message)
 	if c != expected {
 		hT.issueStore.DumpIssues(true)
-		t.Error("expected issue", message, "count", expected, "!=", c)
+		t.Error("expected issue", "'"+message+"'", "count", expected, "!=", c)
 	}
 }
 
