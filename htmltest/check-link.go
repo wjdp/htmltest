@@ -3,6 +3,7 @@ package htmltest
 import (
 	"crypto/x509"
 	"fmt"
+	"github.com/badoux/checkmail"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/output"
@@ -381,10 +382,20 @@ func (hT *HTMLTest) checkMailto(ref *htmldoc.Reference) {
 		})
 		return
 	}
-	if !strings.Contains(ref.URL.Opaque, "@") {
+	emailAddress, decodeErr := url.QueryUnescape(ref.URL.Opaque)
+	if decodeErr != nil {
 		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.LevelError,
-			Message:   "contains an invalid email address",
+			Message:   fmt.Sprintf("cannot decode email (%s): '%s'", decodeErr, ref.URL.Opaque),
+			Reference: ref,
+		})
+		return
+	}
+	formatErr := checkmail.ValidateFormat(emailAddress)
+	if formatErr != nil {
+		hT.issueStore.AddIssue(issues.Issue{
+			Level:     issues.LevelError,
+			Message:   fmt.Sprintf("invalid email address (%s): '%s'", formatErr, emailAddress),
 			Reference: ref,
 		})
 		return
