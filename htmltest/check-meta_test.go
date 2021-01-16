@@ -88,5 +88,5 @@ func TestMetaRefreshContentInvalid(t *testing.T) {
 func TestIssue92(t *testing.T) {
 	hT := tTestFile("fixtures/meta/issues/92.html")
 	tExpectIssueCount(t, hT, 2)
-	tExpectIssue(t, hT, "url in meta refresh must not start with single or double quote", 3)
+	tExpectIssue(t, hT, "url in meta refresh must not start with single or double quote", 2)
 }
