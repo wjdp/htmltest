@@ -275,6 +275,13 @@ func TestAnchorExternalHrefUTF8(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestAnchorExternalInvalidBrackets(t *testing.T) {
+	// passes for external UTF-8 links
+	hT := tTestFile("fixtures/links/href_brackets.html")
+	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "bad reference", 1)
+}
+
 func TestAnchorInternalBroken(t *testing.T) {
 	// fails for broken internal links
 	hT := tTestFile("fixtures/links/brokenLinkInternal.html")
