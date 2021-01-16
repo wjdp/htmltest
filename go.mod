@@ -1,6 +1,7 @@
 module github.com/wjdp/htmltest
 
 require (
+	github.com/badoux/checkmail v1.2.1
 	github.com/daviddengcn/go-algs v0.0.0-20180330170136-fe23fabd9d06 // indirect
 	github.com/daviddengcn/go-assert v0.0.0-20150305222929-ba7e68aeeff6
 	github.com/daviddengcn/go-villa v0.0.0-20200811194146-68107afb6d76 // indirect

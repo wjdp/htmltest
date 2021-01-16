@@ -485,6 +485,19 @@ func TestMailtoValid(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestMailtoEncoded(t *testing.T) {
+	// ignores valid mailto links
+	hT := tTestFile("fixtures/links/mailto_encoded.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestMailtoEncodedInvalid(t *testing.T) {
+	// ignores valid mailto links
+	hT := tTestFile("fixtures/links/mailto_encoded_invalid.html")
+	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "cannot decode email (invalid URL escape \"%ZZ\")", 1)
+}
+
 func TestMailtoBlank(t *testing.T) {
 	// fails for blank mailto links
 	hT := tTestFile("fixtures/links/blank_mailto_link.html")
@@ -496,7 +509,7 @@ func TestMailtoInvalid(t *testing.T) {
 	// fails for invalid mailto links
 	hT := tTestFile("fixtures/links/invalid_mailto_link.html")
 	tExpectIssueCount(t, hT, 1)
-	tExpectIssue(t, hT, "contains an invalid email address", 1)
+	tExpectIssue(t, hT, "invalid email address (invalid format): 'octocat'", 1)
 }
 
 func TestMailtoIgnore(t *testing.T) {
