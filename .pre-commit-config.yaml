@@ -8,5 +8,4 @@ repos:
       - id: go-fmt
       - id: go-imports
       - id: go-build
-      - id: go-unit-tests
       - id: go-mod-tidy
