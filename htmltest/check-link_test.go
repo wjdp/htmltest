@@ -282,6 +282,28 @@ func TestAnchorExternalInvalidBrackets(t *testing.T) {
 	tExpectIssue(t, hT, "bad reference", 1)
 }
 
+func TestAnchorExternalQueryStringDefault(t *testing.T) {
+	// passes when ignoring from default list of query string exempt URLs
+	hT := tTestFile("fixtures/links/query_strings.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestAnchorExternalQueryStripQueryExcludesEmpty(t *testing.T) {
+	// fails when StripQueryExcludes blank and URL doesn't like query string hits
+	hT := tTestFileOpts("fixtures/links/query_strings.html",
+		map[string]interface{}{"StripQueryExcludes": []interface{}{}})
+	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "Non-OK status: 400", 1)
+}
+
+func TestAnchorExternalQueryStringStripQueryExcludesDiffers(t *testing.T) {
+	// fails when StripQueryExcludes does not include URL and URL doesn't like query string hits
+	hT := tTestFileOpts("fixtures/links/query_strings.html",
+		map[string]interface{}{"StripQueryExcludes": []interface{}{"example.com", "test.invalid"}})
+	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "Non-OK status: 400", 1)
+}
+
 func TestAnchorInternalBroken(t *testing.T) {
 	// fails for broken internal links
 	hT := tTestFile("fixtures/links/brokenLinkInternal.html")

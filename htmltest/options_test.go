@@ -34,7 +34,7 @@ func TestSetOptions(t *testing.T) {
 }
 
 func TestInList(t *testing.T) {
-	lst := []string{"alpha", "bravo", "charlie"}
+	lst := []interface{}{"alpha", "bravo", "charlie"}
 	assert.Equals(t, "alpha in lst", InList(lst, "alpha"), true)
 	assert.Equals(t, "bravo in lst", InList(lst, "bravo"), true)
 	assert.Equals(t, "charlie in lst", InList(lst, "charlie"), true)

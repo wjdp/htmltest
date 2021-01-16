@@ -61,7 +61,7 @@ type Options struct {
 
 	ExternalTimeout    int
 	StripQueryString   bool
-	StripQueryExcludes []string
+	StripQueryExcludes []interface{}
 
 	EnableCache     bool
 	EnableLog       bool
@@ -128,7 +128,7 @@ func DefaultOptions() map[string]interface{} {
 
 		"ExternalTimeout":    15,
 		"StripQueryString":   true,
-		"StripQueryExcludes": []string{"fonts.googleapis.com"},
+		"StripQueryExcludes": []interface{}{"fonts.googleapis.com"},
 
 		"EnableCache":     true,
 		"EnableLog":       true,
@@ -164,9 +164,9 @@ func (hT *HTMLTest) setOptions(optsUser map[string]interface{}) {
 }
 
 // InList tests if key is in a slice/list.
-func InList(list []string, key string) bool {
+func InList(list []interface{}, key string) bool {
 	for _, item := range list {
-		if strings.Contains(key, item) {
+		if strings.Contains(key, fmt.Sprintf("%s", item)) {
 			return true
 		}
 	}
