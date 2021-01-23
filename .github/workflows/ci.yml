@@ -22,8 +22,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # os: [ ubuntu-latest, macos-latest ]
-        os: [ ubuntu-latest ]
+        os: [ ubuntu-latest, macos-latest ]
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -40,8 +39,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # os: [ ubuntu-latest, macos-latest ]
-        os: [ ubuntu-latest ]
+        os: [ ubuntu-latest, macos-latest ]
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
