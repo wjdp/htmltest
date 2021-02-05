@@ -151,6 +151,7 @@ func TestAnchorExternalBrokenOptionHrefIP(t *testing.T) {
 
 func TestAnchorExternalHrefIPTimeout(t *testing.T) {
 	// fails for broken IP address links
+	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/links/ip_timeout.html",
 		map[string]interface{}{"ExternalTimeout": 1})
 	tExpectIssueCount(t, hT, 1)
@@ -204,6 +205,7 @@ func TestAnchorExternalBrokenOptionHTTPSInvalid(t *testing.T) {
 func TestAnchorExternalHTTPSMissingChain(t *testing.T) {
 	// should support https aia
 	// see issue #130
+	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/links/https-incomplete-chain.html",
 		map[string]interface{}{"VCREnable": false})
 	tExpectIssue(t, hT, "incomplete certificate chain", 1)
@@ -284,12 +286,14 @@ func TestAnchorExternalInvalidBrackets(t *testing.T) {
 
 func TestAnchorExternalQueryStringDefault(t *testing.T) {
 	// passes when ignoring from default list of query string exempt URLs
+	tSkipShortExternal(t)
 	hT := tTestFile("fixtures/links/query_strings.html")
 	tExpectIssueCount(t, hT, 0)
 }
 
 func TestAnchorExternalQueryStripQueryExcludesEmpty(t *testing.T) {
 	// fails when StripQueryExcludes blank and URL doesn't like query string hits
+	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/links/query_strings.html",
 		map[string]interface{}{"StripQueryExcludes": []interface{}{}})
 	tExpectIssueCount(t, hT, 1)
@@ -298,6 +302,7 @@ func TestAnchorExternalQueryStripQueryExcludesEmpty(t *testing.T) {
 
 func TestAnchorExternalQueryStringStripQueryExcludesDiffers(t *testing.T) {
 	// fails when StripQueryExcludes does not include URL and URL doesn't like query string hits
+	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/links/query_strings.html",
 		map[string]interface{}{"StripQueryExcludes": []interface{}{"example.com", "test.invalid"}})
 	tExpectIssueCount(t, hT, 1)
@@ -677,12 +682,14 @@ func TestAnchorBlankHTML4(t *testing.T) {
 }
 
 func TestSelfSignedLink(t *testing.T) {
+	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/links/selfSignedLink.html",
 		map[string]interface{}{"IgnoreSSLVerify": false})
 	tExpectIssueCount(t, hT, 1)
 }
 
 func TestSelfSignedLinkIgnoreSSLVerify(t *testing.T) {
+	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/links/selfSignedLink.html",
 		map[string]interface{}{"IgnoreSSLVerify": true})
 	tExpectIssueCount(t, hT, 0)
