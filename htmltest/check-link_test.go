@@ -360,6 +360,12 @@ func TestAnchorHashBrokenIgnore(t *testing.T) {
 	tExpectIssueCount(t, hT2, 0)
 }
 
+func TestAnchorHashInPre163(t *testing.T) {
+	// passes for valid self hash
+	hT := tTestFile("fixtures/links/hash-in-pre-163.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestAnchorDirectoryRootResolve(t *testing.T) {
 	// properly resolves implicit /index.html in link paths
 	hT := tTestFile("fixtures/links/linkToFolder.html")
