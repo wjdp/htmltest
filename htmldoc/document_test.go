@@ -59,7 +59,7 @@ func TestDocumentNodesOfInterest(t *testing.T) {
 	}
 	doc.Init()
 	doc.Parse()
-	assert.Equals(t, "nodes of interest", len(doc.NodesOfInterest), 4)
+	assert.Equals(t, "nodes of interest", len(doc.NodesOfInterest), 12)
 }
 
 func TestDocumentBasePathDefault(t *testing.T) {

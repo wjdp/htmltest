@@ -615,15 +615,18 @@ func TestLinkRelDnsPrefetch(t *testing.T) {
 }
 
 func TestAnchorPre(t *testing.T) {
-	// works for broken anchors within pre & code
-	hT := tTestFile("fixtures/links/anchors_in_pre.html")
-	tExpectIssueCount(t, hT, 0)
+	// catches broken links when inside pre or code tags
+	hT := tTestFileOpts("fixtures/links/anchors_in_pre.html",
+		map[string]interface{}{"VCREnable": true})
+	tExpectIssueCount(t, hT, 2)
+	tExpectIssue(t, hT, "Non-OK status", 2)
 }
 
 func TestLinkPre(t *testing.T) {
-	// works for broken link within pre & code
+	// catches broken links when inside pre or code tags
 	hT := tTestFile("fixtures/links/links_in_pre.html")
-	tExpectIssueCount(t, hT, 0)
+	tExpectIssueCount(t, hT, 2)
+	tExpectIssue(t, hT, "href blank", 2)
 }
 
 func TestAnchorHashQueryBroken(t *testing.T) {

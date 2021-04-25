@@ -200,10 +200,10 @@ func TestImageAltIgnoreMissingWithBlank(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
-func TestImagePre(t *testing.T) {
-	// works for broken images within pre & code
+func TestBrokenImagePre(t *testing.T) {
+	// we no longer ignore image issues in pre / code tags
 	hT := tTestFile("fixtures/images/badImagesInPre.html")
-	tExpectIssueCount(t, hT, 0)
+	tExpectIssueCount(t, hT, 16)
 }
 
 func TestImageUsemap(t *testing.T) {
