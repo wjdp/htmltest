@@ -70,9 +70,13 @@ func TestScriptContentAbsent(t *testing.T) {
 }
 
 func TestScriptInPre(t *testing.T) {
-	// works for broken script within pre & code
-	hT := tTestFile("fixtures/scripts/script_in_pre.html")
-	tExpectIssueCount(t, hT, 0)
+	// catches broken links when inside pre or code tags
+	hT := tTestFileOpts("fixtures/scripts/script_in_pre.html",
+		map[string]interface{}{"VCREnable": true})
+	tExpectIssueCount(t, hT, 4)
+	tExpectIssue(t, hT, "Non-OK status", 2)
+	tExpectIssue(t, hT, "script content missing", 2)
+
 }
 
 func TestScriptSrcIgnore(t *testing.T) {

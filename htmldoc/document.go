@@ -91,8 +91,6 @@ func (doc *Document) parseNode(n *html.Node) {
 		case "base":
 			// Set BasePath from <base> tag
 			doc.BasePath = path.Join(doc.BasePath, GetAttr(n.Attr, "href"))
-		case "pre", "code":
-			return // Everything within these elements is not to be interpreted
 		}
 	case html.ErrorNode:
 		fmt.Printf("%+v\n", n)
