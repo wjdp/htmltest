@@ -533,11 +533,42 @@ func TestMailtoBlank(t *testing.T) {
 	tExpectIssue(t, hT, "mailto is empty", 1)
 }
 
-func TestMailtoInvalid(t *testing.T) {
+func TestMailtoInvalidFormat(t *testing.T) {
 	// fails for invalid mailto links
 	hT := tTestFile("fixtures/links/invalid_mailto_link.html")
 	tExpectIssueCount(t, hT, 1)
 	tExpectIssue(t, hT, "invalid email address (invalid format): 'octocat'", 1)
+}
+
+func TestMailtoInvalidCname(t *testing.T) {
+	// rubdomain with just a CNAME record without MX pointers
+	// email is still deliverable so should be accepted
+	// the records have been carefully created to ensure this is valid and will later fall under one of the other
+	// pass conditions
+	hT := tTestFile("fixtures/links/invalid_mailto_cname.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestMailtoInvalidCnameLoop(t *testing.T) {
+	// subdomain with just a CNAME record without MX records in a loop
+	// should be detected and fail as we can never resolve this
+	hT := tTestFile("fixtures/links/invalid_mailto_cname_loop.html")
+	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "email domain could not be resolved correctly", 1)
+}
+
+func TestMailtoInvalidNoRecords(t *testing.T) {
+	// domain with no records associated at all, must fail as completely unroutable
+	hT := tTestFile("fixtures/links/invalid_mailto_norecords.html")
+	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "email domain could not be resolved correctly", 1)
+}
+
+func TestMailtoInvalidAFallback(t *testing.T) {
+	// domain without MX records but with a valid A record
+	// email can be routed to the A record so should be accepted
+	hT := tTestFile("fixtures/links/invalid_mailto_fallback.html")
+	tExpectIssueCount(t, hT, 0)
 }
 
 func TestMailtoIgnore(t *testing.T) {
