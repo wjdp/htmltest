@@ -109,6 +109,7 @@ func TestFileExtensionOption(t *testing.T) {
 }
 
 func TestCacheIntegration(t *testing.T) {
+	tSkipShortExternal(t)
 	tTestFileOpts("fixtures/links/https-valid.html",
 		map[string]interface{}{"EnableCache": true})
 	hT2 := tTestFileOpts("fixtures/links/https-valid.html",
