@@ -158,6 +158,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `EnforceHTML5` | Fails when the doctype isn't `<!DOCTYPE html>`. | `false` |
 | `EnforceHTTPS` | Fails when encountering an `http://` link. Useful to prevent mixed content errors when serving over HTTPS. | `false` |
 | `IgnoreURLs` | Array of regexs of URLs to ignore. | empty |
+| `IgnoreInternalURLs` | Array of strings of Internal URLs to ignore. | empty |
 | `IgnoreDirs` | Array of regexs of directories to ignore when scanning for HTML files. | empty |
 | `IgnoreInternalEmptyHash` | When true prevents raising an error for links with `href="#"`. | `false` |
 | `IgnoreEmptyHref` | When true prevents raising an error for links with `href=""`. | `false` |
@@ -188,6 +189,8 @@ DirectoryPath: "_site"
 EnforceHTTPS: true
 IgnoreURLs:
 - "example.com"
+IgnoreInternalURLs:
+- "/misc/js/script.js"
 IgnoreDirs:
 - "lib"
 CacheExpires: "6h"
