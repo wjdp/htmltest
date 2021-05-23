@@ -3,16 +3,17 @@ package htmltest
 import (
 	"crypto/x509"
 	"fmt"
-	"github.com/badoux/checkmail"
-	"github.com/wjdp/htmltest/htmldoc"
-	"github.com/wjdp/htmltest/issues"
-	"github.com/wjdp/htmltest/output"
-	"golang.org/x/net/html"
 	"net/http"
 	"net/url"
 	"os"
 	"path"
 	"strings"
+
+	"github.com/badoux/checkmail"
+	"github.com/wjdp/htmltest/htmldoc"
+	"github.com/wjdp/htmltest/issues"
+	"github.com/wjdp/htmltest/output"
+	"golang.org/x/net/html"
 )
 
 func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
@@ -273,6 +274,14 @@ func (hT *HTMLTest) checkInternal(ref *htmldoc.Reference) {
 			Message:   "skipping internal check",
 			Reference: ref,
 		})
+		return
+	}
+
+	// Solve #168
+	urlStr := ref.URLString()
+
+	// Does this internal url match a internal url ignore rule?
+	if hT.opts.isInternalURLIgnored(urlStr) {
 		return
 	}
 
