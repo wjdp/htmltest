@@ -59,6 +59,20 @@ func TestIsURLIgnored(t *testing.T) {
 	assert.IsFalse(t, "url left alone", hT.opts.isURLIgnored("http://assetstore.info/lib/test.js"))
 }
 
+func TestIsInternalURLIgnored(t *testing.T) {
+	userOpts := map[string]interface{}{
+		"IgnoreInternalURLs": []interface{}{"/misc/js/script.js"},
+		"NoRun":              true,
+	}
+
+	hT, err := Test(userOpts)
+	output.CheckErrorPanic(err)
+
+	assert.IsTrue(t, "url ignored", hT.opts.isURLIgnored("/misc/js/script.js"))
+	assert.IsFalse(t, "url left alone", hT.opts.isURLIgnored("misc/js/script.js"))
+	assert.IsFalse(t, "url left alone", hT.opts.isURLIgnored("/misc/js/script"))
+}
+
 func TestMergeHTTPHeaders(t *testing.T) {
 	userOpts := map[string]interface{}{
 		"HTTPHeaders": map[interface{}]interface{}{
