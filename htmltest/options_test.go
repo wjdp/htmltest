@@ -68,9 +68,9 @@ func TestIsInternalURLIgnored(t *testing.T) {
 	hT, err := Test(userOpts)
 	output.CheckErrorPanic(err)
 
-	assert.IsTrue(t, "url ignored", hT.opts.isURLIgnored("/misc/js/script.js"))
-	assert.IsFalse(t, "url left alone", hT.opts.isURLIgnored("misc/js/script.js"))
-	assert.IsFalse(t, "url left alone", hT.opts.isURLIgnored("/misc/js/script"))
+	assert.IsTrue(t, "url ignored", hT.opts.isInternalURLIgnored("/misc/js/script.js"))
+	assert.IsFalse(t, "url left alone", hT.opts.isInternalURLIgnored("misc/js/script.js"))
+	assert.IsFalse(t, "url left alone", hT.opts.isInternalURLIgnored("/misc/js/script"))
 }
 
 func TestMergeHTTPHeaders(t *testing.T) {
