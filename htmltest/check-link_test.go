@@ -503,7 +503,7 @@ func TestAnchorInternalUrl(t *testing.T) {
 func TestAnchorInternalUrlOption(t *testing.T) {
 	// passes for internal linking writen in IgnoreInternalURLs option (#168)
 	hT := tTestFileOpts("fixtures/links/link_directory_internal_valid.html",
-		map[string]interface{}{"IgnoreInternalURLs": "/misc/js/script.js"})
+		map[string]interface{}{"IgnoreInternalURLs": []interface{}{"/misc/js/script.js"}})
 	tExpectIssueCount(t, hT, 0)
 }
 
