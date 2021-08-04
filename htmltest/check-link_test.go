@@ -497,7 +497,7 @@ func TestAnchorInternalUrl(t *testing.T) {
 	// fails for internal linking writen not in IgnoreInternalURLs (#168)
 	hT := tTestFile("fixtures/links/link_directory_internal_invalid.html")
 	tExpectIssueCount(t, hT, 1)
-	tExpectIssue(t, hT, "target is an internal URL not writen in IgnoreInternalURLs option", 1)
+	tExpectIssue(t, hT, "target does not exist", 1)
 }
 
 func TestAnchorInternalUrlOption(t *testing.T) {
