@@ -1,8 +1,9 @@
 package htmltest
 
 import (
-	"github.com/wjdp/htmltest/issues"
 	"testing"
+
+	"github.com/wjdp/htmltest/issues"
 )
 
 // Spec tests
@@ -489,6 +490,20 @@ func TestAnchorInternalHashBlankOption(t *testing.T) {
 func TestAnchorInternalHashWeird(t *testing.T) {
 	// works for internal links to weird encoding IDs
 	hT := tTestFile("fixtures/links/encodingLink.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestAnchorInternalUrl(t *testing.T) {
+	// fails for internal linking writen not in IgnoreInternalURLs (#168)
+	hT := tTestFile("fixtures/links/link_directory_internal_invalid.html")
+	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "target is an internal URL not writen in IgnoreInternalURLs option", 1)
+}
+
+func TestAnchorInternalUrlOption(t *testing.T) {
+	// passes for internal linking writen in IgnoreInternalURLs option (#168)
+	hT := tTestFileOpts("fixtures/links/link_directory_internal_valid.html",
+		map[string]interface{}{"IgnoreInternalURLs": "/misc/js/script.js"})
 	tExpectIssueCount(t, hT, 0)
 }
 
