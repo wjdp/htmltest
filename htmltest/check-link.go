@@ -8,6 +8,7 @@ import (
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/output"
 	"golang.org/x/net/html"
+	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -399,6 +400,71 @@ func (hT *HTMLTest) checkMailto(ref *htmldoc.Reference) {
 			Reference: ref,
 		})
 		return
+	}
+
+	// split off domain, check mx, fallback to A or AAAA if that fails
+	var dnserr *net.DNSError
+	var ok bool
+
+	domain := strings.Split(ref.URL.Opaque, "@")[1]
+
+	// loop over the current domain until we have a valid result or have exhausted all possibilities
+	for domain != "" {
+		// if a simple MX lookup works, we are done, continue
+		if _, err := net.LookupMX(domain); err == nil {
+			break // success, time to exit
+		} else if dnserr, ok = err.(*net.DNSError); !ok || dnserr.Err != "no such host" {
+			// this isn't an error we are expecting to see here
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelWarning,
+				Message:   "unable to perform LookupMX, unknown error",
+				Reference: ref,
+			})
+			return
+		}
+
+		// do we have to restart because of a CNAME
+		if cname, err := net.LookupCNAME(domain); err == nil && cname != domain {
+			// we have a valid CNAME, try with that. Loops return NXDOMAIN by default
+			domain = cname
+			continue
+
+		} else if dnserr, ok = err.(*net.DNSError); !ok || dnserr.Err != "no such host" {
+			// this isn't an error we are expecting to see here
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelWarning,
+				Message:   "unable to perform LookupCNAME, unknown error",
+				Reference: ref,
+			})
+			return
+		}
+
+		// an A or AAAA record here would be valid
+		if _, err := net.LookupHost(domain); err == nil {
+			break // its not ideal, but a valid A/AAAA record is acceptable for email
+		} else {
+			dnserr, ok = err.(*net.DNSError)
+			if !ok || dnserr.Err != "no such host" {
+				// we shouldn't see this here
+				hT.issueStore.AddIssue(issues.Issue{
+					Level:     issues.LevelWarning,
+					Message:   "unable to perform LookupHost, unknown error",
+					Reference: ref,
+				})
+				return
+			}
+
+			if dnserr.Err == "no such host" {
+				// represents NXDOMAIN or no records
+				hT.issueStore.AddIssue(issues.Issue{
+					Level:     issues.LevelError,
+					Message:   "email domain could not be resolved correctly",
+					Reference: ref,
+				})
+				return
+			}
+		}
+
 	}
 }
 
