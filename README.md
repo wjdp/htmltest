@@ -49,16 +49,16 @@ You can also build from sources by cloning this repo and running `sh build.sh`, 
 
 ### ![fedora](https://user-images.githubusercontent.com/1690934/106691082-ce11bc00-65ca-11eb-8af5-92253e6ff7a2.png) Fedora
 
-htmltest is in the [Fedora repositories](https://src.fedoraproject.org/rpms/htmltest), note this is not a first party build and may lag the latest version. 
+htmltest is in the [Fedora repositories](https://src.fedoraproject.org/rpms/htmltest), note this is not a first party build and may lag the latest version.
 
 ```dnf install htmltest```
 
 ### :whale: Docker
 
-```docker run -v $(pwd):/test --rm wjdp/htmltest```  
+```docker run -v $(pwd):/test --rm wjdp/htmltest```
 Mount your directory with html files into the container and test them.
 
-If you need more arguments to the test run it like this:  
+If you need more arguments to the test run it like this:
 ```docker run -v $(pwd):/test --rm wjdp/htmltest -l 3 -s```
 
 ### Notes
@@ -67,7 +67,7 @@ We store temporary files in `tmp/.htmltest` by default. You probably want to ign
 
 ## :computer: Usage
 
-```
+```txt
 htmltest - Test generated HTML for problems
            https://github.com/wjdp/htmltest
 
@@ -158,6 +158,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `EnforceHTML5` | Fails when the doctype isn't `<!DOCTYPE html>`. | `false` |
 | `EnforceHTTPS` | Fails when encountering an `http://` link. Useful to prevent mixed content errors when serving over HTTPS. | `false` |
 | `IgnoreURLs` | Array of regexs of URLs to ignore. | empty |
+| `IgnoreInternalURLs` | Array of strings of internal URLs to ignore. | empty |
 | `IgnoreDirs` | Array of regexs of directories to ignore when scanning for HTML files. | empty |
 | `IgnoreInternalEmptyHash` | When true prevents raising an error for links with `href="#"`. | `false` |
 | `IgnoreEmptyHref` | When true prevents raising an error for links with `href=""`. | `false` |
@@ -188,6 +189,8 @@ DirectoryPath: "_site"
 EnforceHTTPS: true
 IgnoreURLs:
 - "example.com"
+IgnoreInternalURLs:
+- "/misc/js/script.js"
 IgnoreDirs:
 - "lib"
 CacheExpires: "6h"

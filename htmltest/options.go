@@ -38,8 +38,9 @@ type Options struct {
 	EnforceHTML5 bool
 	EnforceHTTPS bool
 
-	IgnoreURLs []interface{}
-	IgnoreDirs []interface{}
+	IgnoreURLs         []interface{}
+	IgnoreInternalURLs []interface{}
+	IgnoreDirs         []interface{}
 
 	IgnoreInternalEmptyHash             bool
 	IgnoreEmptyHref                     bool
@@ -102,8 +103,9 @@ func DefaultOptions() map[string]interface{} {
 		"EnforceHTML5": false,
 		"EnforceHTTPS": false,
 
-		"IgnoreURLs": []interface{}{},
-		"IgnoreDirs": []interface{}{},
+		"IgnoreURLs":         []interface{}{},
+		"IgnoreInternalURLs": []interface{}{},
+		"IgnoreDirs":         []interface{}{},
 
 		"IgnoreInternalEmptyHash":             false,
 		"IgnoreEmptyHref":                     false,
@@ -177,6 +179,17 @@ func InList(list []interface{}, key string) bool {
 func (opts *Options) isURLIgnored(url string) bool {
 	for _, item := range opts.IgnoreURLs {
 		if ok, _ := regexp.MatchString(item.(string), url); ok {
+			return true
+		}
+	}
+	return false
+}
+
+// Solve #168
+// Is the given local URL ignored by the current configuration
+func (opts *Options) isInternalURLIgnored(url string) bool {
+	for _, item := range opts.IgnoreInternalURLs {
+		if item.(string) == url {
 			return true
 		}
 	}
