@@ -319,6 +319,15 @@ func TestAnchorInternalBrokenIgnore(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestAnchorInternalBrokenIgnoreUrl(t *testing.T) {
+	// ignores links in IgnoreURLs
+	hT := tTestFileOpts("fixtures/links/brokenLinkInternal.html",
+		map[string]interface{}{
+			"IgnoreURLs": []interface{}{"no\\w+.html"},
+		})
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestAnchorInternalRelativeLinksBase(t *testing.T) {
 	// passes for relative links with a base
 	hT := tTestFile("fixtures/links/relativeLinksWithBase.html")
