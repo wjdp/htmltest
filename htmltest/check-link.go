@@ -280,7 +280,7 @@ func (hT *HTMLTest) checkInternal(ref *htmldoc.Reference) {
 	// Solve #168
 	urlStr := ref.URLString()
 
-	// Does this internal url match a internal url ignore rule?
+	// Does this internal url match an internal url ignore rule?
 	if hT.opts.isInternalURLIgnored(urlStr) {
 		return
 	}
