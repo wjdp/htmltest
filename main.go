@@ -20,7 +20,6 @@ const cmdSeparator string = "===================================================
 
 var (
 	version  string
-	date     string
 	fileMode bool
 )
 
@@ -43,7 +42,7 @@ Options:
                                time considerably.
   -v, --version                Show version and build time.
 `
-	versionText := "htmltest " + version + "\n" + date
+	versionText := "htmltest " + version
 	arguments, _ := docopt.Parse(usage, nil, true, versionText, false)
 
 	// fmt.Println(arguments)
