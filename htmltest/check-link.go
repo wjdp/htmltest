@@ -279,6 +279,8 @@ func (hT *HTMLTest) checkInternal(ref *htmldoc.Reference) {
 
 	urlStr := ref.URLString()
 
+	// Does this internal url match either a standard URL ignore rule or internal
+	// url ignore rule?
 	if hT.opts.isInternalURLIgnored(urlStr) || hT.opts.isURLIgnored(urlStr) {
 		return
 	}
@@ -320,7 +322,6 @@ func (hT *HTMLTest) checkInternalHash(ref *htmldoc.Reference) {
 		return
 	}
 
-	// var refDoc *htmldoc.Document
 	if len(ref.URL.Fragment) == 0 {
 		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.LevelError,
@@ -331,8 +332,9 @@ func (hT *HTMLTest) checkInternalHash(ref *htmldoc.Reference) {
 
 	if len(ref.URL.Path) > 0 {
 		// internal
-		refDoc, _ := hT.documentStore.ResolveRef(ref)
-		if !refDoc.IsHashValid(ref.URL.Fragment) {
+		refDoc, ok := hT.documentStore.ResolveRef(ref)
+
+		if !ok || !refDoc.IsHashValid(ref.URL.Fragment) {
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelError,
 				Message:   "hash does not exist",

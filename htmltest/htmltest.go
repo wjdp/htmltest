@@ -6,17 +6,18 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
-	"github.com/wjdp/htmltest/htmldoc"
-	"github.com/wjdp/htmltest/issues"
-	"github.com/wjdp/htmltest/output"
-	"github.com/wjdp/htmltest/refcache"
-	"gopkg.in/seborama/govcr.v2"
 	"net/http"
 	"os"
 	"path"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/wjdp/htmltest/htmldoc"
+	"github.com/wjdp/htmltest/issues"
+	"github.com/wjdp/htmltest/output"
+	"github.com/wjdp/htmltest/refcache"
+	"gopkg.in/seborama/govcr.v2"
 )
 
 // Base path for VCR cassettes, relative to this package
@@ -186,6 +187,14 @@ func (hT *HTMLTest) testDocuments() {
 }
 
 func (hT *HTMLTest) testDocument(document *htmldoc.Document) {
+	if document.IgnoreTest {
+		hT.issueStore.AddIssue(issues.Issue{
+			Level:   issues.LevelDebug,
+			Message: "ignored " + document.SitePath,
+		})
+		return
+	}
+
 	hT.issueStore.AddIssue(issues.Issue{
 		Level:   issues.LevelDebug,
 		Message: "testDocument on " + document.SitePath,

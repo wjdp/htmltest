@@ -4,10 +4,11 @@
 package htmldoc
 
 import (
-	"github.com/wjdp/htmltest/output"
 	"os"
 	"path"
 	"regexp"
+
+	"github.com/wjdp/htmltest/output"
 )
 
 // DocumentStore struct, store of Documents including Document discovery
@@ -55,11 +56,6 @@ func (dS *DocumentStore) isDirIgnored(dir string) bool {
 
 // Recursive function to discover documents by walking the file tree
 func (dS *DocumentStore) discoverRecurse(dPath string) {
-	// Recurse over relative path dPath, saves found documents to dS
-	if dS.isDirIgnored(dPath) {
-		return
-	}
-
 	// Open directory to scan
 	f, err := os.Open(path.Join(dS.BasePath, dPath))
 	output.CheckErrorPanic(err)
@@ -83,9 +79,10 @@ func (dS *DocumentStore) discoverRecurse(dPath string) {
 			} else if path.Ext(fileinfo.Name()) == dS.DocumentExtension {
 				// If a file, create and save document
 				newDoc := &Document{
-					FilePath: path.Join(dS.BasePath, fPath),
-					SitePath: fPath,
-					BasePath: dPath,
+					FilePath:   path.Join(dS.BasePath, fPath),
+					SitePath:   fPath,
+					BasePath:   dPath,
+					IgnoreTest: dS.isDirIgnored(dPath),
 				}
 				newDoc.Init()
 				dS.AddDocument(newDoc)

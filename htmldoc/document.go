@@ -2,11 +2,12 @@ package htmldoc
 
 import (
 	"fmt"
-	"github.com/wjdp/htmltest/output"
-	"golang.org/x/net/html"
 	"os"
 	"path"
 	"sync"
+
+	"github.com/wjdp/htmltest/output"
+	"golang.org/x/net/html"
 )
 
 // Document struct, representation of a document within the tested site
@@ -14,6 +15,7 @@ type Document struct {
 	FilePath           string                // Relative to the shell session
 	SitePath           string                // Relative to the site root
 	BasePath           string                // Base for relative links
+	IgnoreTest         bool                  // Ignore this Document for testing.
 	htmlMutex          *sync.Mutex           // Controls access to htmlNode
 	htmlNode           *html.Node            // Parsed output
 	hashMap            map[string]*html.Node // Map of valid id/names of nodes
@@ -43,6 +45,7 @@ func (doc *Document) Init() {
 // already been done. Thread safe. Either called when the document is tested
 // or when another document needs data from this one.
 func (doc *Document) Parse() {
+
 	// Only one routine may parse the doc
 	doc.htmlMutex.Lock()
 	defer doc.htmlMutex.Unlock()

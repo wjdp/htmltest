@@ -1,8 +1,9 @@
 package htmldoc
 
 import (
-	"github.com/daviddengcn/go-assert"
 	"testing"
+
+	"github.com/daviddengcn/go-assert"
 )
 
 func TestDocumentStoreDiscover(t *testing.T) {
@@ -25,7 +26,7 @@ func TestDocumentStoreIgnorePatterns(t *testing.T) {
 	dS.IgnorePatterns = []interface{}{"^lib/"}
 	dS.Discover()
 	// Fixtures dir has seven documents in various folders, (one ignored in lib)
-	assert.Equals(t, "document count", len(dS.Documents), 5)
+	assert.Equals(t, "document count", len(dS.Documents), 6)
 }
 
 func TestDocumentStoreDocumentExists(t *testing.T) {
