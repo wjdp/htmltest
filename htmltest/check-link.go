@@ -322,7 +322,6 @@ func (hT *HTMLTest) checkInternalHash(ref *htmldoc.Reference) {
 		return
 	}
 
-	// var refDoc *htmldoc.Document
 	if len(ref.URL.Fragment) == 0 {
 		hT.issueStore.AddIssue(issues.Issue{
 			Level:     issues.LevelError,
