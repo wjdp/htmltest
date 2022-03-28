@@ -45,3 +45,4 @@ dist/
 
 # JetBrains config
 .idea/
+*.iml

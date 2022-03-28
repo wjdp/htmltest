@@ -1,10 +1,11 @@
 package htmldoc
 
 import (
-	"golang.org/x/net/html"
 	"net/url"
 	"path"
 	"strings"
+
+	"golang.org/x/net/html"
 )
 
 // Reference struct, representation of the link between a document and a
@@ -19,6 +20,7 @@ type Reference struct {
 // NewReference : Create a new reference given a document, node and path.
 // Generates the URL object.
 func NewReference(document *Document, node *html.Node, path string) (*Reference, error) {
+
 	// Clean path
 	path = strings.TrimLeftFunc(path, invalidPrePostRune)
 	path = strings.TrimRightFunc(path, invalidPrePostRune)
