@@ -324,6 +324,24 @@ func TestAnchorInternalBrokenIgnore(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestAnchorInternalIgnoreUrl(t *testing.T) {
+	// ignores internal links in IgnoreURLs
+	hT := tTestFileOpts("fixtures/links/brokenLinkInternal.html",
+		map[string]interface{}{
+			"IgnoreURLs": []interface{}{"no\\w+.html"},
+		})
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestAnchorFileIgnoreUrl(t *testing.T) {
+	// ignores file links in IgnoreURLs
+	hT := tTestFileOpts("fixtures/links/brokenLinkFile.html",
+		map[string]interface{}{
+			"IgnoreURLs": []interface{}{"no\\w+.html"},
+		})
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestAnchorInternalRelativeLinksBase(t *testing.T) {
 	// passes for relative links with a base
 	hT := tTestFile("fixtures/links/relativeLinksWithBase.html")
@@ -498,18 +516,41 @@ func TestAnchorInternalHashWeird(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
-func TestAnchorInternalUrl(t *testing.T) {
-	// fails for internal linking writen not in IgnoreInternalURLs (#168)
+func TestAnchorInternalUrlDoesNotExist(t *testing.T) {
+	// fails for internal link not in IgnoreInternalURLs (#168)
 	hT := tTestFile("fixtures/links/link_directory_internal_invalid.html")
 	tExpectIssueCount(t, hT, 1)
 	tExpectIssue(t, hT, "target does not exist", 1)
 }
 
-func TestAnchorInternalUrlOption(t *testing.T) {
-	// passes for internal linking writen in IgnoreInternalURLs option (#168)
+func TestAnchorInternalUrlIgnoreUsingIgnoreInternalURLs(t *testing.T) {
+	// passes for internal link in IgnoreInternalURLs option (#168)
 	hT := tTestFileOpts("fixtures/links/link_directory_internal_valid.html",
 		map[string]interface{}{"IgnoreInternalURLs": []interface{}{"/misc/js/script.js"}})
 	tExpectIssueCount(t, hT, 0)
+}
+
+func TestAnchorInternalUrlIgnoreInternalURLsIsStrict(t *testing.T) {
+	// fails as IgnoreInternalURLs requires a string match
+	hT := tTestFileOpts("fixtures/links/link_directory_internal_valid.html",
+		map[string]interface{}{"IgnoreInternalURLs": []interface{}{"misc/js/script.js"}})
+	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "target does not exist", 1)
+}
+
+func TestAnchorInternalUrlIgnoreUsingIgnoreURLs(t *testing.T) {
+	// passes for internal link in IgnoreURLs option using regex
+	hT := tTestFileOpts("fixtures/links/link_directory_internal_valid.html",
+		map[string]interface{}{"IgnoreURLs": []interface{}{"^/misc/js/script.js$"}})
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestAnchorInternalUrlNotIgnoreUsingIgnoreURLs(t *testing.T) {
+	// fails for internal link in when doesn't match strict regex in IgnoreURLs
+	hT := tTestFileOpts("fixtures/links/link_directory_internal_invalid.html",
+		map[string]interface{}{"IgnoreURLs": []interface{}{"^/misc/js/script.js$"}})
+	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "target does not exist", 1)
 }
 
 func TestAnchorMultipleProblems(t *testing.T) {
