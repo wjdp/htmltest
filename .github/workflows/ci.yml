@@ -93,6 +93,10 @@ jobs:
           fetch-depth: 0
       - name: Fetch tags
         run: git fetch --force --tags
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ env.GO_VERSION }}
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
