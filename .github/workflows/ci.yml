@@ -3,7 +3,7 @@ name: build
 on: [push, pull_request]
 
 env:
-  GO_VERSION: 1.15.6
+  GO_VERSION: 1.17.8
 
 jobs:
   git-describe:
