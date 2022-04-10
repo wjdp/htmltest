@@ -11,7 +11,7 @@ RUN go mod download
 
 COPY ./ ./
 ARG VERSION
-RUN CGO_ENABLED=0 go build -installsuffix 'static' -ldflags "-X main.date=`date -u +%Y-%m-%dT%H:%M:%SZ` -X main.version=${VERSION}" -o /app .
+RUN CGO_ENABLED=0 go build -installsuffix 'static' -ldflags "-X main.version=${VERSION}" -o /app .
 
 FROM ${TARGET} AS final
 
