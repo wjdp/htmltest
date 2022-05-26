@@ -136,6 +136,19 @@ func TestAnchorExternalInsecureOptionIgnored(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestAnchorExternalInsecureOptionIgnoredInsecure(t *testing.T) {
+	// checks non-HTTPS links when they're in the IgnoreHTTPS list
+	hT := tTestFileOpts("fixtures/links/non_https_ignore.html",
+		map[string]interface{}{
+			"EnforceHTTPS": true,
+			"IgnoreHTTPS":  []interface{}{`ben\.balter\.com`, `doesntexist\.io`},
+			"VCREnable":    true,
+		})
+	tExpectIssueCount(t, hT, 2)
+	tExpectIssue(t, hT, "is not an HTTPS target", 1)
+	tExpectIssue(t, hT, "Non-OK status", 1)
+}
+
 func TestAnchorExternalHrefIP(t *testing.T) {
 	// fails for broken IP address links
 	hT := tTestFileOpts("fixtures/links/ip_href.html",

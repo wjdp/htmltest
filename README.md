@@ -159,6 +159,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `EnforceHTTPS` | Fails when encountering an `http://` link. Useful to prevent mixed content errors when serving over HTTPS. | `false` |
 | `IgnoreURLs` | Array of regexs of URLs to ignore. | empty |
 | `IgnoreInternalURLs` | Array of strings of internal URLs to ignore. Exact matches only. ⚠ Likely to be deprecated, use `IgnoreURLs` instead. | empty |
+| `IgnoreHTTPS` | Array of regexs of URLs to ignore for `EnforceHTTPS`. These URLs are still tested, unless also present in `IgnoreURLs`. | empty |
 | `IgnoreDirs` | Array of regexs of directories to ignore when scanning for HTML files. | empty |
 | `IgnoreInternalEmptyHash` | When true prevents raising an error for links with `href="#"`. | `false` |
 | `IgnoreEmptyHref` | When true prevents raising an error for links with `href=""`. | `false` |
