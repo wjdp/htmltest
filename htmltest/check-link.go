@@ -33,6 +33,12 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 		return
 	}
 
+	// Ignore rel=schema.*, as URIs from schema links do not have to exist
+	// Fixes #190
+	if strings.HasPrefix(attrs["rel"], "schema.") {
+		return
+	}
+
 	// Create reference
 	ref, err := htmldoc.NewReference(document, node, attrs["href"])
 	if err != nil {
