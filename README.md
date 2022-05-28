@@ -37,21 +37,15 @@ By default this will install `htmltest` into `./bin` of your current directory, 
 
 Run `curl https://htmltest.wjdp.uk | bash -s -- -h` for help text.
 
+### 📦 Package Repos
+
+We're available in some [package repositories](https://repology.org/project/htmltest/versions) such as Homebrew and repos for certain distros. Do note the version available may not be the latest.
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/htmltest.svg)](https://repology.org/project/htmltest/versions)
+
 ### ![win64](https://user-images.githubusercontent.com/1690934/30242799-17a573f2-9595-11e7-9aa5-04e34b04b0cd.png) Windows
 
 :arrow_down: Download the [latest binary release](https://github.com/wjdp/htmltest/releases/latest) and put it somewhere on your PATH.
-
-### :blowfish: OpenBSD
-
-:arrow_down: Download the [latest binary release](https://github.com/wjdp/htmltest/releases/latest) and put it somewhere on your PATH.
-
-You can also build from sources by cloning this repo and running `sh build.sh`, which puts the `htmltest` executable in the `./bin` dir. Use in place, or install to path such as `/usr/local/bin`.
-
-### ![fedora](https://user-images.githubusercontent.com/1690934/106691082-ce11bc00-65ca-11eb-8af5-92253e6ff7a2.png) Fedora
-
-htmltest is in the [Fedora repositories](https://src.fedoraproject.org/rpms/htmltest), note this is not a first party build and may lag the latest version.
-
-```dnf install htmltest```
 
 ### :whale: Docker
 
