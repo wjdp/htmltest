@@ -40,6 +40,7 @@ type Options struct {
 
 	IgnoreURLs         []interface{}
 	IgnoreInternalURLs []interface{}
+	IgnoreHTTPS        []interface{}
 	IgnoreDirs         []interface{}
 
 	IgnoreInternalEmptyHash             bool
@@ -105,6 +106,7 @@ func DefaultOptions() map[string]interface{} {
 
 		"IgnoreURLs":         []interface{}{},
 		"IgnoreInternalURLs": []interface{}{},
+		"IgnoreHTTPS":        []interface{}{},
 		"IgnoreDirs":         []interface{}{},
 
 		"IgnoreInternalEmptyHash":             false,
@@ -178,6 +180,16 @@ func InList(list []interface{}, key string) bool {
 // Is the given URL ignored by the current configuration
 func (opts *Options) isURLIgnored(url string) bool {
 	for _, item := range opts.IgnoreURLs {
+		if ok, _ := regexp.MatchString(item.(string), url); ok {
+			return true
+		}
+	}
+	return false
+}
+
+// Is the given URL an insecure URL ignored by IgnoreHTTPS
+func (opts *Options) isInsecureURLIgnored(url string) bool {
+	for _, item := range opts.IgnoreHTTPS {
 		if ok, _ := regexp.MatchString(item.(string), url); ok {
 			return true
 		}
