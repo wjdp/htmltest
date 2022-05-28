@@ -7,6 +7,7 @@ import (
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/output"
 	"io/ioutil"
+	"sort"
 	"strings"
 	"sync"
 )
@@ -124,4 +125,69 @@ func (iS *IssueStore) DumpIssues(force bool) {
 		issue.print(force, "")
 	}
 	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>")
+}
+
+type IssueStats struct {
+	// How many issues of each level
+	TotalByLevel map[int]int
+	// Collect errors against count
+	ErrorsByMessage map[string]int
+	// Collect warnings against count
+	WarningsByMessage map[string]int
+}
+
+// GetIssueStats : Get stats on issues in the store.
+func (iS *IssueStore) GetIssueStats() IssueStats {
+	stats := IssueStats{TotalByLevel: make(map[int]int), ErrorsByMessage: make(map[string]int), WarningsByMessage: make(map[string]int)}
+	for _, issue := range iS.issues {
+		stats.TotalByLevel[issue.Level]++
+		if issue.Level == LevelError {
+			stats.ErrorsByMessage[issue.Message]++
+		}
+		if issue.Level == LevelWarning {
+			stats.WarningsByMessage[issue.Message]++
+		}
+	}
+	return stats
+}
+
+func formatMessageCounts(messageCounts map[string]int) string {
+	keySlice := make([]string, 0)
+	for key, _ := range messageCounts {
+		keySlice = append(keySlice, key)
+	}
+	sort.Strings(keySlice)
+
+	var s string
+	for _, message := range keySlice {
+		s += fmt.Sprintf("    %d \"%s\"\n", messageCounts[message], message)
+	}
+	return s
+}
+
+// FormatIssueStats : Return formatted stats on issues in the store.
+func (iS *IssueStore) FormatIssueStats() string {
+	formattedStats := ""
+	stats := iS.GetIssueStats()
+	if iS.logLevel <= LevelError {
+		formattedStats += fmt.Sprintln("  Errors:  ", stats.TotalByLevel[LevelError])
+	}
+	if iS.logLevel <= LevelWarning {
+		formattedStats += fmt.Sprintln("  Warnings:", stats.TotalByLevel[LevelWarning])
+	}
+	if iS.logLevel <= LevelInfo {
+		formattedStats += fmt.Sprintln("  Infos:   ", stats.TotalByLevel[LevelInfo])
+	}
+	if iS.logLevel <= LevelDebug {
+		formattedStats += fmt.Sprintln("  Debugs:  ", stats.TotalByLevel[LevelDebug])
+	}
+	if (iS.logLevel <= LevelError) && (len(stats.ErrorsByMessage) > 0) {
+		formattedStats += fmt.Sprintln("  Errors by message:")
+		formattedStats += formatMessageCounts(stats.ErrorsByMessage)
+	}
+	if (iS.logLevel <= LevelWarning) && (len(stats.WarningsByMessage) > 0) {
+		formattedStats += fmt.Sprintln("  Warnings by message:")
+		formattedStats += formatMessageCounts(stats.WarningsByMessage)
+	}
+	return formattedStats
 }
