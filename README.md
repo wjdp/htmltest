@@ -55,9 +55,9 @@ Mount your directory with html files into the container and test them.
 If you need more arguments to the test run it like this:
 ```docker run -v $(pwd):/test --rm wjdp/htmltest -l 3 -s```
 
-### Notes
+### 🧾 Temporary Files
 
-We store temporary files in `tmp/.htmltest` by default. You probably want to ignore that in your version control system, and perhaps [cache it in your CI system](https://docs.travis-ci.com/user/caching/#Arbitrary-directories).
+We store temporary files in `tmp/.htmltest` by default. This contains a log of output and a cache of external links, speeding up subsequent runs. You probably want to ignore it in version control, and perhaps cache it in your CI system.
 
 ## :computer: Usage
 
