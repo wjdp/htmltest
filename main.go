@@ -169,6 +169,7 @@ func run(options optsMap) int {
 
 	timeEnd := time.Now()
 	numErrors := hT.CountErrors()
+	documentCount := hT.CountDocuments()
 
 	if numErrors == 0 {
 		color.Set(color.FgHiGreen)
@@ -180,14 +181,17 @@ func run(options optsMap) int {
 		return 0
 	}
 
-	color.Set(color.FgHiRed)
 	fmt.Println(cmdSeparator)
+	color.Set(color.FgHiRed)
 	fmt.Println("✘✘✘ failed in", timeEnd.Sub(timeStart))
-	if fileMode {
-		fmt.Println(numErrors, "errors")
-	} else {
-		fmt.Println(numErrors, "errors in", hT.CountDocuments(), "documents")
+	if !fileMode {
+		fmt.Println(output.Pluralise(
+			documentCount,
+			fmt.Sprint("tested ", documentCount, " document"),
+			fmt.Sprint("tested ", documentCount, " documents"),
+		))
 	}
+	fmt.Printf(hT.FormatIssueStats())
 	color.Unset()
 	return 1
 
