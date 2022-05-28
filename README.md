@@ -13,7 +13,7 @@ If you generate HTML files, [html-proofer](https://github.com/gjtorikian/html-pr
 
 ## :floppy_disk: Installation
 
-### :penguin: Linux / :green_apple: macOS / :iphone: Arm
+### :penguin: Linux / :green_apple: macOS
 
 This [godownloader](https://github.com/goreleaser/godownloader) script will query GitHub for the latest release and download the correct binary for your platform into the directory set with the `-b` flag.
 
