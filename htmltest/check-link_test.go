@@ -204,6 +204,8 @@ func TestAnchorExternalBrokenOptionHTTPSInvalid(t *testing.T) {
 }
 
 func TestAnchorExternalHTTPSMissingChain(t *testing.T) {
+	// TODO: remove skip when incomplete-chain.badssl.com has an in-date cert
+	t.Skip("The cert on incomplete-chain.badssl.com has expired, cannot use for testing at present")
 	// should support https aia
 	// see issue #130
 	tSkipShortExternal(t)
