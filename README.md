@@ -160,6 +160,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `IgnoreCanonicalBrokenLinks` | When true produces a warning, rather than an error, for broken canonical links. When testing a site which isn't live yet or before publishing a new page canonical links will fail. | `true` |
 | `IgnoreExternalBrokenLinks` | When true produces a warning, rather than an error, for broken external links. Useful when testing a site having hundreds of external links. | `false` |
 | `IgnoreAltMissing` | Turns off image alt attribute checking. | `false` |
+| `IgnoreAltEmpty` | Allows `alt=""` for decorative images. | `false` |
 | `IgnoreDirectoryMissingTrailingSlash` | Turns off errors for links to directories without a trailing slash. | `false` |
 | `IgnoreSSLVerify` | Turns off x509 errors for self-signed certificates. | `false` |
 | `IgnoreTagAttribute` | Specify the ignore attribute. All tags with this attribute will be excluded from every check. | `"data-proofer-ignore"` |

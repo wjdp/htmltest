@@ -48,6 +48,7 @@ type Options struct {
 	IgnoreCanonicalBrokenLinks          bool
 	IgnoreExternalBrokenLinks           bool
 	IgnoreAltMissing                    bool
+	IgnoreAltEmpty                      bool
 	IgnoreDirectoryMissingTrailingSlash bool
 	IgnoreSSLVerify                     bool
 	IgnoreTagAttribute                  string
@@ -114,6 +115,7 @@ func DefaultOptions() map[string]interface{} {
 		"IgnoreCanonicalBrokenLinks":          true,
 		"IgnoreExternalBrokenLinks":           false,
 		"IgnoreAltMissing":                    false,
+		"IgnoreAltEmpty":                      false,
 		"IgnoreDirectoryMissingTrailingSlash": false,
 		"IgnoreSSLVerify":                     false,
 		"IgnoreTagAttribute":                  "data-proofer-ignore",
