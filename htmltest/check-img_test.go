@@ -179,6 +179,21 @@ func TestImageAltEmpty(t *testing.T) {
 	tExpectIssue(t, hT, "alt text empty", 1)
 }
 
+func TestImageAltIgnoreEmptyWhenMissing(t *testing.T) {
+	// fails for image with an empty alt attribute
+	hT := tTestFileOpts("fixtures/images/missingImageAlt.html",
+		map[string]interface{}{"IgnoreAltEmpty": true})
+	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "alt attribute missing", 1)
+}
+
+func TestImageAltIgnoreEmptyWhenPresent(t *testing.T) {
+	// ignores empty alt attribute present for image
+	hT := tTestFileOpts("fixtures/images/emptyImageAltTextExplicit.html",
+		map[string]interface{}{"IgnoreAltEmpty": true})
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestImageAltSpaces(t *testing.T) {
 	// fails for image with nothing but spaces in alt attribute
 	hT := tTestFile("fixtures/images/emptyImageAltText.html")

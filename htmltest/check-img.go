@@ -32,7 +32,7 @@ func (hT *HTMLTest) checkImg(document *htmldoc.Document, node *html.Node) {
 		})
 	} else if htmldoc.AttrPresent(node.Attr, "alt") && !hT.opts.IgnoreAltMissing {
 		// Following checks require alt attr is present
-		if len(attrs["alt"]) == 0 {
+		if len(attrs["alt"]) == 0 && !hT.opts.IgnoreAltEmpty {
 			// Check alt has length, fail if empty
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelError,
