@@ -171,6 +171,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `LogLevel` | Logging level, 0-3: debug, info, warning, error. | `2` |
 | `LogSort` | How to sort/present issues. Can be `seq` for sequential output or `document` to group by document. | `document` |
 | `ExternalTimeout` | Number of seconds to wait on an HTTP connection before failing. | `15` |
+| `RedirectLimit` | Allowed number of redirects. Use built-in behavior with negative values. | `-1` |
 | `StripQueryString` | Enables stripping of query strings from external checks. | `true` |
 | `StripQueryExcludes` | List of URLs to disable query stripping on. | `["fonts.googleapis.com"]` |
 | `OutputDir` | Directory to store cache and log files in. Relative to executing directory. | `tmp/.htmltest` |
