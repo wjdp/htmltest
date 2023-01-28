@@ -18,7 +18,16 @@ func TestImageExternalMissing(t *testing.T) {
 		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 1)
 	// Issue contains "no such host"
-	// tExpectIssue(t, hT, "no such host", 1)
+	tExpectIssue(t, hT, "no such host", 1)
+}
+
+func TestImageExternal404(t *testing.T) {
+	// fails for missing external images
+	hT := tTestFileOpts("fixtures/images/imageExternal404.html",
+		map[string]interface{}{"VCREnable": true})
+	tExpectIssueCount(t, hT, 1)
+	// Issue contains "no such host"
+	tExpectIssue(t, hT, "Non-OK status: 404", 1)
 }
 
 func TestImageExternalMissingProtocolValid(t *testing.T) {
