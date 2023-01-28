@@ -34,6 +34,27 @@ type HTMLTest struct {
 	refCache      *refcache.RefCache
 }
 
+func setRedirectLimitCheck(hT HTMLTest) func(req *http.Request, via []*http.Request) error {
+	redirectLimit := hT.opts.RedirectLimit
+
+	// Nothing set or invalid, use defaults from net/http
+	if 0 > redirectLimit {
+		return nil
+	}
+
+	return func(req *http.Request, via []*http.Request) error {
+		if redirectLimit < len(via) {
+			originalURL := via[0].URL.String()
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:   issues.LevelError,
+				Message: "too many redirects: " + originalURL,
+			})
+			return errors.New("too many redirects: " + originalURL)
+		}
+		return nil
+	}
+}
+
 // Test : Given user options run htmltest and return a pointer to the test
 // object.
 func Test(optsUser map[string]interface{}) (*HTMLTest, error) {
@@ -62,8 +83,9 @@ func Test(optsUser map[string]interface{}) (*HTMLTest, error) {
 	}
 	hT.httpClient = &http.Client{
 		// Durations are in nanoseconds
-		Transport: transport,
-		Timeout:   time.Duration(hT.opts.ExternalTimeout) * time.Second,
+		Transport:     transport,
+		Timeout:       time.Duration(hT.opts.ExternalTimeout) * time.Second,
+		CheckRedirect: setRedirectLimitCheck(hT),
 	}
 
 	// If enabled (unit tests only) patch in govcr to the httpClient

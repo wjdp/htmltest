@@ -63,6 +63,7 @@ type Options struct {
 	LogSort  string
 
 	ExternalTimeout    int
+	RedirectLimit      int
 	StripQueryString   bool
 	StripQueryExcludes []interface{}
 
@@ -133,6 +134,7 @@ func DefaultOptions() map[string]interface{} {
 		"LogSort":  "document",
 
 		"ExternalTimeout":    15,
+		"RedirectLimit":      -1, // resort to built-in default
 		"StripQueryString":   true,
 		"StripQueryExcludes": []interface{}{"fonts.googleapis.com"},
 
