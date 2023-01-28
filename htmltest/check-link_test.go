@@ -510,7 +510,7 @@ func TestAnchorInternalCaseMismatch(t *testing.T) {
 func TestAnchorInternalHashBlankDefault(t *testing.T) {
 	// fails for href="#" when not asked
 	hT := tTestFile("fixtures/links/hash_href.html")
-	tExpectIssue(t, hT, "empty hash", 1)
+	tExpectIssue(t, hT, "<a> empty hash", 1)
 	tExpectIssueCount(t, hT, 1)
 }
 
@@ -667,7 +667,7 @@ func TestLinkHrefAbsent(t *testing.T) {
 	// fails for absent href within link elements
 	hT := tTestFile("fixtures/links/head_link_href_absent.html")
 	tExpectIssueCount(t, hT, 1)
-	tExpectIssue(t, hT, "link tag missing href", 1)
+	tExpectIssue(t, hT, "<link> missing href", 1)
 }
 
 func TestLinkHrefBrokenCanonicalDefault(t *testing.T) {

@@ -50,14 +50,14 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 		case "a":
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelDebug,
-				Message:   "anchor without href",
+				Message:   "<a> without href",
 				Reference: ref,
 			})
 			return
 		case "link":
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelError,
-				Message:   "link tag missing href",
+				Message:   "<link> missing href",
 				Reference: ref,
 			})
 			return
@@ -88,7 +88,7 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 		if hT.opts.CheckInternalHash && !hT.opts.IgnoreInternalEmptyHash {
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelError,
-				Message:   "empty hash",
+				Message:   fmt.Sprintf("<%s> empty hash", node.Data),
 				Reference: ref,
 			})
 		}
