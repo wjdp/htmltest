@@ -690,6 +690,12 @@ func TestLinkRelDnsPrefetch(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestLinkRelPreconnect(t *testing.T) {
+	// ignores links with rel="preconnect"
+	hT := tTestFile("fixtures/links/link_rel_preconnect.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestAnchorPre(t *testing.T) {
 	// catches broken links when inside pre or code tags
 	hT := tTestFileOpts("fixtures/links/anchors_in_pre.html",
