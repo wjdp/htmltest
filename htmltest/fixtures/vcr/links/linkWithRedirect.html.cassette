@@ -1,6 +1,5 @@
 {
   "Name": "linkWithRedirect.html",
-  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {

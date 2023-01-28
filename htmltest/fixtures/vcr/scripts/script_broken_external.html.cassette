@@ -1,6 +1,5 @@
 {
   "Name": "script_broken_external.html",
-  "Path": "fixtures/vcr/scripts",
   "Tracks": [
     {
       "Request": {

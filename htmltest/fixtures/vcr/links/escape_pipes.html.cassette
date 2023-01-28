@@ -1,6 +1,5 @@
 {
   "Name": "escape_pipes.html",
-  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {

@@ -1,6 +1,5 @@
 {
   "Name": "utf8Link.html",
-  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {

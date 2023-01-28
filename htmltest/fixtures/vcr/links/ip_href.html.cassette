@@ -1,6 +1,5 @@
 {
   "Name": "ip_href.html",
-  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {

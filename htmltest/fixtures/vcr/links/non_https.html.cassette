@@ -1,6 +1,5 @@
 {
   "Name": "non_https.html",
-  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {

@@ -1,6 +1,5 @@
 {
   "Name": "image_missing_protocol_invalid.html",
-  "Path": "fixtures/vcr/images",
   "Tracks": [
     {
       "Request": {

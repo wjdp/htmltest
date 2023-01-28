@@ -1,6 +1,5 @@
 {
   "Name": "brokenLinkExternal.html",
-  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {

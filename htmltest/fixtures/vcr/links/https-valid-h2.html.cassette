@@ -1,6 +1,5 @@
 {
   "Name": "https-valid-h2.html",
-  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {

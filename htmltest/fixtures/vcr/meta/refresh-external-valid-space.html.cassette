@@ -1,6 +1,5 @@
 {
   "Name": "refresh-external-valid-space.html",
-  "Path": "fixtures/vcr/meta",
   "Tracks": [
     {
       "Request": {

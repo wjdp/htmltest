@@ -1,6 +1,5 @@
 {
   "Name": "anchors_in_pre.html",
-  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {

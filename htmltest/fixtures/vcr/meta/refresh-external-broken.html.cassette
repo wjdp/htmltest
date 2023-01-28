@@ -1,6 +1,5 @@
 {
   "Name": "refresh-external-broken.html",
-  "Path": "fixtures/vcr/meta",
   "Tracks": [
     {
       "Request": {
