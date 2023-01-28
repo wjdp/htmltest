@@ -12,7 +12,7 @@ func TestAnchorMissingHref(t *testing.T) {
 	// fails for link with no href
 	hT := tTestFile("fixtures/links/missingLinkHref.html")
 	tExpectIssueCount(t, hT, 1)
-	tExpectIssue(t, hT, "href blank", 1)
+	tExpectIssue(t, hT, "<a> href blank body=\"No link, man\"", 1)
 }
 
 func TestAnchorIgnorable(t *testing.T) {
@@ -653,7 +653,7 @@ func TestLinkHrefBlank(t *testing.T) {
 	// fails for empty href within link elements
 	hT := tTestFile("fixtures/links/head_link_href_empty.html")
 	tExpectIssueCount(t, hT, 1)
-	tExpectIssue(t, hT, "href blank", 1)
+	tExpectIssue(t, hT, "<link> href blank", 1)
 }
 
 func TestLinkHrefBlankIgnore(t *testing.T) {
@@ -702,7 +702,7 @@ func TestLinkPre(t *testing.T) {
 	// catches broken links when inside pre or code tags
 	hT := tTestFile("fixtures/links/links_in_pre.html")
 	tExpectIssueCount(t, hT, 2)
-	tExpectIssue(t, hT, "href blank", 2)
+	tExpectIssue(t, hT, "<link> href blank", 2)
 }
 
 func TestAnchorHashQueryBroken(t *testing.T) {
