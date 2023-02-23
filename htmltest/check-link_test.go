@@ -173,7 +173,7 @@ func TestAnchorExternalHrefIPTimeout(t *testing.T) {
 }
 
 func TestAnchorExternalBrokenOptionHrefIPTimeout(t *testing.T) {
-	// passes for broken IP address links when aksed
+	// passes for broken IP address links when asked
 	hT := tTestFileOpts("fixtures/links/ip_timeout.html",
 		map[string]interface{}{"IgnoreExternalBrokenLinks": true, "ExternalTimeout": 1})
 	tExpectIssueCount(t, hT, 0)
