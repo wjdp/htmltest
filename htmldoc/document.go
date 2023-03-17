@@ -71,7 +71,8 @@ func (doc *Document) Parse() {
 // nodes of interest and node id/names.
 func (doc *Document) parseNode(n *html.Node) {
 	// Ignore this tree if data-proofer-ignore set
-	if doc.ignoreTagAttribute != "" && AttrPresent(n.Attr, doc.ignoreTagAttribute) {
+	if doc.ignoreTagAttribute != "" &&
+		(AttrPresent(n.Attr, doc.ignoreTagAttribute) || ClassPresent(n.Attr, doc.ignoreTagAttribute)) {
 		return
 	}
 
