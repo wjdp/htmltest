@@ -23,7 +23,7 @@ This [godownloader](https://github.com/goreleaser/godownloader) script will quer
 curl https://htmltest.wjdp.uk | sudo bash -s -- -b /usr/local/bin
 ```
 
-You'll be prompted for your password. After simply do `htmltest` to run.
+You'll be prompted for your password. Afterwards simply type `htmltest` to run.
 
 #### Into Current Directory
 
@@ -54,6 +54,28 @@ Mount your directory with html files into the container and test them.
 
 If you need more arguments to the test run it like this:
 ```docker run -v $(pwd):/test --rm wjdp/htmltest -l 3 -s```
+
+### :octocat: GitHub Action
+
+You can make use of [`htmltest-action`](https://github.com/wjdp/htmltest-action) to run `htmltest` as part of your GitHub Actions workflow.
+
+1. Either by providing a path:
+
+    ```yaml
+    - name: Run htmltest
+      uses: wjdp/htmltest-action@master
+      with:
+        path: dist
+    ```
+
+2. Or by pointing a configuration file:
+
+    ```yaml
+    - name: Run htmltest
+      uses: wjdp/htmltest-action@master
+      with:
+        config: .htmltest.yml
+    ```
 
 ### 🧾 Temporary Files
 
