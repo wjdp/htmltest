@@ -72,7 +72,7 @@ func (doc *Document) Parse() {
 func (doc *Document) parseNode(n *html.Node) {
 	// Remove this tree and ignore if data-proofer-ignore set
 	if doc.ignoreTagAttribute != "" && 
-    (AttrPresent(n.Attr, doc.ignoreTagAttribute) || ClassPresent(n.Attr, doc.ignoreTagAttribute)) {
+    		(AttrPresent(n.Attr, doc.ignoreTagAttribute) || ClassPresent(n.Attr, doc.ignoreTagAttribute)) {
 		var nextSibling *html.Node
 		for c := n.FirstChild; c != nil; c = nextSibling {
 			nextSibling = c.NextSibling
