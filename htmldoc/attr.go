@@ -2,6 +2,7 @@ package htmldoc
 
 import (
 	"golang.org/x/net/html"
+	"strings"
 )
 
 // GetAttr : From attrs extract single attr
@@ -33,6 +34,15 @@ func ExtractAttrs(attrs []html.Attribute, keys []string) map[string]string {
 func AttrPresent(attrs []html.Attribute, key string) bool {
 	for _, attr := range attrs {
 		if attr.Key == key {
+			return true
+		}
+	}
+	return false
+}
+
+func ClassPresent(attrs []html.Attribute, class string) bool {
+	for _, attr := range attrs {
+		if attr.Key == "class" && strings.Contains(attr.Val, class) {
 			return true
 		}
 	}

@@ -40,6 +40,7 @@ type Options struct {
 
 	IgnoreURLs         []interface{}
 	IgnoreInternalURLs []interface{}
+	IgnoreHTTPS        []interface{}
 	IgnoreDirs         []interface{}
 
 	IgnoreInternalEmptyHash             bool
@@ -47,6 +48,7 @@ type Options struct {
 	IgnoreCanonicalBrokenLinks          bool
 	IgnoreExternalBrokenLinks           bool
 	IgnoreAltMissing                    bool
+	IgnoreAltEmpty                      bool
 	IgnoreDirectoryMissingTrailingSlash bool
 	IgnoreSSLVerify                     bool
 	IgnoreTagAttribute                  string
@@ -61,6 +63,7 @@ type Options struct {
 	LogSort  string
 
 	ExternalTimeout    int
+	RedirectLimit      int
 	StripQueryString   bool
 	StripQueryExcludes []interface{}
 
@@ -105,6 +108,7 @@ func DefaultOptions() map[string]interface{} {
 
 		"IgnoreURLs":         []interface{}{},
 		"IgnoreInternalURLs": []interface{}{},
+		"IgnoreHTTPS":        []interface{}{},
 		"IgnoreDirs":         []interface{}{},
 
 		"IgnoreInternalEmptyHash":             false,
@@ -112,6 +116,7 @@ func DefaultOptions() map[string]interface{} {
 		"IgnoreCanonicalBrokenLinks":          true,
 		"IgnoreExternalBrokenLinks":           false,
 		"IgnoreAltMissing":                    false,
+		"IgnoreAltEmpty":                      false,
 		"IgnoreDirectoryMissingTrailingSlash": false,
 		"IgnoreSSLVerify":                     false,
 		"IgnoreTagAttribute":                  "data-proofer-ignore",
@@ -129,6 +134,7 @@ func DefaultOptions() map[string]interface{} {
 		"LogSort":  "document",
 
 		"ExternalTimeout":    15,
+		"RedirectLimit":      -1, // resort to built-in default
 		"StripQueryString":   true,
 		"StripQueryExcludes": []interface{}{"fonts.googleapis.com"},
 
@@ -178,6 +184,16 @@ func InList(list []interface{}, key string) bool {
 // Is the given URL ignored by the current configuration
 func (opts *Options) isURLIgnored(url string) bool {
 	for _, item := range opts.IgnoreURLs {
+		if ok, _ := regexp.MatchString(item.(string), url); ok {
+			return true
+		}
+	}
+	return false
+}
+
+// Is the given URL an insecure URL ignored by IgnoreHTTPS
+func (opts *Options) isInsecureURLIgnored(url string) bool {
+	for _, item := range opts.IgnoreHTTPS {
 		if ok, _ := regexp.MatchString(item.(string), url); ok {
 			return true
 		}

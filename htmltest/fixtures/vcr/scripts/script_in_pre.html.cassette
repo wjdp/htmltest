@@ -1,6 +1,5 @@
 {
   "Name": "script_in_pre.html",
-  "Path": "fixtures/vcr/scripts",
   "Tracks": [
     {
       "Request": {

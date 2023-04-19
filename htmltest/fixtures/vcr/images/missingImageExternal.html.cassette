@@ -1,6 +1,5 @@
 {
   "Name": "missingImageExternal.html",
-  "Path": "fixtures/vcr/images",
   "Tracks": [
     {
       "Request": {

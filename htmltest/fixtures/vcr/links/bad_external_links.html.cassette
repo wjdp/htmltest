@@ -1,6 +1,5 @@
 {
   "Name": "bad_external_links.html",
-  "Path": "fixtures/vcr/links",
   "Tracks": [
     {
       "Request": {

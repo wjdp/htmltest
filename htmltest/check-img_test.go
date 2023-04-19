@@ -18,7 +18,16 @@ func TestImageExternalMissing(t *testing.T) {
 		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 1)
 	// Issue contains "no such host"
-	// tExpectIssue(t, hT, "no such host", 1)
+	tExpectIssue(t, hT, "no such host", 1)
+}
+
+func TestImageExternal404(t *testing.T) {
+	// fails for missing external images
+	hT := tTestFileOpts("fixtures/images/imageExternal404.html",
+		map[string]interface{}{"VCREnable": true})
+	tExpectIssueCount(t, hT, 1)
+	// Issue contains "no such host"
+	tExpectIssue(t, hT, "Non-OK status: 404", 1)
 }
 
 func TestImageExternalMissingProtocolValid(t *testing.T) {
@@ -177,6 +186,21 @@ func TestImageAltEmpty(t *testing.T) {
 	hT := tTestFile("fixtures/images/missingImageAltText.html")
 	tExpectIssueCount(t, hT, 1)
 	tExpectIssue(t, hT, "alt text empty", 1)
+}
+
+func TestImageAltIgnoreEmptyWhenMissing(t *testing.T) {
+	// fails for image with an empty alt attribute
+	hT := tTestFileOpts("fixtures/images/missingImageAlt.html",
+		map[string]interface{}{"IgnoreAltEmpty": true})
+	tExpectIssueCount(t, hT, 1)
+	tExpectIssue(t, hT, "alt attribute missing", 1)
+}
+
+func TestImageAltIgnoreEmptyWhenPresent(t *testing.T) {
+	// ignores empty alt attribute present for image
+	hT := tTestFileOpts("fixtures/images/emptyImageAltTextExplicit.html",
+		map[string]interface{}{"IgnoreAltEmpty": true})
+	tExpectIssueCount(t, hT, 0)
 }
 
 func TestImageAltSpaces(t *testing.T) {

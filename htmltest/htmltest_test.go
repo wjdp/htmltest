@@ -126,3 +126,27 @@ func TestConcurrencyDirExternals(t *testing.T) {
 		map[string]interface{}{"TestFilesConcurrently": true}) // "LogLevel": 1
 	tExpectIssueCount(t, hT, 26)
 }
+
+func TestRedirectLimitDefault(t *testing.T) {
+	hT := tTestFileOpts("fixtures/links/http_no_redirect.html",
+		map[string]interface{}{"RedirectLimit": -2})
+	tExpectIssueCount(t, hT, 0)
+	hT = tTestFileOpts("fixtures/links/http_one_redirect.html",
+		map[string]interface{}{"RedirectLimit": -1})
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestRedirectLimitOk(t *testing.T) {
+	hT := tTestFileOpts("fixtures/links/http_no_redirect.html",
+		map[string]interface{}{"RedirectLimit": 0})
+	tExpectIssueCount(t, hT, 0)
+	hT = tTestFileOpts("fixtures/links/http_one_redirect.html",
+		map[string]interface{}{"RedirectLimit": 1})
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestRedirectLimitExceeded(t *testing.T) {
+	hT := tTestFileOpts("fixtures/links/http_one_redirect.html",
+		map[string]interface{}{"RedirectLimit": 0})
+	tExpectIssueCount(t, hT, 1)
+}

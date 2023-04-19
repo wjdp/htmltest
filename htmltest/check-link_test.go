@@ -12,7 +12,7 @@ func TestAnchorMissingHref(t *testing.T) {
 	// fails for link with no href
 	hT := tTestFile("fixtures/links/missingLinkHref.html")
 	tExpectIssueCount(t, hT, 1)
-	tExpectIssue(t, hT, "href blank", 1)
+	tExpectIssue(t, hT, "<a> href blank body=\"No link, man\"", 1)
 }
 
 func TestAnchorIgnorable(t *testing.T) {
@@ -136,6 +136,19 @@ func TestAnchorExternalInsecureOptionIgnored(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestAnchorExternalInsecureOptionIgnoredInsecure(t *testing.T) {
+	// checks non-HTTPS links when they're in the IgnoreHTTPS list
+	hT := tTestFileOpts("fixtures/links/non_https_ignore.html",
+		map[string]interface{}{
+			"EnforceHTTPS": true,
+			"IgnoreHTTPS":  []interface{}{`ben\.balter\.com`, `doesntexist\.io`},
+			"VCREnable":    true,
+		})
+	tExpectIssueCount(t, hT, 2)
+	tExpectIssue(t, hT, "is not an HTTPS target", 1)
+	tExpectIssue(t, hT, "no such host", 1)
+}
+
 func TestAnchorExternalHrefIP(t *testing.T) {
 	// fails for broken IP address links
 	hT := tTestFileOpts("fixtures/links/ip_href.html",
@@ -204,6 +217,8 @@ func TestAnchorExternalBrokenOptionHTTPSInvalid(t *testing.T) {
 }
 
 func TestAnchorExternalHTTPSMissingChain(t *testing.T) {
+	// TODO: remove skip when incomplete-chain.badssl.com has an in-date cert
+	t.Skip("The cert on incomplete-chain.badssl.com has expired, cannot use for testing at present")
 	// should support https aia
 	// see issue #130
 	tSkipShortExternal(t)
@@ -495,7 +510,7 @@ func TestAnchorInternalCaseMismatch(t *testing.T) {
 func TestAnchorInternalHashBlankDefault(t *testing.T) {
 	// fails for href="#" when not asked
 	hT := tTestFile("fixtures/links/hash_href.html")
-	tExpectIssue(t, hT, "empty hash", 1)
+	tExpectIssue(t, hT, "<a> empty hash", 1)
 	tExpectIssueCount(t, hT, 1)
 }
 
@@ -638,7 +653,7 @@ func TestLinkHrefBlank(t *testing.T) {
 	// fails for empty href within link elements
 	hT := tTestFile("fixtures/links/head_link_href_empty.html")
 	tExpectIssueCount(t, hT, 1)
-	tExpectIssue(t, hT, "href blank", 1)
+	tExpectIssue(t, hT, "<link> href blank", 1)
 }
 
 func TestLinkHrefBlankIgnore(t *testing.T) {
@@ -652,7 +667,7 @@ func TestLinkHrefAbsent(t *testing.T) {
 	// fails for absent href within link elements
 	hT := tTestFile("fixtures/links/head_link_href_absent.html")
 	tExpectIssueCount(t, hT, 1)
-	tExpectIssue(t, hT, "link tag missing href", 1)
+	tExpectIssue(t, hT, "<link> missing href", 1)
 }
 
 func TestLinkHrefBrokenCanonicalDefault(t *testing.T) {
@@ -675,19 +690,25 @@ func TestLinkRelDnsPrefetch(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestLinkRelPreconnect(t *testing.T) {
+	// ignores links with rel="preconnect"
+	hT := tTestFile("fixtures/links/link_rel_preconnect.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestAnchorPre(t *testing.T) {
 	// catches broken links when inside pre or code tags
 	hT := tTestFileOpts("fixtures/links/anchors_in_pre.html",
 		map[string]interface{}{"VCREnable": true})
 	tExpectIssueCount(t, hT, 2)
-	tExpectIssue(t, hT, "Non-OK status", 2)
+	tExpectIssue(t, hT, "no such host", 2)
 }
 
 func TestLinkPre(t *testing.T) {
 	// catches broken links when inside pre or code tags
 	hT := tTestFile("fixtures/links/links_in_pre.html")
 	tExpectIssueCount(t, hT, 2)
-	tExpectIssue(t, hT, "href blank", 2)
+	tExpectIssue(t, hT, "<link> href blank", 2)
 }
 
 func TestAnchorHashQueryBroken(t *testing.T) {

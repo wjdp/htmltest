@@ -31,6 +31,9 @@ func TestSetOptions(t *testing.T) {
 	assert.Equals(t, "hT.opts.LogLevel", hT.opts.LogLevel, 1337)
 	assert.Equals(t, "hT.opts.ExternalTimeout", hT.opts.ExternalTimeout,
 		defaults["ExternalTimeout"])
+	assert.Equals(t, "hT.opts.RedirectLimit", hT.opts.RedirectLimit,
+		defaults["RedirectLimit"])
+	assert.Equals(t, "defaults.RedirectLimit", defaults["RedirectLimit"], -1)
 }
 
 func TestInList(t *testing.T) {

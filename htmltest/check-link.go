@@ -16,6 +16,11 @@ import (
 	"golang.org/x/net/html"
 )
 
+// ignoredRels: List of rel values to ignore, dns-prefetch and preconnect are ignored as they are not links to be
+//              followed rather telling browser we want something on that host, if the root of that host is not valid,
+//              it's likely not a problem.
+var ignoredRels = [...]string{"dns-prefetch", "preconnect"}
+
 func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 	attrs := htmldoc.ExtractAttrs(node.Attr,
 		[]string{"href", "rel"})
@@ -27,10 +32,11 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 		document.State.FaviconPresent = true
 	}
 
-	// Ignore if rel=dns-prefetch, see #40. If we have more cases like this a hashable type should be created and
-	// checked against.
-	if attrs["rel"] == "dns-prefetch" {
-		return
+	// If rel in IgnoredRels, ignore this link
+	for _, rel := range ignoredRels {
+		if attrs["rel"] == rel {
+			return
+		}
 	}
 
 	// Create reference
@@ -50,14 +56,14 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 		case "a":
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelDebug,
-				Message:   "anchor without href",
+				Message:   "<a> without href",
 				Reference: ref,
 			})
 			return
 		case "link":
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelError,
-				Message:   "link tag missing href",
+				Message:   "<link> missing href",
 				Reference: ref,
 			})
 			return
@@ -67,9 +73,16 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 	// Blank href
 	if attrs["href"] == "" {
 		if !hT.opts.IgnoreEmptyHref {
+			var msg string = fmt.Sprintf("<%s> href blank", node.Data)
+			if attrs["title"] != "" {
+				msg = fmt.Sprintf("%s title=%q", msg, attrs["title"])
+			}
+			if ref.Node.FirstChild != nil {
+				msg = fmt.Sprintf("%s body=%q", msg, ref.Node.FirstChild.Data)
+			}
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelError,
-				Message:   "href blank",
+				Message:   msg,
 				Reference: ref,
 			})
 		}
@@ -81,7 +94,7 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 		if hT.opts.CheckInternalHash && !hT.opts.IgnoreInternalEmptyHash {
 			hT.issueStore.AddIssue(issues.Issue{
 				Level:     issues.LevelError,
-				Message:   "empty hash",
+				Message:   fmt.Sprintf("<%s> empty hash", node.Data),
 				Reference: ref,
 			})
 		}

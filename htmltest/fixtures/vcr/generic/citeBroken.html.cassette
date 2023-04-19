@@ -1,6 +1,5 @@
 {
   "Name": "citeBroken.html",
-  "Path": "fixtures/vcr/generic",
   "Tracks": [
     {
       "Request": {
