@@ -767,6 +767,33 @@ func TestAnchorBlankHTML4(t *testing.T) {
 	tExpectIssueCount(t, hT2, 1)
 }
 
+func TestAnchorInternalAbsolute(t *testing.T) {
+	// works for internal absolute links
+	hT := tTestFile("fixtures/links/absoluteLinks.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestAnchorInternalAbsoluteRootPublication(t *testing.T) {
+	// works for internal absolute links when site is published to root of domain
+	hT := tTestFileOpts("fixtures/links/absoluteLinksRootPublication.html",
+		map[string]interface{}{"BaseURL": "http://example.com"})
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestAnchorInternalAbsoluteFolderPublication(t *testing.T) {
+	// works for internal absolute links when site is published to a folder
+	hT := tTestFileOpts("fixtures/links/absoluteLinksFolderPublication.html",
+		map[string]interface{}{"BaseURL": "http://www.example.com/blog"})
+	tExpectIssueCount(t, hT, 0)
+}
+
+func TestAnchorInternalBrokenAbsoluteFolderPublication(t *testing.T) {
+	// works for missing internal absolute links when site is published to a folder
+	hT := tTestFileOpts("fixtures/links/absoluteBrokenLinksFolderPublication.html",
+		map[string]interface{}{"BaseURL": "http://www.example.com/blog"})
+	tExpectIssueCount(t, hT, 2)
+}
+
 func TestSelfSignedLink(t *testing.T) {
 	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/links/selfSignedLink.html",
