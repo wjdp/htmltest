@@ -8,6 +8,7 @@ import (
 	"os"
 	"path"
 	"regexp"
+	"strings"
 
 	"github.com/wjdp/htmltest/output"
 )
@@ -106,7 +107,17 @@ func (dS *DocumentStore) ResolvePath(refPath string) (*Document, bool) {
 
 	if refPath[0] == '/' && len(refPath) > 1 {
 		// Is an absolute link, remove the leading slash for map lookup
-		refPath = refPath[1:]
+		if dS.BaseURL == nil {
+			// No base URL, so `/` means our root
+			refPath = refPath[1:]
+		} else {
+			// We have a Base URL, so need to trip off the base path if present
+			refPath = strings.TrimPrefix(refPath, dS.BaseURL.Path)
+
+			// We want to end up with a relative path, so remove leading '/' if present
+			// (This happens if BaseURL does *not* end in '/')
+			refPath = strings.TrimPrefix(refPath, "/")
+		}
 	}
 
 	// Try path as-is, path.ext
