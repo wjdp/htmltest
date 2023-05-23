@@ -19,6 +19,8 @@ type Options struct {
 	FilePath       string
 	FileExtension  string
 
+	BaseURL string
+
 	CheckDoctype bool
 	CheckAnchors bool
 	CheckLinks   bool

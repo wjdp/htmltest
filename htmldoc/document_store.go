@@ -4,6 +4,7 @@
 package htmldoc
 
 import (
+	"net/url"
 	"os"
 	"path"
 	"regexp"
@@ -14,6 +15,7 @@ import (
 // DocumentStore struct, store of Documents including Document discovery
 type DocumentStore struct {
 	BasePath           string               // Path, relative to cwd, the site is located in
+	BaseURL            *url.URL             // Base URL of the site
 	IgnorePatterns     []interface{}        // Regexes of directories to ignore
 	Documents          []*Document          // All of the documents, used to iterate over
 	DocumentPathMap    map[string]*Document // Maps slash separated paths to documents
