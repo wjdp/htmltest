@@ -3,7 +3,7 @@ package htmltest
 import (
 	"testing"
 
-	"github.com/wjdp/htmltest/issues"
+	"github.com/theunrepentantgeek/htmltest/issues"
 )
 
 // Spec tests
@@ -516,7 +516,7 @@ func TestAnchorInternalHashBlankDefault(t *testing.T) {
 
 func TestAnchorInternalHashBlankOption(t *testing.T) {
 	// passes for href="#" when asked, see
-	// https://github.com/wjdp/htmltest/issues/30
+	// https://github.com/theunrepentantgeek/htmltest/issues/30
 	hT1 := tTestFileOpts("fixtures/links/hash_href.html",
 		map[string]interface{}{"CheckInternalHash": false})
 	tExpectIssueCount(t, hT1, 0)

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"github.com/docopt/docopt-go"
 	"github.com/fatih/color"
-	"github.com/wjdp/htmltest/htmltest"
-	"github.com/wjdp/htmltest/output"
+	"github.com/theunrepentantgeek/htmltest/htmltest"
+	"github.com/theunrepentantgeek/htmltest/output"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
@@ -25,7 +25,7 @@ var (
 
 func main() {
 	usage := `htmltest - Test generated HTML for problems
-           https://github.com/wjdp/htmltest
+           https://github.com/theunrepentantgeek/htmltest
 
 Usage:
   htmltest [options] [<path>]

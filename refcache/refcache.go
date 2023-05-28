@@ -3,7 +3,7 @@ package refcache
 
 import (
 	"encoding/json"
-	"github.com/wjdp/htmltest/output"
+	"github.com/theunrepentantgeek/htmltest/output"
 	"os"
 	"path"
 	"sync"

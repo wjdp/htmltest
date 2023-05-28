@@ -4,8 +4,8 @@ package issues
 import (
 	"fmt"
 	"github.com/fatih/color"
-	"github.com/wjdp/htmltest/htmldoc"
-	"github.com/wjdp/htmltest/output"
+	"github.com/theunrepentantgeek/htmltest/htmldoc"
+	"github.com/theunrepentantgeek/htmltest/output"
 	"io/ioutil"
 	"strings"
 	"sync"

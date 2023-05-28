@@ -10,15 +10,16 @@ import (
 	"strings"
 
 	"github.com/badoux/checkmail"
-	"github.com/wjdp/htmltest/htmldoc"
-	"github.com/wjdp/htmltest/issues"
-	"github.com/wjdp/htmltest/output"
+	"github.com/theunrepentantgeek/htmltest/htmldoc"
+	"github.com/theunrepentantgeek/htmltest/issues"
+	"github.com/theunrepentantgeek/htmltest/output"
 	"golang.org/x/net/html"
 )
 
 // ignoredRels: List of rel values to ignore, dns-prefetch and preconnect are ignored as they are not links to be
-//              followed rather telling browser we want something on that host, if the root of that host is not valid,
-//              it's likely not a problem.
+//
+//	followed rather telling browser we want something on that host, if the root of that host is not valid,
+//	it's likely not a problem.
 var ignoredRels = [...]string{"dns-prefetch", "preconnect"}
 
 func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {

@@ -13,10 +13,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/wjdp/htmltest/htmldoc"
-	"github.com/wjdp/htmltest/issues"
-	"github.com/wjdp/htmltest/output"
-	"github.com/wjdp/htmltest/refcache"
+	"github.com/theunrepentantgeek/htmltest/htmldoc"
+	"github.com/theunrepentantgeek/htmltest/issues"
+	"github.com/theunrepentantgeek/htmltest/output"
+	"github.com/theunrepentantgeek/htmltest/refcache"
 	"gopkg.in/seborama/govcr.v4"
 )
 

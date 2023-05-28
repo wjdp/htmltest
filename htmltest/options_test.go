@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/daviddengcn/go-assert"
-	"github.com/wjdp/htmltest/output"
+	"github.com/theunrepentantgeek/htmltest/output"
 )
 
 func TestDefaultOptions(t *testing.T) {

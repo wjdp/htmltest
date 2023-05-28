@@ -1,7 +1,7 @@
 package htmltest
 
 import (
-	"github.com/wjdp/htmltest/issues"
+	"github.com/theunrepentantgeek/htmltest/issues"
 	"testing"
 )
 

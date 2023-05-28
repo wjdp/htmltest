@@ -4,7 +4,7 @@ import (
 	"path"
 	"testing"
 
-	"github.com/wjdp/htmltest/issues"
+	"github.com/theunrepentantgeek/htmltest/issues"
 )
 
 var genericTests = []struct {

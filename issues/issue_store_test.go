@@ -2,7 +2,7 @@ package issues
 
 import (
 	"github.com/daviddengcn/go-assert"
-	"github.com/wjdp/htmltest/htmldoc"
+	"github.com/theunrepentantgeek/htmltest/htmldoc"
 	"io/ioutil"
 	"os"
 	"strings"

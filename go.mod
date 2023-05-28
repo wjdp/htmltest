@@ -1,4 +1,4 @@
-module github.com/wjdp/htmltest
+module github.com/theunrepentantgeek/htmltest
 
 require (
 	github.com/badoux/checkmail v1.2.1

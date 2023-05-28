@@ -3,7 +3,7 @@ package issues
 import (
 	"fmt"
 	"github.com/fatih/color"
-	"github.com/wjdp/htmltest/htmldoc"
+	"github.com/theunrepentantgeek/htmltest/htmldoc"
 )
 
 const (

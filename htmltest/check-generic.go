@@ -3,8 +3,8 @@ package htmltest
 import (
 	"fmt"
 
-	"github.com/wjdp/htmltest/htmldoc"
-	"github.com/wjdp/htmltest/issues"
+	"github.com/theunrepentantgeek/htmltest/htmldoc"
+	"github.com/theunrepentantgeek/htmltest/issues"
 	"golang.org/x/net/html"
 )
 

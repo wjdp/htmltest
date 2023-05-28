@@ -6,7 +6,7 @@ import (
 	"path"
 	"sync"
 
-	"github.com/wjdp/htmltest/output"
+	"github.com/theunrepentantgeek/htmltest/output"
 	"golang.org/x/net/html"
 )
 
@@ -100,7 +100,7 @@ func (doc *Document) parseNode(n *html.Node) {
 		fmt.Printf("%+v\n", n)
 		fmt.Println("Oops, in parsing your HTML we fell over.\n",
 			"Please let the developer know about this.\n",
-			"https://github.com/wjdp/htmltest/issues/new")
+			"https://github.com/theunrepentantgeek/htmltest/issues/new")
 	}
 
 	// Iterate over children

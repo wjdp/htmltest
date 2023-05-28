@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/imdario/mergo"
-	"github.com/wjdp/htmltest/issues"
+	"github.com/theunrepentantgeek/htmltest/issues"
 )
 
 // Options struct for htmltest, user and default options are merged and mapped

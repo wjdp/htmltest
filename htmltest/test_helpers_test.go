@@ -2,8 +2,8 @@ package htmltest
 
 import (
 	"github.com/imdario/mergo"
-	"github.com/wjdp/htmltest/issues"
-	"github.com/wjdp/htmltest/output"
+	"github.com/theunrepentantgeek/htmltest/issues"
+	"github.com/theunrepentantgeek/htmltest/output"
 	"path"
 	"testing"
 )

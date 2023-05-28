@@ -8,7 +8,7 @@ import (
 	"path"
 	"regexp"
 
-	"github.com/wjdp/htmltest/output"
+	"github.com/theunrepentantgeek/htmltest/output"
 )
 
 // DocumentStore struct, store of Documents including Document discovery
