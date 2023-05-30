@@ -17,8 +17,9 @@ import (
 )
 
 // ignoredRels: List of rel values to ignore, dns-prefetch and preconnect are ignored as they are not links to be
-//              followed rather telling browser we want something on that host, if the root of that host is not valid,
-//              it's likely not a problem.
+//
+//	followed rather telling browser we want something on that host, if the root of that host is not valid,
+//	it's likely not a problem.
 var ignoredRels = [...]string{"dns-prefetch", "preconnect"}
 
 func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
@@ -142,7 +143,9 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 	// Is this an external reference to a local file?
 	if hT.opts.CheckSelfReferencesAsInternal && hT.documentStore.BaseURL != nil {
 
-		if ref.URL.Host == hT.documentStore.BaseURL.Host && hT.documentStore.BaseURL.User == nil {
+		if ref.URL.Host == hT.documentStore.BaseURL.Host &&
+			hT.documentStore.BaseURL.User == nil &&
+			strings.HasPrefix(ref.URL.Path, hT.documentStore.BaseURL.Path) {
 			// Convert to internal reference
 			internalURL := *ref.URL
 			internalURL.Scheme = ""

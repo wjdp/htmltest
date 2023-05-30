@@ -804,6 +804,16 @@ func TestAnchorExternalLinksToInternalFiles(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestAnchorExternalLinksToExternalPages(t *testing.T) {
+	// works for external links that don't reference internal files because the subfolder is different
+	hT := tTestFileOpts("fixtures/links/externalLinksToExternalPages.html",
+		map[string]interface{}{
+			"BaseURL":                       "http://www.example.com/blog",
+			"CheckSelfReferencesAsInternal": true,
+		})
+	tExpectIssueCount(t, hT, 2)
+}
+
 func TestSelfSignedLink(t *testing.T) {
 	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/links/selfSignedLink.html",
