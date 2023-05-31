@@ -12,7 +12,7 @@ require (
 	github.com/imdario/mergo v0.3.11
 	github.com/seborama/govcr v4.5.0+incompatible // indirect
 	golang.org/x/net v0.0.0-20201224014010-6772e930b67b
-	golang.org/x/sys v0.0.0-20210113181707-4bcb84eeeb78 // indirect
+	golang.org/x/sys v0.1.0 // indirect
 	gopkg.in/seborama/govcr.v4 v4.5.0
 	gopkg.in/yaml.v2 v2.4.0
 )
