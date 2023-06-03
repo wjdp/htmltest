@@ -169,25 +169,36 @@ func run(options optsMap) int {
 
 	timeEnd := time.Now()
 	numErrors := hT.CountErrors()
+	documentCount := hT.CountDocuments()
+
+	if !fileMode && documentCount == 0 {
+		color.Set(color.FgHiYellow)
+		fmt.Printf("No documents found in '%s'\n", options["DirectoryPath"])
+		color.Unset()
+		return 2
+	}
 
 	if numErrors == 0 {
 		color.Set(color.FgHiGreen)
 		fmt.Println("✔✔✔ passed in", timeEnd.Sub(timeStart))
 		if !fileMode {
-			fmt.Println("tested", hT.CountDocuments(), "documents")
+			fmt.Println("tested", documentCount, "documents")
 		}
 		color.Unset()
 		return 0
 	}
 
-	color.Set(color.FgHiRed)
 	fmt.Println(cmdSeparator)
+	color.Set(color.FgHiRed)
 	fmt.Println("✘✘✘ failed in", timeEnd.Sub(timeStart))
-	if fileMode {
-		fmt.Println(numErrors, "errors")
-	} else {
-		fmt.Println(numErrors, "errors in", hT.CountDocuments(), "documents")
+	if !fileMode {
+		fmt.Println(output.Pluralise(
+			documentCount,
+			fmt.Sprint("tested ", documentCount, " document"),
+			fmt.Sprint("tested ", documentCount, " documents"),
+		))
 	}
+	fmt.Printf(hT.FormatIssueStats())
 	color.Unset()
 	return 1
 

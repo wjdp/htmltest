@@ -1,10 +1,12 @@
 package issues
 
 import (
+	"fmt"
 	"github.com/daviddengcn/go-assert"
 	"github.com/wjdp/htmltest/htmldoc"
 	"io/ioutil"
 	"os"
+	"reflect"
 	"strings"
 	"testing"
 )
@@ -139,4 +141,112 @@ func ExampleIssueStorePrintDocumentIssuesEmpty() {
 
 	iS.PrintDocumentIssues(&doc)
 	// Output:
+}
+
+func TestGetIssueStats_None(t *testing.T) {
+	iS := NewIssueStore(LevelError, false)
+	stats := iS.GetIssueStats()
+	assert.IsTrue(t, "TotalByLevel", reflect.DeepEqual(stats.TotalByLevel, map[int]int{}))
+	assert.IsTrue(t, "ErrorsByMessage", reflect.DeepEqual(stats.ErrorsByMessage, map[string]int{}))
+	assert.IsTrue(t, "WarningsByMessage", reflect.DeepEqual(stats.WarningsByMessage, map[string]int{}))
+}
+
+func addOneError(iS *IssueStore) {
+	iS.AddIssue(Issue{
+		Level:   LevelError,
+		Message: "test",
+	})
+}
+
+func addMultipleIssues(iS *IssueStore) {
+	iS.AddIssue(Issue{
+		Level:   LevelError,
+		Message: "test1",
+	})
+	iS.AddIssue(Issue{
+		Level:   LevelWarning,
+		Message: "test1",
+	})
+	iS.AddIssue(Issue{
+		Level:   LevelInfo,
+		Message: "test1",
+	})
+	iS.AddIssue(Issue{
+		Level:   LevelDebug,
+		Message: "test1",
+	})
+	iS.AddIssue(Issue{
+		Level:   LevelError,
+		Message: "test2",
+	})
+	iS.AddIssue(Issue{
+		Level:   LevelError,
+		Message: "test2",
+	})
+}
+
+func TestGetIssueStats_OneError(t *testing.T) {
+	iS := NewIssueStore(LevelError, false)
+	addOneError(&iS)
+	stats := iS.GetIssueStats()
+	assert.Equals(
+		t, "TotalByLevel",
+		fmt.Sprint(stats.TotalByLevel),
+		fmt.Sprint(map[int]int{LevelError: 1}),
+	)
+	assert.Equals(
+		t, "ErrorsByMessage",
+		fmt.Sprint(stats.ErrorsByMessage),
+		fmt.Sprint(map[string]int{"test": 1}),
+	)
+}
+
+func TestGetIssueStats_MultipleIssues(t *testing.T) {
+	iS := NewIssueStore(LevelError, false)
+	addMultipleIssues(&iS)
+	stats := iS.GetIssueStats()
+	assert.Equals(t,
+		"TotalByLevel",
+		fmt.Sprint(stats.TotalByLevel),
+		fmt.Sprint(map[int]int{LevelError: 3, LevelWarning: 1, LevelInfo: 1, LevelDebug: 1}))
+	assert.Equals(
+		t, "ErrorsByMessage",
+		fmt.Sprint(stats.ErrorsByMessage),
+		fmt.Sprint(map[string]int{"test1": 1, "test2": 2}),
+	)
+	assert.Equals(
+		t, "WarningsByMessage",
+		fmt.Sprint(stats.WarningsByMessage),
+		fmt.Sprint(map[string]int{"test1": 1}),
+	)
+}
+
+func TestFormatIssueStats_None(t *testing.T) {
+	iS := NewIssueStore(LevelError, false)
+	assert.Equals(t, "FormatIssueStats", iS.FormatIssueStats(), "  Errors:   0\n")
+}
+
+func TestFormatIssueStats_Multiple_AtLogLevelError(t *testing.T) {
+	iS := NewIssueStore(LevelError, false)
+	addMultipleIssues(&iS)
+	const expected = `  Errors:   3
+  Errors by message:
+    1 "test1"
+    2 "test2"
+`
+	assert.Equals(t, "FormatIssueStats", iS.FormatIssueStats(), expected)
+}
+
+func TestFormatIssueStats_Multiple_AtLogLevelWarning(t *testing.T) {
+	iS := NewIssueStore(LevelWarning, false)
+	addMultipleIssues(&iS)
+	const expected = `  Errors:   3
+  Warnings: 1
+  Errors by message:
+    1 "test1"
+    2 "test2"
+  Warnings by message:
+    1 "test1"
+`
+	assert.Equals(t, "FormatIssueStats", iS.FormatIssueStats(), expected)
 }
