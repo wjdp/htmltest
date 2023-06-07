@@ -58,6 +58,7 @@ type Options struct {
 	TestFilesConcurrently    bool
 	DocumentConcurrencyLimit int
 	HTTPConcurrencyLimit     int
+	HTTPHostConcurrencyLimit int
 
 	LogLevel int
 	LogSort  string
@@ -129,6 +130,7 @@ func DefaultOptions() map[string]interface{} {
 		"TestFilesConcurrently":    false,
 		"DocumentConcurrencyLimit": 128,
 		"HTTPConcurrencyLimit":     16,
+		"HTTPHostConcurrencyLimit": 2,
 
 		"LogLevel": issues.LevelWarning,
 		"LogSort":  "document",
