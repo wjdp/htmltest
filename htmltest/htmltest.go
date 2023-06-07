@@ -28,7 +28,8 @@ const vcrCassetteBasePath string = "fixtures/vcr"
 type HTMLTest struct {
 	opts          Options
 	httpClient    *http.Client
-	httpChannel   chan bool
+	httpChannel   chan bool            // Buffer used to limit concurrent http requests
+	hostChannels  map[string]chan bool // Buffers used to limit concurrent http requests per host
 	documentStore htmldoc.DocumentStore
 	issueStore    issues.IssueStore
 	refCache      *refcache.RefCache
@@ -107,6 +108,9 @@ func Test(optsUser map[string]interface{}) (*HTMLTest, error) {
 	// Make buffered channel to act as concurrency limiter
 	hT.httpChannel = make(chan bool, hT.opts.HTTPConcurrencyLimit)
 
+	// Make map of host channels to act as concurrency limiters per host
+	hT.hostChannels = make(map[string]chan bool)
+
 	// Setup refCache
 	cachePath := ""
 	if hT.opts.EnableCache {
@@ -143,6 +147,7 @@ func Test(optsUser map[string]interface{}) (*HTMLTest, error) {
 
 	// Init our document store
 	hT.documentStore = htmldoc.NewDocumentStore()
+
 	// Setup document store
 	hT.documentStore.BasePath = hT.opts.DirectoryPath
 	hT.documentStore.DocumentExtension = hT.opts.FileExtension

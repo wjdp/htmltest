@@ -8,6 +8,7 @@ import (
 	"os"
 	"path"
 	"strings"
+	"sync"
 
 	"github.com/badoux/checkmail"
 	"github.com/wjdp/htmltest/htmldoc"
@@ -184,17 +185,7 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 			req.Header.Set(fmt.Sprintf("%v", key), fmt.Sprintf("%v", value))
 		}
 
-		hT.httpChannel <- true // Add to http concurrency limiter
-
-		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.LevelInfo,
-			Message:   "hitting",
-			Reference: ref,
-		})
-
-		resp, err := hT.httpClient.Do(req)
-
-		<-hT.httpChannel // Bump off http concurrency limiter
+		resp, err := hT.getReq(req, ref)
 
 		if err != nil {
 			if strings.Contains(err.Error(), "Client.Timeout") {
@@ -278,6 +269,39 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 	}
 
 	// TODO check a hash id exists in external page if present in reference (URL.Fragment)
+}
+
+var hostChannelsLock sync.Mutex // Lock used to prevent concurrent updates to hostChannels
+
+func (hT *HTMLTest) getReq(req *http.Request, ref *htmldoc.Reference) (*http.Response, error) {
+	// Limit the number of concurrent requests to a single host
+	hostChannelsLock.Lock()
+	ch, ok := hT.hostChannels[req.URL.Host]
+	if !ok {
+		// Haven't seen this host before, need to create a limiter
+		ch = make(chan bool, hT.opts.HTTPHostConcurrencyLimit)
+		hT.hostChannels[req.URL.Host] = ch
+	}
+	hostChannelsLock.Unlock()
+
+	ch <- true // Add to host concurrency limiter
+	defer func() {
+		<-ch // Bump off host concurrency limiter
+	}()
+
+	// Limit the total number of concurrent requests too
+	hT.httpChannel <- true // Add to http concurrency limiter
+	defer func() {
+		<-hT.httpChannel // Bump off http concurrency limiter
+	}()
+
+	hT.issueStore.AddIssue(issues.Issue{
+		Level:     issues.LevelInfo,
+		Message:   "hitting",
+		Reference: ref,
+	})
+
+	return hT.httpClient.Do(req)
 }
 
 func (hT *HTMLTest) checkInternal(ref *htmldoc.Reference) {
