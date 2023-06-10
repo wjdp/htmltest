@@ -13,7 +13,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Range": [
@@ -50,7 +51,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Range": [
@@ -106,7 +108,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "gfe_rd=cr\u0026ei=8-yhWZmHJKrS8AeUsaqwBw",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Range": [
@@ -177,7 +180,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Range": [
@@ -214,7 +218,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -254,7 +259,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -313,7 +319,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "gfe_rd=cr\u0026dcr=0\u0026ei=WMxsWoLTEqv38AeBwq7oBQ",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -388,7 +395,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -428,7 +436,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -471,7 +480,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -533,7 +543,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "gfe_rd=cr\u0026dcr=0\u0026ei=1fNsWqGLILP38AffibSYBQ",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -611,7 +622,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -654,7 +666,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -697,7 +710,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -759,7 +773,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "gfe_rd=cr\u0026dcr=0\u0026ei=OvRsWui9Aa338Aei7qugDg",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -837,7 +852,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -867,6 +883,182 @@
       },
       "ErrType": "*net.OpError",
       "ErrMsg": "dial tcp: lookup www.asdo3IRJ395295jsingrkrg4.com on 127.0.1.1:53: no such host"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "http",
+          "Opaque": "",
+          "User": null,
+          "Host": "www.asdo3IRJ395295jsingrkrg4.com",
+          "Path": "",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*net.OpError",
+      "ErrMsg": "dial tcp: lookup www.asdo3IRJ395295jsingrkrg4.com: no such host"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "http",
+          "Opaque": "",
+          "User": null,
+          "Host": "www.asdo3IRJ395295jsingrkrg4.com",
+          "Path": "",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*net.OpError",
+      "ErrMsg": "dial tcp: lookup www.asdo3IRJ395295jsingrkrg4.com: no such host"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "http",
+          "Opaque": "",
+          "User": null,
+          "Host": "www.asdo3IRJ395295jsingrkrg4.com",
+          "Path": "",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*net.OpError",
+      "ErrMsg": "dial tcp: lookup www.asdo3IRJ395295jsingrkrg4.com: no such host"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "http",
+          "Opaque": "",
+          "User": null,
+          "Host": "www.asdo3IRJ395295jsingrkrg4.com",
+          "Path": "",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*net.OpError",
+      "ErrMsg": "dial tcp: lookup www.asdo3IRJ395295jsingrkrg4.com: no such host"
     }
   ]
 }

@@ -13,7 +13,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Range": [
@@ -50,7 +51,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -90,7 +92,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -133,7 +136,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -163,6 +167,182 @@
       },
       "ErrType": "*net.OpError",
       "ErrMsg": "dial tcp: lookup www.whatthehell on 127.0.1.1:53: no such host"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "http",
+          "Opaque": "",
+          "User": null,
+          "Host": "www.whatthehell",
+          "Path": "",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*net.OpError",
+      "ErrMsg": "dial tcp: lookup www.whatthehell: no such host"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "http",
+          "Opaque": "",
+          "User": null,
+          "Host": "www.whatthehell",
+          "Path": "",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*net.OpError",
+      "ErrMsg": "dial tcp: lookup www.whatthehell: no such host"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "http",
+          "Opaque": "",
+          "User": null,
+          "Host": "www.whatthehell",
+          "Path": "",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*net.OpError",
+      "ErrMsg": "dial tcp: lookup www.whatthehell: no such host"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "http",
+          "Opaque": "",
+          "User": null,
+          "Host": "www.whatthehell",
+          "Path": "",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*net.OpError",
+      "ErrMsg": "dial tcp: lookup www.whatthehell: no such host"
     }
   ]
 }

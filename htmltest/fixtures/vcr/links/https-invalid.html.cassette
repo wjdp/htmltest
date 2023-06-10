@@ -13,7 +13,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Range": [
@@ -451,9 +452,16 @@
               ],
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl3.digicert.com/sha2-ev-server-g1.crl",
                 "http://crl4.digicert.com/sha2-ev-server-g1.crl"
@@ -714,9 +722,16 @@
               "DNSNames": null,
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl4.digicert.com/DigiCertHighAssuranceEVRootCA.crl"
               ],
@@ -1084,9 +1099,16 @@
                 ],
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl3.digicert.com/sha2-ev-server-g1.crl",
                   "http://crl4.digicert.com/sha2-ev-server-g1.crl"
@@ -1347,9 +1369,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl4.digicert.com/DigiCertHighAssuranceEVRootCA.crl"
                 ],
@@ -1550,9 +1579,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": null,
                 "PolicyIdentifiers": null
               }
@@ -1578,7 +1614,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Range": [
@@ -1615,7 +1652,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Range": [
@@ -1652,7 +1690,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Range": [
@@ -1689,7 +1728,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Range": [
@@ -1726,7 +1766,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Range": [
@@ -2050,9 +2091,16 @@
               ],
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl3.digicert.com/ssca-sha2-g5.crl",
                 "http://crl4.digicert.com/ssca-sha2-g5.crl"
@@ -2290,9 +2338,16 @@
               "DNSNames": null,
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl3.digicert.com/DigiCertGlobalRootCA.crl",
                 "http://crl4.digicert.com/DigiCertGlobalRootCA.crl"
@@ -2577,9 +2632,16 @@
                 ],
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl3.digicert.com/ssca-sha2-g5.crl",
                   "http://crl4.digicert.com/ssca-sha2-g5.crl"
@@ -2817,9 +2879,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl3.digicert.com/DigiCertGlobalRootCA.crl",
                   "http://crl4.digicert.com/DigiCertGlobalRootCA.crl"
@@ -3021,9 +3090,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": null,
                 "PolicyIdentifiers": null
               }
@@ -3049,7 +3125,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Range": [
@@ -3086,7 +3163,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Range": [
@@ -3123,7 +3201,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -3564,9 +3643,16 @@
               ],
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl3.digicert.com/sha2-ev-server-g1.crl",
                 "http://crl4.digicert.com/sha2-ev-server-g1.crl"
@@ -3827,9 +3913,16 @@
               "DNSNames": null,
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl4.digicert.com/DigiCertHighAssuranceEVRootCA.crl"
               ],
@@ -4197,9 +4290,16 @@
                 ],
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl3.digicert.com/sha2-ev-server-g1.crl",
                   "http://crl4.digicert.com/sha2-ev-server-g1.crl"
@@ -4460,9 +4560,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl4.digicert.com/DigiCertHighAssuranceEVRootCA.crl"
                 ],
@@ -4663,9 +4770,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": null,
                 "PolicyIdentifiers": null
               }
@@ -4691,7 +4805,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -4731,7 +4846,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -4771,7 +4887,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -4811,7 +4928,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -4851,7 +4969,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -5178,9 +5297,16 @@
               ],
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl3.digicert.com/ssca-sha2-g5.crl",
                 "http://crl4.digicert.com/ssca-sha2-g5.crl"
@@ -5418,9 +5544,16 @@
               "DNSNames": null,
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl3.digicert.com/DigiCertGlobalRootCA.crl",
                 "http://crl4.digicert.com/DigiCertGlobalRootCA.crl"
@@ -5705,9 +5838,16 @@
                 ],
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl3.digicert.com/ssca-sha2-g5.crl",
                   "http://crl4.digicert.com/ssca-sha2-g5.crl"
@@ -5945,9 +6085,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl3.digicert.com/DigiCertGlobalRootCA.crl",
                   "http://crl4.digicert.com/DigiCertGlobalRootCA.crl"
@@ -6149,9 +6296,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": null,
                 "PolicyIdentifiers": null
               }
@@ -6177,7 +6331,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -6217,7 +6372,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -6257,7 +6413,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -6701,9 +6858,16 @@
               ],
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl3.digicert.com/sha2-ev-server-g1.crl",
                 "http://crl4.digicert.com/sha2-ev-server-g1.crl"
@@ -6964,9 +7128,16 @@
               "DNSNames": null,
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl4.digicert.com/DigiCertHighAssuranceEVRootCA.crl"
               ],
@@ -7334,9 +7505,16 @@
                 ],
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl3.digicert.com/sha2-ev-server-g1.crl",
                   "http://crl4.digicert.com/sha2-ev-server-g1.crl"
@@ -7597,9 +7775,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl4.digicert.com/DigiCertHighAssuranceEVRootCA.crl"
                 ],
@@ -7800,9 +7985,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": null,
                 "PolicyIdentifiers": null
               }
@@ -7828,7 +8020,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -7871,7 +8064,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -7914,7 +8108,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -7957,7 +8152,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -8000,7 +8196,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -8330,9 +8527,16 @@
               ],
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl3.digicert.com/ssca-sha2-g5.crl",
                 "http://crl4.digicert.com/ssca-sha2-g5.crl"
@@ -8570,9 +8774,16 @@
               "DNSNames": null,
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl3.digicert.com/DigiCertGlobalRootCA.crl",
                 "http://crl4.digicert.com/DigiCertGlobalRootCA.crl"
@@ -8857,9 +9068,16 @@
                 ],
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl3.digicert.com/ssca-sha2-g5.crl",
                   "http://crl4.digicert.com/ssca-sha2-g5.crl"
@@ -9097,9 +9315,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl3.digicert.com/DigiCertGlobalRootCA.crl",
                   "http://crl4.digicert.com/DigiCertGlobalRootCA.crl"
@@ -9301,9 +9526,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": null,
                 "PolicyIdentifiers": null
               }
@@ -9329,7 +9561,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -9372,7 +9605,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -9415,7 +9649,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -9518,8 +9753,8 @@
               "SignatureAlgorithm": 4,
               "PublicKeyAlgorithm": 1,
               "PublicKey": {
-                "N": "29228291586411801150687864404306523745724345591150737242344515708146044687830610903627244230322116148964889136299393918008394475528311571236330807623767090801980834497294003637903833024542751179662460286084954686588725445460176943071052806364513428544395575781278625745046025775201457436111331828935561284481601243295143663462508127502940915239703118960877407439795745785220992979468193047851390838515757868570106907722884098879968325331952898133536543210786954931489971401565838024976242713308924778654433162674897360289047109438675900333865528657603857469265730000499898107082856244070155461487647470817986534157283",
-                "E": 65537
+                "E": 65537,
+                "N": "29228291586411801150687864404306523745724345591150737242344515708146044687830610903627244230322116148964889136299393918008394475528311571236330807623767090801980834497294003637903833024542751179662460286084954686588725445460176943071052806364513428544395575781278625745046025775201457436111331828935561284481601243295143663462508127502940915239703118960877407439795745785220992979468193047851390838515757868570106907722884098879968325331952898133536543210786954931489971401565838024976242713308924778654433162674897360289047109438675900333865528657603857469265730000499898107082856244070155461487647470817986534157283"
               },
               "Version": 3,
               "SerialNumber": 15938810608981134066197160231674485287,
@@ -9859,9 +10094,16 @@
               ],
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl3.digicert.com/sha2-ev-server-g1.crl",
                 "http://crl4.digicert.com/sha2-ev-server-g1.crl"
@@ -9895,8 +10137,8 @@
               "SignatureAlgorithm": 4,
               "PublicKeyAlgorithm": 1,
               "PublicKey": {
-                "N": "27182480329609083645624358951312470735111101465904409517579603324443610948627123317276574372284092612395466705913697296538729051610615914979630979130353728187634968718301037795642657343511174042315836449309023250377748929072088632079297292400799455978070288868084050898983836205888774855547544255622648360396227755156561340192722735895290847161205245369772696734401944671246358701321167149070896780343739667326363444343051093227411009129654263748425661222582889902796954800796685968517689977802189122916931470605744698837719347057766694419404975072163417802333656859496792447815284011528855507761771697613578237909299",
-                "E": 65537
+                "E": 65537,
+                "N": "27182480329609083645624358951312470735111101465904409517579603324443610948627123317276574372284092612395466705913697296538729051610615914979630979130353728187634968718301037795642657343511174042315836449309023250377748929072088632079297292400799455978070288868084050898983836205888774855547544255622648360396227755156561340192722735895290847161205245369772696734401944671246358701321167149070896780343739667326363444343051093227411009129654263748425661222582889902796954800796685968517689977802189122916931470605744698837719347057766694419404975072163417802333656859496792447815284011528855507761771697613578237909299"
               },
               "Version": 3,
               "SerialNumber": 16582437038678467094619379592629788035,
@@ -10122,9 +10364,16 @@
               "DNSNames": null,
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl4.digicert.com/DigiCertHighAssuranceEVRootCA.crl"
               ],
@@ -10151,8 +10400,8 @@
                 "SignatureAlgorithm": 4,
                 "PublicKeyAlgorithm": 1,
                 "PublicKey": {
-                  "N": "29228291586411801150687864404306523745724345591150737242344515708146044687830610903627244230322116148964889136299393918008394475528311571236330807623767090801980834497294003637903833024542751179662460286084954686588725445460176943071052806364513428544395575781278625745046025775201457436111331828935561284481601243295143663462508127502940915239703118960877407439795745785220992979468193047851390838515757868570106907722884098879968325331952898133536543210786954931489971401565838024976242713308924778654433162674897360289047109438675900333865528657603857469265730000499898107082856244070155461487647470817986534157283",
-                  "E": 65537
+                  "E": 65537,
+                  "N": "29228291586411801150687864404306523745724345591150737242344515708146044687830610903627244230322116148964889136299393918008394475528311571236330807623767090801980834497294003637903833024542751179662460286084954686588725445460176943071052806364513428544395575781278625745046025775201457436111331828935561284481601243295143663462508127502940915239703118960877407439795745785220992979468193047851390838515757868570106907722884098879968325331952898133536543210786954931489971401565838024976242713308924778654433162674897360289047109438675900333865528657603857469265730000499898107082856244070155461487647470817986534157283"
                 },
                 "Version": 3,
                 "SerialNumber": 15938810608981134066197160231674485287,
@@ -10492,9 +10741,16 @@
                 ],
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl3.digicert.com/sha2-ev-server-g1.crl",
                   "http://crl4.digicert.com/sha2-ev-server-g1.crl"
@@ -10528,8 +10784,8 @@
                 "SignatureAlgorithm": 4,
                 "PublicKeyAlgorithm": 1,
                 "PublicKey": {
-                  "N": "27182480329609083645624358951312470735111101465904409517579603324443610948627123317276574372284092612395466705913697296538729051610615914979630979130353728187634968718301037795642657343511174042315836449309023250377748929072088632079297292400799455978070288868084050898983836205888774855547544255622648360396227755156561340192722735895290847161205245369772696734401944671246358701321167149070896780343739667326363444343051093227411009129654263748425661222582889902796954800796685968517689977802189122916931470605744698837719347057766694419404975072163417802333656859496792447815284011528855507761771697613578237909299",
-                  "E": 65537
+                  "E": 65537,
+                  "N": "27182480329609083645624358951312470735111101465904409517579603324443610948627123317276574372284092612395466705913697296538729051610615914979630979130353728187634968718301037795642657343511174042315836449309023250377748929072088632079297292400799455978070288868084050898983836205888774855547544255622648360396227755156561340192722735895290847161205245369772696734401944671246358701321167149070896780343739667326363444343051093227411009129654263748425661222582889902796954800796685968517689977802189122916931470605744698837719347057766694419404975072163417802333656859496792447815284011528855507761771697613578237909299"
                 },
                 "Version": 3,
                 "SerialNumber": 16582437038678467094619379592629788035,
@@ -10755,9 +11011,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl4.digicert.com/DigiCertHighAssuranceEVRootCA.crl"
                 ],
@@ -10781,8 +11044,8 @@
                 "SignatureAlgorithm": 3,
                 "PublicKeyAlgorithm": 1,
                 "PublicKey": {
-                  "N": "25096222514443076901272460785174517607620538894364887395200690111394566020592736673662921945840817328364413674741800760450235583027021531642816683159576973866853280121844679977899567994751333258123861457007523791425003154230648819528564116339145266255263939030158519839380078368713888028673211448476392899923583233481355650312351351674302573096563616905459255557919180852201759360299861601875234807995701275332739967359933679872406573487332354516530701356470999683428220594248446682388824996574482294270079277019729636834333736001968484903342759579838975239653144282134955700899224002867238843313167887950361608604619",
-                  "E": 65537
+                  "E": 65537,
+                  "N": "25096222514443076901272460785174517607620538894364887395200690111394566020592736673662921945840817328364413674741800760450235583027021531642816683159576973866853280121844679977899567994751333258123861457007523791425003154230648819528564116339145266255263939030158519839380078368713888028673211448476392899923583233481355650312351351674302573096563616905459255557919180852201759360299861601875234807995701275332739967359933679872406573487332354516530701356470999683428220594248446682388824996574482294270079277019729636834333736001968484903342759579838975239653144282134955700899224002867238843313167887950361608604619"
                 },
                 "Version": 3,
                 "SerialNumber": 3553400076410547919724730734378100087,
@@ -10958,9 +11221,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": null,
                 "PolicyIdentifiers": null
               }
@@ -10986,7 +11256,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -11029,7 +11300,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -11072,7 +11344,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -11115,7 +11388,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -11158,7 +11432,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -11231,8 +11506,8 @@
               "SignatureAlgorithm": 4,
               "PublicKeyAlgorithm": 1,
               "PublicKey": {
-                "N": "25145781757498863077917975785322686073056146672488456683927231427971329262092101736866965487262718275065896687204725489151957887482656912067348781386095309759344609891189248781839251018418459186551633279613106812139308938779432556015321198920095040341401358039417082713661892340876292485801507172170259123376389203312487407774118015664887505470992608932954285330389623350070704574474206053399649000461034828361106553763550962683423408840566491922266525112595577533993545143526654634232228830962060646305550136627508878648916039189876286856091367061338998853055694597087100054759252511693101428836316180216343942406013",
-                "E": 65537
+                "E": 65537,
+                "N": "25145781757498863077917975785322686073056146672488456683927231427971329262092101736866965487262718275065896687204725489151957887482656912067348781386095309759344609891189248781839251018418459186551633279613106812139308938779432556015321198920095040341401358039417082713661892340876292485801507172170259123376389203312487407774118015664887505470992608932954285330389623350070704574474206053399649000461034828361106553763550962683423408840566491922266525112595577533993545143526654634232228830962060646305550136627508878648916039189876286856091367061338998853055694597087100054759252511693101428836316180216343942406013"
               },
               "Version": 3,
               "SerialNumber": 2238508373096059399630658340676916584,
@@ -11488,9 +11763,16 @@
               ],
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl3.digicert.com/ssca-sha2-g5.crl",
                 "http://crl4.digicert.com/ssca-sha2-g5.crl"
@@ -11525,8 +11807,8 @@
               "SignatureAlgorithm": 4,
               "PublicKeyAlgorithm": 1,
               "PublicKey": {
-                "N": "27858400285679723188777933283712642951289579686400775596360785472462618845441045591174031407467141927949303967273640603370583027943461489694611514307846044788608302737755893035638149922272068624160730850926560034092625156444445564936562297688651849223419070532331233030323585681010618165796464257277453762819678070632408347042070801988771058882131228632546107451893714991242153395658429259537934263208634002792828772169217510656239241005311075681025394047894661420520700962300445533960645787118986590875906485125942483622981513806162241672544997253865343228332025582679476240480384023017494305830194847248717881628827",
-                "E": 65537
+                "E": 65537,
+                "N": "27858400285679723188777933283712642951289579686400775596360785472462618845441045591174031407467141927949303967273640603370583027943461489694611514307846044788608302737755893035638149922272068624160730850926560034092625156444445564936562297688651849223419070532331233030323585681010618165796464257277453762819678070632408347042070801988771058882131228632546107451893714991242153395658429259537934263208634002792828772169217510656239241005311075681025394047894661420520700962300445533960645787118986590875906485125942483622981513806162241672544997253865343228332025582679476240480384023017494305830194847248717881628827"
               },
               "Version": 3,
               "SerialNumber": 2646203786665923649276728595390119057,
@@ -11728,9 +12010,16 @@
               "DNSNames": null,
               "EmailAddresses": null,
               "IPAddresses": null,
+              "URIs": null,
               "PermittedDNSDomainsCritical": false,
               "PermittedDNSDomains": null,
               "ExcludedDNSDomains": null,
+              "PermittedIPRanges": null,
+              "ExcludedIPRanges": null,
+              "PermittedEmailAddresses": null,
+              "ExcludedEmailAddresses": null,
+              "PermittedURIDomains": null,
+              "ExcludedURIDomains": null,
               "CRLDistributionPoints": [
                 "http://crl3.digicert.com/DigiCertGlobalRootCA.crl",
                 "http://crl4.digicert.com/DigiCertGlobalRootCA.crl"
@@ -11758,8 +12047,8 @@
                 "SignatureAlgorithm": 4,
                 "PublicKeyAlgorithm": 1,
                 "PublicKey": {
-                  "N": "25145781757498863077917975785322686073056146672488456683927231427971329262092101736866965487262718275065896687204725489151957887482656912067348781386095309759344609891189248781839251018418459186551633279613106812139308938779432556015321198920095040341401358039417082713661892340876292485801507172170259123376389203312487407774118015664887505470992608932954285330389623350070704574474206053399649000461034828361106553763550962683423408840566491922266525112595577533993545143526654634232228830962060646305550136627508878648916039189876286856091367061338998853055694597087100054759252511693101428836316180216343942406013",
-                  "E": 65537
+                  "E": 65537,
+                  "N": "25145781757498863077917975785322686073056146672488456683927231427971329262092101736866965487262718275065896687204725489151957887482656912067348781386095309759344609891189248781839251018418459186551633279613106812139308938779432556015321198920095040341401358039417082713661892340876292485801507172170259123376389203312487407774118015664887505470992608932954285330389623350070704574474206053399649000461034828361106553763550962683423408840566491922266525112595577533993545143526654634232228830962060646305550136627508878648916039189876286856091367061338998853055694597087100054759252511693101428836316180216343942406013"
                 },
                 "Version": 3,
                 "SerialNumber": 2238508373096059399630658340676916584,
@@ -12015,9 +12304,16 @@
                 ],
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl3.digicert.com/ssca-sha2-g5.crl",
                   "http://crl4.digicert.com/ssca-sha2-g5.crl"
@@ -12052,8 +12348,8 @@
                 "SignatureAlgorithm": 4,
                 "PublicKeyAlgorithm": 1,
                 "PublicKey": {
-                  "N": "27858400285679723188777933283712642951289579686400775596360785472462618845441045591174031407467141927949303967273640603370583027943461489694611514307846044788608302737755893035638149922272068624160730850926560034092625156444445564936562297688651849223419070532331233030323585681010618165796464257277453762819678070632408347042070801988771058882131228632546107451893714991242153395658429259537934263208634002792828772169217510656239241005311075681025394047894661420520700962300445533960645787118986590875906485125942483622981513806162241672544997253865343228332025582679476240480384023017494305830194847248717881628827",
-                  "E": 65537
+                  "E": 65537,
+                  "N": "27858400285679723188777933283712642951289579686400775596360785472462618845441045591174031407467141927949303967273640603370583027943461489694611514307846044788608302737755893035638149922272068624160730850926560034092625156444445564936562297688651849223419070532331233030323585681010618165796464257277453762819678070632408347042070801988771058882131228632546107451893714991242153395658429259537934263208634002792828772169217510656239241005311075681025394047894661420520700962300445533960645787118986590875906485125942483622981513806162241672544997253865343228332025582679476240480384023017494305830194847248717881628827"
                 },
                 "Version": 3,
                 "SerialNumber": 2646203786665923649276728595390119057,
@@ -12255,9 +12551,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": [
                   "http://crl3.digicert.com/DigiCertGlobalRootCA.crl",
                   "http://crl4.digicert.com/DigiCertGlobalRootCA.crl"
@@ -12282,8 +12585,8 @@
                 "SignatureAlgorithm": 3,
                 "PublicKeyAlgorithm": 1,
                 "PublicKey": {
-                  "N": "28559384442792876273280274398620578979733786817784174960112400169719065906301471912340204391164075730987771255281479191858503912379974443363319206013285922932969143082114108995903507302607372164107846395526169928849546930352778612946811335349917424469188917500996253619438384218721744278787164274625243781917237444202229339672234113350935948264576180342492691117960376023738627349150441152487120197333042448834154779966801277094070528166918968412433078879939664053044797116916260095055641583506170045241549105022323819314163625798834513544420165235412105694681616578431019525684868803389424296613694298865514217451303",
-                  "E": 65537
+                  "E": 65537,
+                  "N": "28559384442792876273280274398620578979733786817784174960112400169719065906301471912340204391164075730987771255281479191858503912379974443363319206013285922932969143082114108995903507302607372164107846395526169928849546930352778612946811335349917424469188917500996253619438384218721744278787164274625243781917237444202229339672234113350935948264576180342492691117960376023738627349150441152487120197333042448834154779966801277094070528166918968412433078879939664053044797116916260095055641583506170045241549105022323819314163625798834513544420165235412105694681616578431019525684868803389424296613694298865514217451303"
                 },
                 "Version": 3,
                 "SerialNumber": 10944719598952040374951832963794454346,
@@ -12459,9 +12762,16 @@
                 "DNSNames": null,
                 "EmailAddresses": null,
                 "IPAddresses": null,
+                "URIs": null,
                 "PermittedDNSDomainsCritical": false,
                 "PermittedDNSDomains": null,
                 "ExcludedDNSDomains": null,
+                "PermittedIPRanges": null,
+                "ExcludedIPRanges": null,
+                "PermittedEmailAddresses": null,
+                "ExcludedEmailAddresses": null,
+                "PermittedURIDomains": null,
+                "ExcludedURIDomains": null,
                 "CRLDistributionPoints": null,
                 "PolicyIdentifiers": null
               }
@@ -12487,7 +12797,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -12530,7 +12841,8 @@
           "RawPath": "",
           "ForceQuery": false,
           "RawQuery": "",
-          "Fragment": ""
+          "Fragment": "",
+          "RawFragment": ""
         },
         "Header": {
           "Accept": [
@@ -12560,6 +12872,1062 @@
       },
       "ErrType": "*net.OpError",
       "ErrMsg": "remote error: tls: handshake failure"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "expired.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.CertificateInvalidError",
+      "ErrMsg": "x509: certificate has expired or is not yet valid: "
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "expired.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.CertificateInvalidError",
+      "ErrMsg": "x509: certificate has expired or is not yet valid: "
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "expired.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.CertificateInvalidError",
+      "ErrMsg": "x509: certificate has expired or is not yet valid: "
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "expired.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.CertificateInvalidError",
+      "ErrMsg": "x509: certificate has expired or is not yet valid: "
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "wrong.host.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.HostnameError",
+      "ErrMsg": "x509: certificate is valid for *.badssl.com, badssl.com, not wrong.host.badssl.com"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "wrong.host.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.HostnameError",
+      "ErrMsg": "x509: certificate is valid for *.badssl.com, badssl.com, not wrong.host.badssl.com"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "wrong.host.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.HostnameError",
+      "ErrMsg": "x509: certificate is valid for *.badssl.com, badssl.com, not wrong.host.badssl.com"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "wrong.host.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.HostnameError",
+      "ErrMsg": "x509: certificate is valid for *.badssl.com, badssl.com, not wrong.host.badssl.com"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "self-signed.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.UnknownAuthorityError",
+      "ErrMsg": "x509: certificate signed by unknown authority"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "untrusted-root.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.UnknownAuthorityError",
+      "ErrMsg": "x509: certificate signed by unknown authority"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "dh480.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*tls.permanentError",
+      "ErrMsg": "remote error: tls: handshake failure"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "dh480.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*tls.permanentError",
+      "ErrMsg": "remote error: tls: handshake failure"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "dh480.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*tls.permanentError",
+      "ErrMsg": "remote error: tls: handshake failure"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "dh480.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*tls.permanentError",
+      "ErrMsg": "remote error: tls: handshake failure"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "dh512.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*tls.permanentError",
+      "ErrMsg": "remote error: tls: handshake failure"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "dh512.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*tls.permanentError",
+      "ErrMsg": "remote error: tls: handshake failure"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "dh512.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*tls.permanentError",
+      "ErrMsg": "remote error: tls: handshake failure"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "dh512.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "*tls.permanentError",
+      "ErrMsg": "remote error: tls: handshake failure"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "self-signed.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.UnknownAuthorityError",
+      "ErrMsg": "x509: certificate signed by unknown authority"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "untrusted-root.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.UnknownAuthorityError",
+      "ErrMsg": "x509: certificate signed by unknown authority"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "self-signed.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.UnknownAuthorityError",
+      "ErrMsg": "x509: certificate signed by unknown authority"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "untrusted-root.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.UnknownAuthorityError",
+      "ErrMsg": "x509: certificate signed by unknown authority"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "self-signed.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.UnknownAuthorityError",
+      "ErrMsg": "x509: certificate signed by unknown authority"
+    },
+    {
+      "Request": {
+        "Method": "GET",
+        "URL": {
+          "Scheme": "https",
+          "Opaque": "",
+          "User": null,
+          "Host": "untrusted-root.badssl.com",
+          "Path": "/",
+          "RawPath": "",
+          "ForceQuery": false,
+          "RawQuery": "",
+          "Fragment": "",
+          "RawFragment": ""
+        },
+        "Header": {
+          "Accept": [
+            "*/*"
+          ],
+          "Range": [
+            "bytes=0-0"
+          ],
+          "User-Agent": [
+            "htmltest/dev"
+          ]
+        },
+        "Body": ""
+      },
+      "Response": {
+        "Status": "",
+        "StatusCode": 0,
+        "Proto": "",
+        "ProtoMajor": 0,
+        "ProtoMinor": 0,
+        "Header": null,
+        "Body": null,
+        "ContentLength": 0,
+        "TransferEncoding": null,
+        "Trailer": null,
+        "TLS": null
+      },
+      "ErrType": "x509.UnknownAuthorityError",
+      "ErrMsg": "x509: certificate signed by unknown authority"
     }
   ]
 }
