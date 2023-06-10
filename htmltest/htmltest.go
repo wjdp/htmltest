@@ -17,6 +17,8 @@ import (
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/output"
 	"github.com/wjdp/htmltest/refcache"
+
+	"github.com/hashicorp/go-retryablehttp"
 	"gopkg.in/seborama/govcr.v4"
 )
 
@@ -27,7 +29,7 @@ const vcrCassetteBasePath string = "fixtures/vcr"
 // tests are run.
 type HTMLTest struct {
 	opts          Options
-	httpClient    *http.Client
+	httpClient    *retryablehttp.Client
 	httpChannel   chan bool            // Buffer used to limit concurrent http requests
 	hostChannels  map[string]chan bool // Buffers used to limit concurrent http requests per host
 	documentStore htmldoc.DocumentStore
@@ -82,12 +84,21 @@ func Test(optsUser map[string]interface{}) (*HTMLTest, error) {
 		TLSNextProto:    make(map[string]func(authority string, c *tls.Conn) http.RoundTripper),
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: hT.opts.IgnoreSSLVerify},
 	}
-	hT.httpClient = &http.Client{
+
+	client := &http.Client{
 		// Durations are in nanoseconds
 		Transport:     transport,
 		Timeout:       time.Duration(hT.opts.ExternalTimeout) * time.Second,
 		CheckRedirect: setRedirectLimitCheck(hT),
 	}
+
+	hT.httpClient = retryablehttp.NewClient()
+	hT.httpClient.HTTPClient = client
+
+	// Limit retry attempts during testing
+	hT.httpClient.RetryMax = 2
+	hT.httpClient.RetryWaitMax = 10 * time.Millisecond
+	hT.httpClient.RetryWaitMin = 1 * time.Millisecond
 
 	// If enabled (unit tests only) patch in govcr to the httpClient
 	var vcr *govcr.VCRControlPanel
@@ -97,12 +108,12 @@ func Test(optsUser map[string]interface{}) (*HTMLTest, error) {
 		// Build VCR
 		vcr = govcr.NewVCR(hT.opts.FilePath,
 			&govcr.VCRConfig{
-				Client:       hT.httpClient,
+				Client:       hT.httpClient.HTTPClient,
 				CassettePath: path.Join(vcrCassetteBasePath, cassettePath),
 			})
 
 		// Inject VCR's http.Client wrapper
-		hT.httpClient = vcr.Client
+		hT.httpClient.HTTPClient = vcr.Client
 	}
 
 	// Make buffered channel to act as concurrency limiter
