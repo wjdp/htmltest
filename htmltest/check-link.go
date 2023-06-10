@@ -12,6 +12,7 @@ import (
 	"sync"
 
 	"github.com/badoux/checkmail"
+	"github.com/hashicorp/go-retryablehttp"
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/output"
