@@ -2,6 +2,7 @@ package htmltest
 
 import (
 	"crypto/x509"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -170,7 +171,7 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 		})
 
 		// Build the request
-		req, err := http.NewRequest("GET", urlStr, nil)
+		req, err := retryablehttp.NewRequest("GET", urlStr, nil)
 		// Only error NewRequest raises is if the url isn't valid, we have already checked it by this point so OK just
 		// to panic if err != nil.
 		output.CheckErrorPanic(err)
@@ -197,15 +198,18 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 				return
 			}
 
-			if certErr, ok := err.(*url.Error).Err.(x509.UnknownAuthorityError); ok {
-				err = validateCertChain(certErr.Cert)
-				if err == nil {
-					hT.issueStore.AddIssue(issues.Issue{
-						Level:     issues.LevelWarning,
-						Reference: ref,
-						Message:   "incomplete certificate chain",
-					})
-					return
+			var urlError *url.Error
+			if errors.As(err, &urlError) {
+				if certErr, ok := urlError.Err.(x509.UnknownAuthorityError); ok {
+					err = validateCertChain(certErr.Cert)
+					if err == nil {
+						hT.issueStore.AddIssue(issues.Issue{
+							Level:     issues.LevelWarning,
+							Reference: ref,
+							Message:   "incomplete certificate chain",
+						})
+						return
+					}
 				}
 			}
 
@@ -273,7 +277,7 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 
 var hostChannelsLock sync.Mutex // Lock used to prevent concurrent updates to hostChannels
 
-func (hT *HTMLTest) getReq(req *http.Request, ref *htmldoc.Reference) (*http.Response, error) {
+func (hT *HTMLTest) getReq(req *retryablehttp.Request, ref *htmldoc.Reference) (*http.Response, error) {
 	// Limit the number of concurrent requests to a single host
 	hostChannelsLock.Lock()
 	ch, ok := hT.hostChannels[req.URL.Host]
