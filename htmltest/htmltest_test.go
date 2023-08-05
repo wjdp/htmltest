@@ -128,6 +128,7 @@ func TestConcurrencyDirExternals(t *testing.T) {
 }
 
 func TestRedirectLimitDefault(t *testing.T) {
+	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/links/http_no_redirect.html",
 		map[string]interface{}{"RedirectLimit": -2})
 	tExpectIssueCount(t, hT, 0)
@@ -137,6 +138,7 @@ func TestRedirectLimitDefault(t *testing.T) {
 }
 
 func TestRedirectLimitOk(t *testing.T) {
+	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/links/http_no_redirect.html",
 		map[string]interface{}{"RedirectLimit": 0})
 	tExpectIssueCount(t, hT, 0)
@@ -146,6 +148,7 @@ func TestRedirectLimitOk(t *testing.T) {
 }
 
 func TestRedirectLimitExceeded(t *testing.T) {
+	tSkipShortExternal(t)
 	hT := tTestFileOpts("fixtures/links/http_one_redirect.html",
 		map[string]interface{}{"RedirectLimit": 0})
 	tExpectIssueCount(t, hT, 1)
