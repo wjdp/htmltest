@@ -9,6 +9,7 @@ require (
 	github.com/fatih/color v1.10.0
 	github.com/golangplus/bytes v1.0.0 // indirect
 	github.com/golangplus/sort v1.0.0 // indirect
+	github.com/hashicorp/go-retryablehttp v0.7.4 // indirect
 	github.com/imdario/mergo v0.3.11
 	github.com/seborama/govcr v4.5.0+incompatible // indirect
 	golang.org/x/net v0.0.0-20201224014010-6772e930b67b
