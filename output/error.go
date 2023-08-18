@@ -2,8 +2,9 @@ package output
 
 import (
 	"fmt"
-	"github.com/fatih/color"
 	"os"
+
+	"github.com/fatih/color"
 )
 
 // CheckErrorGeneric aborts if error present with its message.

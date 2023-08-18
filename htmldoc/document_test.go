@@ -1,9 +1,10 @@
 package htmldoc
 
 import (
-	"github.com/daviddengcn/go-assert"
 	"sync"
 	"testing"
+
+	"github.com/daviddengcn/go-assert"
 )
 
 func TestDocumentParse(t *testing.T) {

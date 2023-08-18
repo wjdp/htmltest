@@ -2,10 +2,11 @@ package htmltest
 
 import (
 	"fmt"
+	"regexp"
+
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 	"golang.org/x/net/html"
-	"regexp"
 )
 
 func (hT *HTMLTest) checkMeta(document *htmldoc.Document, node *html.Node) {

@@ -1,8 +1,9 @@
 package htmltest
 
 import (
-	"github.com/daviddengcn/go-assert"
 	"testing"
+
+	"github.com/daviddengcn/go-assert"
 )
 
 func TestMissingOptions(t *testing.T) {
