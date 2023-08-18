@@ -1,11 +1,12 @@
 package htmltest
 
 import (
+	"path"
+	"testing"
+
 	"github.com/imdario/mergo"
 	"github.com/wjdp/htmltest/issues"
 	"github.com/wjdp/htmltest/output"
-	"path"
-	"testing"
 )
 
 // Keep it quiet

@@ -1,9 +1,10 @@
 package refcache
 
 import (
-	"github.com/daviddengcn/go-assert"
 	"testing"
 	"time"
+
+	"github.com/daviddengcn/go-assert"
 )
 
 func TestRefCacheNew(t *testing.T) {

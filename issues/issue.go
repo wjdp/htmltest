@@ -2,6 +2,7 @@ package issues
 
 import (
 	"fmt"
+
 	"github.com/fatih/color"
 	"github.com/wjdp/htmltest/htmldoc"
 )

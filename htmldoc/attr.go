@@ -1,8 +1,9 @@
 package htmldoc
 
 import (
-	"golang.org/x/net/html"
 	"strings"
+
+	"golang.org/x/net/html"
 )
 
 // GetAttr : From attrs extract single attr

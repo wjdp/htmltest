@@ -1,10 +1,11 @@
 package htmldoc
 
 import (
-	"github.com/daviddengcn/go-assert"
-	"golang.org/x/net/html"
 	"strings"
 	"testing"
+
+	"github.com/daviddengcn/go-assert"
+	"golang.org/x/net/html"
 )
 
 func nodeGen(snip string) (*html.Node, *html.Node) {

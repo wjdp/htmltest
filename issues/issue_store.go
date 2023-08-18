@@ -3,12 +3,13 @@ package issues
 
 import (
 	"fmt"
-	"github.com/fatih/color"
-	"github.com/wjdp/htmltest/htmldoc"
-	"github.com/wjdp/htmltest/output"
 	"io/ioutil"
 	"strings"
 	"sync"
+
+	"github.com/fatih/color"
+	"github.com/wjdp/htmltest/htmldoc"
+	"github.com/wjdp/htmltest/output"
 )
 
 // IssueStore : store of htmltest issues.

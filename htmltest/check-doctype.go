@@ -2,6 +2,7 @@ package htmltest
 
 import (
 	"fmt"
+
 	"github.com/wjdp/htmltest/htmldoc"
 	"github.com/wjdp/htmltest/issues"
 )
