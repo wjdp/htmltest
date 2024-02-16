@@ -140,6 +140,26 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 		return
 	}
 
+	// Is this an external reference to a local file?
+	if hT.opts.CheckSelfReferencesAsInternal && hT.documentStore.BaseURL != nil {
+
+		if ref.URL.Host == hT.documentStore.BaseURL.Host &&
+			hT.documentStore.BaseURL.User == nil &&
+			strings.HasPrefix(ref.URL.Path, hT.documentStore.BaseURL.Path) {
+			// Convert to internal reference
+			internalURL := *ref.URL
+			internalURL.Scheme = ""
+			internalURL.Host = ""
+
+			internalRef := *ref
+			internalRef.URL = &internalURL
+			internalRef.Path = internalURL.String()
+
+			hT.checkInternal(&internalRef)
+			return
+		}
+	}
+
 	urlStr := ref.URLString()
 
 	// Does this url match an url ignore rule?
