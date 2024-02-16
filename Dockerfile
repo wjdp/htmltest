@@ -1,7 +1,11 @@
 ARG GO_VERSION=1.21.4
 ARG TARGET=alpine:3.9
 
-FROM golang:${GO_VERSION}-alpine AS builder
+FROM --platform=$BUILDPLATFORM golang:${GO_VERSION}-alpine AS builder
+ARG TARGETARCH
+ARG TARGETOS
+ENV GOOS=$TARGETOS
+ENV GOARCH=$TARGETARCH
 
 RUN apk add --no-cache ca-certificates git
 

@@ -142,6 +142,7 @@ jobs:
         with:
           push: true
           tags: ${{ env.DOCKER_REPO }}:${{ env.GIT_VERSION }}
+          platforms: linux/amd64,linux/arm64
           cache-from: ${{ env.DOCKER_REPO }}:latest
           build-args: |
             VERSION=${{ env.GIT_VERSION }}
