@@ -838,6 +838,12 @@ func TestFaviconOptionPresentButInBody(t *testing.T) {
 	tExpectIssue(t, hT, "favicon missing", 1)
 }
 
+func TestIssue101(t *testing.T) {
+	// paniced on this link
+	hT := tTestFile("fixtures/links/issues/101.html")
+	tExpectIssue(t, hT, "favicon missing", 0)
+}
+
 // Benchmarks
 
 func BenchmarkManyExternalLinks(b *testing.B) {
