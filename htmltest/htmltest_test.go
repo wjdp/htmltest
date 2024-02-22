@@ -92,6 +92,16 @@ func TestCountErrors(t *testing.T) {
 	assert.Equals(t, "CountErrors", hT.CountErrors(), 2)
 }
 
+func TestCountFolderDocuments(t *testing.T) {
+	hT := tTestDirectoryOpts("fixtures/documents/folder-ok", map[string]interface{}{
+		"TestOnlyDir": "a",
+	})
+	assert.Equals(t, "CountDocuments", hT.CountDocuments(), 3)
+	// TODO: uncomment the following if/once https://github.com/wjdp/htmltest/pull/229 is merged
+	// assert.Equals(t, "CountTestedDocuments", hT.CountTestedDocuments(), 1)
+	assert.Equals(t, "CountErrors", hT.CountErrors(), 0)
+}
+
 func TestFileExtensionDefault(t *testing.T) {
 	// Non .html files are ignored
 	hT := tTestDirectory("fixtures/documents/folder-htm")

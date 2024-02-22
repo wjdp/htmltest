@@ -41,6 +41,7 @@ Options:
   -l LEVEL, --log-level LEVEL  Logging level, 0-3: debug, info, warning, error.
   -s, --skip-external          Skip external link checks, may shorten execution
                                time considerably.
+  -t, --test-only DIR          Site subdirectory to test, relative to the site base path
   -v, --version                Show version and build time.
 `
 	versionText := "htmltest " + version
@@ -135,6 +136,36 @@ func augmentWithCLIArgs(options optsMap, arguments map[string]interface{}) {
 			options["DirectoryPath"] = path.Dir(arguments["<path>"].(string))
 			options["FilePath"] = path.Base(arguments["<path>"].(string))
 			fileMode = true
+		}
+
+	}
+
+	if arguments["--test-only"] != nil {
+		var testOnlyDir = path.Clean(arguments["--test-only"].(string))
+		options["TestOnlyDir"] = testOnlyDir
+
+		var directoryPath string = ""
+		if options["DirectoryPath"] != nil {
+			directoryPath = options["DirectoryPath"].(string)
+		}
+		var testOnlyDirFullPath = testOnlyDir
+
+		if directoryPath != "" && !strings.HasPrefix(testOnlyDir, "/") && !strings.HasPrefix(testOnlyDir, directoryPath) {
+			testOnlyDirFullPath = path.Join(directoryPath, testOnlyDir)
+		}
+
+		f, err := os.Open(path.Clean(testOnlyDirFullPath))
+		if os.IsNotExist(err) {
+			output.AbortWith("Cannot access --test-only path '" + testOnlyDirFullPath + "', no such directory.")
+		}
+		output.CheckErrorGeneric(err)
+		defer f.Close()
+
+		fi, err := f.Stat()
+		output.CheckErrorPanic(err)
+
+		if !fi.IsDir() {
+			output.AbortWith("Argument to --test-only must be directory: '" + testOnlyDirFullPath + "'")
 		}
 
 	}

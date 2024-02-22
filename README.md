@@ -78,6 +78,7 @@ Options:
   -l LEVEL, --log-level LEVEL  Logging level, 0-3: debug, info, warning, error.
   -s, --skip-external          Skip external link checks, may shorten execution
                                time considerably.
+  -t, --test-only DIR          Site subdirectory to test, relative to the site base path
   -v, --version                Show version and build time.
 ```
 
@@ -135,6 +136,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `DirectoryIndex` | The file to look for when linking to a directory.                                                                                                                                                               | `index.html` |
 | `FilePath` | Single file to test within `DirectoryPath`, omit to test all.                                                                                                                                                   | |
 | `FileExtension` | Extension of your HTML documents, includes the dot. If `FilePath` is set we use the extension from that.                                                                                                        | `.html` |
+| `TestOnlyDir` | Single directory to test within `DirectoryPath`, omit to test all.                                                                                                                                                   | |
 | `CheckDoctype` | Enables checking the document type declaration.                                                                                                                                                                 | `true` |
 | `CheckAnchors` | Enables checking `<a…` tags.                                                                                                                                                                                    | `true` |
 | `CheckLinks` | Enables checking `<link…` tags.                                                                                                                                                                                 | `true` |

@@ -29,6 +29,28 @@ func TestDocumentStoreIgnorePatterns(t *testing.T) {
 	assert.Equals(t, "document count", len(dS.Documents), 6)
 }
 
+func TestDocumentStoreTestOnlyDir(t *testing.T) {
+	dS := NewDocumentStore()
+	dS.BasePath = "fixtures/documents"
+	dS.DocumentExtension = ".html" // Ignores .htm
+	dS.DirectoryIndex = "index.html"
+	dS.TestOnlyDir = "dir1"
+	dS.Discover()
+	// TestOnlyDir does not affect stored document count
+	assert.Equals(t, "document count", len(dS.Documents), 6)
+	// TODO: uncomment the following if/once https://github.com/wjdp/htmltest/pull/229 is merged
+	// assert.Equals(t, "ignored document count", dS.IgnoredDocCount(), 4)
+	ignoredFile := "dir2/index.html"
+	assert.IsTrue(t, ignoredFile+" is ignored", dS.DocumentPathMap[ignoredFile].IgnoreTest)
+
+	testFiles := [2]string{"dir1/index.html", "dir1/dir11/index.html"}
+	for _, keptFile := range testFiles {
+		f, exists := dS.DocumentPathMap[keptFile]
+		assert.IsTrue(t, keptFile+" exists", exists)
+		assert.IsFalse(t, keptFile+" is not ignored", f.IgnoreTest)
+	}
+}
+
 func TestDocumentStoreDocumentExists(t *testing.T) {
 	// documentstore knows if documents exist or not
 	dS := NewDocumentStore()
