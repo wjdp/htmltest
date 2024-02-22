@@ -84,7 +84,8 @@ func TestNormalLookingPage(t *testing.T) {
 
 func TestCountDocuments(t *testing.T) {
 	hT := tTestDirectory("fixtures/documents/folder-ok")
-	assert.Equals(t, "CountDocuments", hT.CountDocuments(), 3)
+	assert.Equals(t, "CountTestedDocuments", hT.CountTestedDocuments(), 3)
+	assert.Equals(t, "CountErrors", hT.CountErrors(), 0)
 }
 
 func TestCountErrors(t *testing.T) {
@@ -105,7 +106,7 @@ func TestFileExtensionOption(t *testing.T) {
 		"FileExtension":  ".htm",
 		"DirectoryIndex": "index.htm",
 	})
-	assert.Equals(t, "CountDocuments", hT.CountDocuments(), 3)
+	assert.Equals(t, "CountTestedDocuments", hT.CountTestedDocuments(), 3)
 	tExpectIssueCount(t, hT, 1)
 }
 

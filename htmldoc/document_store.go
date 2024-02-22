@@ -30,6 +30,22 @@ func NewDocumentStore() DocumentStore {
 	}
 }
 
+// DocumentCount : Return number of documents in the document store.
+func (dS *DocumentStore) DocumentCount() int {
+	return len(dS.Documents)
+}
+
+// IgnoredDocCount : Return number of documents in the document store where `IgnoreTest` is true.
+func (dS *DocumentStore) IgnoredDocCount() int {
+	count := 0
+	for _, document := range dS.Documents {
+		if document.IgnoreTest {
+			count++
+		}
+	}
+	return count
+}
+
 // AddDocument : Add a document to the document store.
 func (dS *DocumentStore) AddDocument(doc *Document) {
 	// Save reference to document to various data stores
@@ -70,6 +86,8 @@ func (dS *DocumentStore) discoverRecurse(dPath string) {
 		fis, err := f.Readdir(-1)
 		output.CheckErrorPanic(err)
 
+		isDirIgnored := dS.isDirIgnored(dPath)
+
 		// Iterate over contents of directory
 		for _, fileinfo := range fis {
 			fPath := path.Join(dPath, fileinfo.Name())
@@ -82,7 +100,7 @@ func (dS *DocumentStore) discoverRecurse(dPath string) {
 					FilePath:   path.Join(dS.BasePath, fPath),
 					SitePath:   fPath,
 					BasePath:   dPath,
-					IgnoreTest: dS.isDirIgnored(dPath),
+					IgnoreTest: isDirIgnored,
 				}
 				newDoc.Init()
 				dS.AddDocument(newDoc)
@@ -94,7 +112,7 @@ func (dS *DocumentStore) discoverRecurse(dPath string) {
 
 }
 
-// ResolvePath : Resolves internal absolute paths to documents.
+// ResolvePath : Resolves internal paths to documents.
 func (dS *DocumentStore) ResolvePath(refPath string) (*Document, bool) {
 	// Match root document
 	if refPath == "/" {
