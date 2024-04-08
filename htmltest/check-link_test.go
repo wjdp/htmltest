@@ -595,6 +595,12 @@ func TestMailtoEncoded(t *testing.T) {
 	tExpectIssueCount(t, hT, 0)
 }
 
+func TestMailtoMultipleRecipients(t *testing.T) {
+	// ignores valid mailto links
+	hT := tTestFile("fixtures/links/mailto_multiple_recipients.html")
+	tExpectIssueCount(t, hT, 0)
+}
+
 func TestMailtoEncodedInvalid(t *testing.T) {
 	// ignores valid mailto links
 	hT := tTestFile("fixtures/links/mailto_encoded_invalid.html")
