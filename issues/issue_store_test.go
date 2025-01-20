@@ -82,7 +82,7 @@ func TestIssueStoreWriteLog(t *testing.T) {
 
 }
 
-func ExampleIssueStoreDumpIssues() {
+func ExampleIssueStore_DumpIssues() {
 	// Passes for dumping all issues, ignoring LogLevel
 	iS := NewIssueStore(LevelNone, true)
 	issue1 := Issue{
@@ -108,7 +108,7 @@ func ExampleIssueStoreDumpIssues() {
 	// >>>>>>>>>>>>>>>>>>>>>>>>
 }
 
-func ExampleIssueStorePrintDocumentIssues() {
+func ExampleIssueStore_PrintDocumentIssues() {
 	iS := NewIssueStore(LevelError, false)
 	doc := htmldoc.Document{
 		SitePath: "dir/page.html",
@@ -126,7 +126,7 @@ func ExampleIssueStorePrintDocumentIssues() {
 	//   test1 --- dir/page.html --> <nil>
 }
 
-func ExampleIssueStorePrintDocumentIssuesEmpty() {
+func ExampleIssueStore_PrintDocumentIssues_empty() {
 	iS := NewIssueStore(LevelError, false)
 	doc := htmldoc.Document{
 		SitePath: "dir/page.html",

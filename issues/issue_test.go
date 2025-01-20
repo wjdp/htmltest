@@ -41,7 +41,7 @@ func TestIssueSecondary(t *testing.T) {
 	assert.Equals(t, "issue1 secondary", issue1.secondary(), "http://example.com")
 }
 
-func ExampleIssuePrintLogLevel() {
+func ExampleIssue_print_logLevel() {
 	doc := htmldoc.Document{
 		SitePath: "dir/doc.html",
 	}
@@ -84,7 +84,7 @@ func ExampleIssuePrintLogLevel() {
 
 }
 
-func ExampleIssuePrintLogAll() {
+func ExampleIssue_print_logAll() {
 	doc := htmldoc.Document{
 		SitePath: "dir/doc.html",
 	}
