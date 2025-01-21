@@ -70,9 +70,14 @@ func (doc *Document) Parse() {
 // Internal recursive function that delves into the node tree and captures
 // nodes of interest and node id/names.
 func (doc *Document) parseNode(n *html.Node) {
-	// Ignore this tree if data-proofer-ignore set
-	if doc.ignoreTagAttribute != "" &&
-		(AttrPresent(n.Attr, doc.ignoreTagAttribute) || ClassPresent(n.Attr, doc.ignoreTagAttribute)) {
+	// Remove this tree and ignore if data-proofer-ignore set
+	if doc.ignoreTagAttribute != "" && 
+    		(AttrPresent(n.Attr, doc.ignoreTagAttribute) || ClassPresent(n.Attr, doc.ignoreTagAttribute)) {
+		var nextSibling *html.Node
+		for c := n.FirstChild; c != nil; c = nextSibling {
+			nextSibling = c.NextSibling
+			n.RemoveChild(c)
+		}
 		return
 	}
 
