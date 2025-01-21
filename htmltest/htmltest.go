@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"os"
 	"path"
 	"strings"
@@ -149,6 +150,17 @@ func Test(optsUser map[string]interface{}) (*HTMLTest, error) {
 	hT.documentStore.DirectoryIndex = hT.opts.DirectoryIndex
 	hT.documentStore.IgnorePatterns = hT.opts.IgnoreDirs
 	hT.documentStore.IgnoreTagAttribute = hT.opts.IgnoreTagAttribute
+
+	if hT.opts.BaseURL != "" {
+		baseURL, err := url.Parse(hT.opts.BaseURL)
+		if err != nil {
+			err := fmt.Errorf("Could not parse BaseURL '%s': %w", hT.opts.BaseURL, err)
+			return &hT, err
+		}
+
+		hT.documentStore.BaseURL = baseURL
+	}
+
 	// Discover documents
 	hT.documentStore.Discover()
 

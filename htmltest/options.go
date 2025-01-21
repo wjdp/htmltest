@@ -19,6 +19,8 @@ type Options struct {
 	FilePath       string
 	FileExtension  string
 
+	BaseURL string
+
 	CheckDoctype bool
 	CheckAnchors bool
 	CheckLinks   bool
@@ -27,13 +29,14 @@ type Options struct {
 	CheckMeta    bool
 	CheckGeneric bool
 
-	CheckExternal     bool
-	CheckInternal     bool
-	CheckInternalHash bool
-	CheckMailto       bool
-	CheckTel          bool
-	CheckFavicon      bool
-	CheckMetaRefresh  bool
+	CheckExternal                 bool
+	CheckInternal                 bool
+	CheckInternalHash             bool
+	CheckMailto                   bool
+	CheckTel                      bool
+	CheckFavicon                  bool
+	CheckMetaRefresh              bool
+	CheckSelfReferencesAsInternal bool
 
 	EnforceHTML5 bool
 	EnforceHTTPS bool
