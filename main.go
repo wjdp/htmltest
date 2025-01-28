@@ -175,7 +175,14 @@ func run(options optsMap) int {
 		color.Set(color.FgHiGreen)
 		fmt.Println("✔✔✔ passed in", timeEnd.Sub(timeStart))
 		if !fileMode {
-			fmt.Println("tested", hT.CountDocuments(), "documents")
+			testedDocCount := hT.CountTestedDocuments()
+			fmt.Print("tested ", testedDocCount, " documents")
+			docCount := hT.CountDocuments()
+			if testedDocCount < docCount {
+				fmt.Println(" out of", docCount)
+			} else {
+				fmt.Println()
+			}
 		}
 		color.Unset()
 		return 0

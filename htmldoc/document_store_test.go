@@ -6,6 +6,9 @@ import (
 	"github.com/daviddengcn/go-assert"
 )
 
+// Expected number of .html files under "fixtures/documents"
+const ExpectedHtmlDocumentCount = 6
+
 func TestDocumentStoreDiscover(t *testing.T) {
 	// documentstore can scan an os directory
 	dS := NewDocumentStore()
@@ -13,8 +16,12 @@ func TestDocumentStoreDiscover(t *testing.T) {
 	dS.DocumentExtension = ".html" // Ignores .htm
 	dS.DirectoryIndex = "index.html"
 	dS.Discover()
-	// Fixtures dir has eight documents in various folders
-	assert.Equals(t, "document count", len(dS.Documents), 6)
+	assert.Equals(t, "document count", dS.DocumentCount(), ExpectedHtmlDocumentCount)
+	assert.Equals(t, "ignored document count", dS.IgnoredDocCount(), 0)
+
+	for _, document := range dS.Documents {
+		assert.IsFalse(t, document.SitePath+" is not ignored", document.IgnoreTest)
+	}
 }
 
 func TestDocumentStoreIgnorePatterns(t *testing.T) {
@@ -25,8 +32,20 @@ func TestDocumentStoreIgnorePatterns(t *testing.T) {
 	dS.DirectoryIndex = "index.html"
 	dS.IgnorePatterns = []interface{}{"^lib/"}
 	dS.Discover()
-	// Fixtures dir has seven documents in various folders, (one ignored in lib)
-	assert.Equals(t, "document count", len(dS.Documents), 6)
+	// IgnorePatterns does not affect stored document count
+	assert.Equals(t, "document count", dS.DocumentCount(), ExpectedHtmlDocumentCount)
+	assert.Equals(t, "ignored document count", dS.IgnoredDocCount(), 1)
+
+	ignoredFile := "lib/unwanted-file.html"
+	f, exists := dS.DocumentPathMap[ignoredFile]
+	assert.IsTrue(t, ignoredFile+" exists", exists)
+	assert.IsTrue(t, ignoredFile+" is flagged as ignored", f.IgnoreTest)
+
+	for _, document := range dS.Documents {
+		if document.SitePath != ignoredFile {
+			assert.IsFalse(t, document.FilePath+" is not ignored", document.IgnoreTest)
+		}
+	}
 }
 
 func TestDocumentStoreDocumentExists(t *testing.T) {

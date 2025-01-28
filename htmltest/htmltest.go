@@ -298,5 +298,10 @@ func (hT *HTMLTest) CountErrors() int {
 
 // CountDocuments : Return number of documents in hT document store
 func (hT *HTMLTest) CountDocuments() int {
-	return len(hT.documentStore.Documents)
+	return hT.documentStore.DocumentCount()
+}
+
+// CountTestedDocuments : Return number of documents in hT document store that were tested
+func (hT *HTMLTest) CountTestedDocuments() int {
+	return hT.documentStore.DocumentCount() - hT.documentStore.IgnoredDocCount()
 }
