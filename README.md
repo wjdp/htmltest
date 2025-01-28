@@ -164,7 +164,7 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 | `IgnoreDirectoryMissingTrailingSlash` | Turns off errors for links to directories without a trailing slash.                                                                                                                                             | `false` |
 | `IgnoreSSLVerify` | Turns off x509 errors for self-signed certificates.                                                                                                                                                             | `false` |
 | `IgnoreTagAttribute` | Specify the ignore attribute. All tags with this attribute or with this class will be excluded from every check.                                                                                                | `"data-proofer-ignore"` |
-| `HTTPHeaders` | Dictionary of headers to include in external requests                                                                                                                                                           | `{"Range":  "bytes=0-0", "Accept": "*/*"}` |
+| `HTTPHeaders` | Dictionary of headers to include in external requests                                                                                                                                                           | `{"Range": "bytes=0-0", "Accept": "*/*"}` |
 | `TestFilesConcurrently` | :warning: :construction: *EXPERIMENTAL* Turns on [concurrent](https://github.com/wjdp/htmltest/wiki/Concurrency) checking of files.                                                                             | `false` |
 | `DocumentConcurrencyLimit` | Maximum number of documents to process at once.                                                                                                                                                                 | `128` |
 | `HTTPConcurrencyLimit` | Maximum number of open HTTP connections. If you raise this number ensure the `ExternalTimeout` is suitably raised.                                                                                              | `16` |
@@ -185,8 +185,8 @@ htmltest uses a YAML configuration file. Put `.htmltest.yml` in the same directo
 DirectoryPath: "_site"
 EnforceHTTPS: true
 IgnoreURLs:
-- "example.com"
-- "^/misc/js/script.js$"
+- "example\\.com"
+- "^/misc/js/script\\.js$"
 IgnoreDirs:
 - "lib"
 CacheExpires: "6h"
