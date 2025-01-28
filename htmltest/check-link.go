@@ -405,23 +405,26 @@ func (hT *HTMLTest) checkMailto(ref *htmldoc.Reference) {
 		})
 		return
 	}
-	emailAddress, decodeErr := url.QueryUnescape(ref.URL.Opaque)
-	if decodeErr != nil {
-		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.LevelError,
-			Message:   fmt.Sprintf("cannot decode email (%s): '%s'", decodeErr, ref.URL.Opaque),
-			Reference: ref,
-		})
-		return
-	}
-	formatErr := checkmail.ValidateFormat(emailAddress)
-	if formatErr != nil {
-		hT.issueStore.AddIssue(issues.Issue{
-			Level:     issues.LevelError,
-			Message:   fmt.Sprintf("invalid email address (%s): '%s'", formatErr, emailAddress),
-			Reference: ref,
-		})
-		return
+	// mailto URIs may contain multiple recipients separated by "," (https://datatracker.ietf.org/doc/html/rfc6068#autoid-2)
+	for _, recipient := range strings.Split(ref.URL.Opaque, ",") {
+		emailAddress, decodeErr := url.QueryUnescape(recipient)
+		if decodeErr != nil {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelError,
+				Message:   fmt.Sprintf("cannot decode email (%s): '%s'", decodeErr, ref.URL.Opaque),
+				Reference: ref,
+			})
+			return
+		}
+		formatErr := checkmail.ValidateFormat(emailAddress)
+		if formatErr != nil {
+			hT.issueStore.AddIssue(issues.Issue{
+				Level:     issues.LevelError,
+				Message:   fmt.Sprintf("invalid email address (%s): '%s'", formatErr, emailAddress),
+				Reference: ref,
+			})
+			return
+		}
 	}
 }
 
