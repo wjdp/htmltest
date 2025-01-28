@@ -7,6 +7,7 @@ import (
 	"os"
 	"path"
 	"regexp"
+	"strings"
 
 	"github.com/wjdp/htmltest/output"
 )
@@ -15,6 +16,7 @@ import (
 type DocumentStore struct {
 	BasePath           string               // Path, relative to cwd, the site is located in
 	IgnorePatterns     []interface{}        // Regexes of directories to ignore
+	TestOnlyDir        string               // Clean non-nil path of directory to test relative to `BasePath`
 	Documents          []*Document          // All of the documents, used to iterate over
 	DocumentPathMap    map[string]*Document // Maps slash separated paths to documents
 	DocumentExtension  string               // File extension to look for
@@ -50,6 +52,10 @@ func (dS *DocumentStore) isDirIgnored(dir string) bool {
 		if ok, _ := regexp.MatchString(item.(string), dir+"/"); ok {
 			return true
 		}
+	}
+	if dS.TestOnlyDir != "" {
+		matchesTestOnlyDir := strings.HasPrefix(dir, dS.TestOnlyDir)
+		return !matchesTestOnlyDir
 	}
 	return false
 }
