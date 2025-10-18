@@ -60,7 +60,9 @@ func (rS *RefCache) WriteStore(storePath string) {
 	output.CheckErrorPanic(err)
 	defer f.Close()
 
-	err = json.NewEncoder(f).Encode(&rS.refStore)
+	encoder := json.NewEncoder(f)
+	encoder.SetEscapeHTML(false)
+	err = encoder.Encode(&rS.refStore)
 	output.CheckErrorPanic(err)
 }
 
