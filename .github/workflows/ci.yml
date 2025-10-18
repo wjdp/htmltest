@@ -63,7 +63,7 @@ jobs:
       - name: Build
         run: go build -ldflags "-X main.date=`date -u +%Y-%m-%dT%H:%M:%SZ` -X main.version=`git describe --tags`" -o bin/$BINARY_NAME -x main.go
       - name: Upload binary
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.BINARY_NAME }}
           path: bin/${{ env.BINARY_NAME }}
