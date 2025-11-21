@@ -831,6 +831,13 @@ func TestFaviconOptionPresentShortcut(t *testing.T) {
 	tExpectIssue(t, hT, "favicon missing", 0)
 }
 
+func TestFaviconOptionPresentIconShortcut(t *testing.T) {
+	// passes, when asked, with present favicon with rel="icon shortcut"
+	hT := tTestFileOpts("fixtures/favicon/favicon_present_icon_shortcut.html",
+		map[string]interface{}{"CheckFavicon": true})
+	tExpectIssue(t, hT, "favicon missing", 0)
+}
+
 func TestFaviconOptionPresentButInBody(t *testing.T) {
 	// fails when favicon isn't a first level child of <head>
 	hT := tTestFileOpts("fixtures/favicon/favicon_present_but_in_body.html",
