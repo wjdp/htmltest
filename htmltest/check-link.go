@@ -28,7 +28,7 @@ func (hT *HTMLTest) checkLink(document *htmldoc.Document, node *html.Node) {
 
 	// Check if favicon
 	if htmldoc.AttrPresent(node.Attr, "rel") &&
-		(attrs["rel"] == "icon" || attrs["rel"] == "shortcut icon") &&
+		(attrs["rel"] == "icon" || attrs["rel"] == "icon shortcut" || attrs["rel"] == "shortcut icon") &&
 		node.Parent.Data == "head" {
 		document.State.FaviconPresent = true
 	}
