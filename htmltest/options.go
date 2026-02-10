@@ -42,6 +42,7 @@ type Options struct {
 	IgnoreInternalURLs []interface{}
 	IgnoreHTTPS        []interface{}
 	IgnoreDirs         []interface{}
+	IgnoreHTTPStatus   []interface{}
 
 	IgnoreInternalEmptyHash             bool
 	IgnoreEmptyHref                     bool
@@ -110,6 +111,7 @@ func DefaultOptions() map[string]interface{} {
 		"IgnoreInternalURLs": []interface{}{},
 		"IgnoreHTTPS":        []interface{}{},
 		"IgnoreDirs":         []interface{}{},
+		"IgnoreHTTPStatus":   []interface{}{},
 
 		"IgnoreInternalEmptyHash":             false,
 		"IgnoreEmptyHref":                     false,

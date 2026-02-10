@@ -270,11 +270,27 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 			})
 		} else {
 			// Failed VCRed requests end up here with a status code of zero
-			hT.issueStore.AddIssue(issues.Issue{
-				Level:     issueLevel,
-				Message:   fmt.Sprintf("%s %d", "Non-OK status:", statusCode),
-				Reference: ref,
-			})
+			if hT.opts.IgnoreHTTPStatus != nil {
+				if ignoreStatus(hT.opts.IgnoreHTTPStatus, statusCode) {
+					hT.issueStore.AddIssue(issues.Issue{
+						Level:     issues.LevelDebug,
+						Message:   fmt.Sprintf("%s %d", "Ignoring status code", statusCode),
+						Reference: ref,
+					})
+				} else {
+					hT.issueStore.AddIssue(issues.Issue{
+						Level:     issueLevel,
+						Message:   fmt.Sprintf("%s %d", "Non-OK status:", statusCode),
+						Reference: ref,
+					})
+				}
+			} else {
+				hT.issueStore.AddIssue(issues.Issue{
+					Level:     issueLevel,
+					Message:   fmt.Sprintf("%s %d", "Non-OK status:", statusCode),
+					Reference: ref,
+				})
+			}
 		}
 	}
 
@@ -437,4 +453,15 @@ func (hT *HTMLTest) checkTel(ref *htmldoc.Reference) {
 		})
 		return
 	}
+}
+
+func ignoreStatus(httpStatus []interface{}, status int) bool {
+	for _, item := range httpStatus {
+		if v, ok := item.(int); ok {
+			if v == status {
+				return true
+			}
+		}
+	}
+	return false
 }
