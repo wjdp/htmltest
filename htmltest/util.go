@@ -3,6 +3,7 @@ package htmltest
 import (
 	"crypto/x509"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 )
@@ -19,6 +20,23 @@ func (e CertChainErr) Error() string {
 		s += fmt.Sprintf(" (possibly because of %q)", e.hintErr)
 	}
 	return s
+}
+
+// bodyDrainLimit : How much of a response body we are willing to read purely
+// to make its connection reusable.
+const bodyDrainLimit int64 = 32 * 1024
+
+// drainAndClose : Close a response body, first reading a bounded amount of it.
+//
+// Closing is what actually prevents the connection, its buffers and the
+// transport's goroutines from leaking. The read matters too: net/http only
+// returns a connection to the idle pool once its body has been read to EOF, so
+// closing an unread body forces a fresh connection - and a fresh TLS handshake
+// - for every link. Bodies larger than the limit are not worth draining, and
+// their connection is simply dropped.
+func drainAndClose(resp *http.Response) {
+	io.CopyN(ioutil.Discard, resp.Body, bodyDrainLimit)
+	resp.Body.Close()
 }
 
 func statusCodeValid(code int) bool {

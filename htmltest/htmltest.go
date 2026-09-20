@@ -80,6 +80,15 @@ func Test(optsUser map[string]interface{}) (*HTMLTest, error) {
 		// See issue #49
 		TLSNextProto:    make(map[string]func(authority string, c *tls.Conn) http.RoundTripper),
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: hT.opts.IgnoreSSLVerify},
+
+		// A custom Transport does not inherit DefaultTransport's pool sizing,
+		// and DefaultMaxIdleConnsPerHost is only 2. A site's external links
+		// cluster on a handful of hosts, so without this all but two of the
+		// in-flight connections are discarded after each request and the next
+		// link pays for a new connection, and a new TLS handshake, every time.
+		MaxIdleConns:        hT.opts.HTTPConcurrencyLimit * 2,
+		MaxIdleConnsPerHost: hT.opts.HTTPConcurrencyLimit,
+		IdleConnTimeout:     90 * time.Second,
 	}
 	hT.httpClient = &http.Client{
 		// Durations are in nanoseconds

@@ -201,7 +201,7 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 			// The body must be closed even though we only read the status
 			// code; leaving it open leaks the connection, its buffers and the
 			// transport's read/write goroutines for the rest of the run.
-			defer resp.Body.Close()
+			defer drainAndClose(resp)
 		}
 
 		if err != nil {
