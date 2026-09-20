@@ -149,6 +149,8 @@ func Test(optsUser map[string]interface{}) (*HTMLTest, error) {
 	hT.documentStore.DirectoryIndex = hT.opts.DirectoryIndex
 	hT.documentStore.IgnorePatterns = hT.opts.IgnoreDirs
 	hT.documentStore.IgnoreTagAttribute = hT.opts.IgnoreTagAttribute
+	// Only record node id/names when something will actually check them.
+	hT.documentStore.CollectHashes = hT.opts.CheckInternalHash
 	// Discover documents
 	hT.documentStore.Discover()
 

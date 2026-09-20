@@ -20,6 +20,7 @@ type DocumentStore struct {
 	DocumentExtension  string               // File extension to look for
 	DirectoryIndex     string               // What file is the index of the directory
 	IgnoreTagAttribute string               // Attribute to ignore element and children if found on element
+	CollectHashes      bool                 // Record id/names of nodes? Only needed when checking hash links
 }
 
 // NewDocumentStore : Create and return a new Document store.
@@ -27,6 +28,7 @@ func NewDocumentStore() DocumentStore {
 	return DocumentStore{
 		Documents:       make([]*Document, 0),
 		DocumentPathMap: make(map[string]*Document),
+		CollectHashes:   true,
 	}
 }
 
@@ -37,6 +39,7 @@ func (dS *DocumentStore) AddDocument(doc *Document) {
 	dS.DocumentPathMap[doc.SitePath] = doc
 	// Pass some vars on
 	doc.ignoreTagAttribute = dS.IgnoreTagAttribute
+	doc.collectHashes = dS.CollectHashes
 }
 
 // Discover : Discover all documents within DocumentStore.BasePath.

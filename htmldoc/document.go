@@ -22,6 +22,7 @@ type Document struct {
 	treeLoaded         bool                // Is the node tree currently in memory?
 	basePathOrig       string              // BasePath as discovered, before any <base> tag was applied
 	hashMap            map[string]struct{} // Set of valid id/names of nodes
+	collectHashes      bool                // Record id/names? Only needed for hash checks
 	NodesOfInterest    []*html.Node        // Slice of nodes to run checks on
 	State              DocumentState       // Link to a DocumentState struct
 	DoctypeNode        *html.Node          // Pointer to doctype node if exists
@@ -42,6 +43,9 @@ func (doc *Document) Init() {
 	doc.htmlMutex = &sync.Mutex{}
 	doc.NodesOfInterest = make([]*html.Node, 0)
 	doc.hashMap = make(map[string]struct{})
+	// Default to collecting hashes so a Document used directly behaves as
+	// before; DocumentStore overrides this from the CheckInternalHash option.
+	doc.collectHashes = true
 }
 
 // Parse : Ask Document to parse its HTML file. Returns quickly if this has
@@ -126,9 +130,11 @@ func (doc *Document) parseNode(n *html.Node) {
 		// presence of the id is ever read, so the node itself is not stored:
 		// every html.Node links to its parent and siblings, so keeping one
 		// keeps the document's whole tree reachable.
-		nodeID := GetID(n.Attr)
-		if nodeID != "" {
-			doc.hashMap[nodeID] = struct{}{}
+		if doc.collectHashes {
+			nodeID := GetID(n.Attr)
+			if nodeID != "" {
+				doc.hashMap[nodeID] = struct{}{}
+			}
 		}
 		// Identify and store tags of interest
 		switch n.Data {
