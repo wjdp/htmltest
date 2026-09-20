@@ -214,6 +214,8 @@ func (hT *HTMLTest) testDocument(document *htmldoc.Document) {
 			Level:   issues.LevelDebug,
 			Message: "ignored " + document.SitePath,
 		})
+		// May still have been parsed on another document's behalf.
+		document.Release()
 		return
 	}
 
@@ -279,6 +281,10 @@ func (hT *HTMLTest) testDocument(document *htmldoc.Document) {
 	if hT.opts.LogSort == "document" {
 		hT.issueStore.PrintDocumentIssues(document)
 	}
+
+	// This document's own checks are done. Drop its parsed tree so the GC can
+	// reclaim it rather than holding the whole site's DOM until we exit.
+	document.Release()
 }
 
 func (hT *HTMLTest) postChecks(document *htmldoc.Document) {

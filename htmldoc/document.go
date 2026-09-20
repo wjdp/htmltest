@@ -18,6 +18,9 @@ type Document struct {
 	IgnoreTest         bool                // Ignore this Document for testing.
 	htmlMutex          *sync.Mutex         // Controls access to htmlNode
 	htmlNode           *html.Node          // Parsed output
+	parsed             bool                // Have hashMap/DoctypeNode been built at least once?
+	treeLoaded         bool                // Is the node tree currently in memory?
+	basePathOrig       string              // BasePath as discovered, before any <base> tag was applied
 	hashMap            map[string]struct{} // Set of valid id/names of nodes
 	NodesOfInterest    []*html.Node        // Slice of nodes to run checks on
 	State              DocumentState       // Link to a DocumentState struct
@@ -45,14 +48,27 @@ func (doc *Document) Init() {
 // already been done. Thread safe. Either called when the document is tested
 // or when another document needs data from this one.
 func (doc *Document) Parse() {
-
 	// Only one routine may parse the doc
 	doc.htmlMutex.Lock()
 	defer doc.htmlMutex.Unlock()
 
-	// If document has already been parsed, return early.
-	if doc.htmlNode != nil {
+	doc.parseLocked()
+}
+
+// parseLocked : Parse body, caller must hold htmlMutex.
+func (doc *Document) parseLocked() {
+	// If the tree is already in memory, return early.
+	if doc.treeLoaded {
 		return
+	}
+
+	// parseNode derives BasePath from any <base> tag by joining onto the
+	// current value, so the discovered value is restored first; otherwise a
+	// re-parse after Release would apply the <base> href a second time.
+	if doc.parsed {
+		doc.BasePath = doc.basePathOrig
+	} else {
+		doc.basePathOrig = doc.BasePath
 	}
 
 	// Open, parse, and close document
@@ -64,7 +80,33 @@ func (doc *Document) Parse() {
 	output.CheckErrorGeneric(err)
 
 	doc.htmlNode = htmlNode
+	// Reset so a re-parse after Release cannot double up on the previous run.
+	doc.NodesOfInterest = make([]*html.Node, 0)
 	doc.parseNode(htmlNode)
+	doc.treeLoaded = true
+	doc.parsed = true
+}
+
+// Release : Discard the parsed node tree once this document's own checks are
+// done. Every html.Node holds Parent/child/sibling pointers, so retaining a
+// single node keeps that document's entire tree reachable. Without this the
+// whole site's DOM accumulates for the lifetime of the run.
+//
+// hashMap is deliberately kept: it holds only strings, and other documents may
+// still need it to validate fragment links against this one.
+func (doc *Document) Release() {
+	doc.htmlMutex.Lock()
+	defer doc.htmlMutex.Unlock()
+
+	doc.releaseLocked()
+}
+
+// releaseLocked : Release body, caller must hold htmlMutex.
+func (doc *Document) releaseLocked() {
+	doc.htmlNode = nil
+	doc.DoctypeNode = nil
+	doc.NodesOfInterest = nil
+	doc.treeLoaded = false
 }
 
 // Internal recursive function that delves into the node tree and captures
@@ -114,7 +156,23 @@ func (doc *Document) parseNode(n *html.Node) {
 
 // IsHashValid : Is a hash/fragment present in this Document.
 func (doc *Document) IsHashValid(hash string) bool {
-	doc.Parse() // Ensure doc has been parsed
+	doc.htmlMutex.Lock()
+	defer doc.htmlMutex.Unlock()
+
+	// A document is commonly parsed early because another document links to a
+	// fragment in it. Load it just far enough to learn its fragments and drop
+	// the tree again, otherwise a site that cross-links fragments would hold a
+	// large part of its DOM at once.
+	//
+	// Load and release happen under a single hold of the mutex: nobody else
+	// can observe the tree in between, so this cannot release a tree that
+	// another routine is testing. !parsed implies !treeLoaded, so the only
+	// tree released here is the one loaded here.
+	if !doc.parsed {
+		doc.parseLocked()
+		doc.releaseLocked()
+	}
+
 	_, ok := doc.hashMap[hash]
 	return ok
 }
