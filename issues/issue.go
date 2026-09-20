@@ -30,10 +30,36 @@ type Issue struct {
 	Reference *htmldoc.Reference // Reference this issue pertains to
 	Message   string             // Error message, keep short
 	store     *IssueStore        // Internal ref to the store this issue is owned by
+
+	// Descriptions captured by resolve(). An Issue outlives the check that
+	// raised it, and Reference.Node is an *html.Node whose Parent/sibling
+	// pointers reach the document's entire tree. Holding the pointers would
+	// therefore pin every parsed document for the lifetime of the run.
+	primaryStr   string
+	secondaryStr string
+	resolved     bool
+}
+
+// resolve : Capture the only two things an issue needs from its Document and
+// Reference, then drop those pointers so a stored issue cannot keep a parsed
+// document tree alive. Called by IssueStore.AddIssue before the issue is
+// retained or printed.
+func (issue *Issue) resolve() {
+	if issue.resolved {
+		return
+	}
+	issue.primaryStr = issue.primary()
+	issue.secondaryStr = issue.secondary()
+	issue.resolved = true
+	issue.Document = nil
+	issue.Reference = nil
 }
 
 // Textual description of the primary item in the issue
 func (issue *Issue) primary() string {
+	if issue.resolved {
+		return issue.primaryStr
+	}
 	if issue.Document != nil {
 		return issue.Document.SitePath
 	} else if issue.Reference != nil && issue.Reference.Document != nil {
@@ -44,6 +70,9 @@ func (issue *Issue) primary() string {
 
 // Textual description of the secondary item in the issue
 func (issue *Issue) secondary() string {
+	if issue.resolved {
+		return issue.secondaryStr
+	}
 	if issue.Reference != nil {
 		return issue.Reference.Path
 	}

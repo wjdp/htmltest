@@ -197,6 +197,13 @@ func (hT *HTMLTest) checkExternal(ref *htmldoc.Reference) {
 
 		<-hT.httpChannel // Bump off http concurrency limiter
 
+		if resp != nil {
+			// The body must be closed even though we only read the status
+			// code; leaving it open leaks the connection, its buffers and the
+			// transport's read/write goroutines for the rest of the run.
+			defer drainAndClose(resp)
+		}
+
 		if err != nil {
 			if strings.Contains(err.Error(), "Client.Timeout") {
 				hT.issueStore.AddIssue(issues.Issue{
