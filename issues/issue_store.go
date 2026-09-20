@@ -36,6 +36,10 @@ func NewIssueStore(logLevel int, printImmediately bool) IssueStore {
 func (iS *IssueStore) AddIssue(issue Issue) {
 	issue.store = iS // Set ref to issue store in issue
 
+	// Capture the issue's descriptions and drop its Document/Reference
+	// pointers before it is stored, so it cannot pin a parsed document tree.
+	issue.resolve()
+
 	iS.storeMutex.Lock()
 
 	iS.issues = append(iS.issues, &issue)
