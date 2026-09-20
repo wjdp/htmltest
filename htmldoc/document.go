@@ -12,17 +12,17 @@ import (
 
 // Document struct, representation of a document within the tested site
 type Document struct {
-	FilePath           string                // Relative to the shell session
-	SitePath           string                // Relative to the site root
-	BasePath           string                // Base for relative links
-	IgnoreTest         bool                  // Ignore this Document for testing.
-	htmlMutex          *sync.Mutex           // Controls access to htmlNode
-	htmlNode           *html.Node            // Parsed output
-	hashMap            map[string]*html.Node // Map of valid id/names of nodes
-	NodesOfInterest    []*html.Node          // Slice of nodes to run checks on
-	State              DocumentState         // Link to a DocumentState struct
-	DoctypeNode        *html.Node            // Pointer to doctype node if exists
-	ignoreTagAttribute string                // Attribute to ignore element and children if found on element
+	FilePath           string              // Relative to the shell session
+	SitePath           string              // Relative to the site root
+	BasePath           string              // Base for relative links
+	IgnoreTest         bool                // Ignore this Document for testing.
+	htmlMutex          *sync.Mutex         // Controls access to htmlNode
+	htmlNode           *html.Node          // Parsed output
+	hashMap            map[string]struct{} // Set of valid id/names of nodes
+	NodesOfInterest    []*html.Node        // Slice of nodes to run checks on
+	State              DocumentState       // Link to a DocumentState struct
+	DoctypeNode        *html.Node          // Pointer to doctype node if exists
+	ignoreTagAttribute string              // Attribute to ignore element and children if found on element
 }
 
 // DocumentState struct, used by checks that depend on the document being
@@ -38,7 +38,7 @@ func (doc *Document) Init() {
 	// Setup the document,
 	doc.htmlMutex = &sync.Mutex{}
 	doc.NodesOfInterest = make([]*html.Node, 0)
-	doc.hashMap = make(map[string]*html.Node)
+	doc.hashMap = make(map[string]struct{})
 }
 
 // Parse : Ask Document to parse its HTML file. Returns quickly if this has
@@ -80,10 +80,13 @@ func (doc *Document) parseNode(n *html.Node) {
 	case html.DoctypeNode:
 		doc.DoctypeNode = n
 	case html.ElementNode:
-		// If present save fragment identifier to the hashMap
+		// If present save fragment identifier to the hashMap. Only the
+		// presence of the id is ever read, so the node itself is not stored:
+		// every html.Node links to its parent and siblings, so keeping one
+		// keeps the document's whole tree reachable.
 		nodeID := GetID(n.Attr)
 		if nodeID != "" {
-			doc.hashMap[nodeID] = n
+			doc.hashMap[nodeID] = struct{}{}
 		}
 		// Identify and store tags of interest
 		switch n.Data {
