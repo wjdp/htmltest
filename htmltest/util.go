@@ -25,6 +25,29 @@ func statusCodeValid(code int) bool {
 	return code == http.StatusPartialContent || code == http.StatusOK
 }
 
+// fetchCertificate : Retrieve and parse a single certificate. Split out of
+// validateCertChain so the response body is closed on every exit path; the
+// loop it is called from returns early on each error.
+func fetchCertificate(url string) (*x509.Certificate, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("could not fetch certificate at %s (status %d)",
+			url, resp.StatusCode)
+	}
+
+	certBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	return x509.ParseCertificate(certBytes)
+}
+
 func validateCertChain(cert *x509.Certificate) (err error) {
 	if cert.IssuingCertificateURL == nil {
 		return CertChainErr{cert: cert}
@@ -40,21 +63,7 @@ func validateCertChain(cert *x509.Certificate) (err error) {
 	for i := 0; i < len(certsToFetch); i++ {
 		url := certsToFetch[i]
 
-		resp, err := http.Get(url)
-		if err != nil {
-			return CertChainErr{cert: cert, chain: intermediates, hintErr: err}
-		}
-
-		if resp.StatusCode != 200 {
-			return CertChainErr{cert: cert, chain: intermediates, hintErr: fmt.Errorf("could not fetch certificate at %s (status %d)", url, resp.StatusCode)}
-		}
-
-		certBytes, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			return CertChainErr{cert: cert, chain: intermediates, hintErr: err}
-		}
-
-		newCert, err := x509.ParseCertificate(certBytes)
+		newCert, err := fetchCertificate(url)
 		if err != nil {
 			return CertChainErr{cert: cert, chain: intermediates, hintErr: err}
 		}
